@@ -1,0 +1,74 @@
+
+# path to the genome (not used in workflow, but we could have...)
+genome_path: "data/genome/OmykA.fasta"
+
+# path to file with information about samples
+sample_info: "config/sample-info.tsv"
+
+# Put the list of chromosomes we want to do here
+# choromosomes from the ncbi OmykA 1.1 reference genome https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
+chromos: 
+  - "NC_048565.1"
+  - "NC_048566.1"
+  - "NC_048567.1"
+  - "NC_048568.1"
+  - "NC_048569.1"
+  - "NC_048570.1"
+  - "NC_048571.1"
+  - "NC_048572.1"
+  - "NC_048573.1"
+  - "NC_048574.1"
+  - "NC_048575.1"
+  - "NC_048576.1"
+  - "NC_048577.1"
+  - "NC_048578.1"
+  - "NC_048579.1"
+  - "NC_048580.1"
+  - "NC_048581.1"
+  - "NC_048582.1"
+  - "NC_048583.1"
+  - "NC_048584.1"
+  - "NC_048585.1"
+  - "NC_048586.1"
+  - "NC_048587.1"
+  - "NC_048588.1"
+  - "NC_048589.1"
+  - "NC_048590.1"
+  - "NC_048591.1"
+  - "NC_048592.1"
+  - "NC_050570.1"
+  - "NC_050571.1"
+  - "NC_050572.1"
+
+# parameters to be used for different rules/programs
+# fastp adapter 1 and 2 are for Novogene Novaseq X listed in data report
+# variant hard filtering based on gatk best practices
+params:
+  fastp:
+    adapter_sequence1: "ATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG"
+    adapter_sequence2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+    other_options:
+      - "--detect_adapter_for_pe"
+      - "--cut_right" 
+      - "--cut_right_window_size 4"
+      - "--cut_right_mean_quality 20"
+  gatk:
+    HaplotypeCaller:
+      hmm_threads: 1
+    VariantFiltration:
+      indels:
+        - ' -filter "QD < 2.0" --filter-name "QD2" '
+        - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+        - ' -filter "FS > 200.0" --filter-name "FS200" '
+        - ' -filter "ReadPosRankSum < -20.0" --filter-name "ReadPosRankSum-20" '
+      snps:
+        - ' -filter "QD < 2.0" --filter-name "QD2" '
+        - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+        - ' -filter "SOR > 3.0" --filter-name "SOR3" '
+        - ' -filter "FS > 60.0" --filter-name "FS60" '
+        - ' -filter "MQ < 40.0" --filter-name "MQ40" '
+        - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
+        - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
+  picard:
+    MarkDuplicates: " --CREATE_INDEX "
+    
