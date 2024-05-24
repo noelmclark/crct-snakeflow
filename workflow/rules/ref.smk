@@ -1,0 +1,1 @@
+rule get_genome:
