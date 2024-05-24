@@ -1,1 +1,51 @@
 include: "rules/common.smk"
+
+
+
+##### Target Rules #####
+
+# define rules that don't need to be run on a compute node.
+# i.e. those that can be run locally.
+localrules: all, genome_faidx, genome_dict
+
+rule all:
+    input:
+        #expand("results/genomics_db/chromosomes/{c}", c=chromosomes.chrom),
+        #expand("results/genomics_db/scaffold_groups/{s}", s=unique_scaff_groups),
+        #expand("results/vcf_sections/{c}.vcf.gz", c=chromosomes.chrom),
+        #expand("results/vcf_sections/{s}.vcf.gz", s=unique_scaff_groups),
+        #expand("results/overlap_clipped/{samp}.{ext}", samp=sample_list, ext = ["bam", "bam.bai"]),
+        #expand("results/gvcf/{samp}.g.vcf.gz", samp=sample_list),
+        #expand("results/bcf/all.bcf"),
+        #expand("results/bcf/all.bcf.csi"),
+        #expand("results/bcf/pass-maf-{maf}.bcf", maf=mafs,),
+        #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
+        #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
+        #expand("results/qc/multiqc.html", bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
+        #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
+        #expand("results/DS_control/sample_info.tsv", bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
+        #realigned_bams_output_list
+        expand("results/psmc-plot/{s}.eps", s=SAMPLES),
+        expand("results/qc/coverage/{s}.txt", s=SAMPLES),
+        "annotated/all.vcf.gz",
+        "qc/multiqc.html",
+        "plots/depths.svg",
+        "plots/allele-freqs.svg",
+
+
+##### Modules #####
+
+include: "rules/ref.smk"
+include: "rules/mapping.smk"
+include: "rules/calling.smk"
+include: "rules/filtering.smk"
+#include: "rules/bqsr.smk"
+#include: "rules/destination-rules.smk"
+include: "rules/angsd-ready-bams.smk"
+include: "rules/stats.smk"
+include: "rules/qc.smk"
+include: "rules/hardfilter.smk"
+include: "rules/archive.smk"
+#include: "rules/annotation.smk"
+include: "rules/downsample.smk"
+#include: "rules/force-call-vcf.smk"
