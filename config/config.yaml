@@ -1,44 +1,33 @@
 
 # path to the genome (not used in workflow, but we could have...)
-genome_path: "data/genome/OmykA.fasta"
+genome_path: "resources/genome/OmykA.fasta"
 
-# path to file with information about samples
-sample_info: "config/sample-info.tsv"
-
-# Put the list of chromosomes we want to do here
+# path to files needed for config
 # choromosomes from the ncbi OmykA 1.1 reference genome https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
-chromos: 
-  - "NC_048565.1"
-  - "NC_048566.1"
-  - "NC_048567.1"
-  - "NC_048568.1"
-  - "NC_048569.1"
-  - "NC_048570.1"
-  - "NC_048571.1"
-  - "NC_048572.1"
-  - "NC_048573.1"
-  - "NC_048574.1"
-  - "NC_048575.1"
-  - "NC_048576.1"
-  - "NC_048577.1"
-  - "NC_048578.1"
-  - "NC_048579.1"
-  - "NC_048580.1"
-  - "NC_048581.1"
-  - "NC_048582.1"
-  - "NC_048583.1"
-  - "NC_048584.1"
-  - "NC_048585.1"
-  - "NC_048586.1"
-  - "NC_048587.1"
-  - "NC_048588.1"
-  - "NC_048589.1"
-  - "NC_048590.1"
-  - "NC_048591.1"
-  - "NC_048592.1"
-  - "NC_050570.1"
-  - "NC_050571.1"
-  - "NC_050572.1"
+sample_info: "config/sample-info.tsv"
+chromosomes: "config/chromosomes.tsv"
+scaffold_groups: "config/scaffold_groups.tsv"
+
+# this is the default value for the first GenomicsDBImport run.
+# If you want to change it, you should typically change it
+# on the command line.
+genomics_db_import_num: 0
+
+# eric modified this to be able to easily handle genomes of non-model
+# organisms that are not yet on enseml, etc.
+ref:
+  # name of the species.  (will simply be put in the SnpEff config).
+  # Put underscores for spaces
+  species_name: Oncorhynchus_mykiss
+  # name you want to use for the genome version
+  genome_version_name: USDA_OmykA_1.1
+  # the URL where this can be downloaded, if public and easy to
+  # get with wget.  If not, then you should hand-download
+  # genome.fasta and genome.gff or genome.gtf
+  genome_url: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
+  # if there is a GFF or GTF file, they have to have a .gff or
+  # .gtf extension.  This where you put the URL for it
+  gff_or_gtf_url: ""
 
 # parameters to be used for different rules/programs
 # fastp adapter 1 and 2 are for Novogene Novaseq X listed in data report
@@ -53,8 +42,9 @@ params:
       - "--cut_right_window_size 4"
       - "--cut_right_mean_quality 20"
   gatk:
-    HaplotypeCaller:
+    HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
       hmm_threads: 1
+    GenotypeGVCFs: ""
     VariantFiltration:
       indels:
         - ' -filter "QD < 2.0" --filter-name "QD2" '
@@ -70,5 +60,5 @@ params:
         - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
   picard:
-    MarkDuplicates: " --CREATE_INDEX "
+    MarkDuplicates: " ---TAGGING_POLICY All --CREATE_INDEX "
     
