@@ -18,6 +18,8 @@
 #        " if [[ $URL =~ \.gz$ ]]; then gunzip $tmp_dir/file$EXT; fi && "
 #        " mv $tmp_dir/file {output}) > {log} 2>&1 "
 
+
+
 rule genome_faidx:
     input:
         "resources/genome/OmykA.fasta",
@@ -33,6 +35,7 @@ rule genome_faidx:
         "samtools faidx {input} 2> {log} "
 
 
+
 rule genome_dict:
     input:
         "resources/genome/OmykA.fasta",
@@ -46,7 +49,6 @@ rule genome_dict:
         "../envs/bwa2sam.yaml"
     shell:
         "samtools dict {input} > {output} 2> {log} "
-
 
 
 
