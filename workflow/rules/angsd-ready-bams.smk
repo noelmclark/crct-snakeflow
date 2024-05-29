@@ -2,33 +2,27 @@
 # These are rules that take the mapped BAMs, and the results
 # of running GATK to get the indels, and do:
 #    1. Clipping over overlaps
-#    2.  Indel realignment
-# 
-# This is set up to allow these things to happen for any
-# bqsr_round, but the truth is, we will probably simply use
-# it as bqsr_round 0, unless we start to get crazy-complete
-# variant data for our non-model organisms...highly unlikely
-
-
+#    2. Indel realignment
 
 
 # Simple clipping of overlaps in the mkduped BAMs
 rule clip_overlaps:
     input:
-        "results/bqsr-round-{bqsr_round}/mkdup/{sample}.bam"
+        "results/mkdup/mkdup-{sample}.bam"
     output:
-        bam="results/bqsr-round-{bqsr_round}/overlap_clipped/{sample}.bam",
-        bai="results/bqsr-round-{bqsr_round}/overlap_clipped/{sample}.bam.bai"
+        bam="results/overlap_clipped/overlap-clipped-{sample}.bam",
+        bai="results/overlap_clipped/overlap-clipped-{sample}.bam.bai"
     log:
-        clip="results/bqsr-round-{bqsr_round}/logs/clip_overlaps/clip_overlap-{sample}.log",
-        index="results/bqsr-round-{bqsr_round}/logs/clip_overlaps/index-{sample}.log"
+        clip="results/logs/clip_overlaps/clip_overlap-{sample}.log",
+        index="results/logs/clip_overlaps/index-{sample}.log"
     conda:
         "../envs/bamutil_samtools.yaml"
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/clip_overlaps/{sample}.bmk"
+        "results/benchmarks/clip_overlaps/{sample}.bmk"
     shell:
         " bam clipOverlap --in {input} --out {output} --stats 2> {log.clip} && "
         " samtools index {output} 2> {log.index}"
+
 
 
 rule species_sample_lists:
@@ -43,24 +37,23 @@ rule species_sample_lists:
 
 
 
-
 # When we have multiple species that we are dealing with,
 # then we have a step of making species specific indel VCFs
 rule make_species_specific_indel_vcfs:
     input:
-        indel="results/bqsr-round-{bqsr_round}/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz",
-        indel_idx="results/bqsr-round-{bqsr_round}/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi",
+        indel="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz",
+        indel_idx="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz.tbi",
         sample_list="results/igrp_lists/{igrp}.args",
-        ref="resources/genome.fasta"
+        ref="resources/genome/OmykA.fasta"
     output:
-         vcf=temp("results/bqsr-round-{bqsr_round}/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz"),
-         idx=temp("results/bqsr-round-{bqsr_round}/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz.tbi"),
+         vcf=temp("results/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz"),
+         idx=temp("results/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz.tbi"),
     log:
-        "results/bqsr-round-{bqsr_round}/logs/make_species_specific_indel_vcfs/{igrp}/{sg_or_chrom}.log",
+        "results/logs/make_species_specific_indel_vcfs/{igrp}/{sg_or_chrom}.log",
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/make_species_specific_indel_vcfs/{igrp}/selectvariants-{sg_or_chrom}.bmk"
+        "results/benchmarks/make_species_specific_indel_vcfs/{igrp}/selectvariants-{sg_or_chrom}.bmk"
     conda:
-        "../envs/gatk4.2.6.1.yaml"
+        "../envs/gatk.yaml"
     shell:
         " IGRP={wildcards.igrp};                           "  
         " if [ $IGRP = \"__ALL\" ]; then                   "   # just hard-link the files in this case
@@ -74,6 +67,8 @@ rule make_species_specific_indel_vcfs:
         "     --exclude-non-variants 2>{log};         "
         " fi                                          "
 
+
+
 # We need to get a VCF file holding all the known indels.
 # We will use the ones that we hardfiltered.  We only keep
 # the first sample in each to make it a lot smaller.  (We
@@ -82,14 +77,14 @@ rule make_species_specific_indel_vcfs:
 # will work).  We do this on a chromosome or scaff group basis
 rule get_known_indels:
     input:
-        indel="results/bqsr-round-{bqsr_round}/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz",
-        indel_idx="results/bqsr-round-{bqsr_round}/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz.tbi"
+        indel="results/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz",
+        indel_idx="results/species-spec-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf=temp("results/bqsr-round-{bqsr_round}/known-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz"),
+        vcf=temp("results/known-indel-sections/{igrp}/{sg_or_chrom}.vcf.gz"),
     log:
-        "results/bqsr-round-{bqsr_round}/logs/get_known_indels/{igrp}/{sg_or_chrom}.log",
+        "results/logs/get_known_indels/{igrp}/{sg_or_chrom}.log",
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/get_known_indels/bcftools-{igrp}-{sg_or_chrom}.bmk"
+        "results/benchmarks/get_known_indels/bcftools-{igrp}-{sg_or_chrom}.bmk"
     conda:
         "../envs/bcftools.yaml"
     shell:
@@ -98,17 +93,17 @@ rule get_known_indels:
         " bcftools index -t {output.vcf} 2>> {log}; "
 
 
-# now we concat the above outputs all together into a singl vcf
+# now we concat the above outputs all together into a single vcf
 rule bcfconcat_known_indels:
     input:
-        expand("results/bqsr-round-{{bqsr_round}}/known-indel-sections/{{igrp}}/{sgc}.vcf.gz", sgc = unique_chromosomes + unique_scaff_groups)
+        expand("results/known-indel-sections/{{igrp}}/{sgc}.vcf.gz", sgc = sg_or_chrom)
     output:
-        vcf="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz",
-        idx="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz.tbi"
+        vcf="results/known-indels/{igrp}/all-indels.vcf.gz",
+        idx="results/known-indels/{igrp}/all-indels.vcf.gz.tbi"
     log:
-        "results/bqsr-round-{bqsr_round}/logs/bcfconcat_known_indels/{igrp}.txt"
+        "results/logs/bcfconcat_known_indels/{igrp}.txt"
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/bcfconcat_known_indels/bcf_concat-{igrp}.bmk",
+        "results/benchmarks/bcfconcat_known_indels/bcf_concat-{igrp}.bmk",
     params:
         opts=" --naive "
     conda:
@@ -117,6 +112,14 @@ rule bcfconcat_known_indels:
         " (bcftools concat {params.opts} -Oz {input} > {output.vcf} 2> {log}; "
         " bcftools index -t {output.vcf})  2>> {log}; "
 
+
+
+
+
+
+
+
+### The following 3 steps likely need to be updated to use GATK 4.2.6.1 and also I have no clue what's going on...
 
 # Download the gatk3.8 jar and then run gatk3-register. This is necessary
 # because the licensing for gatk3 doesn't allow the jar to be distributed
@@ -150,15 +153,15 @@ rule gatk3_register:
 # Run RealignerTargetCreator from GATK 3.8.0.
 rule realigner_target_creator:
     input:
-        vcf="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz",
-        idx="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz.tbi",
+        vcf="results/known-indels/{igrp}/all-indels.vcf.gz",
+        idx="results/known-indels/{igrp}/all-indels.vcf.gz.tbi",
         jar="results/gatk3.8_jar/GenomeAnalysisTK.jar"
     output:
-        "results/bqsr-round-{bqsr_round}/realigner-targets/{igrp}/realigner-targets.intervals"   
+        "results/realigner-targets/{igrp}/realigner-targets.intervals"   
     log:
-        "results/bqsr-round-{bqsr_round}/logs/realigner_target_creator/{igrp}.txt"
+        "results/logs/realigner_target_creator/{igrp}.txt"
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/realigner_target_creator/{igrp}.bmk",
+        "results/benchmarks/realigner_target_creator/{igrp}.bmk",
     conda:
         "../envs/gatk3.8.yaml"
     params:
@@ -176,19 +179,19 @@ rule realigner_target_creator:
 # stored in the realigner_target_creator step
 rule indel_realigner:
     input:
-        vcf="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz",
-        idx="results/bqsr-round-{bqsr_round}/known-indels/{igrp}/all-indels.vcf.gz.tbi",
+        vcf="results/known-indels/{igrp}/all-indels.vcf.gz",
+        idx="results/known-indels/{igrp}/all-indels.vcf.gz.tbi",
         jar="results/gatk3.8_jar/GenomeAnalysisTK.jar",
-        intervals="results/bqsr-round-{bqsr_round}/realigner-targets/{igrp}/realigner-targets.intervals",
+        intervals="results/realigner-targets/{igrp}/realigner-targets.intervals",
         fasta="resources/genome.fasta",
-        bam="results/bqsr-round-{bqsr_round}/overlap_clipped/{sample}.bam",
-        bai="results/bqsr-round-{bqsr_round}/overlap_clipped/{sample}.bam.bai"
+        bam="results/overlap_clipped/{sample}.bam",
+        bai="results/overlap_clipped/{sample}.bam.bai"
     output:
-        bam="results/bqsr-round-{bqsr_round}/indel_realigned/{igrp}/{sample}.bam"
+        bam="results/indel_realigned/{igrp}/{sample}.bam"
     log:
-        "results/bqsr-round-{bqsr_round}/logs/indel_realigner/{igrp}/{sample}.txt"
+        "results/logs/indel_realigner/{igrp}/{sample}.txt"
     benchmark:
-        "results/bqsr-round-{bqsr_round}/benchmarks/indel_realigner/{igrp}/{sample}.bmk",
+        "results/benchmarks/indel_realigner/{igrp}/{sample}.bmk",
     conda:
         "../envs/gatk3.8.yaml"
     params:
