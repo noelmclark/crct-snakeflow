@@ -24,9 +24,8 @@ rule make_chromo_interval_lists:
 
 rule make_gvcf_sections:
     input:
-        unpack(get_bams_for_calling),
-        #bam="results/mkdup/{sample}.bam",
-        #bai="results/mkdup/{sample}.bai",
+        bam="results/mkdup/{sample}.bam",
+        bai="results/mkdup/{sample}.bai",
         ref="resources/genome/OmykA.fasta",
         idx="resources/genome/OmykA.dict",
         fai="resources/genome/OmykA.fasta.fai",

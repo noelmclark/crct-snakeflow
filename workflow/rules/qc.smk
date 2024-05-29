@@ -1,7 +1,7 @@
-#rule to calculate avg depth of coverage of bam file using samtools
+#rule to calculate avg depth of coverage of the mkdup bam file using samtools
 rule get_coverage_depth:
     input:
-        bam="results/mkdup/{sample}.bam"
+        "results/mkdup/{sample}.bam"
     output:
         "results/qc/coverage/{sample}.txt"
     conda:
@@ -11,4 +11,4 @@ rule get_coverage_depth:
     benchmark:
         "results/benchmarks/get-coverage-depth/{sample}.bmk"
     shell:
-        "samtools depth -a -H {input.bam} -o {output} 2> {log}"
+        "samtools depth -a -H {input} -o {output} 2> {log}"
