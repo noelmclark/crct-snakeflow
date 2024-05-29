@@ -5,6 +5,7 @@
 # or it writes out the name of the particular filters
 # that were not passed.
 
+# selects only snps by chrom or scaffold group
 rule make_snp_vcf:
     input:
         vcf="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz",
@@ -13,9 +14,9 @@ rule make_snp_vcf:
         vcf="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz.tbi"
     log:
-        "results/logs/gatk/selectvariants/select-snps-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/selectvariants/select-snps-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/make_snp_vcf/selectvariants-snps-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/selectvariants/select-snps-{sg_or_chrom}.bmk"
     conda:
         "../envs/gatk.yaml"
     shell:
@@ -25,6 +26,7 @@ rule make_snp_vcf:
 
 
 
+#select only indels by chrom or scaffold group
 rule make_indel_vcf:
     input:
         vcf="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz",
@@ -33,9 +35,9 @@ rule make_indel_vcf:
         vcf="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz.tbi"
     log:
-        "results/logs/gatk/selectvariants/select-indels-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/selectvariants/select-indels-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/make_indel_vcf/selectvariants-indels-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/selectvariants/select-indels-{sg_or_chrom}.bmk"
     conda:
         "../envs/gatk.yaml"
     shell:
@@ -55,9 +57,9 @@ rule hard_filter_snps:
         vcf="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz.tbi"
     log:
-        "results/logs/gatk/variantfiltration/snps-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/variantfiltration/hard-filter-snps-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/hard_filter_snps/variantfiltration-snps-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/variantfiltration/hard-filter-snps-{sg_or_chrom}.bmk"
     conda:
         "../envs/gatk.yaml"
     params:
@@ -80,9 +82,9 @@ rule hard_filter_indels:
         vcf="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
     log:
-        "results/logs/gatk/variantfiltration/indels-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/variantfiltration/hard-filter-indels-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/hard_filter_indels/variantfiltration-indels-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/variantfiltration/hard-filter-indels-{sg_or_chrom}.bmk"
     conda:
         "../envs/gatk.yaml"
     params:
@@ -97,41 +99,59 @@ rule hard_filter_indels:
 
 
 
-rule bung_filtered_vcfs_back_together:
+# merge the snp and indel vcfs that were hard filtered back together by chrom or scaffold_groups
+rule merge_filtered_vcfs:
     input:
         snp="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz",
         indel="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz",
         snp_idx="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz.tbi",
         indel_idx="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/both-filtered-{sg_or_chrom}.bcf",
+        vcf="results/hard_filtering/merged-{sg_or_chrom}.vcf.gz",
     log:
-        "results/logs/bung_filtered_vcfs_back_together/bung-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/merge_filtered_vcfs/merged-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/bung_filtered_vcfs_back_together/bcftools-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/merge_filtered_vcfs/merged-{sg_or_chrom}.bmk"
+    conda:
+        "../envs/gatk.yaml"
+    shell:
+        " gatk MergeVcfs -I {input.indel} -I {input.snp} -O {output.vcf} 2> {log} "
+  
+
+
+rule correct_merged_vcfs:
+    input:
+        vcfs=expand("results/hard_filtering/merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
+    output:
+        vcfs="results/hard_filtering/missing-corrected/correct-merged-{sg_or_chrom}.vcf.gz"
     conda:
         "../envs/bcftools.yaml"
-    shell:
-        "(bcftools concat -a {input.snp} {input.indel} | "
-        " bcftools view -Ob > {output.vcf}; ) 2> {log} "
+    log:
+        "results/correct_merged_vcfs/{sg_or_chrom}.log"
+    benchmark:
+        "results/benchmarks/hard_filtering/correct_merged_vcfs/{sg_or_chrom}.bmk"
+  shell:
+    "(bcftools +setGT {input.vcfs} -- -t q -n . -i 'FMT/DP=0 | (FMT/PL[:0]=0 & FMT/PL[:1]=0 & FMT/PL[:2]=0)' | "
+    "bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
+    "bcftools view -Oz - > {output.vcfs}; "
+    "bcftools index -t {output.vcfs}) 2> {log} "
 
 
 
-
-
-
-
+## this will run on each scaffold group or chromosome 
+# for each of the maf options specified in the maf_cutoff part of the config.yaml file
+# I have it set up to run on the missing-corrected-merged-vcf files from the correct_merged_vcfs rule 
 rule maf_filter:
     input:
-        "results/hard_filtering/both-filtered-{sg_or_chrom}.bcf"
+        "results/hard_filtering/missing-corrected/correct-merged-{sg_or_chrom}.vcf.gz"
     output:
-        "results/hard_filtering/both-filtered-{sg_or_chrom}-maf-{maf}.bcf"
+        "results/hard_filtering/correct-merged-{sg_or_chrom}-maf-{mafs}.bcf"
     log:
-        "results/logs/maf_filter/{sg_or_chrom}-maf-{maf}.log",
+        "results/logs/hard_filtering/maf_filter/correct-merged-{sg_or_chrom}-maf-{mafs}.log",
     params:
-        maf="{maf}"
+        maf={mafs}
     benchmark:
-        "results/benchmarks/maf_filter/{sg_or_chrom}-maf-{maf}.bmk"
+        "results/benchmarks/hard_filtering/maf_filter/correct-merged-{sg_or_chrom}-maf-{mafs}.bmk"
     conda:
         "../envs/bcftools.yaml"
     shell:
@@ -140,55 +160,16 @@ rule maf_filter:
 
 
 
-
-
-
-### from crct-snake-proj
-
-rule concat_vcfs:
-  input:
-    vcfs=expand("results/missing-corrected/{c}.vcf.gz", c=CHROMOS)
-  output:
-    vcf="results/vcf/all.vcf.gz"
-  conda:
-    "envs/bcftools.yaml"
-  log:
-    "results/concat_vcfs/all.log"
-  shell:
-    "bcftools concat -n {input.vcfs} > {output.vcf} 2> {log} "
-
-
-
-
-rule merge_vcfs:
-  input:
-    indels="results/hard_filtering/indels-filtered/{chromo}.vcf.gz",
-    snps="results/hard_filtering/snps-filtered/{chromo}.vcf.gz"
-  output:
-    vcf="results/hard_filtering/merged/{chromo}.vcf.gz"
-  conda:
-    "envs/gatk.yaml"
-  log:
-    "results/merge_vcfs/{chromo}.log"
-  benchmark:
-    "benchmarks/merge_vcfs/{chromo}.tsv"
-  shell:
-    "gatk MergeVcfs -I {input.indels} -I {input.snps} -O {output.vcf} 2> {log} "
-
-
-
-
-rule correct_merged_vcfs:
-  input:
-    vcfs="results/hard_filtering/merged/{chromo}.vcf.gz"
-  output:
-    vcfs="results/missing-corrected/{chromo}.vcf.gz"
-  conda:
-    "envs/bcftools.yaml"
-  log:
-    "results/correct_merged_vcfs/{chromo}.log"
-  shell:
-    "(bcftools +setGT {input.vcfs} -- -t q -n . -i 'FMT/DP=0 | (FMT/PL[:0]=0 & FMT/PL[:1]=0 & FMT/PL[:2]=0)' | "
-    "bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
-    "bcftools view -Oz - > {output.vcfs}; "
-    "bcftools index -t {output.vcfs}) 2> {log} "
+rule concat_maf_vcfs:
+    input:
+        vcfs=expand("results/hard_filtering/correct-merged-{sgc}-maf-{maf}.bcf", sgc=sg_or_chrom, maf=mafs)
+    output:
+        vcf="results/vcf/{mafs}-all.vcf.gz"
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/hard_filtering/concat_maf_vcfs/{mafs}-vcfs-all.log"
+    benchmark:
+        "results/benchmarks/hard_filtering/concat_maf_vcfs/{mafs}-vcfs-all.bmk
+    shell:
+        "bcftools concat -n {input.vcfs} > {output.vcf} 2> {log} "

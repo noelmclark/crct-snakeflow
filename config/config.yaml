@@ -1,4 +1,3 @@
-
 # path to the genome (not used in workflow, but we could have...)
 genome_path: "resources/genome/OmykA.fasta"
 
@@ -7,6 +6,9 @@ genome_path: "resources/genome/OmykA.fasta"
 sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
+
+# the following must be a list, even if it is just one element
+maf_cutoffs: [0.01]
 
 # this is the default value for the first GenomicsDBImport run.
 # If you want to change it, you should typically change it
@@ -42,6 +44,9 @@ params:
       - "--cut_right_window_size 4"
       - "--cut_right_mean_quality 20"
   gatk:
+    # the default for haplotype caller is to require very high base quality scores
+    # because BQSR on non-model organisms doesn't work for crap, and Nina's group
+    # found it better to just require high base quality scores. - Eric
     HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
       hmm_threads: 1
     GenotypeGVCFs: ""

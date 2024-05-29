@@ -3,6 +3,7 @@ from snakemake import __version__ as snakemake_version
 smk_major_version = int(snakemake_version[0])
 
 
+
 ### import modules as needed. Also import the snakemake
 ## internal command to load a config file into a dict
 import pandas as pd
@@ -14,12 +15,20 @@ else:
 
 
 
-
-
 ### Get a dict named config from config/config.yaml
 configfile: "config/config.yaml"
 
 
+
+### Load MAF cutoffs from the config file
+# these are our MAF cutoffs to prepare.  We take the unique values
+# of the union of the maf_cutoffs from the config and the bqsr_maf
+# from the config.
+mafs = list(
+        dict.fromkeys(
+            [str(x) for x in config["maf_cutoffs"]]
+            )
+        )
 
 
 
@@ -27,8 +36,6 @@ configfile: "config/config.yaml"
 sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
     ["sample", "unit"], drop=False
 )
-
-
 
 
 
@@ -48,8 +55,6 @@ scaffold_groups = pd.read_table(config["scaffold_groups"]).set_index("id", drop=
 scaff_cols = list(scaffold_groups.columns)
 if scaff_cols[0] != 'id' or scaff_cols[1] != 'chrom': 
     raise Exception("Column order is important in the scaffold_groups file.  The first column must be 'id' and the second column must be 'chrom'.")
-
-
 
 
 
@@ -76,8 +81,6 @@ wildcard_constraints:
     maf="|".join(mafs),
     scatter=scatter_wc_constraint,
     igrp="|".join(indel_grps_list)
-
-
 
 
 
@@ -119,8 +122,6 @@ def get_all_bams_of_common_sample(wildcards):
 
 
 
-
-
 ### Deal with the indel_grps if present (i.e. groupings of the samples
 ### into different species so that indel realignment is done species by species).
 ### At the same time we do this, we are also going to define the lists of output bams
@@ -147,21 +148,3 @@ if "indel_grps" in config and config["indel_grps"] != "":
 # then we just set realigned_bams_output_list to an empty list
 if "do_indel_realignment" in config and config["do_indel_realignment"] == False:
     realigned_bams_output_list = []
-
-
-
-
-
-### loose ends from eric's common.smk
-def get_snpeff_reference():
-    return "{}.{}".format(config["ref"]["build"], config["ref"]["snpeff_release"])
-
-
-def get_vartype_arg(wildcards):
-    return "--select-type-to-include {}".format(
-        "SNP" if wildcards.vartype == "snvs" else "INDEL"
-    )
-
-
-def get_filter(wildcards):
-    return {"snv-hard-filter": config["filtering"]["hard"][wildcards.vartype]}
