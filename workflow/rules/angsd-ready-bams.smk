@@ -1,11 +1,11 @@
 
-# These are rules that take the mapped BAMs, and the results
+## These are rules that take the mapped BAMs, and the results
 # of running GATK to get the indels, and do:
 #    1. Clipping over overlaps
 #    2. Indel realignment
 
 
-# Simple clipping of overlaps in the mkduped BAMs
+## 1. Simple clipping of overlaps in the mkduped BAMs
 rule clip_overlaps:
     input:
         "results/mkdup/mkdup-{sample}.bam"
@@ -24,7 +24,10 @@ rule clip_overlaps:
         " samtools index {output} 2> {log.index}"
 
 
-
+## 2. Indel realignment
+# The next chunk of rules is for doing indel realignment.
+# If we want to make species specific indel VCFs we need to specify the 
+# indel groups (species/lineages) we want to recognize 
 rule species_sample_lists:
     params:
         sams=get_igrp_sample_names
@@ -93,7 +96,7 @@ rule get_known_indels:
         " bcftools index -t {output.vcf} 2>> {log}; "
 
 
-# now we concat the above outputs all together into a single vcf
+# now we concat the above outputs all together into a single vcf for each species/lineage group
 rule bcfconcat_known_indels:
     input:
         expand("results/known-indel-sections/{{igrp}}/{sgc}.vcf.gz", sgc = sg_or_chrom)
@@ -119,7 +122,9 @@ rule bcfconcat_known_indels:
 
 
 
-### The following 3 steps likely need to be updated to use GATK 4.2.6.1 and also I have no clue what's going on...
+### The following 3 steps realign indels using GATK3 bc they got rid of IndelRealigner in GATK4...
+## IDK whats going on
+## actually that's a lie, I know the last step is what actually realigns the indels for each group using IndelRealigner
 
 # Download the gatk3.8 jar and then run gatk3-register. This is necessary
 # because the licensing for gatk3 doesn't allow the jar to be distributed
