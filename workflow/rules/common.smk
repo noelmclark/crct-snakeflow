@@ -37,13 +37,13 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
     ["sample", "unit"], drop=False
 )
 
+# rather than have a separate samples.tsv, we can just get a list of
+# the samples from sample_table
+sample_list = list(sample_table["sample"].unique())
+#SAMPLES=sample_table["sample"].unique().tolist()
 
-
-### Transfer values from the yaml and tabular config to
-### our familiar lists, SAMPLES and CHROMOS
-# Populate our SAMPLES list from the sample_table using a little
-# pandas syntax
-SAMPLES=sample_table["sample"].unique().tolist()
+# this is handy for getting sample info from the bcftools summaries
+unique_sample_ids = list(units["sample_id"].unique())
 
 # Define chromosomes and scaffold groups from the values in the config file
 chromosomes = pd.read_table(config["chromosomes"]).set_index("chrom", drop=False)
@@ -56,6 +56,22 @@ scaff_cols = list(scaffold_groups.columns)
 if scaff_cols[0] != 'id' or scaff_cols[1] != 'chrom': 
     raise Exception("Column order is important in the scaffold_groups file.  The first column must be 'id' and the second column must be 'chrom'.")
 
+# get a list of just the unique values of the scaffold_group and of the chromosomes
+unique_scaff_groups = list(scaffold_groups.id.unique())
+unique_chromosomes = list(chromosomes.chrom.unique())  # don't need to unique it, but I do anyway
+
+# finally, get all the scatter groups, indexed two different ways.
+scatter_wc_constraint="scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`
+if config["scatter_intervals_file"] != "":
+    scatter_groups = pd.read_table(config["scatter_intervals_file"]).set_index("id", drop=False)
+    validate(scatter_groups, schema="../schemas/scatter_intervals.schema.yaml")
+    scatter_cols = list(scatter_groups.columns)
+    if scatter_cols[0] != 'id' or scatter_cols[1] != 'scatter_idx' or scatter_cols[2] != 'chrom' or scatter_cols[3] != 'start' or scatter_cols[4] != 'end' or scatter_cols[5] != 'scatter_length':
+        raise Exception("Column order is important in the scaffold_groups file.  The columns must be in order: id, scatter_idx, chrom, start, end, scatter_length.")
+    unique_scats = list(scatter_groups.scatter_idx.unique())
+    scatter_wc_constraint="|".join(unique_scats)
+    # get a pandas frame of unique values of scaff_group and scat. This is for force-calling VCFs
+    unique_scatters_table=scatter_groups[['id', 'scatter_idx']].drop_duplicates()
 
 
 ##### Wildcard constraints #####
