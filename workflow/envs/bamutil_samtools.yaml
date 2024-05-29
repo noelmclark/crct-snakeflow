@@ -4,5 +4,5 @@ channels:
   - defaults
 dependencies:
   - bamutil ==1.0.15
-  - samtools ==1.15.1
+  - samtools ==1.19.2
   
