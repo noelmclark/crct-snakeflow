@@ -1,3 +1,6 @@
+## this rule file includes steps for trimming raw fastqs and mapping them to an indexed reference genome 
+# before marking the duplicate reads
+
 rule trim_reads:
     input:
         unpack(get_fastq),
@@ -59,7 +62,7 @@ rule map_reads:
         " samtools sort - > {output}) 2> {log} "
 
 
-#in future maybe move the params part to the config file and add the tmp_dir location there too
+## right now the params in for markduplicates in the config have TAGGING_POLICY All, so duplicates are tagged but not removed
 rule mark_duplicates:
     input:
         get_all_bams_of_common_sample
@@ -73,8 +76,8 @@ rule mark_duplicates:
         "results/logs/mark_duplicates/{sample}.log",
     benchmark:
         "results/benchmarks/mark_duplicates/{sample}.bmk"
-    #params:
-    #    extra=config["params"]["picard"]["MarkDuplicates"],
+    params:
+        extra=config["params"]["picard"]["MarkDuplicates"],
     resources:
         cpus = 1
         mem_mb=112200,
@@ -82,7 +85,7 @@ rule mark_duplicates:
     shell:
         " BAMS=$(echo {input} | awk '{{for(i=1;i<=NF;i++) printf(\"-I %s \", $i)}}'); "
         " gatk --java-options '-Xmx3740M' MarkDuplicates  "
-        "  --CREATE_INDEX --TMP_DIR results/snake-tmp "
+        "  {params.extra} "
         "  $BAMS "
         "  -O {output.bam} "
         "  -M {output.metrics} > {log} 2>&1 "
