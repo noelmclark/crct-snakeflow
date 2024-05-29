@@ -45,7 +45,7 @@ rule map_reads:
     output:
         "results/mapped/{sample}---{unit}.sorted.bam"
     conda:
-        "envs/bwa2sam.yaml"
+        "../envs/bwa2sam.yaml"
     log:
         "results/logs/map_reads/{sample}---{unit}.log"
     benchmark:
@@ -71,7 +71,7 @@ rule mark_duplicates:
         bai="results/mkdup/{sample}.bai",
         metrics="results/qc/mkdup/{sample}.metrics.txt",
     conda:
-        "envs/gatk.yaml"
+        "../envs/gatk.yaml"
     log:
         "results/logs/mark_duplicates/{sample}.log",
     benchmark:
