@@ -136,7 +136,24 @@ def get_all_bams_of_common_sample(wildcards):
         unit = s["unit"].tolist()
     ))
 
+# given a chromosome or a scaff_group, get all the scattered vcf.gz of vcf.gz.tbi files
+def get_scattered_vcfs(wildcards, ext):
+    scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
+    return expand("results/calling/vcf_sections/{{sg_or_chrom}}/{scat}.vcf.gz{e}", scat=scat_ids, e=ext)
 
+# here, we deal with indel realignment by species (or "igrp")
+def get_igrp_sample_names(wildcards):
+    if "indel_grps" not in config or config["indel_grps"] == "":
+        if wildcards.igrp != "__ALL":
+            raise Exception("Requesting igrp that is not \"__ALL\", but indel_grps not defined in config.")
+        else:
+            ret="JustStuffNotNeeded: IDs gotten through Unix in the rule if __ALL"
+    else:
+        if wildcards.igrp == "__ALL":
+          raise Exception("You can't request igrp \"__ALL\" when indel_grps is defined in the config. ")
+        else:
+          ret=indel_grps.loc[indel_grps['indel_grp'] == wildcards.igrp]["sample_id"].unique().tolist()
+    return ret
 
 ### Deal with the indel_grps if present (i.e. groupings of the samples
 ### into different species so that indel realignment is done species by species).

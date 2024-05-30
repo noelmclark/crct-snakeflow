@@ -1,14 +1,14 @@
 ### copied from Eric's calling.smk
 
 ## the following 2 rules are used to create the chromo and scaffold group interval lists
-# which are used to joint call samples by chromo or scaffold group using the genomics db 
+# which are used to joint call sample by chromo or scaffold group using the genomics db 
 rule make_scaff_group_interval_lists:
     input:
         scaff_groups = config["scaffold_groups"]
     output:
         "results/calling/interval_lists/{scaff_group}.list"
     log:
-        "results/logs/calling/make_scaff_group_interval_lists/{scaff_group}.log"
+        "results/logs/calling/make_interval_lists/{scaff_group}.log"
     shell:
         " awk -v sg={wildcards.scaff_group} 'NR>1 && $1 == sg {{print $2}}' {input.scaff_groups} > {output} 2> {log};"
 
@@ -17,9 +17,21 @@ rule make_chromo_interval_lists:
     output:
         "results/calling/interval_lists/{chromo}.list"
     log:
-        "results/logs/calling/make_chromo_interval_lists/{chromo}.log"
+        "results/logs/calling/make_interval_lists/{chromo}.log"
     shell:
         " echo {wildcards.chromo} > {output} 2> {log};"
+
+rule make_scatter_interval_lists:
+    input:
+        scatters_file= config["scatter_intervals_file"]
+    log:
+        "results/logs/calling/make_scatter_interval_lists/{sg_or_chrom}/{scatter}.log"
+    output:
+        "results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list"
+    shell:
+        " awk -v sgc={wildcards.sg_or_chrom} -v scat={wildcards.scatter} ' "
+        "    NR>1 && $1 == sgc && $2==scat {{printf(\"%s:%s-%s\\n\", $3, $4, $5)}} "
+        " ' {input.scatters_file} > {output} 2> {log};"
 
 
 ## the following 2 rules create gvcf files for each sample to be used in the genomics db
@@ -27,15 +39,15 @@ rule make_chromo_interval_lists:
 # the second rule concats these sections into one gvcf per sample
 rule make_gvcf_sections:
     input:
-        bam="results/mkdup/{sample}.bam",
-        bai="results/mkdup/{sample}.bai",
+        bam="results/mapping/mkdup/mkdup-{sample}.bam",
+        bai="results/mapping/mkdup/mkdup-{sample}.bai",
         ref="resources/genome/OmykA.fasta",
         idx="resources/genome/OmykA.dict",
         fai="resources/genome/OmykA.fasta.fai",
         interval_list="results/calling/interval_lists/{sg_or_chrom}.list"
     output:
-        gvcf="results/calling/make_gvcf_sections/{sample}/{sg_or_chrom}.g.vcf.gz",
-        idx="results/calling/make_gvcf_sections/{sample}/{sg_or_chrom}.g.vcf.gz.tbi",
+        gvcf="results/calling/gvcf_sections/{sample}/{sg_or_chrom}.g.vcf.gz",
+        idx="results/calling/gvcf_sections/{sample}/{sg_or_chrom}.g.vcf.gz.tbi",
     conda:
         "../envs/gatk.yaml"
     log:
@@ -62,12 +74,13 @@ rule make_gvcf_sections:
         " -ERC GVCF > {log.stdout} 2> {log.stderr} "
 
 
+## This makes a single GVCF file per individual sample. 
 rule concat_gvcf_sections:
     input: 
         expand("results/calling/make_gvcf_sections/{{sample}}/{sgc}.g.vcf.gz", sgc = sg_or_chrom)
     output:
-        gvcf="results/gvcf/{sample}.g.vcf.gz",
-        idx="results/gvcf/{sample}.g.vcf.gz.tbi"
+        gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
+        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi"
     log:
         "results/logs/calling/concat_gvcf_sections/{sample}.txt"
     benchmark:
@@ -83,7 +96,7 @@ rule concat_gvcf_sections:
 
 
 ## The following 2 rules create the genomics db by chromo and scaff_groups 
-# which are used to joint call variants for all samples by section specified
+# which are used to joint call variants for all sample by section specified
 # From https://gatk.broadinstitute.org/hc/en-us/articles/360036883491-GenomicsDBImport 
 # GenomicsDBImport uses temporary disk storage during import. The amount of temporary disk storage required 
 # can exceed the space available, especially when specifying a large number of intervals. 
@@ -91,10 +104,10 @@ rule concat_gvcf_sections:
 
 rule import_genomics_db_by_chromo:
     input:
-        gvcfs=expand("results/calling/make_gvcf_sections/{s}/{{chromo}}.g.vcf.gz", s=SAMPLES),
-        gvcf_idx=expand("results/calling/make_gvcf_sections/{s}/{{chromo}}.g.vcf.gz.tbi", s=SAMPLES),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz", s=sample),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz.tbi", s=sample),
     output:
-        gdb=directory("results/genomics_db/{chromo}")
+        gdb=directory("results/calling/genomics_db/{chromo}")
     conda:
         "../envs/gatk.yaml"
     log:
@@ -119,10 +132,10 @@ rule import_genomics_db_by_chromo:
 
 rule import_genomics_db_by_scaffold_group:
     input:
-        gvcfs=expand("results/calling/make_gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz", s=SAMPLES),
-        gvcf_idx=expand("results/calling/make_gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz.tbi", s=SAMPLES),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz", s=sample),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz.tbi", s=sample),
     output:
-        gdb=directory("results/genomics_db/{scaff_group}"),
+        gdb=directory("results/calling/genomics_db/{scaff_group}"),
     conda:
         "../envs/gatk.yaml"
     log:
@@ -145,25 +158,26 @@ rule import_genomics_db_by_scaffold_group:
 
 
 
-## The next two rules use GenotypeGVCFs to do joint genotyping using a genomics db 
-# to get one vcf file per chrom or scaff group
-# and then ?? 
-rule vcf_from_gdb_scattered:
+## The next rule uses GenotypeGVCFs to do joint genotyping using a genomics db 
+# and a list of smaller pieces of the chroms and scaffold groups (scatters) 
+# to get one vcf file per chrom or scaff group with all of the samples in it
+
+rule vcf_scattered_from_gdb:
     input:
-        gdb="results/genomics_db/{sg_or_chrom}",
-        scatters="results/calling/interval_lists/{scatter}.list
+        gdb="results/calling/genomics_db/{sg_or_chrom}",
+        scatters="results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list",
         ref="resources/genome/OmykA.fasta",
         fai="resources/genome/OmykA.fasta.fai",
         idx="resources/genome/OmykA.dict",
     output:
-        vcf="results/calling/scattered_vcfs/{sg_or_chrom}.vcf.gz",
-        idx="results/calling/scattered_vcfs/{sg_or_chrom}.vcf.gz.tbi",
+        vcf="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz",
+        idx="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz.tbi",
     conda:
         "../envs/gatk.yaml"
     log:
-        "results/logs/calling/vcf_from_gdb_scattered/{sg_or_chrom}.txt"
+        "results/logs/calling/vcf_scattered_from_gdb/{sg_or_chrom}.txt"
     benchmark:
-        "results/benchmarks/calling/vcf_from_gdb_scattered/{sg_or_chrom}.bmk"
+        "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}.bmk"
     params:
         java_opts="-Xmx4g"
         extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
@@ -181,22 +195,24 @@ rule vcf_from_gdb_scattered:
         "  -O {output.vcf} 2> {log} "
 
 
-#I don't really understand what this rule does / I think it's redundant with the one above
-#rule gather_scattered_vcfs:
-#    input:
-#        vcf="results/calling/scattered_vcfs/{sg_or_chrom}.vcf.gz",
-#        idx="results/calling/scattered_vcfs/{sg_or_chrom}.vcf.gz.tbi",
-#    output:
-#        vcf="results/vcf_sections/{sg_or_chrom}.vcf.gz",
-#        tbi="results/vcf_sections/{sg_or_chrom}.vcf.gz.tbi"
-#    log:
-#        "results/logs/calling/gather_scattered_vcfs/{sg_or_chrom}.txt"
-#    benchmark:
-#        "results/benchmarks/calling/gather_scattered_vcfs/{sg_or_chrom}.bmk",
-#    params:
-#        opts=" --naive "
-#    conda:
-#        "../envs/bcftools.yaml"
-#    shell:
-#        " (bcftools concat {params.opts} -Oz {input.vcf} > {output.vcf}; "
-#        " bcftools index -t {output.vcf})  2>{log}; "
+## This rule takes the vcf files for each small chunk (scatter) of the chroms and scaffold groups
+# and concats them back together based on chrom or scaffold group. So we end up with one vcf file
+# per chrom or scaffold group that contains all the samples variant info. 
+rule gather_scattered_vcfs:
+    input:
+        vcf=lambda wc: get_scattered_vcfs(wc, ""),
+        tbi=lambda wc: get_scattered_vcfs(wc, ".tbi"),
+    output:
+        vcf="results/vcf_sections/{sg_or_chrom}.vcf.gz",
+        tbi="results/vcf_sections/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/gather_scattered_vcfs/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/gather_scattered_vcfs/{sg_or_chrom}.bmk",
+    params:
+        opts=" --naive "
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " (bcftools concat {params.opts} -Oz {input.vcf} > {output.vcf}; "
+        " bcftools index -t {output.vcf})  2>{log}; "
