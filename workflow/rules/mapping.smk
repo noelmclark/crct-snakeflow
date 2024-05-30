@@ -5,22 +5,22 @@ rule trim_reads:
     input:
         unpack(get_fastq),
     output:
-        #r1=temp("results/trimmed/{sample}---{unit}_R1.fastq.gz"),
-        #r2=temp("results/trimmed/{sample}---{unit}_R2.fastq.gz"),
-        r1="results/trimmed/{sample}---{unit}_R1.fastq.gz",
-        r2="results/trimmed/{sample}---{unit}_R2.fastq.gz",
+        r1=temp("results/mapping/trimmed/{sample}---{unit}_R1.fastq.gz"),
+        r2=temp("results/mapping/trimmed/{sample}---{unit}_R2.fastq.gz"),
+        #r1="results/mapping/trimmed/{sample}---{unit}_R1.fastq.gz",
+        #r2="results/mapping/trimmed/{sample}---{unit}_R2.fastq.gz",
         html="results/qc/fastp/{sample}---{unit}.html",
         json="results/qc/fastp/{sample}---{unit}.json",
     conda:
         "../envs/fastp.yaml"
     log:
-        out="results/logs/trim_reads/{sample}---{unit}.log",
-        err="results/logs/trim_reads/{sample}---{unit}.err"
+        out="results/logs/mapping/trim_reads/{sample}---{unit}.log",
+        err="results/logs/mapping/trim_reads/{sample}---{unit}.err"
     resources:
         mem_mb=7480,
         time="06:00:00"
     benchmark:
-        "results/benchmarks/trim_reads_pe/{sample}---{unit}.bmk"
+        "results/benchmarks/mapping/trim_reads/{sample}---{unit}.bmk"
     params:
         as1=config["params"]["fastp"]["adapter_sequence1"],
         as2=config["params"]["fastp"]["adapter_sequence2"],
@@ -37,19 +37,19 @@ rule trim_reads:
 
 rule map_reads:
     input:
-        r1="results/trimmed/{sample}---{unit}_R1.fastq.gz",
-        r2="results/trimmed/{sample}---{unit}_R2.fastq.gz",
+        r1="results/mapping/trimmed/{sample}---{unit}_R1.fastq.gz",
+        r2="results/mapping/trimmed/{sample}---{unit}_R2.fastq.gz",
         genome="resources/genome/OmykA.fasta",
         idx=rules.bwa_index.output,
         #idx=multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac")
     output:
-        "results/mapped/{sample}---{unit}.sorted.bam"
+        "results/mapping/mapped/{sample}---{unit}.sorted.bam"
     conda:
         "../envs/bwa2sam.yaml"
     log:
-        "results/logs/map_reads/{sample}---{unit}.log"
+        "results/logs/mapping/map_reads/{sample}---{unit}.log"
     benchmark:
-        "results/benchmarks/map_reads/{sample}---{unit}.bmk"
+        "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk"
     threads: 4
     resources:
         mem_mb=19200,
@@ -67,15 +67,15 @@ rule mark_duplicates:
     input:
         get_all_bams_of_common_sample
     output:
-        bam="results/mkdup/{sample}.bam",
-        bai="results/mkdup/{sample}.bai",
-        metrics="results/qc/mkdup/{sample}.metrics.txt",
+        bam="results/mapping/mkdup/mkdup-{sample}.bam",
+        bai="results/mapping/mkdup/mkdup-{sample}.bai",
+        metrics="results/qc/mkdup/mkdup-{sample}.metrics.txt",
     conda:
         "../envs/gatk.yaml"
     log:
-        "results/logs/mark_duplicates/{sample}.log",
+        "results/logs/mapping/mark_duplicates/{sample}.log",
     benchmark:
-        "results/benchmarks/mark_duplicates/{sample}.bmk"
+        "results/benchmarks/mapping/mark_duplicates/{sample}.bmk"
     params:
         extra=config["params"]["picard"]["MarkDuplicates"],
     resources:

@@ -89,7 +89,7 @@ else:
 
 wildcard_constraints:
     sample="|".join(sample_list),
-    unit="|".join(units["unit"]),
+    unit="|".join(sample_table["unit"]),
     chromo=chrom_constraint,
     scaff_group=sg_constraint,
     sg_or_chrom="|".join(unique_scaff_groups + unique_chromosomes),
@@ -131,7 +131,7 @@ def get_read_group(wildcards):
 #define function to get all the bam files for different units of same sample
 def get_all_bams_of_common_sample(wildcards):
     s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
-    return(expand("results/mapped/{sample}---{unit}.sorted.bam", zip,
+    return(expand("results/mapping/mapped/{sample}---{unit}.sorted.bam", zip,
         sample = s["sample"].tolist(),
         unit = s["unit"].tolist()
     ))
