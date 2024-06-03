@@ -8,15 +8,19 @@ localrules: all, genome_faidx, genome_dict
 
 rule all:
     input:
-        #expand("results/genomics_db/chromosomes/{c}", c=chromosomes.chrom),
-        #expand("results/genomics_db/scaffold_groups/{s}", s=unique_scaff_groups),
-        #expand("results/vcf_sections/{c}.vcf.gz", c=chromosomes.chrom),
-        #expand("results/vcf_sections/{s}.vcf.gz", s=unique_scaff_groups),
-        #expand("results/overlap_clipped/{samp}.{ext}", samp=sample_list, ext = ["bam", "bam.bai"]),
-        #expand("results/gvcf/{samp}.g.vcf.gz", samp=sample_list),
-        #expand("results/bcf/all.bcf"),
-        #expand("results/bcf/all.bcf.csi"),
-        #expand("results/bcf/pass-maf-{maf}.bcf", maf=mafs,),
+        expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample), #mapping final output
+        #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
+        #expand("results/bcf/all.bcf"), #hardfiltering final outputs
+        #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
+        #expand("results/bcf/all-that-pass-maf-{maf}.bcf", maf=mafs,), #hardfiltering final outputs
+        #expand("results/bcf/all-that-pass-maf-{maf}.bcf.csi", maf=mafs,), #hardfiltering final outputs
+
+        #expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
+        #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
+        #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
+
+        #expand("results/overlap_clipped/{samp}.{ext}", samp=sample_list, ext = ["bam", "bam.bai"]), #angsd-ready-bams output
+        
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
         #expand("results/qc/multiqc.html", bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
@@ -29,7 +33,7 @@ rule all:
         #"qc/multiqc.html",
         #"plots/depths.svg",
         #"plots/allele-freqs.svg",
-        expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample)
+        
 
 
 ##### Modules #####
