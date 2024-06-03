@@ -97,10 +97,10 @@ params:
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
   picard:
     MarkDuplicates: " ---TAGGING_POLICY All --CREATE_INDEX --TMP_DIR results/snake-tmp"
-  vep:
-    plugins:
+  #vep:
+    #plugins:
       # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
       # Plugin args can be passed as well, e.g. "LoFtool,path/to/custom/scores.txt".
       - LoFtool
     # extra command line arguments (e.g. --sift, see docs)
-    extra: "" 
+    #extra: "" 
