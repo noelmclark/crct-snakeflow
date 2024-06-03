@@ -5,11 +5,11 @@
 # or it writes out the name of the particular filters
 # that were not passed.
 
-# selects only snps by chrom or scaffold group
+# selects only snps by chrom or scaffold group from the missing-corrected vcf sections
 rule make_snp_vcf:
     input:
-        vcf="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz",
-        tbi="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz.tbi"
     output:
         vcf="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz.tbi"
@@ -26,11 +26,11 @@ rule make_snp_vcf:
 
 
 
-#select only indels by chrom or scaffold group
+#select only indels by chrom or scaffold group from the missing-corrected vcf sections
 rule make_indel_vcf:
     input:
-        vcf="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz",
-        tbi="results/vcf_sect_miss_denoted/{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz.tbi"
     output:
         vcf="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz",
         idx="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz.tbi"
@@ -117,36 +117,17 @@ rule merge_filtered_vcfs:
   
 
 
-rule correct_merged_vcfs:
-    input:
-        vcfs=expand("results/hard_filtering/merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
-    output:
-        vcfs="results/hard_filtering/missing-corrected/correct-merged-{sg_or_chrom}.vcf.gz"
-    conda:
-        "../envs/bcftools.yaml"
-    log:
-        "results/logs/hard_filtering/correct_merged_vcfs/{sg_or_chrom}.log"
-    benchmark:
-        "results/benchmarks/hard_filtering/correct_merged_vcfs/{sg_or_chrom}.bmk"
-  shell:
-    "(bcftools +setGT {input.vcfs} -- -t q -n . -i 'FMT/DP=0 | (FMT/PL[:0]=0 & FMT/PL[:1]=0 & FMT/PL[:2]=0)' | "
-    "bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
-    "bcftools view -Oz - > {output.vcfs}; "
-    "bcftools index -t {output.vcfs}) 2> {log} "
-
-
-
 # this gives us a single merged bcf file without any maf filtering
-rule bcf_concat_correct_merged:
+rule bcf_concat_merged_sect:
     input:
-        expand("results/hard_filtering/missing-corrected/correct-merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
+        expand("results/hard_filtering/merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
     log:
-        "results/logs/bcf_concat_correct_merged/bcf_concat_log.txt"
+        "results/logs/bcf_concat_merged_sect/bcf_concat_log.txt"
     benchmark:
-        "results/benchmarks/bcf_concat_correct_merged/bcf_concat.bmk",
+        "results/benchmarks/bcf_concat_merged_sect/bcf_concat.bmk",
     params:
         opts=" --naive "
     conda:
@@ -162,15 +143,15 @@ rule bcf_concat_correct_merged:
 # I have it set up to run on the missing-corrected-merged-vcf files from the correct_merged_vcfs rule 
 rule maf_filter:
     input:
-        "results/hard_filtering/missing-corrected/correct-merged-{sg_or_chrom}.vcf.gz"
+        "results/hard_filtering/merged-{sg_or_chrom}.vcf.gz"
     output:
-        "results/hard_filtering/correct-merged-{sg_or_chrom}-maf-{mafs}.bcf"
+        "results/hard_filtering/merged-{sg_or_chrom}-maf-{mafs}.bcf"
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/hard_filtering/maf_filter/correct-merged-{sg_or_chrom}-maf-{mafs}.log",
+        "results/logs/hard_filtering/maf_filter/merged-{sg_or_chrom}-maf-{mafs}.log",
     benchmark:
-        "results/benchmarks/hard_filtering/maf_filter/correct-merged-{sg_or_chrom}-maf-{mafs}.bmk"
+        "results/benchmarks/hard_filtering/maf_filter/merged-{sg_or_chrom}-maf-{mafs}.bmk"
     params:
         maf={mafs}
     shell:
@@ -183,7 +164,7 @@ rule maf_filter:
 # which pass the specified maf cuttoff
 rule concat_mafs_bcf:
     input:
-        expand("results/hard_filtering/correct-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
+        expand("results/hard_filtering/merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all-that-pass-maf-{maf}.bcf",
         tbi="results/bcf/all-that-pass-maf-{maf}.bcf.csi"
