@@ -4,6 +4,8 @@ sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
 
+maf_cutoffs: [0.01]
+
 params:
   fastp:
     adapter_sequence1: "ATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG"
