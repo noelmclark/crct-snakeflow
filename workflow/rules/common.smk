@@ -38,7 +38,7 @@ sample_list = list(sample_table["sample"].unique())
 #SAMPLES=sample_table["sample"].unique().tolist()
 
 # this is handy for getting sample info from the bcftools summaries
-unique_sample_ids = list(sample_info["sample_id"].unique())
+unique_sample_ids = list(sample_table["sample_id"].unique())
 
 # Define chromosomes and scaffold groups from the values in the config file
 chromosomes = pd.read_table(config["chromosomes"]).set_index("chrom", drop=False)
