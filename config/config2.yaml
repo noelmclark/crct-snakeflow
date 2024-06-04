@@ -24,12 +24,12 @@ maf_cutoffs: [0.01]
 
 #eric modified this to be able to easily handle genomes of non-model
 #organisms that are not yet on enseml, etc.
-ref:
+#ref:
   #name of species, with underscores for spaces
-  species_name: "Oncorhynchus_mykiss"
-  genome_version_name: "USDA_OmykA_1.1"
-  genome_url: "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/"
-  gff_or_gtf_url: ""
+#  species_name: "Oncorhynchus_mykiss"
+#  genome_version_name: "USDA_OmykA_1.1"
+#  genome_url: "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/"
+#  gff_or_gtf_url: ""
 
 #parameters to be used for different rules/programs
 #the adapter sequences are for the NovaSeq X listed in the Novogene data report
