@@ -16,7 +16,7 @@ else:
 
 
 ### Get a dict named config from config/config.yaml
-configfile: "config/config.yaml"
+configfile: "config/config2.yaml"
 
 
 
@@ -90,7 +90,7 @@ wildcard_constraints:
     filter_condition="ALL|PASS|FAIL",
     maf="|".join(mafs),
     scatter=scatter_wc_constraint,
-    igrp="|".join(indel_grps_list)
+    #igrp="|".join(indel_grps_list)
 
 
 
