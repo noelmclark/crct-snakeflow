@@ -50,4 +50,3 @@ params:
     #because BQSR on non-model organisms doesn't work for crap, and Nina's group
     #found it better to just require high base quality scores. - Eric\
     HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
-      hmm_threads: 1
