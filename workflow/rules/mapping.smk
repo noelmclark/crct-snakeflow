@@ -47,13 +47,13 @@ rule map_reads:
     conda:
         "../envs/bwa2sam.yaml"
     log:
-        "results/logs/mapping/map_reads/{sample}---{unit}.log"
+        "results/logs/mapping/map_reads/{sample}---{unit}.log",
     benchmark:
-        "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk"
+        "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk",
     threads: 4
     resources:
         mem_mb=19200,
-        time="23:59:59"
+        time="23:59:59",
     params:
         RG=get_read_group
     shell:
@@ -79,7 +79,7 @@ rule mark_duplicates:
     params:
         extra=config["params"]["picard"]["MarkDuplicates"],
     resources:
-        cpus = 1
+        cpus = 1,
         mem_mb=112200,
     threads: 30,
     shell:
