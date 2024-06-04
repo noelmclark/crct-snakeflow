@@ -44,7 +44,7 @@ maf_cutoffs: [0.01]
 # this is the default value for the first GenomicsDBImport run.
 # If you want to change it, you should typically change it
 # on the command line.
-3genomics_db_import_num: 0
+#genomics_db_import_num: 0
 
 # eric modified this to be able to easily handle genomes of non-model
 # organisms that are not yet on enseml, etc.
