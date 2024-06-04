@@ -16,7 +16,7 @@ else:
 
 
 ### Get a dict named config from config/config.yaml
-configfile: "../config/config.yaml"
+configfile: "config/config.yaml"
 
 
 
