@@ -56,7 +56,7 @@ unique_chromosomes = list(chromosomes.chrom.unique())  # don't need to unique it
 sg_or_chrom = list(unique_scaff_groups + unique_chromosomes)
 
 # finally, get all the scatter groups, indexed two different ways.
-scatter_wc_constraint="scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`
+scatter_wc_constraint = "scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`
 if config["scatter_intervals_file"] != "":
     scatter_groups = pd.read_table(config["scatter_intervals_file"]).set_index("id", drop=False)
     scatter_cols = list(scatter_groups.columns)
