@@ -3,6 +3,7 @@ genome_path: "resources/genome/OmykA.fasta"
 sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
+scatter_intervals_file: ""
 
 maf_cutoffs: [0.01]
 

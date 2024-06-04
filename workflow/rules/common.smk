@@ -59,7 +59,6 @@ unique_chromosomes = list(chromosomes.chrom.unique())  # don't need to unique it
 scatter_wc_constraint="scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`
 if config["scatter_intervals_file"] != "":
     scatter_groups = pd.read_table(config["scatter_intervals_file"]).set_index("id", drop=False)
-    validate(scatter_groups, schema="../schemas/scatter_intervals.schema.yaml")
     scatter_cols = list(scatter_groups.columns)
     if scatter_cols[0] != 'id' or scatter_cols[1] != 'scatter_idx' or scatter_cols[2] != 'chrom' or scatter_cols[3] != 'start' or scatter_cols[4] != 'end' or scatter_cols[5] != 'scatter_length':
         raise Exception("Column order is important in the scaffold_groups file.  The columns must be in order: id, scatter_idx, chrom, start, end, scatter_length.")
