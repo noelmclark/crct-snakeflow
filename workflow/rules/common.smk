@@ -34,7 +34,7 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
 
 # rather than have a separate samples.tsv, we can just get a list of
 # the samples from sample_table
-sample_list = list(sample_table["sample"].unique())
+sample_list = sample_table["sample"].unique().tolist()
 #SAMPLES=sample_table["sample"].unique().tolist()
 
 # this is handy for getting sample info from the bcftools summaries
