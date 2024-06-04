@@ -45,3 +45,10 @@ params:
       - "--cut_right_mean_quality 20"
   picard:
     MarkDuplicates: " --TAGGING_POLICY All --CREATE_INDEX --TMP_DIR results/snake-tmp "
+  gatk:
+    #the default for HaplotypeCaller is to require very high base qualtiy scores
+    #because BQSR on non-model organisms doesn't work for crap, and Nina's group
+    #found it better to just require high base quality scores. - Eric\
+    HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
+      hmm_threads: 1
+    GenotypeGVCFS: ""
