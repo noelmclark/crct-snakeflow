@@ -1,1 +1,107 @@
 #new config husk
+# path to the genome (not used in workflow, but we could have...)
+genome_path: "resources/genome/OmykA.fasta"
+
+# path to files needed for config
+# choromosomes from the ncbi OmykA 1.1 reference genome https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
+sample_info: "config/sample-info.tsv"
+chromosomes: "config/chromosomes.tsv"
+scaffold_groups: "config/scaffold_groups.tsv"
+scatter_intervals_file: ""
+
+# this file is only needed when treating different samples
+# as different species, for indel realignment, etc.
+#indel_grps: "config/igrps.tsv" 
+
+# if you don't want to produce indel-realigned BAMs, set the
+# following to False.  It will still make overlap_clipped bams
+#do_indel_realignment: False
+
+# the following must be a list, even if it is just one element
+maf_cutoffs: [0.01]
+
+# to specify some downsampling levels to do you can put them in the
+# depths list here.
+#downsample_bams:
+#  depths: []
+
+
+## next two are for rclone usage which I haven't set up yet
+# this next one is here just for quickly writing out rclone statements
+# to put the results back onto google drive.
+# The current path is from Eric's workflow so I need to set up rclone if I wanna do it that way
+#rclone_base: "gdrive-rclone:Bioinformatic-Project-Archives/mega-flow-test"
+
+# If you want to copy all the fastq files back to rclone_base,
+# then the send_to_gdrive rule will assume it is in a directory
+# called 'data' at the top-level of the directory, and it will
+# copy its contents to rclone_base.  If you don't want the contents
+# of the 'data' directory to be copied with the send_to_gdrive 
+# rule, set the following parameter to False. 
+#rclone_data: False
+
+
+# this is the default value for the first GenomicsDBImport run.
+# If you want to change it, you should typically change it
+# on the command line.
+3genomics_db_import_num: 0
+
+# eric modified this to be able to easily handle genomes of non-model
+# organisms that are not yet on enseml, etc.
+ref:
+  # name of the species.  (will simply be put in the SnpEff config).
+  # Put underscores for spaces
+  species_name: Oncorhynchus_mykiss
+  # name you want to use for the genome version
+  genome_version_name: USDA_OmykA_1.1
+  # the URL where this can be downloaded, if public and easy to
+  # get with wget.  If not, then you should hand-download
+  # genome.fasta and genome.gff or genome.gtf
+  genome_url: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
+  # if there is a GFF or GTF file, they have to have a .gff or
+  # .gtf extension.  This where you put the URL for it
+  gff_or_gtf_url: ""
+
+# parameters to be used for different rules/programs
+# fastp adapter 1 and 2 are for Novogene Novaseq X listed in data report
+# variant hard filtering based on gatk best practices
+params:
+  fastp:
+    adapter_sequence1: "ATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG"
+    adapter_sequence2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+    other_options:
+      - "--detect_adapter_for_pe"
+      - "--cut_right" 
+      - "--cut_right_window_size 4"
+      - "--cut_right_mean_quality 20"
+  gatk:
+    # the default for haplotype caller is to require very high base quality scores
+    # because BQSR on non-model organisms doesn't work for crap, and Nina's group
+    # found it better to just require high base quality scores. - Eric
+    HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
+      hmm_threads: 1
+    GenotypeGVCFs: ""
+    VariantRecalibrator: ""
+    VariantFiltration:
+      indels:
+        - ' -filter "QD < 2.0" --filter-name "QD2" '
+        - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+        - ' -filter "FS > 200.0" --filter-name "FS200" '
+        - ' -filter "ReadPosRankSum < -20.0" --filter-name "ReadPosRankSum-20" '
+      snps:
+        - ' -filter "QD < 2.0" --filter-name "QD2" '
+        - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+        - ' -filter "SOR > 3.0" --filter-name "SOR3" '
+        - ' -filter "FS > 60.0" --filter-name "FS60" '
+        - ' -filter "MQ < 40.0" --filter-name "MQ40" '
+        - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
+        - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
+  picard:
+    MarkDuplicates: " ---TAGGING_POLICY All --CREATE_INDEX --TMP_DIR results/snake-tmp"
+  #vep:
+    #plugins:
+      # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
+      # Plugin args can be passed as well, e.g. "LoFtool,path/to/custom/scores.txt".
+      #- LoFtool
+    # extra command line arguments (e.g. --sift, see docs)
+    #extra: "" 
