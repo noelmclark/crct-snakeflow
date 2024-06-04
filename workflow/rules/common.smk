@@ -22,13 +22,8 @@ configfile: "config/config.yaml"
 
 ### Load MAF cutoffs from the config file
 # these are our MAF cutoffs to prepare.  We take the unique values
-# of the union of the maf_cutoffs from the config and the bqsr_maf
-# from the config.
-mafs = list(
-        dict.fromkeys(
-            [str(x) for x in config["maf_cutoffs"]]
-            )
-        )
+# of the the maf_cutoffs from the config.
+mafs = list(dict.fromkeys([str(x) for x in config["maf_cutoffs"]]))
 
 
 
