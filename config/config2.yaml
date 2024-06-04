@@ -43,4 +43,27 @@ params:
       - "cut_right"
       - "--cut_right_window_size 4"
       - "--cut_right_mean_quality 20"
-  
+  picard:
+    MarkDuplicates: " --TAGGING_POLICY All --CREATE_INDEX --TMP_DIR results/snake-tmp "
+  gatk:
+    #the default for HaplotypeCaller is to require very high base qualtiy scores
+    #because BQSR on non-model organisms doesn't work for crap, and Nina's group
+    #found it better to just require high base quality scores. - Eric\
+    HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
+      hmm_threads: 1
+    GenotypeGVCFS: ""
+    VariantRecalibrator: ""
+    #VariantFiltration:
+    #  indels:
+    #    - ' -filter "QD < 2.0" --filter-name "QD2" '
+    #    - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+    #    - ' -filter "FS > 200.0" --filter-name "FS200" '
+    #    - ' -filter "ReadPosRankSum < -20.0" --filter-name "ReadPosRankSum-20" '
+    #  snps:
+    #    - ' -filter "QD < 2.0" --filter-name "QD2" '
+    #    - ' -filter "QUAL < 30.0" --filter-name "QUAL30" '
+    #    - ' -filter "SOR > 3.0" --filter-name "SOR3" '
+    #    - ' -filter "FS > 60.0" --filter-name "FS60" '
+    #    - ' -filter "MQ < 40.0" --filter-name "MQ40" '
+    #    - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
+    #    - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
