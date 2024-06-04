@@ -41,9 +41,9 @@ rule map_reads:
         r2="results/mapping/trimmed/{sample}---{unit}_R2.fastq.gz",
         genome="resources/genome/OmykA.fasta",
         idx=rules.bwa_index.output,
-        #idx=multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac")
+        #idx=multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
     output:
-        "results/mapping/mapped/{sample}---{unit}.sorted.bam"
+        "results/mapping/mapped/{sample}---{unit}.sorted.bam",
     conda:
         "../envs/bwa2sam.yaml"
     log:
