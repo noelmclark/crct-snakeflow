@@ -3,7 +3,7 @@
 
 rule trim_reads:
     input:
-        unpack(get_fastq),
+        unpack(get_fastqs),
     output:
         r1=temp("results/mapping/trimmed/{sample}---{unit}_R1.fastq.gz"),
         r2=temp("results/mapping/trimmed/{sample}---{unit}_R2.fastq.gz"),
