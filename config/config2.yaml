@@ -1,11 +1,35 @@
+#path to genome (not used in workflow, but we could have...)
 genome_path: "resources/genome/OmykA.fasta"
 
+#path to files needed from config
 sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
 scatter_intervals_file: ""
 
+#this is only needed when doing species specific indel realignment
+#indel_grps: "config/igrps.tsv"
+
 maf_cutoffs: [0.01]
+
+#if you want to downsample from your bams,
+#uncomment and specify the downsample depth
+#downsample_bams:
+  #depths: []
+
+#this is the default value for the first GenomicsDBImport run.
+#If you want to change it, you should typically change it
+#on the command line. 
+#genomics_db_import_num: 0
+
+#eric modified this to be able to easily handle genomes of non-model
+#organisms that are not yet on enseml, etc.
+ref:
+  #name of species, with underscores for spaces
+  species_name: "Oncorhynchus_mykiss"
+  genome_version_name: "USDA_OmykA_1.1"
+  genome_url: "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/"
+  gff_or_gtf_url: ""
 
 params:
   fastp:

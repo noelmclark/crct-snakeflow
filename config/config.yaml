@@ -50,13 +50,13 @@ genomics_db_import_num: 0
 ref:
   # name of the species.  (will simply be put in the SnpEff config).
   # Put underscores for spaces
-  species_name: Oncorhynchus_mykiss
+  species_name: "Oncorhynchus_mykiss"
   # name you want to use for the genome version
-  genome_version_name: USDA_OmykA_1.1
+  genome_version_name: "USDA_OmykA_1.1"
   # the URL where this can be downloaded, if public and easy to
   # get with wget.  If not, then you should hand-download
   # genome.fasta and genome.gff or genome.gtf
-  genome_url: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/
+  genome_url: "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/"
   # if there is a GFF or GTF file, they have to have a .gff or
   # .gtf extension.  This where you put the URL for it
   gff_or_gtf_url: ""
