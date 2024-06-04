@@ -35,7 +35,6 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
 # rather than have a separate samples.tsv, we can just get a list of
 # the samples from sample_table
 sample_list = sample_table["sample"].unique().tolist()
-#SAMPLES=sample_table["sample"].unique().tolist()
 
 # this is handy for getting sample info from the bcftools summaries
 unique_sample_ids = list(sample_table["sample_id"].unique())
@@ -54,6 +53,7 @@ if scaff_cols[0] != 'id' or scaff_cols[1] != 'chrom':
 # get a list of just the unique values of the scaffold_group and of the chromosomes
 unique_scaff_groups = list(scaffold_groups.id.unique())
 unique_chromosomes = list(chromosomes.chrom.unique())  # don't need to unique it, but I do anyway
+sg_or_chrom = "|".join(unique_scaff_groups + unique_chromosomes)
 
 # finally, get all the scatter groups, indexed two different ways.
 scatter_wc_constraint="scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`
