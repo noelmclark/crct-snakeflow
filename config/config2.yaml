@@ -16,3 +16,5 @@ params:
       - "cut_right"
       - "--cut_right_window_size 4"
       - "--cut_right_mean_quality 20"
+  picard:
+    MarkDuplicates: " --TAGGING_POLICY All --CREATE_INDEX --TMP_DIR results/snake-tmp "
