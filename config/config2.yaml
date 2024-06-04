@@ -1,1 +1,15 @@
-sample_info: ""
+genome_path: "resources/genome/OmykA.fasta"
+
+sample_info: "config/sample-info.tsv"
+chromosomes: "config/chromosomes.tsv"
+scaffold_groups: "config/scaffold_groups.tsv"
+
+params:
+  fastp:
+    adapter_sequence1: "ATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG"
+    adapter_sequence2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+    other_options:
+      - "--detect_adapter_for_pe"
+      - "cut_right"
+      - "--cut_right_window_size 4"
+      - "--cut_right_mean_quality 20"
