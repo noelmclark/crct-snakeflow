@@ -51,4 +51,3 @@ params:
     #found it better to just require high base quality scores. - Eric\
     HaplotypeCaller: " --min-base-quality-score 33 --minimum-mapping-quality 20 "
       hmm_threads: 1
-    GenotypeGVCFS: ""
