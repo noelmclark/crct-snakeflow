@@ -9,11 +9,10 @@
 
 
 # I need to fix these to be the actual paths for the given outputs  Will do that later...
-rule dest_qc:
-	input:
-		expand("results/qc/multiqc.html"),
-		expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"]),
-		expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs),
+#rule dest_qc:
+#	input:
+#		expand("results/qc/multiqc.html"),
+##		expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs),
 
 
 
@@ -25,12 +24,12 @@ rule dest_scatter_intervals:
         chroms=config["chromosomes"],
         scaffs=config["scaffold_groups"],
     params:
-        binsize="{int_length}"
+        binsize=config["params"]["binsize"]
     envmodules: "R/4.2.2"
     output:
-        tsv="results/scatter_config/scatters_{int_length}.tsv"
+        tsv="results/scatter_config/scatters_{params.binsize}.tsv"
     log:
-    	"results/logs/dest_scatter_intervals/log_{int_length}.txt"
+    	"results/logs/dest_scatter_intervals/log_{params.binsize}.txt"
     script:
     	"../scripts/sequence-scatter-bins.R"
 
@@ -38,17 +37,17 @@ rule dest_scatter_intervals:
 # this is for downsampling the bams and nothing more.  If you want
 # to downsample bams and then run through the entire gVCF workflow with those
 # you should see the next rule...
-rule dest_downsample_bams_only:
-	input:
-		bam=expand(
-			"results/downsample-{cov}X/overlap_clipped/{sample}.bam",  
-			cov = config["downsample_bams"]["depths"],
-			sample = sample_list )
+#rule dest_downsample_bams_only:
+#	input:
+#		bam=expand(
+#			"results/downsample-{cov}X/overlap_clipped/{sample}.bam",  
+#			cov = config["downsample_bams"]["depths"],
+#			sample = sample_list )
 
 
 
 # this is just here to make it easy to do a run that just
 # force-calls the sites
-rule force_call_sites:
-	input:
-		vcf="results/force-call/final.vcf.gz"
+#rule force_call_sites:
+#	input:
+#		vcf="results/force-call/final.vcf.gz"
