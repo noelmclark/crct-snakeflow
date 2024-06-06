@@ -24,12 +24,12 @@ rule dest_scatter_intervals:
         chroms=config["chromosomes"],
         scaffs=config["scaffold_groups"],
     params:
-        binsize="{binsize}"
+        binsize=1200000
     envmodules: "R/4.2.2"
     output:
-        tsv="results/scatter_config/scatters_{binsize}.tsv"
+        tsv="results/scatter_config/scatters_{params.binsize}.tsv"
     log:
-    	"results/logs/dest_scatter_intervals/log_{binsize}.txt"
+    	"results/logs/dest_scatter_intervals/log_{params.binsize}.txt"
     script:
     	"../scripts/sequence-scatter-bins.R"
 

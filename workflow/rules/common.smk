@@ -56,7 +56,7 @@ unique_chromosomes = list(chromosomes.chrom.unique())  # don't need to unique it
 sg_or_chrom = list(unique_scaff_groups + unique_chromosomes)
 
 #get list of desired max lengths of the binsizes for the scatter_intervals_file R script from the config
-binsize = list(dict.fromkeys([str(x) for x in config["binsize"]]))
+#binsize = list(dict.fromkeys([str(x) for x in config["binsize"]]))
 
 # finally, get all the scatter groups, indexed two different ways.
 scatter_wc_constraint="scat_0[0-9]*"  # this is just here for the case where `scatter_intervals_file: ""`

@@ -16,7 +16,7 @@ scatter_intervals_file: ""
 
 # the following must be a list, even if it is just one element
 maf_cutoffs: [0.01]
-binsize: [1200000]
+#binsize: [1200000]
 
 #if you want to downsample from your bams,
 #uncomment and specify the downsample depth
@@ -79,7 +79,6 @@ params:
         - ' -filter "MQ < 40.0" --filter-name "MQ40" '
         - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
-  binsize: 1200000 #desired max length of scatters for the scatter intervals R script
   #vep:
     #plugins:
       # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
