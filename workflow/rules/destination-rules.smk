@@ -23,8 +23,8 @@ rule dest_scatter_intervals:
     input:
         chroms=config["chromosomes"],
         scaffs=config["scaffold_groups"],
-    #params:
-    #    binsize="{int_length}"
+    params:
+        binsize="{binsize}"
     envmodules: "R/4.2.2"
     output:
         tsv="results/scatter_config/scatters_{binsize}.tsv"
