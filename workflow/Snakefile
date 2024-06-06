@@ -13,7 +13,7 @@ rule all:
     input:
         expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
-        expand("results/scatter_config/scatters_{binsize}.tsv"),
+        expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize),
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
         #expand("results/bcf/all-that-pass-maf-{maf}.bcf", maf=mafs,), #hardfiltering final outputs
