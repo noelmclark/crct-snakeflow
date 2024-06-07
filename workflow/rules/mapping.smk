@@ -53,7 +53,7 @@ rule map_reads:
     threads: 4
     resources:
         mem_mb=19200,
-        time="36:00:00",
+        time="1-12:00:00",
         qos="long",
     params:
         RG=get_read_group
