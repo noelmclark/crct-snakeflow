@@ -54,7 +54,7 @@ rule map_reads:
     resources:
         mem_mb=19200,
         time="01-06:00:00",
-        qos="long",
+        #qos="long",
     params:
         RG=get_read_group
     shell:
