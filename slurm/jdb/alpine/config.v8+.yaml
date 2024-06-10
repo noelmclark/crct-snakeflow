@@ -21,7 +21,7 @@ default-resources:
   - time="03:00:00"
   - mem_mb=3740
   - tmpdir="results/snake-tmp"
-  - qos="long"
+  - qos="normal"
 restart-times: 0
 max-jobs-per-second: 10
 max-status-checks-per-second: 25
