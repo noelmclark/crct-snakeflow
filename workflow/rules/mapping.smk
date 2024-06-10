@@ -51,6 +51,7 @@ rule map_reads:
     benchmark:
         "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk",
     threads: 4
+    nodes: 1
     resources:
         mem_mb=19200,
         time="36:00:00",

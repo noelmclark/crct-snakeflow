@@ -5,6 +5,7 @@ cluster-generic-submit-cmd:
   sbatch
     --partition=amilan,csu
     --cpus-per-task={threads}
+    --nodes={nodes}
     --mem={resources.mem_mb}
     --time={resources.time}
     --qos={resources.qos}
