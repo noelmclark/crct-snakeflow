@@ -50,11 +50,11 @@ rule map_reads:
         "results/logs/mapping/map_reads/{sample}---{unit}.log",
     benchmark:
         "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk",
-    threads: 4
+    threads: 2
     resources:
         mem_mb=19200,
         time="1-12:00:00",
-        #qos="long",
+        qos="long",
     params:
         RG=get_read_group
     shell:
