@@ -52,7 +52,7 @@ rule map_reads:
         "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk",
     threads: 8
     resources:
-        mem_mb=19200,
+        mem_mb=30000,
         time="23:59:59",
         #qos="long",
     params:
