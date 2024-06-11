@@ -50,7 +50,7 @@ rule map_reads:
         "results/logs/mapping/map_reads/{sample}---{unit}.log",
     benchmark:
         "results/benchmarks/mapping/map_reads/{sample}---{unit}.bmk",
-    threads: 4
+    threads: 8
     resources:
         mem_mb=19200,
         time="23:59:59",
