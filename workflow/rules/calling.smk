@@ -86,7 +86,7 @@ rule concat_gvcf_sections:
     benchmark:
         "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk",
     params:
-        opts="--naive ",
+        opts="--naive",
     conda:
         "../envs/bcftools.yaml"
     shell:
