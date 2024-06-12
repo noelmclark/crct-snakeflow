@@ -80,13 +80,13 @@ rule concat_gvcf_sections:
         expand("results/calling/make_gvcf_sections/{{sample}}/{sgc}.g.vcf.gz", sgc = sg_or_chrom)
     output:
         gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
-        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi"
+        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi",
     log:
-        "results/logs/calling/concat_gvcf_sections/{sample}.txt"
+        "results/logs/calling/concat_gvcf_sections/{sample}.txt",
     benchmark:
         "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk",
     params:
-        opts=" --naive "
+        opts="--naive ",
     conda:
         "../envs/bcftools.yaml"
     shell:
