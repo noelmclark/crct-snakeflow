@@ -12,14 +12,14 @@ localrules: all, genome_faidx, genome_dict, make_scaff_group_interval_lists, mak
 rule all:
     input:
         expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
-        expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
+        #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize),
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
         #expand("results/bcf/all-that-pass-maf-{maf}.bcf", maf=mafs,), #hardfiltering final outputs
         #expand("results/bcf/all-that-pass-maf-{maf}.bcf.csi", maf=mafs,), #hardfiltering final outputs
 
-        #expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
+        expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
         #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
 
