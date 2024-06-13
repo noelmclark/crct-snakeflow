@@ -77,7 +77,7 @@ rule make_gvcf_sections:
 ## This makes a single GVCF file per individual sample. 
 rule concat_gvcf_sections:
     input: 
-        expand("results/calling/make_gvcf_sections/{{sample}}/{sgc}.g.vcf.gz", sgc=sg_or_chrom)
+        expand("results/calling/make_gvcf_sections/{{sample}}/{sgc}.g.vcf.gz", sgc=sg_or_chrom),
     output:
         gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
         idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi",
