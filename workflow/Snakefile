@@ -13,6 +13,7 @@ rule all:
     input:
         expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
+        expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
         #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize),
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
@@ -24,7 +25,8 @@ rule all:
         #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
 
-        #expand("results/overlap_clipped/{samp}.{ext}", samp=sample_list, ext = ["bam", "bam.bai"]), #angsd-ready-bams output
+        #expand("results/angsd_bams/indel_realigned/{{igrp}}/{s}.bam", s=sample_list), #angsd-bams indel realignment final output
+
         
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
@@ -45,7 +47,7 @@ rule all:
 
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
-#include: "rules/angsd-ready-bams.smk"
+include: "rules/angsd-ready-bams.smk"
 #include: "rules/calling.smk"
 #include: "rules/hardfilter.smk"
 #include: "rules/psmc.smk"

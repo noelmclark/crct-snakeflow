@@ -121,6 +121,8 @@ rule GATK_remove_duplicates:
 ## rule to remove the duplicates from the marked_duplicates bams to be used for downstream analyses
 # an alternative to removing them with GATK MarkDuplicates
 # -F 1024 excludes reads with flag 1024 (optical or PCR duplicate)
+# -F 3852 was used in the Leopard paper 
+# https://broadinstitute.github.io/picard/explain-flags.html 
 #rule samtools_remove_duplicates:
 #    input:
 #        bam="results/mapping/mkdup/mkdup-{sample}.bam",
@@ -129,10 +131,12 @@ rule GATK_remove_duplicates:
 #        bam="results/mapping/samtools-rmdup/{sample}.bam",
 #        bai="results/mapping/samtools-rmdup/{sample}.bai",
 #    log:
-#        "results/logs/mapping/samtools-rmdup/{sample}.log",
+#        rm="results/logs/mapping/samtools-rmdup/{sample}.log",
+#        index="results/logs/mapping/samtools-rmdup/index-{sample}.log",
 #    conda:
 #        "../envs/bamutil_samtools.yaml"
 #    benchmark:
 #        "results/benchmarks/mapping/samtools-rmdup/{sample}.bmk",
 #    shell:
-#        " samtools view -F 1024 {input.bam} -o {output} >2 {log}
+#        " samtools view -F 1024 {input.bam} -o {output.bam} >2 {log.rm} && "
+#        " samtools index {output.bai} 2> {log.index} "
