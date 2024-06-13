@@ -10,7 +10,7 @@ rule clip_overlaps:
         "results/mapping/gatk-rmdup/{sample}.bam"
     output:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
-        bai="results/angsd_bams/overlap_clipped/{sample}.bam.bai"
+        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     log:
         clip="results/logs/angsd_bams/clip_overlaps/{sample}.log",
         index="results/logs/angsd_bams/clip_overlaps/index-{sample}.log"
@@ -19,8 +19,8 @@ rule clip_overlaps:
     benchmark:
         "results/benchmarks/angsd_bams/clip_overlaps/{sample}.bmk"
     shell:
-        " bam clipOverlap --in {input} --out {output} --stats 2> {log.clip} && "
-        " samtools index {output} 2> {log.index}"
+        " bam clipOverlap --in {input} --out {output.bam} --stats 2> {log.clip} && "
+        " samtools index {output.bai} 2> {log.index}"
 
 
 ## 2. Indel realignment
