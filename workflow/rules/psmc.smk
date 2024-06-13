@@ -1,23 +1,32 @@
 # rule to get a consensus fastq sequence file for PSMC
 # option -d sets and minimum read depth and -D sets the maximum 
 # It is recommended to set -d to a third of the average depth and -D to twice
+# this takes the bams from each individual and generates a tmp vcf file then 
+# generates a consensus sequence for psmc
+# alternatively add a rule that does this from the hard filtered vcf files after
+# joint calling them in the calling phase
 rule psmc_consensus_sequence:
     input:
-        bam="results/mkdup/{sample}.bam",
+        bam="results/mapping/mkdup/mkdup-{sample}.bam", #in the future this will be with the overlap clipped duplicates removed bams
         ref="resources/genome/OmykA.fasta",
     output:
-        "results/psmc-consensus-sequence/{sample}.fq.gz"
+        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
     conda:
         "../envs/sambcftools.yaml"
     resources:
         time="23:59:59"
     log:
-        "results/psmc-consensus-sequence/{sample}.log"
+        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc-consensus-sequence/{sample}.bmk"
+        "results/benchmarks/psmc/bams2psmc/psmc-consensus-sequence/{sample}.bmk"
     shell:
         "bcftools mpileup -C50 -f {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
+
+# draft rule for vcf 2 psmc consensus sequence vs from the bams 
+#rule vcf2_psmc_consensus_sequence:
+#    input:
+#        vcf="results/
 
 
 # following rules are to run PSMC
@@ -26,7 +35,7 @@ rule psmc_consensus_sequence:
 # rule to create psmcfa file per sample
 rule psmcfa:
     input:
-        "results/psmc-consensus-sequence/{sample}.fq.gz"
+        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
     output:
         "results/psmcfa/{sample}.psmcfa"
     conda:

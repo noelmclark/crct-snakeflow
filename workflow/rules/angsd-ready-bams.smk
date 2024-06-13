@@ -5,13 +5,13 @@
 #    2. Indel realignment
 
 
-## 1. Simple clipping of overlaps in the mkduped BAMs
+## 1. Simple clipping of overlaps in the mkduped BAMs (does not remove duplicates)
 rule clip_overlaps:
     input:
-        "results/mkdup/mkdup-{sample}.bam"
+        "results/mapping/mkdup/mkdup-{sample}.bam"
     output:
-        bam="results/overlap_clipped/overlap-clipped-{sample}.bam",
-        bai="results/overlap_clipped/overlap-clipped-{sample}.bam.bai"
+        bam="results/overlap_clipped/overlap-clipped-mkdup-{sample}.bam",
+        bai="results/overlap_clipped/overlap-clipped-mkdup-{sample}.bam.bai"
     log:
         clip="results/logs/clip_overlaps/clip_overlap-{sample}.log",
         index="results/logs/clip_overlaps/index-{sample}.log"

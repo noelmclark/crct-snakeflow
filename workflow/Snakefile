@@ -31,7 +31,7 @@ rule all:
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         #expand("results/DS_control/sample_info.tsv", bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         #realigned_bams_output_list
-        #expand("results/psmc-plot/{s}.eps", s=SAMPLES),
+        expand("results/psmc/psmc-plot/{s}.eps", s=SAMPLES),
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
         #"qc/multiqc.html",
