@@ -12,6 +12,7 @@ localrules: all, genome_faidx, genome_dict, make_scaff_group_interval_lists, mak
 rule all:
     input:
         expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
+        expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize),
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
@@ -19,7 +20,7 @@ rule all:
         #expand("results/bcf/all-that-pass-maf-{maf}.bcf", maf=mafs,), #hardfiltering final outputs
         #expand("results/bcf/all-that-pass-maf-{maf}.bcf.csi", maf=mafs,), #hardfiltering final outputs
 
-        expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
+        #expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
         #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
 
@@ -31,7 +32,7 @@ rule all:
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         #expand("results/DS_control/sample_info.tsv", bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         #realigned_bams_output_list
-        expand("results/psmc/psmc-plot/{s}.eps", s=SAMPLES),
+        #expand("results/psmc/psmc-plot/{s}.eps", s=SAMPLES),
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
         #"qc/multiqc.html",

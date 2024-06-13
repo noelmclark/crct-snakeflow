@@ -1,5 +1,4 @@
-
-## These are rules that take the mapped BAMs, and the results
+## These are rules that take the mapped mkdup BAMs, and the results
 # of running GATK to get the indels, and do:
 #    1. Clipping over overlaps
 #    2. Indel realignment

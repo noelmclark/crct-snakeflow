@@ -90,3 +90,49 @@ rule mark_duplicates:
         "  $BAMS "
         "  -O {output.bam} "
         "  -M {output.metrics} > {log} 2>&1 "
+
+rule GATK_remove_duplicates:
+    input:
+        get_all_bams_of_common_sample
+    output:
+        bam="results/mapping/gatk-rmdup/{sample}.bam",
+        bai="results/mapping/gatk-rmdup/{sample}.bai",
+        metrics="results/qc/gatk-rmdup/{sample}.metrics.txt",
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/mapping/mark_duplicates/{sample}.log",
+    benchmark:
+        "results/benchmarks/mapping/mark_duplicates/{sample}.bmk"
+    params:
+        "--REMOVE_DUPLICATES true --CREATE_INDEX --TMP_DIR results/snake-tmp "
+    resources:
+        cpus = 1,
+        mem_mb=112200,
+    threads: 30,
+    shell:
+        " BAMS=$(echo {input} | awk '{{for(i=1;i<=NF;i++) printf(\"-I %s \", $i)}}'); "
+        " gatk --java-options '-Xmx3740M' MarkDuplicates  "
+        "  {params} "
+        "  $BAMS "
+        "  -O {output.bam} "
+        "  -M {output.metrics} > {log} 2>&1 "
+
+## rule to remove the duplicates from the marked_duplicates bams to be used for downstream analyses
+# an alternative to removing them with GATK MarkDuplicates
+# -F 1024 excludes reads with flag 1024 (optical or PCR duplicate)
+#rule samtools_remove_duplicates:
+#    input:
+#        bam="results/mapping/mkdup/mkdup-{sample}.bam",
+#        bai="results/mapping/mkdup/mkdup-{sample}.bai",
+#    output:
+#        bam="results/mapping/samtools-rmdup/{sample}.bam",
+#        bai="results/mapping/samtools-rmdup/{sample}.bai",
+#    log:
+#        "results/logs/mapping/samtools-rmdup/{sample}.log",
+#    conda:
+#        "../envs/bamutil_samtools.yaml"
+#    benchmark:
+#        "results/benchmarks/mapping/samtools-rmdup/{sample}.bmk",
+#    shell:
+#        " samtools view -F 1024 {input.bam} -o {output} >2 {log}
