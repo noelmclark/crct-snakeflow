@@ -20,7 +20,7 @@ rule clip_overlaps:
         "results/benchmarks/angsd_bams/clip_overlaps/{sample}.bmk"
     shell:
         " bam clipOverlap --in {input} --out {output.bam} --stats 2> {log.clip} && "
-        " samtools index {output.bai} 2> {log.index}"
+        " samtools index {output.bam} -o {output.bai} 2> {log.index}"
 
 
 ## 2. Indel realignment
