@@ -71,7 +71,7 @@ if config["scatter_intervals_file"] != "":
     unique_scatters_table=scatter_groups[['id', 'scatter_idx']].drop_duplicates()
 
 
-#scat_ids=scatter_groups.loc["id", "scatter_idx"].unique()
+scat_ids=scatter_groups.loc["id", "scatter_idx"].unique()
 
 
 ##### Wildcard constraints #####
