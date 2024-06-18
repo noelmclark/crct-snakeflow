@@ -94,7 +94,6 @@ rule concat_gvcf_sections:
         " bcftools index -t {output.gvcf} "
 
 
-
 ## The following 2 rules create the genomics db by chromo and scaff_groups 
 # which are used to joint call variants for all sample by section specified
 # From https://gatk.broadinstitute.org/hc/en-us/articles/360036883491-GenomicsDBImport 
