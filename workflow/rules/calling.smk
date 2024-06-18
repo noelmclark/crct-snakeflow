@@ -90,7 +90,7 @@ rule concat_gvcf_sections:
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " bcftools concat {params.opts} -O z {input} > {output.gvcf} 2>{log}; "
+        " bcftools concat {params.opts} -Oz {input} > {output.gvcf} 2>{log}; "
         " bcftools index -t {output.gvcf} "
 
 
