@@ -29,10 +29,9 @@ rule make_scatter_interval_lists:
     output:
         "results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list"
     shell:
-        " awk -v sgc={wildcards.sg_or_chrom} -v scat={wildcards.scatter} ' "
-        "    NR>1 && $1 == sgc && $2==scat {{printf(\"%s:%s-%s\\n\", $3, $4, $5)}} "
-        " ' {input.scatters_file} > {output} 2> {log};"
-
+        " awk -v sgc={wildcards.sg_or_chrom} -v scat={wildcards.scatter} "
+        " 'NR>1 && $1 == sgc && $2 == scat {printf(\"%s:%s-%s\\n\", $3, $4, $5)}' "
+        " {input.scatters_file} > {output} 2> {log}; "
 
 ## the following 2 rules create gvcf files for each sample to be used in the genomics db
 # the first rule creates these per sample by sections of scaffold group or chromo
