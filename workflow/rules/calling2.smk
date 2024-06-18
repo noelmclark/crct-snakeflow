@@ -244,7 +244,51 @@ rule correct_missing_vcf_sect:
         " bcftools view -Oz - > {output.vcf}; "
         " bcftools index -t {output.vcf}) 2> {log} "
 
-        
+
+
+
+
+
+
+
+## The next rule uses GenotypeGVCFs to do joint genotyping using a genomics db 
+# and a list of smaller pieces of the chroms and scaffold groups (scatters) 
+# to get one vcf file per chrom or scaff group with all of the samples in it
+
+rule vcf_scattered_from_gdb:
+    input:
+        gdb="results/calling/genomics_db/{sg_or_chrom}",
+        scatters=expand("results/calling/scatter_interval_lists/{sgc}/{scat}.list", sgc=sg_or_chrom, scat=unique_scats),
+        ref="resources/genome/OmykA.fasta",
+        fai="resources/genome/OmykA.fasta.fai",
+        idx="resources/genome/OmykA.dict",
+    output:
+        vcf="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz",
+        idx="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz.tbi",
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/calling/vcf_scattered_from_gdb/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}.bmk"
+    params:
+        java_opts="-Xmx4g"
+        extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
+    resources:
+        mem_mb = 11750,
+        cpus = 2,
+        time = "1-00:00:00"
+    threads: 2
+    shell:
+        " gatk --java-options {param.java_opts} GenotypeGVCFs "
+        #"  {params.extra} "
+        "  -L {input.scatters} "
+        "  -R {input.ref}  "
+        "  -V gendb://{input.gdb} "
+        "  -O {output.vcf} 2> {log} "
+
+
+
 ## This rule takes the vcf files for each small chunk (scatter) of the chroms and scaffold groups
 # and concats them back together based on chrom or scaffold group. So we end up with one vcf file
 # per chrom or scaffold group that contains all the samples variant info. 
