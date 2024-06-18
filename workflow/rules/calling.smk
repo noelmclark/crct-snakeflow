@@ -131,8 +131,8 @@ rule import_genomics_db_by_chromo:
 
 rule import_genomics_db_by_scaffold_group:
     input:
-        gvcfs=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz", s=sample, scaff_group=unique_scaff_groups),
-        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz.tbi", s=sample, scaff_group=unique_scaff_groups),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz", s=sample_list, scaff_group=unique_scaff_groups),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz.tbi", s=sample_list, scaff_group=unique_scaff_groups),
     output:
         gdb=directory("results/calling/genomics_db/{scaff_group}"),
     conda:
