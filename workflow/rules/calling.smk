@@ -164,7 +164,7 @@ rule import_genomics_db_by_scaffold_group:
 rule vcf_scattered_from_gdb:
     input:
         gdb="results/calling/genomics_db/{sg_or_chrom}",
-        scatters="results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list",
+        scatters=expand("results/calling/scatter_interval_lists/{sgc}/{scat}.list", sgc=sg_or_chrom, scat=unique_scats),
         ref="resources/genome/OmykA.fasta",
         fai="resources/genome/OmykA.fasta.fai",
         idx="resources/genome/OmykA.dict",
