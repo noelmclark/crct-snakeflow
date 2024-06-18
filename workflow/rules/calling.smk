@@ -77,14 +77,14 @@ rule make_gvcf_sections:
 ## This makes a single GVCF file per individual sample. 
 rule concat_gvcf_sections:
     input: 
-        expand("results/calling/gvcf_sections/{sample}/{sgc}.g.vcf.gz", sample=sample, sgc=sg_or_chrom),
+        expand("results/calling/gvcf_sections/{sample}/{sgc}.g.vcf.gz", sample=sample, sgc=sg_or_chrom)
     output:
         gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
-        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi",
+        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi"
     log:
-        "results/logs/calling/concat_gvcf_sections/{sample}.txt",
+        "results/logs/calling/concat_gvcf_sections/{sample}.txt"
     benchmark:
-        "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk",
+        "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk"
     params:
         opts=" --naive "
     conda:
