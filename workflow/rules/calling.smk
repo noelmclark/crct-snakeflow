@@ -38,8 +38,8 @@ rule make_scatter_interval_lists:
 # the second rule concats these sections into one gvcf per sample
 rule make_gvcf_sections:
     input:
-        bam="results/mapping/mkdup/mkdup-{sample}.bam",
-        bai="results/mapping/mkdup/mkdup-{sample}.bai",
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        bai="results/angsd_bams/overlap_clipped/{sample}.bai",
         ref="resources/genome/OmykA.fasta",
         idx="resources/genome/OmykA.dict",
         fai="resources/genome/OmykA.fasta.fai",
@@ -91,3 +91,154 @@ rule concat_gvcf_sections:
     shell:
         " bcftools concat {params.opts} -O z {input} > {output.gvcf} 2>{log}; "
         " bcftools index -t {output.gvcf} "
+
+
+
+## The following 2 rules create the genomics db by chromo and scaff_groups 
+# which are used to joint call variants for all sample by section specified
+# From https://gatk.broadinstitute.org/hc/en-us/articles/360036883491-GenomicsDBImport 
+# GenomicsDBImport uses temporary disk storage during import. The amount of temporary disk storage required 
+# can exceed the space available, especially when specifying a large number of intervals. 
+# The command line argument `--tmp-dir` can be used to specify an alternate temporary storage location with sufficient space.
+
+rule import_genomics_db_by_chromo:
+    input:
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz", s=sample),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz.tbi", s=sample),
+    output:
+        gdb=directory("results/calling/genomics_db/{chromo}")
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/calling/import_genomics_db/{chromo}.log"
+    benchmark:
+        "results/benchmarks/calling/import_genomics_db/{chromo}.bmk"
+    params:
+        java_opts="-Xmx4g"
+    resources:
+        mem_mb = 9400,
+        cpus = 2,
+        time = "36:00:00"
+    threads: 2
+    shell:
+        " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
+        " gatk --java-options {params.java_opts} GenomicsDBImport "
+        "  $VS  "
+        #" $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
+        "  --genomicsdb-workspace-path {output.gdb} "
+        "  -L {wildcards.chromo} 2> {log} "
+
+
+rule import_genomics_db_by_scaffold_group:
+    input:
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz", s=sample),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz.tbi", s=sample),
+    output:
+        gdb=directory("results/calling/genomics_db/{scaff_group}"),
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/calling/import_genomics_db/{scaff_group}.log"
+    benchmark:
+        "results/benchmarks/calling/import_genomics_db/{scaff_group}.bmk"
+    params:
+        java_opts="-Xmx4g"
+    resources:
+        mem_mb = 9400,
+        cpus = 2,
+        time = "36:00:00"
+    threads: 2
+    shell:
+        " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
+        " gatk --java-options {params.java_opts} GenomicsDBImport "
+        "  $VS  "
+        "  --genomicsdb-workspace-path {output.gdb} "
+        "  -L {wildcards.scaff_group} 2> {log} "
+
+
+
+## The next rule uses GenotypeGVCFs to do joint genotyping using a genomics db 
+# and a list of smaller pieces of the chroms and scaffold groups (scatters) 
+# to get one vcf file per chrom or scaff group with all of the samples in it
+
+rule vcf_scattered_from_gdb:
+    input:
+        gdb="results/calling/genomics_db/{sg_or_chrom}",
+        scatters="results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list",
+        ref="resources/genome/OmykA.fasta",
+        fai="resources/genome/OmykA.fasta.fai",
+        idx="resources/genome/OmykA.dict",
+    output:
+        vcf="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz",
+        idx="results/calling/vcf_sections/{sg_or_chrom}/{scatter}.vcf.gz.tbi",
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/calling/vcf_scattered_from_gdb/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}.bmk"
+    params:
+        java_opts="-Xmx4g"
+        extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
+    resources:
+        mem_mb = 11750,
+        cpus = 2,
+        time = "1-00:00:00"
+    threads: 2
+    shell:
+        " gatk --java-options {param.java_opts} GenotypeGVCFs "
+        #"  {params.extra} "
+        "  -L {input.scatters} "
+        "  -R {input.ref}  "
+        "  -V gendb://{input.gdb} "
+        "  -O {output.vcf} 2> {log} "
+
+
+## This rule takes the vcf files for each small chunk (scatter) of the chroms and scaffold groups
+# and concats them back together based on chrom or scaffold group. So we end up with one vcf file
+# per chrom or scaffold group that contains all the samples variant info. 
+rule gather_scattered_vcfs:
+    input:
+        vcf=lambda wc: get_scattered_vcfs(wc, ""),
+        tbi=lambda wc: get_scattered_vcfs(wc, ".tbi"),
+    output:
+        vcf="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/gather_scattered_vcfs/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/gather_scattered_vcfs/{sg_or_chrom}.bmk",
+    params:
+        opts=" --naive "
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " (bcftools concat {params.opts} -Oz {input.vcf} > {output.vcf}; "
+        " bcftools index -t {output.vcf})  2>{log}; "
+
+
+
+## From Eric's workflow
+# this is a little rule we throw in here so that we can mark
+# an individual as missing data (./. or .|.) when it has a read
+# depth of 0, because GATK now marks those as 0/0,
+# see https://gatk.broadinstitute.org/hc/en-us/community/posts/4476803114779-GenotypeGVCFs-Output-no-call-as-reference-genotypes?page=1#community_comment_6006727219867
+# this also adds an INFO field NMISS, which gives the number of samples missing a call.
+# 8/26/22: This has been updated to also mark genotypes as missing if they have a PL of 0,0,0.
+rule correct_missing_vcf_sect:
+    input:
+        vcf="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz"
+    output:
+        vcf="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/correct_missing_vcf_sect/{sg_or_chrom}.log",
+    benchmark:
+        "results/benchmarks/calling/correct_missing_vcf_sect/{sg_or_chrom}.bmk"
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        "(bcftools +setGT {input.vcf} -- -t q -n . -i 'FMT/DP=0 | (FMT/PL[:0]=0 & FMT/PL[:1]=0 & FMT/PL[:2]=0)' | "
+        " bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
+        " bcftools view -Oz - > {output.vcf}; "
+        " bcftools index -t {output.vcf}) 2> {log} "
