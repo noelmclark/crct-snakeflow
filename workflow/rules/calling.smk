@@ -103,8 +103,8 @@ rule concat_gvcf_sections:
 
 rule import_genomics_db_by_chromo:
     input:
-        gvcfs=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz", s=sample),
-        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{chromo}}.g.vcf.gz.tbi", s=sample),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz", s=sample, chrom=unique_chromosomes),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz.tbi", s=sample, chrom=unique_chromosomes),
     output:
         gdb=directory("results/calling/genomics_db/{chromo}")
     conda:
@@ -131,8 +131,8 @@ rule import_genomics_db_by_chromo:
 
 rule import_genomics_db_by_scaffold_group:
     input:
-        gvcfs=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz", s=sample),
-        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{{scaff_group}}.g.vcf.gz.tbi", s=sample),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz", s=sample, scaff_group=unique_scaff_groups),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{scaff_group}.g.vcf.gz.tbi", s=sample, scaff_group=unique_scaff_groups),
     output:
         gdb=directory("results/calling/genomics_db/{scaff_group}"),
     conda:

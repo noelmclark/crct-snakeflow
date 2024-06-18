@@ -18,7 +18,7 @@ rule all:
         #expand("results/calling/interval_lists/{scaff_group}.list", scaff_group=unique_scaff_groups),
         #expand("results/calling/interval_lists/{chromo}.list", chromo=unique_chromosomes),
         #expand("results/calling/scatter_interval_lists/{sgc}/{scat}.list", sgc=sg_or_chrom, scat=unique_scats),
-        expand("results/calling/gvcf/{s}.g.vcf.gz", s=sample_list),
+        expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom),
 
         #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
         
