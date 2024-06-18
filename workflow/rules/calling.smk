@@ -73,7 +73,6 @@ rule make_gvcf_sections:
         " {params.conf_pars} "
         " -ERC GVCF > {log.stdout} 2> {log.stderr} "
 
-
 ## This makes a single GVCF file per individual sample. 
 rule concat_gvcf_sections:
     input: 
