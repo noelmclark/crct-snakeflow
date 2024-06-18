@@ -136,7 +136,7 @@ def get_all_bams_of_common_sample(wildcards):
 # given a chromosome or a scaff_group, get all the scattered vcf.gz of vcf.gz.tbi files
 def get_scattered_vcfs(wildcards, ext):
     scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
-    return expand("results/calling/vcf_sections/{sgc}/{scat}.vcf.gz{e}", sgc=sg_or_chrom, scat=scat_ids, e=ext)
+    return expand("results/calling/vcf_sections/{sgc}/{scat}.vcf.gz{e}", sgc=wilcards.sg_or_chrom, scat=scat_ids, e=ext)
 
 # here, we deal with indel realignment by species (or "igrp")
 def get_igrp_sample_names(wildcards):
