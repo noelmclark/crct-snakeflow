@@ -88,7 +88,7 @@ rule hard_filter_indels:
     conda:
         "../envs/gatk.yaml"
     params:
-        filters=config["params"]["gatk"]["VariantFiltration"]["indels"]
+        filters=config["params"]["gatk"]["VariantFiltration"]["indels"],
     shell:
         "gatk VariantFiltration "
         " -V {input.vcf} "
