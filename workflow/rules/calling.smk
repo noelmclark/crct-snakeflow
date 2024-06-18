@@ -73,6 +73,7 @@ rule make_gvcf_sections:
         " {params.conf_pars} "
         " -ERC GVCF > {log.stdout} 2> {log.stderr} "
 
+
 ## This makes a single GVCF file per individual sample. 
 rule concat_gvcf_sections:
     input: 
@@ -80,17 +81,18 @@ rule concat_gvcf_sections:
     output:
         gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
         idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi"
+    conda:
+        "../envs/bcftools.yaml"
     log:
         "results/logs/calling/concat_gvcf_sections/{sample}.txt"
     benchmark:
         "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk"
     params:
         opts=" --naive "
-    conda:
-        "../envs/bcftools.yaml"
     shell:
         " bcftools concat {params.opts} -O z {input} > {output.gvcf} 2>{log}; "
         " bcftools index -t {output.gvcf} "
+
 
 
 ## The following 2 rules create the genomics db by chromo and scaff_groups 
