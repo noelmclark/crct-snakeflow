@@ -103,8 +103,8 @@ rule concat_gvcf_sections:
 
 rule import_genomics_db_by_chromo:
     input:
-        gvcfs=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz", s=sample, chromo=unique_chromosomes),
-        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz.tbi", s=sample, chromo=unique_chromosomes),
+        gvcfs=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz", s=sample_list, chromo=unique_chromosomes),
+        gvcf_idx=expand("results/calling/gvcf_sections/{s}/{chromo}.g.vcf.gz.tbi", s=sample_list, chromo=unique_chromosomes),
     output:
         gdb=directory("results/calling/genomics_db/{chromo}")
     conda:
