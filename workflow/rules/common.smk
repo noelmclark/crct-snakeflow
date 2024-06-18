@@ -70,6 +70,10 @@ if config["scatter_intervals_file"] != "":
     # get a pandas frame of unique values of scaff_group and scat. This is for force-calling VCFs
     unique_scatters_table=scatter_groups[['id', 'scatter_idx']].drop_duplicates()
 
+
+scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
+
+
 ##### Wildcard constraints #####
 # copied from Eric
 # we have to deal with the cases where scaff groups or chroms might be empty
