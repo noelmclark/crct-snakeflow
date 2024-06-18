@@ -2,6 +2,9 @@
 # of running GATK to get the indels, and do:
 #    1. Clipping over overlaps
 #    2. Indel realignment
+# Apparently indel realignment is a bit cumbersome and not necessary in some cases.
+# An alternative presented by (https://academic.oup.com/bioinformatics/article/27/8/1157/227268) 
+# is just using base alignment quality (-baq) option in ANGSD. 
 
 
 ## 1. Simple clipping of overlaps in the mkduped BAMs (does not remove duplicates)
