@@ -74,24 +74,7 @@ rule make_gvcf_sections:
         " -ERC GVCF > {log.stdout} 2> {log.stderr} "
 
 
-## This makes a single GVCF file per individual sample. 
-rule concat_gvcf_sections:
-    input: 
-        expand("results/calling/gvcf_sections/{sample}/{sgc}.g.vcf.gz", sample=sample, sgc=sg_or_chrom)
-    output:
-        gvcf="results/calling/gvcf/{sample}.g.vcf.gz",
-        idx="results/calling/gvcf/{sample}.g.vcf.gz.tbi"
-    conda:
-        "../envs/bcftools.yaml"
-    log:
-        "results/logs/calling/concat_gvcf_sections/{sample}.txt"
-    benchmark:
-        "results/benchmarks/calling/concat_gvcf_sections/{sample}.bmk"
-    params:
-        opts=" --naive "
-    shell:
-        " bcftools concat {params.opts} -O z {input} > {output.gvcf} 2>{log}; "
-        " bcftools index -t {output.gvcf} "
+#
 
 
 
