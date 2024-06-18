@@ -199,8 +199,8 @@ rule vcf_scattered_from_gdb:
 # per chrom or scaffold group that contains all the samples variant info. 
 rule gather_scattered_vcfs:
     input:
-        vcf=get_scattered_vcfs(wc, ""),
-        tbi=get_scattered_vcfs(wc, ".tbi"),
+        vcf=get_scattered_vcfs({sg_or_chrom}, ""),
+        tbi=get_scattered_vcfs({sg_or_chrom}, ".tbi"),
     output:
         vcf="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz",
         tbi="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz.tbi"
