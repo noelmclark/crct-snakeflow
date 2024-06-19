@@ -136,7 +136,7 @@ def get_read_group(wildcards):
 # to the wildcard value) for use in the AddOrReplaceReadGroups rule 
 def replace_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r'RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}'.format(
+    return r"'RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}'".format(
         sample=sample_table_S.loc[(wildcards.sample), "sample"],
         platform=sample_table_S.loc[(wildcards.sample), "platform"],
         library=sample_table_S.loc[(wildcards.sample), "library"],
