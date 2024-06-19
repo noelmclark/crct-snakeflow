@@ -62,7 +62,7 @@ rule index_RG_sample:
     benchmark:
         "results/benchmarks/angsd_bams/RG-fixed/index-{sample}.bmk"
     shell:
-        " samtools index {input.bam} -o {output.bai} 2> {log.index} "
+        " samtools index {input.bam} -o {output.bai} 2> {log} "
 
 
 ## 2. Indel realignment
