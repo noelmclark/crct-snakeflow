@@ -41,7 +41,7 @@ rule fix_RG_sample:
     benchmark:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
     params:
-        RRG=replace_read_group
+        RRG=replace_read_group,
         extra="--CREATE_INDEX"
     shell:
         " gatk AddOrReplaceReadGroups "
