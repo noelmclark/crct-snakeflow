@@ -185,7 +185,7 @@ rule vcf_scattered_from_gdb:
         time = "23:59:59"
     threads: 2
     shell:
-        " gatk --java-options {param.java_opts} GenotypeGVCFs "
+        " gatk --java-options {params.java_opts} GenotypeGVCFs "
         "  {params.extra} "
         "  -L {input.scatters} "
         "  -R {input.ref}  "
