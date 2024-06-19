@@ -134,13 +134,14 @@ def get_read_group(wildcards):
 # define a function for getting the read group information 
 # from the sample table for each particular sample (according
 # to the wildcard value) for use in the AddOrReplaceReadGroups rule 
-def replace_read_group(wildcards):
-    """Denote sample name and platform in read group."""
-    return r"'RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}'".format(
-        sample=sample_table_S.loc[(wildcards.sample), "sample"],
-        platform=sample_table_S.loc[(wildcards.sample), "platform"],
-        library=sample_table_S.loc[(wildcards.sample), "library"],
-    )
+# except this is not working properly so I am going to put it in the shell of the rule
+#def replace_read_group(wildcards):
+#    """Denote sample name and platform in read group."""
+#    return r"'RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}'".format(
+#        sample=sample_table_S.loc[(wildcards.sample), "sample"],
+#        platform=sample_table_S.loc[(wildcards.sample), "platform"],
+#        library=sample_table_S.loc[(wildcards.sample), "library"],
+#    )
 
 #define function to get all the bam files for different units of same sample
 def get_all_bams_of_common_sample(wildcards):

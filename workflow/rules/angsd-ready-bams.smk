@@ -40,13 +40,14 @@ rule fix_RG_sample:
         "../envs/gatk.yaml"
     benchmark:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
-    params:
-        RRG=replace_read_group
+    #params:
+    #    RRG=replace_read_group
     shell:
         " gatk AddOrReplaceReadGroups "
         " I={input.bam} "
         " O={output.bam} "
-        " {params.RRG} "
+        " RGID={sample} RGSM={sample} RGPL=ILLUMINA RGLB={sample}.lib RGPU={sample}.lib "
+        #" {params.RRG} "
         " 2> {log} "
 
 rule index_RG_sample:
