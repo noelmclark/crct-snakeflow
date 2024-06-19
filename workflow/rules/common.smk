@@ -71,10 +71,6 @@ if config["scatter_intervals_file"] != "":
     unique_scatters_table=scatter_groups[['id', 'scatter_idx']].drop_duplicates()
 
 
-#scat_ids=scatter_groups.loc[(scatter_groups["id"] == sg_or_chrom), (scatter_groups["scatter_idx"] == unique_scats)].unique()
-#scatter_groups.loc["id", "scatter_idx"].unique()
-
-
 ##### Wildcard constraints #####
 # copied from Eric
 # we have to deal with the cases where scaff groups or chroms might be empty
