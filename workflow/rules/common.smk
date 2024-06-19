@@ -137,7 +137,7 @@ def get_read_group(wildcards):
 # except this is not working properly so I am going to put it in the shell of the rule
 def replace_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r"-ID '{sample}_{sample_id}_{library}_{flowcell}_{lane}' -SM '{sample}' -PL '{platform}' -LB '{library}' -PU '{flowcell}.{lane}.{library}'".format(
+    return r"-ID {sample}_{sample_id}_{library}_{flowcell}_{lane} -SM {sample} -PL {platform} -LB {library} -PU {flowcell}.{lane}.{library}".format(
         sample=replace_RG_table.loc[(wildcards.sample), "sample"],
         sample_id=replace_RG_table.loc[(wildcards.sample), "sample_id"],
         platform=replace_RG_table.loc[(wildcards.sample), "platform"],
