@@ -25,6 +25,44 @@ rule clip_overlaps:
         " bam clipOverlap --in {input} --out {output.bam} --stats 2> {log.clip} && "
         " samtools index {output.bam} -o {output.bai} 2> {log.index}"
 
+## This is a new rule I wrote because HaplotyeCaller was throwing an error in my make_gvcf_sections rule with the bam files
+# from samples that had multiple units. They had multiple @RG tags listed so HaplotyeCaller thought there were two samples 
+# in these BAM files which it doesn't like. The rule worked for the samples with only one unit.  
+rule fix_RG_sample:
+    input:
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
+    output:
+        bam="results/angsd_bams/RG-fixed/{sample}.bam",
+    log:
+        "results/logs/angsd_bams/RG-fixed/{sample}.log"
+    conda:
+        "../envs/gatk.yaml"
+    benchmark:
+        "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
+    params:
+        RRG=replace_read_group
+    shell:
+        " gatk AddOrReplaceReadGroups "
+        " I={input.bam} "
+        " O={output.bam} "
+        " {params.RRG} "
+        " 2> {log} "
+
+rule index_RG_sample:
+    input:
+        bam="results/angsd_bams/RG-fixed/{sample}.bam"
+    output:
+        bai="results/angsd_bams/RG-fixed/{sample}.bai"
+    log:
+        "results/logs/angsd_bams/index-RG-fixed/{sample}.log"
+    conda:
+        "../envs/bwa2sam.yaml"
+    benchmark:
+        "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
+    shell:
+        " samtools index {input.bam} -o {output.bai} 2> {log.index} "
+
 
 ## 2. Indel realignment
 # The next chunk of rules is for doing indel realignment.

@@ -117,13 +117,24 @@ def get_fastqs(wildcards):
 # to the wildcard value)
 def get_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r"-R '@RG\tID:{sample}_{sample_id}_{library}_{flowcell}_{lane}\tSM:{sample_id}\tPL:{platform}\tLB:{library}\tPU:{flowcell}.{lane}.{library}'".format(
+    return r"-R '@RG\tID:{sample}_{sample_id}_{library}_{flowcell}_{lane}\tSM:{sample}\tPL:{platform}\tLB:{library}\tPU:{flowcell}.{lane}.{library}'".format(
         sample=sample_table.loc[(wildcards.sample, wildcards.unit), "sample"],
         sample_id=sample_table.loc[(wildcards.sample, wildcards.unit), "sample_id"],
         platform=sample_table.loc[(wildcards.sample, wildcards.unit), "platform"],
         library=sample_table.loc[(wildcards.sample, wildcards.unit), "library"],
         flowcell=sample_table.loc[(wildcards.sample, wildcards.unit), "flowcell"],
         lane=sample_table.loc[(wildcards.sample, wildcards.unit), "lane"],
+    )
+
+# define a function for getting the read group information 
+# from the sample table for each particular sample (according
+# to the wildcard value) for use in the AddOrReplaceReadGroups rule 
+def replace_read_group(wildcards):
+    """Denote sample name and platform in read group."""
+    return r"RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}".format(
+        sample=sample_table.loc[(wildcards.sample), "sample"],
+        platform=sample_table.loc[(wildcards.sample), "platform"],
+        library=sample_table.loc[(wildcards.sample), "library"],
     )
 
 #define function to get all the bam files for different units of same sample
