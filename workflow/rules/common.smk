@@ -33,7 +33,7 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
 )
 
 # sample table for replacing read group info indexed only by sample
-sample_table_S=pd.read_table(config["sample_info"], dtype="str").set_index(
+replace_RG_table=pd.read_table(config["replace_RG"], dtype="str").set_index(
     ["sample"], drop=False
 )
 
@@ -138,12 +138,12 @@ def get_read_group(wildcards):
 def replace_read_group(wildcards):
     """Denote sample name and platform in read group."""
     return r"-ID '{sample}_{sample_id}_{library}_{flowcell}_{lane}' -SM '{sample}' -PL '{platform}' -LB '{library}' -PU '{flowcell}.{lane}.{library}'".format(
-        sample=sample_table_S.loc[(wildcards.sample), "sample"],
-        sample_id=sample_table_S.loc[(wildcards.sample), "sample_id"],
-        platform=sample_table_S.loc[(wildcards.sample), "platform"],
-        library=sample_table_S.loc[(wildcards.sample), "library"],
-        flowcell=sample_table_S.loc[(wildcards.sample), "flowcell"],
-        lane=sample_table_S.loc[(wildcards.sample), "lane"],
+        sample=replace_RG_table.loc[(wildcards.sample), "sample"],
+        sample_id=replace_RG_table.loc[(wildcards.sample), "sample_id"],
+        platform=replace_RG_table.loc[(wildcards.sample), "platform"],
+        library=replace_RG_table.loc[(wildcards.sample), "library"],
+        flowcell=replace_RG_table.loc[(wildcards.sample), "flowcell"],
+        lane=replace_RG_table.loc[(wildcards.sample), "lane"],
     )
 
 #define function to get all the bam files for different units of same sample

@@ -6,6 +6,7 @@ sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
 scatter_intervals_file: "results/scatter_config/scatters_1200000.tsv"
+replace_RG: "config/replace-RG.tsv"
 
 #this is only needed when doing species specific indel realignment
 #indel_grps: "config/igrps.tsv" 
