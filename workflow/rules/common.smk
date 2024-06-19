@@ -71,10 +71,6 @@ if config["scatter_intervals_file"] != "":
     unique_scatters_table=scatter_groups[['id', 'scatter_idx']].drop_duplicates()
 
 
-#scat_ids=scatter_groups.loc[(scatter_groups["id"] == sg_or_chrom), (scatter_groups["scatter_idx"] == unique_scats)].unique()
-#scatter_groups.loc["id", "scatter_idx"].unique()
-
-
 ##### Wildcard constraints #####
 # copied from Eric
 # we have to deal with the cases where scaff groups or chroms might be empty
@@ -139,14 +135,6 @@ def get_all_bams_of_common_sample(wildcards):
     ))
 
 # given a chromosome or a scaff_group, get all the scattered vcf.gz of vcf.gz.tbi files
-#def get_scattered_vcfs(wildcards, ext):
-#    scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), (scatter_groups["scatter_idx"] == wildcards.unique_scats)].unique()
-#    return(expand("results/calling/vcf_sections/{sgc}/{scat}.vcf.gz{e}", 
-#        sgc=sg_or_chrom, 
-#        scat=scat_ids, 
-#        e=ext
-#    ))
-
 def get_scattered_vcfs(wildcards, ext):
     scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
     return expand("results/calling/vcf_sections/{{sg_or_chrom}}/{scat}.vcf.gz{e}", scat=scat_ids, e=ext)
