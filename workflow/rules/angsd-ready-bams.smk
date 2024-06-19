@@ -46,7 +46,7 @@ rule fix_RG_sample:
         " gatk AddOrReplaceReadGroups "
         " I={input.bam} "
         " O={output.bam} "
-        " RGID={sample} RGSM={sample} RGPL=ILLUMINA RGLB={sample}.lib RGPU={sample}.lib "
+        " RGID={wildcards.sample} RGSM={wildcards.sample} RGPL=ILLUMINA RGLB={wildcards.sample}.lib RGPU={wildcards.sample}.lib "
         #" {params.RRG} "
         " 2> {log} "
 
