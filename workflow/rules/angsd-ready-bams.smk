@@ -34,7 +34,7 @@ rule fix_RG_sample:
         bai="results/mapping/gatk-rmdup/{sample}.bai"
     output:
         bam="results/angsd_bams/RG-fixed/{sample}.bam",
-        bai=results/angsd_bams/RG-fixed/{sample}.bai"
+        bai="results/angsd_bams/RG-fixed/{sample}.bai"
     log:
         "results/logs/angsd_bams/RG-fixed/{sample}.log"
     conda:
