@@ -186,7 +186,7 @@ rule vcf_scattered_from_gdb:
     threads: 2
     shell:
         " gatk --java-options {param.java_opts} GenotypeGVCFs "
-        #"  {params.extra} "
+        "  {params.extra} "
         "  -L {input.scatters} "
         "  -R {input.ref}  "
         "  -V gendb://{input.gdb} "
