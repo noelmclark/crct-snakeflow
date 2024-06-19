@@ -182,7 +182,7 @@ rule vcf_scattered_from_gdb:
     resources:
         mem_mb = 11750,
         cpus = 2,
-        time = "1-00:00:00"
+        time = "23:59:59"
     threads: 2
     shell:
         " gatk --java-options {param.java_opts} GenotypeGVCFs "
