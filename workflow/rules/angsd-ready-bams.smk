@@ -30,10 +30,11 @@ rule clip_overlaps:
 # in these BAM files which it doesn't like. The rule worked for the samples with only one unit.  
 rule fix_RG_sample:
     input:
-        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
-        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
+        bam="results/mapping/gatk-rmdup/{sample}.bam",
+        bai="results/mapping/gatk-rmdup/{sample}.bai"
     output:
         bam="results/angsd_bams/RG-fixed/{sample}.bam",
+        bai=results/angsd_bams/RG-fixed/{sample}.bai"
     log:
         "results/logs/angsd_bams/RG-fixed/{sample}.log"
     conda:
