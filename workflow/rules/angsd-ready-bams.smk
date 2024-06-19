@@ -40,32 +40,35 @@ rule fix_RG_sample:
         "../envs/gatk.yaml"
     benchmark:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
-    #params:
-    #    RRG=replace_read_group
+    params:
+        RRG=replace_read_group
+        extra="--CREATE_INDEX"
     shell:
         " gatk AddOrReplaceReadGroups "
+        " {params.extra} "
         " -I {input.bam} "
         " -O {output.bam} "
-        " -ID {wildcards.sample} "
-        " -SM {wildcards.sample} "
-        " -PL=ILLUMINA "
-        " -LB={wildcards.sample}.lib "
-        " -PU={wildcards.sample}.lib "
+        " {params.RRG} "
+        #" -ID {wildcards.sample} "
+        #" -SM {wildcards.sample} "
+        #" -PL=ILLUMINA "
+        #" -LB={wildcards.sample}.lib "
+        #" -PU={wildcards.sample}.lib "
         " 2> {log} "
 
-rule index_RG_sample:
-    input:
-        bam="results/angsd_bams/RG-fixed/{sample}.bam"
-    output:
-        bai="results/angsd_bams/RG-fixed/{sample}.bai"
-    log:
-        "results/logs/angsd_bams/RG-fixed/index-{sample}.log"
-    conda:
-        "../envs/bwa2sam.yaml"
-    benchmark:
-        "results/benchmarks/angsd_bams/RG-fixed/index-{sample}.bmk"
-    shell:
-        " samtools index {input.bam} -o {output.bai} 2> {log} "
+#rule index_RG_sample:
+#    input:
+#        bam="results/angsd_bams/RG-fixed/{sample}.bam"
+#    output:
+#        bai="results/angsd_bams/RG-fixed/{sample}.bai"
+#    log:
+#        "results/logs/angsd_bams/RG-fixed/index-{sample}.log"
+#    conda:
+#        "../envs/bwa2sam.yaml"
+#    benchmark:
+#        "results/benchmarks/angsd_bams/RG-fixed/index-{sample}.bmk"
+#    shell:
+#        " samtools index {input.bam} -o {output.bai} 2> {log} "
 
 
 ## 2. Indel realignment
