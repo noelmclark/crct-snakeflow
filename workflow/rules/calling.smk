@@ -177,7 +177,7 @@ rule vcf_scattered_from_gdb:
     benchmark:
         "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}.bmk"
     params:
-        java_opts="-Xmx4g"
+        java_opts="-Xmx4g",
         extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
     resources:
         mem_mb = 11750,
