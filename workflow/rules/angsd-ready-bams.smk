@@ -44,10 +44,13 @@ rule fix_RG_sample:
     #    RRG=replace_read_group
     shell:
         " gatk AddOrReplaceReadGroups "
-        " I={input.bam} "
-        " O={output.bam} "
-        " RGID={wildcards.sample} RGSM={wildcards.sample} RGPL=ILLUMINA RGLB={wildcards.sample}.lib RGPU={wildcards.sample}.lib "
-        #" {params.RRG} "
+        " -I {input.bam} "
+        " -O {output.bam} "
+        " -ID {wildcards.sample} "
+        " -SM {wildcards.sample} "
+        " -PL=ILLUMINA "
+        " -LB={wildcards.sample}.lib "
+        " -PU={wildcards.sample}.lib "
         " 2> {log} "
 
 rule index_RG_sample:
