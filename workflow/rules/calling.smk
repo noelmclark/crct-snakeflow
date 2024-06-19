@@ -191,3 +191,29 @@ rule vcf_scattered_from_gdb:
         "  -R {input.ref}  "
         "  -V gendb://{input.gdb} "
         "  -O {output.vcf} 2> {log} "
+
+
+## This rule takes the vcf files for each small chunk (scatter) of the chroms and scaffold groups
+# and concats them back together based on chrom or scaffold group. So we end up with one vcf file
+# per chrom or scaffold group that contains all the samples variant info. 
+rule gather_scattered_vcfs:
+    input:
+        vcf=lambda wc: get_scattered_vcfs(wc, ""),
+        tbi=lambda wc: get_scattered_vcfs(wc, ".tbi"),
+    output:
+        vcf="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/gather_scattered_vcfs/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/gather_scattered_vcfs/{sg_or_chrom}.bmk",
+    params:
+        opts=" --naive "
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " (bcftools concat {params.opts} -Oz {input.vcf} > {output.vcf}; "
+        " bcftools index -t {output.vcf})  2>{log}; "
+
+
+
