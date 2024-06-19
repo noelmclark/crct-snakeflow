@@ -32,6 +32,11 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
     ["sample", "unit"], drop=False
 )
 
+# sample table for replacing read group info indexed only by sample
+sample_table_S=pd.read_table(config["sample_info"], dtype="str").set_index(
+    ["sample"], drop=False
+)
+
 # rather than have a separate samples.tsv, we can just get a list of
 # the samples from sample_table
 sample_list = sample_table["sample"].unique().tolist()
@@ -131,10 +136,10 @@ def get_read_group(wildcards):
 # to the wildcard value) for use in the AddOrReplaceReadGroups rule 
 def replace_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r"RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}".format(
-        sample=sample_table.loc[(wildcards.sample), "sample"],
-        platform=sample_table.loc[(wildcards.sample), "platform"],
-        library=sample_table.loc[(wildcards.sample), "library"],
+    return r'RGID={sample} RGSM={sample} RGPL={platform} RGLB={library} RGPU={sample}.{library}'.format(
+        sample=sample_table_S.loc[(wildcards.sample), "sample"],
+        platform=sample_table_S.loc[(wildcards.sample), "platform"],
+        library=sample_table_S.loc[(wildcards.sample), "library"],
     )
 
 #define function to get all the bam files for different units of same sample
