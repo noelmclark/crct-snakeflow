@@ -55,11 +55,11 @@ rule index_RG_sample:
     output:
         bai="results/angsd_bams/RG-fixed/{sample}.bai"
     log:
-        "results/logs/angsd_bams/index-RG-fixed/{sample}.log"
+        "results/logs/angsd_bams/RG-fixed/index-{sample}.log"
     conda:
         "../envs/bwa2sam.yaml"
     benchmark:
-        "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
+        "results/benchmarks/angsd_bams/RG-fixed/index-{sample}.bmk"
     shell:
         " samtools index {input.bam} -o {output.bai} 2> {log.index} "
 
