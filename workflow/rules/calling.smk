@@ -173,9 +173,9 @@ rule vcf_scattered_from_gdb:
     conda:
         "../envs/gatk.yaml"
     log:
-        "results/logs/calling/vcf_scattered_from_gdb/{sg_or_chrom}.txt"
+        "results/logs/calling/vcf_scattered_from_gdb/{sg_or_chrom}/{scatter}.txt"
     benchmark:
-        "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}.bmk"
+        "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}/{scatter}.bmk"
     params:
         java_opts="-Xmx4g",
         extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
