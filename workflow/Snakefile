@@ -11,6 +11,7 @@ localrules: all, genome_faidx, genome_dict, make_scaff_group_interval_lists, mak
 
 rule all:
     input:
+        expand("results/angsd_bams/RG-fixed/{s}---{unit}.bam", s=sample_list, unit=unit_list),
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
@@ -18,7 +19,7 @@ rule all:
        
         #troubleshooting RG errors
         #expand("results/angsd_bams/RG-fixed/{s}.bam", s=sample_list), #fixing RG headers
-        expand("results/angsd_bams/RG-fixed/{s}---{unit}.bam", s=sample_list, unit=unit_list)
+        
 
         #calling intermediate outputs 
         #expand("results/calling/interval_lists/{scaff_group}.list", scaff_group=unique_scaff_groups),
