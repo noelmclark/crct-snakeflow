@@ -38,8 +38,8 @@ rule make_scatter_interval_lists:
 # the second rule concats these sections into one gvcf per sample
 rule make_gvcf_sections:
     input:
-        bam="results/angsd_bams/RG-fixed/{sample}.bam",
-        bai="results/angsd_bams/RG-fixed/{sample}.bai",
+        bam="results/mapping/gatk-rmdup/{sample}.bam",
+        bai="results/mapping/gatk-rmdup/{sample}.bai",
         ref="resources/genome/OmykA.fasta",
         idx="resources/genome/OmykA.dict",
         fai="resources/genome/OmykA.fasta.fai",

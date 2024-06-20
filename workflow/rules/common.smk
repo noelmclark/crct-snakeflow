@@ -32,7 +32,8 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
     ["sample", "unit"], drop=False
 )
 
-# sample table for replacing read group info indexed only by sample
+# sample table for replacing read group info indexed by sample and unit 
+# (this is basically the same as the table above but I wanted two with different names to keep track)
 replace_RG_table=pd.read_table(config["sample_info"], dtype="str").set_index(
     ["sample", "unit"], drop=False
 )
@@ -154,7 +155,8 @@ def get_all_bams_of_common_sample(wildcards):
         unit = s["unit"].tolist()
     ))
 
-#define function to ask for all the RG fixed bams in rule all
+#define function to ask for all the RG fixed bams in rule all for an intermediate step
+#if the RGs are set properly from the beginning, you don't need this
 def get_RG_fixed_bams_of_common_sample(wildcards):
     s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
     return(expand("results/angsd_bams/RG-fixed/{sample}---{unit}.sorted.bam", zip,

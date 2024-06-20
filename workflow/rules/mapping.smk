@@ -60,9 +60,11 @@ rule map_reads:
 
 
 ## right now the params in for markduplicates in the config have TAGGING_POLICY All, so duplicates are tagged but not removed
+# if you want to remove duplicates, use the rule below this one
+# also, if you assigned your read groups properly, input should be get_all_bams_of_common_sample instead...
 rule mark_duplicates:
     input:
-        get_all_bams_of_common_sample
+        get_RG_fixed_bams_of_common_sample
     output:
         bam="results/mapping/mkdup/mkdup-{sample}.bam",
         bai="results/mapping/mkdup/mkdup-{sample}.bai",
@@ -87,9 +89,11 @@ rule mark_duplicates:
         "  -O {output.bam} "
         "  -M {output.metrics} > {log} 2>&1 "
 
+## this rule merges bams of common sample and removes the duplicates (--REMOVE_DUPLICATES true) 
+# also, if you assigned your read groups properly, input should be get_all_bams_of_common_sample instead...
 rule GATK_remove_duplicates:
     input:
-        get_all_bams_of_common_sample
+        get_RG_fixed_bams_of_common_sample
     output:
         bam="results/mapping/gatk-rmdup/{sample}.bam",
         bai="results/mapping/gatk-rmdup/{sample}.bai",
@@ -97,9 +101,9 @@ rule GATK_remove_duplicates:
     conda:
         "../envs/gatk.yaml"
     log:
-        "results/logs/mapping/mark_duplicates/{sample}.log",
+        "results/logs/mapping/GATK_remove_duplicates/{sample}.log",
     benchmark:
-        "results/benchmarks/mapping/mark_duplicates/{sample}.bmk"
+        "results/benchmarks/mapping/GATK_remove_duplicates/{sample}.bmk"
     params:
         "--REMOVE_DUPLICATES true --CREATE_INDEX --TMP_DIR results/snake-tmp "
     resources:
