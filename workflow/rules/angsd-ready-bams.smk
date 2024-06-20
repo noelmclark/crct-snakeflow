@@ -50,27 +50,25 @@ rule validate_bam:
 # in these BAM files which it doesn't like. The rule worked for the samples with only one unit.  
 rule fix_RG_sample:
     input:
-        bam="results/mapping/gatk-rmdup/{sample}.bam",
-        bai="results/mapping/gatk-rmdup/{sample}.bai"
+        bam="results/mapping/mapped/{sample}---{unit}.sorted.bam",
     output:
-        bam="results/angsd_bams/RG-fixed/{sample}.bam",
-        bai="results/angsd_bams/RG-fixed/{sample}.bai"
+        bam="results/angsd_bams/RG-fixed/{sample}---{unit}.bam",
     log:
-        "results/logs/angsd_bams/RG-fixed/{sample}.log"
+        "results/logs/angsd_bams/RG-fixed/{sample}---{unit}.log"
     conda:
         "../envs/gatk.yaml"
     benchmark:
-        "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
+        "results/benchmarks/angsd_bams/RG-fixed/{sample}---{unit}.bmk"
     params:
-        RRG=replace_read_group,
-        extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
-    resources:
-        cpus = 1,
-        mem_mb=112200,
-    threads: 30,
+        RRG=get_read_group,
+        #extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
+    #resources:
+    #    cpus = 1,
+    #    mem_mb=112200,
+    #threads: 30,
     shell:
         " gatk AddOrReplaceReadGroups "
-        " {params.extra} "
+        #" {params.extra} "
         " -I {input.bam} "
         " -O {output.bam} "
         " {params.RRG} "
