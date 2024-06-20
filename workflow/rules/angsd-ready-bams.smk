@@ -43,10 +43,14 @@ rule fix_RG_sample:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
     params:
         RRG=replace_read_group,
-        #extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
+        extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
+    resources:
+        cpus = 1,
+        mem_mb=112200,
+    threads: 30,
     shell:
         " gatk AddOrReplaceReadGroups "
-        #" {params.extra} "
+        " {params.extra} "
         " -I {input.bam} "
         " -O {output.bam} "
         " {params.RRG} "
