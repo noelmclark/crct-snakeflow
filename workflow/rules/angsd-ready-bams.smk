@@ -25,6 +25,26 @@ rule clip_overlaps:
         " bam clipOverlap --in {input} --out {output.bam} --stats 2> {log.clip} && "
         " samtools index {output.bam} -o {output.bai} 2> {log.index}"
 
+
+## Rule to validate BAM files to see if that is the reason why some of them are failing out of the RG fix rule...
+rule validate_bam:
+    input:
+        bam="results/mapping/gatk-rmdup/{sample}.bam",
+    output:
+        "results/angsd_bams/rmdup-validated/{sample}.bam",
+    log:
+        "results/logs/angsd_bams/validated/rmdup-{sample}.log"
+    conda:
+        "../envs/gatk.yaml"
+    benchmark:
+        "results/benchmarks/angsd_bams/validated/rmdup-{sample}.bmk"
+    shell:
+        " gatk ValidateSamFile "
+        " -I {input.bam} "
+        " --MODE SUMMARY "
+        " > {output} 2> {log} " 
+
+
 ## This is a new rule I wrote because HaplotyeCaller was throwing an error in my make_gvcf_sections rule with the bam files
 # from samples that had multiple units. They had multiple @RG tags listed so HaplotyeCaller thought there were two samples 
 # in these BAM files which it doesn't like. The rule worked for the samples with only one unit.  
