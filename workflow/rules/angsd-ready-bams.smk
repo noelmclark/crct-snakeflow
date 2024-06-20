@@ -69,8 +69,8 @@ rule fix_RG_sample:
     shell:
         " gatk AddOrReplaceReadGroups "
         #" {params.extra} "
-        " -I {input.bam} "
-        " -O {output.bam} "
+        " -I {input} "
+        " -O {output} "
         " {params.RRG} "
         " 2> {log} "
 
