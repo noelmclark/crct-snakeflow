@@ -50,15 +50,15 @@ rule validate_bam:
 # in these BAM files which it doesn't like. The rule worked for the samples with only one unit.  
 rule fix_RG_sample:
     input:
-        bam="results/mapping/mapped/{sample}---{unit}.sorted.bam",
+        bam="results/mapping/gatk-rmdup/{sample}.bam",
     output:
-        bam="results/angsd_bams/RG-fixed/{sample}---{unit}.bam",
+        bam="results/angsd_bams/RG-fixed/{sample}.bam",
     log:
-        "results/logs/angsd_bams/RG-fixed/{sample}---{unit}.log"
+        "results/logs/angsd_bams/RG-fixed/{sample}.log"
     conda:
         "../envs/gatk.yaml"
     benchmark:
-        "results/benchmarks/angsd_bams/RG-fixed/{sample}---{unit}.bmk"
+        "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
     params:
         RRG=get_read_group,
         #extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
