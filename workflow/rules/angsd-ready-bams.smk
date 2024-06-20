@@ -74,6 +74,16 @@ rule fix_RG_sample:
         " {params.RRG} "
         " 2> {log} "
 
+rule echo_RG_fixed:
+    input:
+        get_RG_fixed_bams_of_common_sample
+    output:
+        "results/angsd_bams/echo-RG-fixed/{sample}.txt",
+    log:
+        "results/logs/angsd_bams/echo-RG-fixed/{sample}.log"
+    shell:
+        " echo {input} > {output} 2> {log} "
+
 #rule index_RG_sample:
 #    input:
 #        bam="results/angsd_bams/RG-fixed/{sample}.bam"
