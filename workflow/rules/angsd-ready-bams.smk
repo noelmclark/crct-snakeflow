@@ -43,18 +43,13 @@ rule fix_RG_sample:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}.bmk"
     params:
         RRG=replace_read_group,
-        extra="--CREATE_INDEX"
+        extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
     shell:
         " gatk AddOrReplaceReadGroups "
         " {params.extra} "
         " -I {input.bam} "
         " -O {output.bam} "
         " {params.RRG} "
-        #" -ID {wildcards.sample} "
-        #" -SM {wildcards.sample} "
-        #" -PL=ILLUMINA "
-        #" -LB={wildcards.sample}.lib "
-        #" -PU={wildcards.sample}.lib "
         " 2> {log} "
 
 #rule index_RG_sample:
