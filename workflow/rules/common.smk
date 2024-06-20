@@ -33,8 +33,8 @@ sample_table=pd.read_table(config["sample_info"], dtype="str").set_index(
 )
 
 # sample table for replacing read group info indexed only by sample
-replace_RG_table=pd.read_table(config["replace_RG"], dtype="str").set_index(
-    ["sample"], drop=False
+replace_RG_table=pd.read_table(config["sample_info"], dtype="str").set_index(
+    ["sample", "unit"], drop=False
 )
 
 # rather than have a separate samples.tsv, we can just get a list of
