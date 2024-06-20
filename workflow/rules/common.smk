@@ -154,6 +154,14 @@ def get_all_bams_of_common_sample(wildcards):
         unit = s["unit"].tolist()
     ))
 
+#define function to ask for all the RG fixed bams in rule all
+def get_RG_fixed_bams_of_common_sample(wildcards):
+    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
+    return(expand("results/angsd_bams/RG-fixed/{sample}---{unit}.sorted.bam", zip,
+        sample = s["sample"].tolist(),
+        unit = s["unit"].tolist()
+    ))
+
 # given a chromosome or a scaff_group, get all the scattered vcf.gz of vcf.gz.tbi files
 def get_scattered_vcfs(wildcards, ext):
     scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
