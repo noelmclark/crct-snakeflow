@@ -40,6 +40,7 @@ replace_RG_table=pd.read_table(config["replace_RG"], dtype="str").set_index(
 # rather than have a separate samples.tsv, we can just get a list of
 # the samples from sample_table
 sample_list = sample_table["sample"].unique().tolist()
+unit = sample_table["unit"].tolist()
 
 # this is handy for getting sample info from the bcftools summaries
 unique_sample_ids = list(sample_table["sample_id"].unique())
