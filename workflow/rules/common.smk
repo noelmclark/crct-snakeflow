@@ -138,12 +138,12 @@ def get_read_group(wildcards):
 def replace_read_group(wildcards):
     """Denote sample name and platform in read group."""
     return r"-ID {sample}_{sample_id}_{library}_{flowcell}_{lane} -SM {sample} -PL {platform} -LB {library} -PU {flowcell}.{lane}.{library}".format(
-        sample=replace_RG_table.loc[(wildcards.sample), "sample"],
-        sample_id=replace_RG_table.loc[(wildcards.sample), "sample_id"],
-        platform=replace_RG_table.loc[(wildcards.sample), "platform"],
-        library=replace_RG_table.loc[(wildcards.sample), "library"],
-        flowcell=replace_RG_table.loc[(wildcards.sample), "flowcell"],
-        lane=replace_RG_table.loc[(wildcards.sample), "lane"],
+        sample=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "sample"],
+        sample_id=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "sample_id"],
+        platform=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "platform"],
+        library=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "library"],
+        flowcell=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "flowcell"],
+        lane=replace_RG_table.loc[(wildcards.sample, wildcards.unit), "lane"],
     )
 
 #define function to get all the bam files for different units of same sample

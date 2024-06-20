@@ -60,7 +60,7 @@ rule fix_RG_sample:
     benchmark:
         "results/benchmarks/angsd_bams/RG-fixed/{sample}---{unit}.bmk"
     params:
-        RRG=get_read_group,
+        RRG=replace_read_group,
         #extra="--CREATE_INDEX --TMP_DIR results/snake-tmp"
     #resources:
     #    cpus = 1,
