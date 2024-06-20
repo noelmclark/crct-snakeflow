@@ -18,7 +18,7 @@ rule all:
        
         #troubleshooting RG errors
         #expand("results/angsd_bams/RG-fixed/{s}.bam", s=sample_list), #fixing RG headers
-        expand("results/angsd_bams/RG-fixed/{s}---{u}.bam", s=sample_list, u=unit),
+        expand("results/angsd_bams/RG-fixed/{s}---{u}.bam", s=sample_list, u=sample_table["unit"]),
 
         #calling intermediate outputs 
         #expand("results/calling/interval_lists/{scaff_group}.list", scaff_group=unique_scaff_groups),
