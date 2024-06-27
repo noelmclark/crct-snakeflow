@@ -12,9 +12,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
-        expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
-        #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
-        #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
+        #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
+        expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
+        expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
        
         #troubleshooting RG errors
         #expand("results/angsd_bams/echo-RG-fixed/{s}.txt", s=sample_list),
