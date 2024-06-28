@@ -128,7 +128,7 @@ rule import_genomics_db_by_chromo:
         " $VS "
         " {params.my_opts} {params.extras}"
         " --genomicsdb-workspace-path {output.gdb} "
-        " > {log} 2>&1 "
+        " 2> {log} "
 
 
 rule import_genomics_db_by_scaffold_group:
@@ -158,7 +158,7 @@ rule import_genomics_db_by_scaffold_group:
         " $VS "
         " {params.my_opts} {params.extras}"
         " --genomicsdb-workspace-path {output.gdb} "
-        " > {log} 2>&1  "
+        " 2> {log} "
 
 
 ## The next rule uses GenotypeGVCFs to do joint genotyping using a genomics db 
