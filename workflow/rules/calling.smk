@@ -122,9 +122,7 @@ rule import_genomics_db_by_chromo:
         time = "36:00:00"
     threads: 2
     shell:
-        #" VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        #" $VS "
         " $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
         " {params.my_opts} {output.gdb} "
         " > {log} 2>&1 "
@@ -151,9 +149,7 @@ rule import_genomics_db_by_scaffold_group:
         time = "36:00:00"
     threads: 2
     shell:
-        #" VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        #" $VS  "
         " $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
         " {params.my_opts} {output.gdb} "
         " > {log} 2>&1  "
