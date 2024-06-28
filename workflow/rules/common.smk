@@ -187,10 +187,10 @@ def get_igrp_sample_names(wildcards):
 
 # for setting options for genomics DB import
 def chromo_import_gdb_opts(wildcards):
-        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals {chr} --genomicsdb-workspace-path ".format(chr = wildcards.chromo))
+        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals {chr} ".format(chr = wildcards.chromo))
 
 def scaff_group_import_gdb_opts(wildcards):
-        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals results/calling/interval_lists/{sg}.list --merge-contigs-into-num-partitions 1  --genomicsdb-workspace-path ".format(sg = wildcards.scaff_group))
+        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals results/calling/interval_lists/{sg}.list --merge-contigs-into-num-partitions 1 ".format(sg = wildcards.scaff_group))
 
 
 ### Deal with the indel_grps if present (i.e. groupings of the samples

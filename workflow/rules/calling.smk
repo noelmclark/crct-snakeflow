@@ -116,15 +116,18 @@ rule import_genomics_db_by_chromo:
     params:
         java_opts="-Xmx4g -Xms4g",
         my_opts=chromo_import_gdb_opts,
+        extras="--tmp-dir=results/snake-tmp",
     resources:
         mem_mb = 9400,
         cpus = 2,
         time = "36:00:00"
     threads: 2
     shell:
+        " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        " $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
-        " {params.my_opts} {output.gdb} "
+        " $VS "
+        " {params.my_opts} {params.extras}"
+        " --genomicsdb-workspace-path {output.gdb} "
         " > {log} 2>&1 "
 
 
@@ -143,15 +146,18 @@ rule import_genomics_db_by_scaffold_group:
     params:
         java_opts="-Xmx4g -Xms4g",
         my_opts=scaff_group_import_gdb_opts,
+        extras="--tmp-dir=results/snake-tmp",
     resources:
         mem_mb = 9400,
         cpus = 2,
         time = "36:00:00"
     threads: 2
     shell:
+        " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        " $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
-        " {params.my_opts} {output.gdb} "
+        " $VS "
+        " {params.my_opts} {params.extras}"
+        " --genomicsdb-workspace-path {output.gdb} "
         " > {log} 2>&1  "
 
 
