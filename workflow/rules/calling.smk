@@ -114,7 +114,7 @@ rule import_genomics_db_by_chromo:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{chromo}.bmk"
     params:
-        java_opts="-Xmx4g",
+        java_opts="-Xmx4g -Xms4g",
         my_opts=chromo_import_gdb_opts,
     resources:
         mem_mb = 9400,
@@ -141,7 +141,7 @@ rule import_genomics_db_by_scaffold_group:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{scaff_group}.bmk"
     params:
-        java_opts="-Xmx4g",
+        java_opts="-Xmx4g -Xms4g",
         my_opts=scaff_group_import_gdb_opts,
     resources:
         mem_mb = 9400,
