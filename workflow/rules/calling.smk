@@ -114,7 +114,8 @@ rule import_genomics_db_by_chromo:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{chromo}.bmk"
     params:
-        java_opts="-Xmx4g"
+        java_opts="-Xmx4g",
+        my_opts=chromo_import_gdb_opts,
     resources:
         mem_mb = 9400,
         cpus = 2,
@@ -123,10 +124,10 @@ rule import_genomics_db_by_chromo:
     shell:
         " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        "  $VS  "
+        " $VS "
         #" $(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}') "
-        "  --genomicsdb-workspace-path {output.gdb} "
-        "  -L {wildcards.chromo} 2> {log} "
+        " {params.my_opts} {output.gdb} "
+        " > {log} 2>&1 "
 
 
 rule import_genomics_db_by_scaffold_group:
@@ -142,7 +143,8 @@ rule import_genomics_db_by_scaffold_group:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{scaff_group}.bmk"
     params:
-        java_opts="-Xmx4g"
+        java_opts="-Xmx4g",
+        my_opts=scaff_group_import_gdb_opts,
     resources:
         mem_mb = 9400,
         cpus = 2,
@@ -151,9 +153,9 @@ rule import_genomics_db_by_scaffold_group:
     shell:
         " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
-        "  $VS  "
-        "  --genomicsdb-workspace-path {output.gdb} "
-        "  -L {wildcards.scaff_group} 2> {log} "
+        " $VS  "
+        " {params.my_opts} {output.gdb} "
+        " > {log} 2>&1  "
 
 
 ## The next rule uses GenotypeGVCFs to do joint genotyping using a genomics db 

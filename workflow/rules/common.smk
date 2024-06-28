@@ -184,6 +184,15 @@ def get_igrp_sample_names(wildcards):
           ret=indel_grps.loc[indel_grps['indel_grp'] == wildcards.igrp]["sample_id"].unique().tolist()
     return ret
 
+
+# for setting options for genomics DB import
+def chromo_import_gdb_opts(wildcards):
+        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals {chr} --genomicsdb-workspace-path ".format(chr = wildcards.chromo))
+
+def scaff_group_import_gdb_opts(wildcards):
+        return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals results/calling/interval_lists/{sg}.list --merge-contigs-into-num-partitions 1  --genomicsdb-workspace-path ".format(sg = wildcards.scaff_group))
+
+
 ### Deal with the indel_grps if present (i.e. groupings of the samples
 ### into different species so that indel realignment is done species by species).
 ### At the same time we do this, we are also going to define the lists of output bams
