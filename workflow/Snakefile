@@ -14,7 +14,7 @@ rule all:
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
-        #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
+        expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
        
         #troubleshooting RG errors
         #expand("results/angsd_bams/echo-RG-fixed/{s}.txt", s=sample_list),
@@ -24,7 +24,7 @@ rule all:
         #expand("results/calling/interval_lists/{chromo}.list", chromo=unique_chromosomes),
         #expand("results/calling/vcf_sections/{sgc}/{scat}.vcf.gz", sgc=sg_or_chrom, scat=unique_scats),
         #expand("results/calling/vcf_sections/{sgc}.vcf.gz", sgc=sg_or_chrom),
-        expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
+        #expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
         #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
 
