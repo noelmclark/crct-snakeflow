@@ -116,7 +116,7 @@ rule import_genomics_db_by_chromo:
     params:
         java_opts="-Xmx4g",
         my_opts=chromo_import_gdb_opts,
-        extras="--tmp-dir=results/snake-tmp",
+        extras="--tmp-dir results/snake-tmp",
     resources:
         mem_mb=9400,
         cpus=2,
@@ -146,7 +146,7 @@ rule import_genomics_db_by_scaffold_group:
     params:
         java_opts="-Xmx4g",
         my_opts=scaff_group_import_gdb_opts,
-        extras="--tmp-dir=results/snake-tmp",
+        extras="--tmp-dir results/snake-tmp",
     resources:
         mem_mb=9400,
         cpus=2,
