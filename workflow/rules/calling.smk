@@ -120,8 +120,7 @@ rule import_genomics_db_by_chromo:
     resources:
         mem_mb=9400,
         cpus=2,
-        qos="long",
-        time="36:00:00",
+        time="23:59:59",
     threads: 2
     shell:
         " VS=$(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}'); "  # make a string like -V file1 -V file2
@@ -151,8 +150,7 @@ rule import_genomics_db_by_scaffold_group:
     resources:
         mem_mb=9400,
         cpus=2,
-        qos="long",
-        time="36:00:00",
+        time="23:59:59",
     threads: 2
     shell:
         " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
