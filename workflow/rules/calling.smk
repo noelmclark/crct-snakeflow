@@ -114,13 +114,14 @@ rule import_genomics_db_by_chromo:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{chromo}.bmk"
     params:
-        java_opts=" -Xmx4g -Xms4g ",
+        java_opts="-Xmx4g",
         my_opts=chromo_import_gdb_opts,
-        extras=" --tmp-dir=results/snake-tmp ",
+        extras="--tmp-dir=results/snake-tmp",
     resources:
-        mem_mb = 9400,
-        cpus = 2,
-        time = "23:59:59"
+        mem_mb=9400,
+        cpus=2,
+        qos="long",
+        time="36:00:00",
     threads: 2
     shell:
         " VS=$(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}'); "  # make a string like -V file1 -V file2
@@ -144,13 +145,14 @@ rule import_genomics_db_by_scaffold_group:
     benchmark:
         "results/benchmarks/calling/import_genomics_db/{scaff_group}.bmk"
     params:
-        java_opts=" -Xmx4g -Xms4g ",
+        java_opts="-Xmx4g",
         my_opts=scaff_group_import_gdb_opts,
-        extras=" --tmp-dir=results/snake-tmp ",
+        extras="--tmp-dir=results/snake-tmp",
     resources:
         mem_mb=9400,
         cpus=2,
-        time="23:59:59"
+        qos="long",
+        time="36:00:00",
     threads: 2
     shell:
         " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
