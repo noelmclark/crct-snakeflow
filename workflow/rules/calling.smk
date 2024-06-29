@@ -120,10 +120,10 @@ rule import_genomics_db_by_chromo:
     resources:
         mem_mb = 9400,
         cpus = 2,
-        time = "36:00:00"
+        time = "23:59:59"
     threads: 2
     shell:
-        " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
+        " VS=$(echo {input.gvcfs} | awk '{{for(i=1;i<=NF;i++) printf(\" -V %s \", $i)}}'); "  # make a string like -V file1 -V file2
         " gatk --java-options {params.java_opts} GenomicsDBImport "
         " $VS "
         " {params.my_opts} {params.extras}"
@@ -148,9 +148,9 @@ rule import_genomics_db_by_scaffold_group:
         my_opts=scaff_group_import_gdb_opts,
         extras=" --tmp-dir=results/snake-tmp ",
     resources:
-        mem_mb = 9400,
-        cpus = 2,
-        time = "36:00:00"
+        mem_mb=9400,
+        cpus=2,
+        time="23:59:59"
     threads: 2
     shell:
         " VS=$(for i in {input.gvcfs}; do echo -V $i; done); "  # make a string like -V file1 -V file2
