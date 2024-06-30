@@ -120,7 +120,7 @@ rule merge_filtered_vcfs:
 # this gives us a single merged bcf file without any maf filtering
 rule bcf_concat_hardfilter_merged_sect:
     input:
-        expand("results/hard_filtering/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
+        expand("results/hard_filtering/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom),
     output:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
@@ -153,7 +153,7 @@ rule maf_filter:
     benchmark:
         "results/benchmarks/hard_filtering/maf_filter/merged-{sg_or_chrom}-maf-{mafs}.bmk"
     params:
-        maf={mafs}
+        maf="{mafs}"
     shell:
         " bcftools view -Ob -i 'FILTER=\"PASS\" & MAF > {params.maf} ' "
         " {input} > {output} 2>{log} "
