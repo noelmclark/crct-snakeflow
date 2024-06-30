@@ -164,7 +164,7 @@ rule maf_filter:
 # which pass the specified maf cuttoff
 rule concat_mafs_bcf:
     input:
-        expand("results/hard_filtering/filter-maf-{maf}/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
+        expand("results/hard_filtering/filter-maf-{{maf}}/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all-that-pass-maf-{maf}.bcf",
         tbi="results/bcf/all-that-pass-maf-{maf}.bcf.csi"
