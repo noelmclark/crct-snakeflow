@@ -105,11 +105,11 @@ rule merge_filtered_vcfs:
         snp_idx="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz.tbi",
         indel_idx="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/merged-{sg_or_chrom}.vcf.gz",
+        vcf="results/hard_filtering/hardfiltered-merged-{sg_or_chrom}.vcf.gz",
     log:
-        "results/logs/hard_filtering/merge_filtered_vcfs/merged-{sg_or_chrom}.log",
+        "results/logs/hard_filtering/merge_filtered_vcfs/hardfiltered-merged-{sg_or_chrom}.log",
     benchmark:
-        "results/benchmarks/hard_filtering/merge_filtered_vcfs/merged-{sg_or_chrom}.bmk"
+        "results/benchmarks/hard_filtering/merge_filtered_vcfs/hardfiltered-merged-{sg_or_chrom}.bmk"
     conda:
         "../envs/gatk.yaml"
     shell:
@@ -118,16 +118,16 @@ rule merge_filtered_vcfs:
 
 
 # this gives us a single merged bcf file without any maf filtering
-rule bcf_concat_merged_sect:
+rule bcf_concat_hardfilter_merged_sect:
     input:
-        expand("results/hard_filtering/merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
+        expand("results/hard_filtering/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
     log:
-        "results/logs/bcf_concat_merged_sect/bcf_concat_log.txt"
+        "results/logs/bcf_concat_hardfilter_merged_sect/bcf_concat_log.txt"
     benchmark:
-        "results/benchmarks/bcf_concat_merged_sect/bcf_concat.bmk",
+        "results/benchmarks/bcf_concat_hardfilter_merged_sect/bcf_concat.bmk",
     params:
         opts=" --naive "
     conda:
@@ -143,9 +143,9 @@ rule bcf_concat_merged_sect:
 # I have it set up to run on the missing-corrected-merged-vcf files from the correct_merged_vcfs rule 
 rule maf_filter:
     input:
-        "results/hard_filtering/merged-{sg_or_chrom}.vcf.gz"
+        "results/hard_filtering/hardfiltered-merged-{sg_or_chrom}.vcf.gz"
     output:
-        "results/hard_filtering/merged-{sg_or_chrom}-maf-{mafs}.bcf"
+        "results/hard_filtering/hardfiltered-merged-{sg_or_chrom}-maf-{mafs}.bcf"
     conda:
         "../envs/bcftools.yaml"
     log:
@@ -164,7 +164,7 @@ rule maf_filter:
 # which pass the specified maf cuttoff
 rule concat_mafs_bcf:
     input:
-        expand("results/hard_filtering/merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
+        expand("results/hard_filtering/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all-that-pass-maf-{maf}.bcf",
         tbi="results/bcf/all-that-pass-maf-{maf}.bcf.csi"

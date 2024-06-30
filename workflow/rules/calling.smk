@@ -245,6 +245,4 @@ rule correct_missing_vcf_sect:
         " bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
         " bcftools view -Oz - > {output.vcf}; "
         " bcftools index -t {output.vcf}) 2> {log} "
-
-
-
+                

@@ -1,4 +1,5 @@
 # rule to get a consensus fastq sequence file for PSMC
+# option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
 # It is recommended to set -d to a third of the average depth and -D to twice
 # this takes the bams from each individual and generates a tmp vcf file then 
@@ -7,7 +8,7 @@
 # joint calling them in the calling phase
 rule psmc_consensus_sequence:
     input:
-        bam="results/mapping/mkdup/mkdup-{sample}.bam", #in the future this will be with the overlap clipped duplicates removed bams
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam", #should this be a bam with -baq 2 done on it for indel stuff? 
         ref="resources/genome/OmykA.fasta",
     output:
         "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
@@ -27,6 +28,9 @@ rule psmc_consensus_sequence:
 #rule vcf2_psmc_consensus_sequence:
 #    input:
 #        vcf="results/
+#    shell:
+#      "{input.ref} {input.bam}" 
+#        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
 
 
 # following rules are to run PSMC

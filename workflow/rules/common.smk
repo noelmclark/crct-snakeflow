@@ -192,6 +192,17 @@ def chromo_import_gdb_opts(wildcards):
 def scaff_group_import_gdb_opts(wildcards):
         return(" --batch-size 50 --reader-threads 2 --genomicsdb-shared-posixfs-optimizations --intervals results/calling/interval_lists/{sg}.list --merge-contigs-into-num-partitions 1 ".format(sg = wildcards.scaff_group))
 
+def get_bcftools_stats_filter_option(wildcards):
+    if(wildcards.filter_condition == "ALL"):
+        return(" ")
+    elif(wildcards.filter_condition == "PASS"):
+        return( " -i 'FILTER=\"PASS\"' ")
+    elif(wildcards.filter_condition == "FAIL"):
+        return( " -i 'FILTER!=\"PASS\"' ")
+    else:
+        raise Exception("Wildcard filter_condition must be ALL, PASS, or FAIL.")
+
+
 
 ### Deal with the indel_grps if present (i.e. groupings of the samples
 ### into different species so that indel realignment is done species by species).
