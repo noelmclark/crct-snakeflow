@@ -149,9 +149,9 @@ rule maf_filter:
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/hard_filtering/maf_filter/merged-{sg_or_chrom}-maf-{mafs}.log",
+        "results/logs/hard_filtering/maf_filter_{maf}/merged-{sg_or_chrom}-maf-{mafs}.log",
     benchmark:
-        "results/benchmarks/hard_filtering/maf_filter/merged-{sg_or_chrom}-maf-{mafs}.bmk"
+        "results/benchmarks/hard_filtering/maf_filter_{maf}/merged-{sg_or_chrom}-maf-{mafs}.bmk"
     params:
         maf="{mafs}"
     shell:
