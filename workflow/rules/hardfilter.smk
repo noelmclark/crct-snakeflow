@@ -114,13 +114,28 @@ rule merge_filtered_vcfs:
         "../envs/gatk.yaml"
     shell:
         " gatk MergeVcfs -I {input.indel} -I {input.snp} -O {output.vcf} 2> {log} "
-  
 
+
+## convert each merged filtered vcf into a vcf
+# I think there's a way to do this all in one with concat but I was running into errors
+rule merged_filtered_vcfs_to_bcfs:
+    input:
+        vcf="results/hard_filtering/merged-filtered/hardfiltered-merged-{sg_or_chrom}.vcf.gz",
+    output:
+        bcf="results/hard_filtering/merged-filtered-bcf/hardfiltered-merged-{sg_or_chrom}.bcf",
+    log:
+        "results/logs/hard_filtering/merged_filtered_vcfs_to_bcfs/hardfiltered-merged-{sg_or_chrom}.log",
+    benchmark:
+        "results/benchmarks/hard_filtering/merged_filtered_vcfs_to_bcfs/hardfiltered-merged-{sg_or_chrom}.bmk"
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " bcftools view -Ob {input} > {output} 2>{log} "
 
 # this gives us a single merged bcf file without any maf filtering
 rule bcf_concat_hardfilter_merged_sect:
     input:
-        expand("results/hard_filtering/merged-filtered/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom),
+        expand("results/hard_filtering/merged-filtered-bcf/hardfiltered-merged-{sgc}.bcf", sgc=sg_or_chrom),
     output:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
