@@ -11,8 +11,8 @@ rule make_snp_vcf:
         vcf="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz",
         tbi="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/select-variants/snps-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/select-variants/snps-{sg_or_chrom}.vcf.gz.tbi"
     log:
         "results/logs/hard_filtering/selectvariants/select-snps-{sg_or_chrom}.log",
     benchmark:
@@ -32,8 +32,8 @@ rule make_indel_vcf:
         vcf="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz",
         tbi="results/calling/corrected_missing_vcf_sect/{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/select-variants/indels-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/select-variants/indels-{sg_or_chrom}.vcf.gz.tbi"
     log:
         "results/logs/hard_filtering/selectvariants/select-indels-{sg_or_chrom}.log",
     benchmark:
@@ -51,11 +51,11 @@ rule make_indel_vcf:
 # https://gatk.broadinstitute.org/hc/en-us/articles/360035531112--How-to-Filter-variants-either-with-VQSR-or-by-hard-filtering#2
 rule hard_filter_snps:
     input:
-        vcf="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/snps-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/select-variants/snps-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/select-variants/snps-{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/variant-filtered/snps-filtered-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/variant-filtered/snps-filtered-{sg_or_chrom}.vcf.gz.tbi"
     log:
         "results/logs/hard_filtering/variantfiltration/hard-filter-snps-{sg_or_chrom}.log",
     benchmark:
@@ -76,11 +76,11 @@ rule hard_filter_snps:
 
 rule hard_filter_indels:
     input:
-        vcf="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/indels-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/select-variants/indels-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/select-variants/indels-{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz",
-        idx="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
+        vcf="results/hard_filtering/variant-filtered/indels-filtered-{sg_or_chrom}.vcf.gz",
+        idx="results/hard_filtering/variant-filtered/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
     log:
         "results/logs/hard_filtering/variantfiltration/hard-filter-indels-{sg_or_chrom}.log",
     benchmark:
@@ -100,12 +100,12 @@ rule hard_filter_indels:
 # merge the snp and indel vcfs that were hard filtered back together by chrom or scaffold_groups
 rule merge_filtered_vcfs:
     input:
-        snp="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz",
-        indel="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz",
-        snp_idx="results/hard_filtering/snps-filtered-{sg_or_chrom}.vcf.gz.tbi",
-        indel_idx="results/hard_filtering/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
+        snp="results/hard_filtering/variant-filtered/snps-filtered-{sg_or_chrom}.vcf.gz",
+        indel="results/hard_filtering/variant-filtered/indels-filtered-{sg_or_chrom}.vcf.gz",
+        snp_idx="results/hard_filtering/variant-filtered/snps-filtered-{sg_or_chrom}.vcf.gz.tbi",
+        indel_idx="results/hard_filtering/variant-filtered/indels-filtered-{sg_or_chrom}.vcf.gz.tbi"
     output:
-        vcf="results/hard_filtering/hardfiltered-merged-{sg_or_chrom}.vcf.gz",
+        vcf="results/hard_filtering/merged-filtered/hardfiltered-merged-{sg_or_chrom}.vcf.gz",
     log:
         "results/logs/hard_filtering/merge_filtered_vcfs/hardfiltered-merged-{sg_or_chrom}.log",
     benchmark:
@@ -120,7 +120,7 @@ rule merge_filtered_vcfs:
 # this gives us a single merged bcf file without any maf filtering
 rule bcf_concat_hardfilter_merged_sect:
     input:
-        expand("results/hard_filtering/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom),
+        expand("results/hard_filtering/merged-filtered/hardfiltered-merged-{sgc}.vcf.gz", sgc=sg_or_chrom),
     output:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
@@ -143,9 +143,9 @@ rule bcf_concat_hardfilter_merged_sect:
 # I have it set up to run on the missing-corrected-merged-vcf files from the correct_merged_vcfs rule 
 rule maf_filter:
     input:
-        "results/hard_filtering/hardfiltered-merged-{sg_or_chrom}.vcf.gz"
+        "results/hard_filtering/merged-filtered/hardfiltered-merged-{sg_or_chrom}.vcf.gz"
     output:
-        "results/hard_filtering/hardfiltered-merged-{sg_or_chrom}-maf-{mafs}.bcf"
+        "results/hard_filtering/filter-maf-{maf}/hardfiltered-merged-{sg_or_chrom}-maf-{mafs}.bcf"
     conda:
         "../envs/bcftools.yaml"
     log:
@@ -164,7 +164,7 @@ rule maf_filter:
 # which pass the specified maf cuttoff
 rule concat_mafs_bcf:
     input:
-        expand("results/hard_filtering/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
+        expand("results/hard_filtering/filter-maf-{maf}/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all-that-pass-maf-{maf}.bcf",
         tbi="results/bcf/all-that-pass-maf-{maf}.bcf.csi"
