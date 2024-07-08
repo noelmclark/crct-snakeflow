@@ -1,3 +1,6 @@
+## following rules are to run PSMC
+# based on lh3 documentation at: https://github.com/lh3/psmc
+
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
@@ -23,3 +26,18 @@ rule psmc_consensus_sequence:
     shell:
         "bcftools mpileup -C50 -f {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
+
+# rule to create psmcfa file per sample
+rule psmcfa:
+    input:
+        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
+    output:
+        "results/psmc/psmcfa/{sample}.psmcfa"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmcfa/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/psmcfa/{sample}.bmk"
+    shell:
+        "fq2psmcfa -q20 {input} > {output} 2> {log}"
