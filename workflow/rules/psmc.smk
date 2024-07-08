@@ -1,4 +1,4 @@
-# rule to get a consensus fastq sequence file for PSMC
+## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
 # It is recommended to set -d to a third of the average depth and -D to twice
@@ -29,8 +29,8 @@ rule psmc_consensus_sequence:
 #    input:
 #        vcf="results/
 #    shell:
-#      "{input.ref} {input.bam}" 
-#      "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
+#        "{input.ref} {input.bam}" 
+#        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
 
 
 # following rules are to run PSMC
