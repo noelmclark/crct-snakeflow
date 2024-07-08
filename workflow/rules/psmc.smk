@@ -27,6 +27,7 @@ rule psmc_consensus_sequence:
         "bcftools mpileup -C50 -f {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
 
+
 # rule to create psmcfa file per sample
 rule psmcfa:
     input:
@@ -41,3 +42,19 @@ rule psmcfa:
         "results/benchmarks/psmc/psmcfa/{sample}.bmk"
     shell:
         "fq2psmcfa -q20 {input} > {output} 2> {log}"
+
+
+# rule to run psmc
+rule run_psmc:
+    input:
+        "results/psmc/psmcfa/{sample}.psmcfa"
+    output:
+        "results/psmc/run-psmc/{sample}.psmc"
+    conda:
+        "envs/psmc.yaml"
+    log:
+        "results/logs/psmc/run-psmc/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/run-psmc/{sample}.bmk"
+    shell:
+        "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"

@@ -8,27 +8,6 @@
 #        "{input.ref} {input.bam}" 
 #        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
 
-
-# following rules are to run PSMC
-# based on lh3 documentation at: https://github.com/lh3/psmc
-
-# rule to create psmcfa file per sample
-rule psmcfa:
-    input:
-        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
-    output:
-        "results/psmc/psmcfa/{sample}.psmcfa"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/psmcfa/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc/psmcfa/{sample}.bmk"
-    shell:
-        "fq2psmcfa -q20 {input} > {output} 2> {log}"
-
-
-
 # rule to run psmc
 rule run_psmc:
     input:
