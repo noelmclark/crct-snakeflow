@@ -60,7 +60,7 @@ rule run_psmc:
     output:
         "results/psmc/run-psmc/{sample}.psmc"
     conda:
-        "envs/psmc.yaml"
+        "../envs/psmc.yaml"
     log:
         "results/logs/psmc/run-psmc/{sample}.log"
     benchmark:
