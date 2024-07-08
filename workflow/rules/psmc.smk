@@ -28,6 +28,15 @@ rule psmc_consensus_sequence:
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
 
 
+# draft rule for vcf 2 psmc consensus sequence vs from the bams 
+#rule vcf2_psmc_consensus_sequence:
+#    input:
+#        vcf="results/
+#    shell:
+#        "{input.ref} {input.bam}" 
+#        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
+
+
 # rule to create psmcfa file per sample
 rule psmcfa:
     input:
