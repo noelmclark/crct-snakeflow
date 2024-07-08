@@ -19,10 +19,10 @@ rule all:
         expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
         expand("results/bcf/all-that-pass-maf-{maf}.bcf", maf=mafs,), #hardfiltering final outputs
         expand("results/bcf/all-that-pass-maf-{maf}.bcf.csi", maf=mafs,), #hardfiltering final outputs
-       
+        
         #troubleshooting RG errors
         #expand("results/angsd_bams/echo-RG-fixed/{s}.txt", s=sample_list),
-
+        
         #calling intermediate outputs 
         #expand("results/calling/interval_lists/{scaff_group}.list", scaff_group=unique_scaff_groups),
         #expand("results/calling/interval_lists/{chromo}.list", chromo=unique_chromosomes),
@@ -31,12 +31,9 @@ rule all:
         #expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom), #calling intermediate output
         #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"]), #calling intermediate output
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
-
-
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
         
         #expand("results/angsd_bams/indel_realigned/{{igrp}}/{s}.bam", s=sample_list), #angsd-bams indel realignment final output
-
         #expand("results/qc/samtools_stats/{s}.txt", s=sample_list),
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
