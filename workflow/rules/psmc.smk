@@ -30,7 +30,7 @@ rule psmc_consensus_sequence:
 #        vcf="results/
 #    shell:
 #      "{input.ref} {input.bam}" 
-#        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
+#      "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
 
 
 # following rules are to run PSMC
