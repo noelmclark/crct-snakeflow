@@ -100,6 +100,7 @@ wildcard_constraints:
     maf="|".join(mafs),
     binsize="|".join(binsize),
     scatter=scatter_wc_constraint,
+    post_id="ALL",
     #igrp="|".join(indel_grps_list)
 
 
@@ -202,31 +203,13 @@ def get_bcftools_stats_filter_option(wildcards):
     else:
         raise Exception("Wildcard filter_condition must be ALL, PASS, or FAIL.")
 
-
-
-### Deal with the indel_grps if present (i.e. groupings of the samples
-### into different species so that indel realignment is done species by species).
-### At the same time we do this, we are also going to define the lists of output bams
-
-# this is the default, but we update it if the indel_grps is defined in the config
-realigned_bams_output_list=expand("results/indel_realigned/__ALL/{samp}.bam", samp=sample_list)
-indel_grps_list=["weirdwhacko", "__ALL"]  # this is for the wildcard constraints. For some reason it fails if it is just "__ALL"
-if "indel_grps" in config and config["indel_grps"] != "":
-    indel_grps = pd.read_table(config["indel_grps"], dtype=str).set_index("sample", drop=False)
-    validate(indel_grps, schema="../schemas/indel_grps.schema.yaml")
-
-    # check to make sure that every sample is accounted for
-    if(set(sample_list) != set(indel_grps["sample"].unique())):
-      raise Exception("Every sample in units must be represented in the indel_grps file")
-
-    # update the realigned_bams_output_list
-    sm=indel_grps['sample'].tolist()
-    ig=indel_grps['indel_grp'].tolist()
-    realigned_bams_output_list=["results/indel_realigned/{ig}/{samp}.bam".format(ig=ig[i], samp=sm[i]) for i in range(len(ig))]
-    indel_grps_list=ig
-
-
-# down here, if we choose not to do indel realignment in the config
-# then we just set realigned_bams_output_list to an empty list
-if "do_indel_realignment" in config and config["do_indel_realignment"] == False:
-    realigned_bams_output_list = []
+def get_pcangsd_bam_filelist(wildcards):
+    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
+    if(wildcards.post_id == "ALL"):
+        return(expand("results/angsd_bams/overlap_clipped/{sample}.bam", sample = s["sample"].tolist()))
+    elif(wildcards.post_id == "CRCT"):
+        return( " ")
+    elif(wildcards.post_id == "OUT"):
+        return( " ")
+    else:
+        raise Exception("Wildcard post_id must be ALL, CRCT, or OUT.")

@@ -80,6 +80,9 @@ params:
         - ' -filter "MQ < 40.0" --filter-name "MQ40" '
         - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
+  pcangsd:
+    url: git@github.com:Rosemeis/pcangsd.git
+    verion: 705ca4c19630ed9c2dd254b0bfd528b8ee25d5c0
   #vep:
     #plugins:
       # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
