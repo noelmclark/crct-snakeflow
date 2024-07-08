@@ -24,15 +24,6 @@ rule psmc_consensus_sequence:
         "bcftools mpileup -C50 -f {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
 
-# draft rule for vcf 2 psmc consensus sequence vs from the bams 
-#rule vcf2_psmc_consensus_sequence:
-#    input:
-#        vcf="results/
-#    shell:
-#        "{input.ref} {input.bam}" 
-#        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"  
-
-
 # following rules are to run PSMC
 # based on lh3 documentation at: https://github.com/lh3/psmc
 
