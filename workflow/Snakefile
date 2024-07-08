@@ -37,12 +37,12 @@ rule all:
         
         #expand("results/angsd_bams/indel_realigned/{{igrp}}/{s}.bam", s=sample_list), #angsd-bams indel realignment final output
 
-        
+        expand("results/qc/samtools_stats/{s}.txt", s=sample_list)
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         
-        #expand("results/psmc/psmc-plot/{s}.eps", s=SAMPLES),
+        expand("results/psmc/psmc-plot/{s}.eps", s=sample_list),
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
         #"qc/multiqc.html",
@@ -58,9 +58,9 @@ include: "rules/mapping.smk"
 include: "rules/angsd-ready-bams.smk"
 include: "rules/calling.smk"
 include: "rules/hardfilter.smk"
-#include: "rules/psmc.smk"
+include: "rules/psmc.smk"
 #include: "rules/stats.smk"
-#include: "rules/qc.smk"
+include: "rules/qc.smk"
 include: "rules/destination-rules.smk"
 #include: "rules/archive.smk"
 #include: "rules/annotation.smk"
