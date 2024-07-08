@@ -58,3 +58,20 @@ rule run_psmc:
         "results/benchmarks/psmc/run-psmc/{sample}.bmk"
     shell:
         "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"
+
+
+## rule to run psmc2history & history2ms to generate the ms
+# command line that simulates the history inferred by PSMC
+rule psmc2history2ms:
+    input:
+        "results/psmc/run-psmc/{sample}.psmc"
+    output:
+        "results/psmc/psmc2history2ms/{sample}-ms-cmd.sh"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmc2history2ms/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/psmc2history2ms/{sample}.bmk"
+    shell:
+        "psmc2history.pl {input} | history2ms.pl > {output} 2> {log}"
