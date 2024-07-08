@@ -24,7 +24,7 @@ rule samtools_stats:
     benchmark:
         "results/benchmarks/samtools_stats/{sample}.bmk",
     conda:
-        "../envs/samtools.yaml"
+        "../envs/sambcftools.yaml"
     shell:
         "samtools stats {input} > {output} 2> {log} "
 
