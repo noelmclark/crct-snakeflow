@@ -93,7 +93,8 @@ rule psmc_plot:
     input:
         "results/psmc/run-psmc/{sample}.psmc"
     output:
-        expand("results/psmc/psmc-plot/{{sample}}.{ext}", ext=[".eps", ".par"])
+        eps="results/psmc/psmc-plot/{sample}.eps",
+        par="results/psmc/psmc-plot/{sample}.par"
     conda:
         "../envs/psmc.yaml"
     log:
@@ -101,4 +102,4 @@ rule psmc_plot:
     benchmark:
         "results/benchmarks/psmc/psmc-plot/{sample}.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 {output} {input} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {output.par} {input} 2> {log}"
