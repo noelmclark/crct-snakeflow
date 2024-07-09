@@ -7,7 +7,7 @@ rule get_coverage_depth:
     conda:
         "../envs/sambcftools.yaml"
     log:
-        "results/get-coverage-depth/{sample}.log"
+        "results/logs/get-coverage-depth/{sample}.log"
     benchmark:
         "results/benchmarks/get-coverage-depth/{sample}.bmk"
     shell:
