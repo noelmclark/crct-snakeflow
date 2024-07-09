@@ -93,7 +93,7 @@ rule psmc_plot:
     input:
         "results/psmc/run-psmc/{sample}.psmc"
     output:
-        "results/psmc/psmc-plot/{sample}",
+        expand("results/psmc/psmc-plot/{{sample}}.{ext}", ext=[".eps", ".par"])
     conda:
         "../envs/psmc.yaml"
     log:
