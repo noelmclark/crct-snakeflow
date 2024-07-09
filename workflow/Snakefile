@@ -6,7 +6,7 @@ include: "rules/common.smk"
 # i.e. those that can be run locally.
 localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_interval_lists, make_chromo_interval_lists, make_scatter_interval_lists
 # other local rules
-# combine_bcftools_stats, gatk3_register, species_sample_lists, get_genome_length,, get_ave_depths
+# combine_bcftools_stats, gatk3_register, species_sample_lists, get_genome_length, get_ave_depths
 
 
 rule all:
@@ -40,6 +40,7 @@ rule all:
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         
+        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
         expand("results/psmc/psmc-plot/{s}.eps", s=sample_list),
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
