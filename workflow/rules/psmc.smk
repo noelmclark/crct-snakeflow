@@ -93,7 +93,7 @@ rule psmc_plot:
     input:
         "results/psmc/run-psmc/{sample}.psmc"
     output:
-        "results/psmc/psmc-plot/{sample}.eps"
+        "results/psmc/psmc-plot/{sample}"
     conda:
         "../envs/psmc.yaml"
     log:
