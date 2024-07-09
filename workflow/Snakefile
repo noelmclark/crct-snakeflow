@@ -11,6 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
+        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
+        expand("results/psmc/psmc-plot/{s}.eps", s=sample_list),
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
@@ -40,8 +42,7 @@ rule all:
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         
-        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
-        expand("results/psmc/psmc-plot/{s}.eps", s=sample_list),
+        
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
         #"qc/multiqc.html",
