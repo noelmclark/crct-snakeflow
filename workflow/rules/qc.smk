@@ -3,7 +3,7 @@ rule get_coverage_depth:
     input:
         "results/angsd_bams/overlap_clipped/{sample}.bam"
     output:
-        "results/qc/coverage/{sample}.txt"
+        "results/qc/coverage-depth/{sample}.txt"
     conda:
         "../envs/sambcftools.yaml"
     log:
