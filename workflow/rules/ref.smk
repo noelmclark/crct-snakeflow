@@ -26,9 +26,9 @@ rule genome_faidx:
     output:
         "resources/genome/OmykA.fasta.fai",
     log:
-        "results/logs/genome_faidx.log",
+        "results/logs/ref/genome_faidx.log",
     benchmark:
-        "results/benchmarks/genome_faidx/genome_faidx.bmk",
+        "results/benchmarks/ref/genome_faidx/genome_faidx.bmk",
     conda:
         "../envs/bwa2sam.yaml"
     shell:
@@ -42,9 +42,9 @@ rule genome_dict:
     output:
         "resources/genome/OmykA.dict",
     log:
-        "results/logs/genome_dict.log",
+        "results/logs/ref/genome_dict.log",
     benchmark:
-        "results/benchmarks/genome_dict/genome_dict.bmk"
+        "results/benchmarks/ref/genome_dict/genome_dict.bmk"
     conda:
         "../envs/bwa2sam.yaml"
     shell:
@@ -58,10 +58,10 @@ rule bwa_index:
     output:
         multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
     log:
-        out="results/logs/bwa_index.log",
-        err="results/logs/bwa_index.err",
+        out="results/logs/ref/bwa_index.log",
+        err="results/logs/ref/bwa_index.err",
     benchmark:
-        "results/benchmarks/bwa_index/bwa_index.bmk",
+        "results/benchmarks/ref/bwa_index/bwa_index.bmk",
     resources:
         mem_mb=75800,
         time="12:00:00"
