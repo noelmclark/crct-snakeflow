@@ -8,6 +8,7 @@ cluster-generic-submit-cmd:
     --mem={resources.mem_mb}
     --time={resources.time}
     --qos={resources.qos}
+    --tmpdir={resources.tmpdir}
     --job-name=smk-{rule}-{wildcards}
     --output=results/slurm_logs/{rule}/{rule}-%j-{wildcards}.out
     --error=results/slurm_logs/{rule}/{rule}-%j-{wildcards}.err
