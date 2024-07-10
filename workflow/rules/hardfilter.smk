@@ -140,9 +140,9 @@ rule bcf_concat_hardfilter_merged_sect:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi"
     log:
-        "results/logs/bcf_concat_hardfilter_merged_sect/bcf_concat_log.txt"
+        "results/logs/hard_filtering/bcf_concat_hardfilter_merged_sect/bcf_concat_log.txt"
     benchmark:
-        "results/benchmarks/bcf_concat_hardfilter_merged_sect/bcf_concat.bmk",
+        "results/benchmarks/hard_filtering/bcf_concat_hardfilter_merged_sect/bcf_concat.bmk",
     params:
         opts=" --naive "
     conda:

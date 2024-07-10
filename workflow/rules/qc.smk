@@ -7,9 +7,9 @@ rule get_coverage_depth:
     conda:
         "../envs/sambcftools.yaml"
     log:
-        "results/logs/get-coverage-depth/{sample}.log"
+        "results/logs/qc/get-coverage-depth/{sample}.log"
     benchmark:
-        "results/benchmarks/get-coverage-depth/{sample}.bmk"
+        "results/benchmarks/qc/get-coverage-depth/{sample}.bmk"
     shell:
         "samtools depth -a -H {input} -o {output} 2> {log}"
 
@@ -20,9 +20,9 @@ rule samtools_stats:
     output:
         "results/qc/samtools_stats/{sample}.txt",
     log:
-        "results/logs/samtools_stats/{sample}.log",
+        "results/logs/qc/samtools_stats/{sample}.log",
     benchmark:
-        "results/benchmarks/samtools_stats/{sample}.bmk",
+        "results/benchmarks/qc/samtools_stats/{sample}.bmk",
     conda:
         "../envs/sambcftools.yaml"
     shell:
@@ -46,7 +46,7 @@ rule bcf_section_summaries:
     output:
         "results/qc/bcftools_stats/sections/{sg_or_chrom}-{filter_condition}.txt",
     log:
-        "results/logs/bcftools_stats/{sg_or_chrom}-{filter_condition}.log",
+        "results/logs/qc/bcftools_stats/{sg_or_chrom}-{filter_condition}.log",
     params:
         comma_samples=",".join(unique_sample_ids),
         filter_opt=get_bcftools_stats_filter_option,
@@ -72,13 +72,13 @@ rule bcf_maf_section_summaries:
     output:
         "results/qc/bcftools_stats/maf_sections/{sg_or_chrom}-maf-{maf}.txt",
     log:
-        "results/logs/bcftools_stats/{sg_or_chrom}-maf-{maf}.log",
+        "results/logs/qc/bcftools_stats/{sg_or_chrom}-maf-{maf}.log",
     params:
         comma_samples=",".join(unique_sample_ids),
         stop=len(unique_sample_ids),
         steps=len(unique_sample_ids) + 1
     benchmark:
-        "results/benchmarks/bcftools_stats/{sg_or_chrom}-maf-{maf}.bmk",
+        "results/benchmarks/qc/bcftools_stats/{sg_or_chrom}-maf-{maf}.bmk",
     conda:
         "../envs/bcftools.yaml"
     shell:
@@ -95,7 +95,7 @@ rule combine_bcftools_stats:
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/combine_bcftools_stats/{filter_condition}.log",
+        "results/logs/qc/combine_bcftools_stats/{filter_condition}.log",
     shell:
         " plot-vcfstats -m {input} > {output} 2>{log} "
 
@@ -108,6 +108,6 @@ rule combine_maf_bcftools_stats:
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/combine_maf_bcftools_stats/maf-{maf}.log",
+        "results/logs/qc/combine_maf_bcftools_stats/maf-{maf}.log",
     shell:
         " plot-vcfstats -m {input} > {output} 2>{log} "

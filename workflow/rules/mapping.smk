@@ -40,7 +40,7 @@ rule map_reads:
         genome="resources/genome/OmykA.fasta",
         idx=multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
     output:
-        "results/mapping/mapped/{sample}---{unit}.sorted.bam",
+        temp("results/mapping/mapped/{sample}---{unit}.sorted.bam"),
     conda:
         "../envs/bwa2sam.yaml"
     log:
@@ -64,7 +64,7 @@ rule map_reads:
 # also, if you assigned your read groups properly, input should be get_all_bams_of_common_sample instead...
 rule mark_duplicates:
     input:
-        get_RG_fixed_bams_of_common_sample
+        get_RG_fixed_bams_of_common_sample #eventually will need to change back to get_all_bams_of_common_sample
     output:
         bam="results/mapping/mkdup/mkdup-{sample}.bam",
         bai="results/mapping/mkdup/mkdup-{sample}.bai",
@@ -93,7 +93,7 @@ rule mark_duplicates:
 # also, if you assigned your read groups properly, input should be get_all_bams_of_common_sample instead...
 rule GATK_remove_duplicates:
     input:
-        get_RG_fixed_bams_of_common_sample
+        get_RG_fixed_bams_of_common_sample #eventually will need to change back to get_all_bams_of_common_sample
     output:
         bam="results/mapping/gatk-rmdup/{sample}.bam",
         bai="results/mapping/gatk-rmdup/{sample}.bai",
