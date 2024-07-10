@@ -11,7 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
+        expand("results/angsd_bams/baq2/{s}.bam", s=sample_list),
+        #expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
