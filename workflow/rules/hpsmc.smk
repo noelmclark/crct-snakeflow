@@ -34,7 +34,7 @@ rule concat_haploidized_bam:
     input:
         expand("results/hpsmc/haploidize_bam_sect/{{sample}}/{sgc}_haploidized.fa", sgc=sg_or_chrom),
     output:
-        "results/hpsmc/haploidized_bam/{sample}_haploidized.fa
+        "results/hpsmc/haploidized_bam/{sample}_haploidized.fa",
     log:
         "results/logs/hpsmc/concat_haploidized_bam/{sample}.log",
     benchmark:
