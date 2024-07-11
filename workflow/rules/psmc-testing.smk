@@ -77,21 +77,3 @@ rule psmc_plot_test:
         "results/benchmarks/psmc-test/psmc-plot-test/{sample}.bmk"
     shell:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
-
-
-## alternative rule to run psmc2history & history2ms to generate the ms
-# command line that simulates the history inferred by PSMC
-# I use the rule psmc_plot instead
-rule psmc2history2ms:
-    input:
-        "results/psmc-test/run-psmc-test/{sample}.psmc"
-    output:
-        "results/psmc-test/psmc2history2ms/{sample}-ms-cmd.sh"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc-test/psmc2history2ms/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc-test/psmc2history2ms/{sample}.bmk"
-    shell:
-        "psmc2history.pl {input} | history2ms.pl > {output} 2> {log}"
