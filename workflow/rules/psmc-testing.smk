@@ -22,7 +22,7 @@ rule psmc_consensus_sequence_test:
     benchmark:
         "results/benchmarks/psmc-test/psmc-consensus-sequence-test/{sample}.bmk"
     shell:
-        "samtools mpileup -C50 -uf {input.ref} {input.bam} | bcftools call -c - | " 
+        "bcftools mpileup -C50 -uf {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log}"
 
 
