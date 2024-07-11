@@ -9,8 +9,6 @@
 # Recent versions of ms include the -p flag which allows you to set the number of decimal places to report. 
 # I recommend using -p8 in most cases.
 
-
-
 rule test_haploidize_bam:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
@@ -20,23 +18,10 @@ rule test_haploidize_bam:
         fai="resources/genome/OmykA.fasta.fai",
         sgc={sg_or_chrom}
     output:
-        "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt",
+        "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
     log:
-        "results/logs/hpsmc/test_haploidize_bam/{sample}/{sg_or_chrom}.log",
+        "results/logs/hpsmc/test_haploidize_bam/{sample}.log",
     shell:
         " for i in {input.sgc}; do "
         "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
         "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "
-
-#is there a way to do both rules at once?
-#        " for i in {input.sgc}; do "
-#        "  bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-#        "  pu2fa -c $i -C 50 >> {output} 2>> {log}; "
-#        " done "
-#
-#        or
-#
-#
-#       " for i in {input.sgc}; do "
-#        "  bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-#        "  pu2fa -c $i -C 50 ; done > {output} 2> {log} "
