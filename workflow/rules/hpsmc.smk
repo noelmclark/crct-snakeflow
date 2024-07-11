@@ -13,16 +13,15 @@ rule haploidize_bam_sections:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
-        chrom="results/calling/interval_lists/{unique_chromosomes}.list"
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{sample}/{unique_chromosomes}_haploidized.fa"),
+        temp("results/hpsmc/haploidize_bam_sect/{sample}/{chromo}_haploidized.fa"),
     #conda:
     #    "../envs/bcftools-pu2fa.yaml"
     #resources:
     log:
-        "results/logs/hpsmc/haploidize-bam-sect/{sample}/{unique_chromosomes}.log",
+        "results/logs/hpsmc/haploidize-bam-sect/{sample}/{chromo}.log",
     benchmark:
-        "results/benchmarks/hpsmc/haploidize-bam-sect/{sample}/{unique_chromosomes}.bmk",
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{sample}/{chromo}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {input.chrom} {input.bam} | "
-        " pu2fa -c {input.chrom} -C 50 > {output}' "
+        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromo} {input.bam} | "
+        " pu2fa -c {wildcards.chromo} -C 50 > {output}' "
