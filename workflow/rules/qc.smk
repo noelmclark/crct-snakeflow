@@ -14,9 +14,6 @@ rule get_coverage_depth:
         "samtools depth -a -H {input} -o {output} 2> {log}"
 
 
-
-
-
 rule calc_avg_depth:
     input:
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
