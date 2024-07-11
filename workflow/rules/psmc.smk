@@ -14,7 +14,7 @@ rule psmc_consensus_sequence:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
-        temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz")
+        temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz") #temp tells snakemake to remove these files once they're no longer needed downstream
     conda:
         "../envs/sambcftools.yaml"
     resources:
@@ -60,23 +60,6 @@ rule run_psmc:
         "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"
 
 
-## rule to run psmc2history & history2ms to generate the ms
-# command line that simulates the history inferred by PSMC
-rule psmc2history2ms:
-    input:
-        "results/psmc/run-psmc/{sample}.psmc"
-    output:
-        "results/psmc/psmc2history2ms/{sample}-ms-cmd.sh"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/psmc2history2ms/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc/psmc2history2ms/{sample}.bmk"
-    shell:
-        "psmc2history.pl {input} | history2ms.pl > {output} 2> {log}"
-
-
 ## rule to plot psmc to visualize result
 # -u [per-generation mutation rate] from https://doi.org/10.1371/journal.pgen.1010918
 # -g [generation time in years] 
@@ -94,3 +77,21 @@ rule psmc_plot:
         "results/benchmarks/psmc/psmc-plot/{sample}.bmk"
     shell:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
+
+
+## alternative rule to run psmc2history & history2ms to generate the ms
+# command line that simulates the history inferred by PSMC
+# I use the rule psmc_plot instead
+rule psmc2history2ms:
+    input:
+        "results/psmc/run-psmc/{sample}.psmc"
+    output:
+        "results/psmc/psmc2history2ms/{sample}-ms-cmd.sh"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmc2history2ms/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/psmc2history2ms/{sample}.bmk"
+    shell:
+        "psmc2history.pl {input} | history2ms.pl > {output} 2> {log}"
