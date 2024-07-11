@@ -14,15 +14,15 @@ rule psmc_consensus_sequence:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
-        temp("results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz")
+        temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz")
     conda:
         "../envs/sambcftools.yaml"
     resources:
         time="23:59:59"
     log:
-        "results/logs/psmc/bams2psmc/psmc-consensus-sequence/{sample}.log"
+        "results/logs/psmc/psmc-consensus-sequence/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc/bams2psmc/psmc-consensus-sequence/{sample}.bmk"
+        "results/benchmarks/psmc/psmc-consensus-sequence/{sample}.bmk"
     shell:
         "samtools mpileup -C50 -uf {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
@@ -31,7 +31,7 @@ rule psmc_consensus_sequence:
 # rule to create psmcfa file per sample
 rule psmcfa:
     input:
-        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
+        "results/psmc/psmc-consensus-sequence/{sample}.fq.gz"
     output:
         "results/psmc/psmcfa/{sample}.psmcfa"
     conda:
