@@ -213,3 +213,6 @@ def get_pcangsd_bam_filelist(wildcards):
         return( " ")
     else:
         raise Exception("Wildcard post_id must be ALL, CRCT, or OUT.")
+
+def get_sgc_list():
+    return sg_or_chrom
