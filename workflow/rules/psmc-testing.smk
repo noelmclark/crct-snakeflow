@@ -16,7 +16,10 @@ rule psmc_consensus_sequence_test:
     conda:
         "../envs/sambcftools.yaml"
     resources:
-        time="23:59:59"
+        time="23:59:59",
+        mem_mb=9400,
+        cpus=2,
+    threads: 2
     log:
         "results/logs/psmc-test/psmc-consensus-sequence-test/{sample}.log"
     benchmark:
