@@ -12,11 +12,8 @@
 rule test_haploidize_bam:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
-        bai="results/angsd_bams/overlap_clipped/{sample}.bai",
         ref="resources/genome/OmykA.fasta",
-        idx="resources/genome/OmykA.dict",
-        fai="resources/genome/OmykA.fasta.fai",
-        sgc={sg_or_chrom}
+        sgc={wildcards.sg_or_chrom}
     output:
         "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
     log:
