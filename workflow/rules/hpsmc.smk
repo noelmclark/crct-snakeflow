@@ -124,7 +124,7 @@ rule simulate_hpsmc_divergence:
     log:
     benchmark:
     shell:
-        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=? -l ? -u ? -s
+        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=? -l ? -u ? -s "
  	
     #OPTIONS:
  	#-h print help message with user options
