@@ -9,15 +9,34 @@
 # Recent versions of ms include the -p flag which allows you to set the number of decimal places to report. 
 # I recommend using -p8 in most cases.
 
+## rule to install chromcompare into the bcftools-chromcompare.yaml
+rule install_chromcompare:
+    params:
+        hash=config["params]["chromcompare"]["version"],
+        url=config["params]["chromcompare"]["url"]
+    output:  
+        flagfile=touch("results/flags/chromcompare_installed")
+    conda:
+        "../envs/bcftools-chromcompare.yaml"
+    log:
+        "results/logs/install_chromcompare/log.txt"
+    shell:
+        "(TMP=$(mktemp -d) && cd $TMP && "
+        " git clone {params.url} && "
+        " cd chrom-compare && "
+        " git checkout {params.hash} && "
+        " make ) > {log} 2>&1  "
+
 rule haploidize_bam_sections:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
     output:
         temp("results/hpsmc/haploidize_bam_sect/{sample}/{chromo}_haploidized.fa"),
-    #conda:
-    #    "../envs/bcftools-pu2fa.yaml"
-    #resources:
+    conda:
+        "../envs/bcftools-chromcompare.yaml"
+    resources:
+        time="23:59:59",
     log:
         "results/logs/hpsmc/haploidize-bam-sect/{sample}/{chromo}.log",
     benchmark:
@@ -25,3 +44,15 @@ rule haploidize_bam_sections:
     shell:
         " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromo} {input.bam} | "
         " pu2fa -c {wildcards.chromo} -C 50 > {output}' "
+
+rule concat_haploidized_bam:
+    input:
+        expand("results/hpsmc/haploidize_bam_sect/{{sample}}/{c}_haploidized.fa", c=unique_chromosomes),
+    output:
+        "results/hpsmc/haploidized_bam/{sample}_haploidized.fa",
+    log:
+        "results/logs/hpsmc/concat_haploidized_bam/{sample}.log",
+    benchmark:
+        "results/benchmarks/hpsmc/concat_haploidized_bam/{sample}.log",
+    shell:
+        " cat {input} > {output} 2> {log} "

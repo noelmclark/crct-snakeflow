@@ -83,6 +83,9 @@ params:
   pcangsd:
     url: git@github.com:Rosemeis/pcangsd.git
     verion: 705ca4c19630ed9c2dd254b0bfd528b8ee25d5c0
+  chromcompare:
+    url: git@github.com:Paleogenomics/Chrom-Compare.git
+    version: 
   #vep:
     #plugins:
       # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
