@@ -13,7 +13,7 @@
 rule install_chromcompare:
     params:
         hash=config["params]["chromcompare"]["version"],
-        url=config["params]["chromcompare"]["url"]
+        url=config["params"]["chromcompare"]["url"]
     output:  
         flagfile=touch("results/flags/chromcompare_installed")
     conda:
