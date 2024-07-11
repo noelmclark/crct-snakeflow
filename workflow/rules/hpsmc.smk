@@ -16,8 +16,8 @@ rule haploidize_bam_sections:
         chrom="results/calling/interval_lists/{unique_chromosomes}.list"
     output:
         temp("results/hpsmc/haploidize_bam_sect/{sample}/{unique_chromosomes}_haploidized.fa"),
-    conda:
-        "../envs/bcftools-pu2fa.yaml"
+    #conda:
+    #    "../envs/bcftools-pu2fa.yaml"
     #resources:
     log:
         "results/logs/hpsmc/haploidize-bam-sect/{sample}/{unique_chromosomes}.log",
