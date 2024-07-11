@@ -216,7 +216,7 @@ def get_pcangsd_bam_filelist(wildcards):
 
 def get_sgc_list(wildcards):
     if wildcards.sample == wildcards.sample:
-        ret="|".join(unique_scaff_groups + unique_chromosomes)
+        ret=sg_or_chrom.tolist()
     else: 
         raise Exception("That didn't work.")
     return ret
