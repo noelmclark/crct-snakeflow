@@ -31,7 +31,7 @@ rule calc_avg_depth:
 # maybe using this to determine which individual per population to use for hPSMC
 rule count_above_10_depth:
     input:
-        expand("results/qc/coverage-depth/{s}.txt", s=sample_list)
+        expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
     output:
         "results/qc/coverage-depth/count-above-10.txt",
     log:
