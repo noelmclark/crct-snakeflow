@@ -13,7 +13,7 @@ rule test_haploidize_bam:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
-        sgc={wildcards.sg_or_chrom}
+        sgc={sg_or_chrom}
     output:
         "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
     log:
