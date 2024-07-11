@@ -19,6 +19,6 @@ rule test_haploidize_bam:
     log:
         "results/logs/hpsmc/test_haploidize_bam/{sample}.log",
     shell:
-        " for i in $sgc; do "
+        " for i in ${input.sgc}; do "
         "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
         "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "
