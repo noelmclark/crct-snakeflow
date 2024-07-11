@@ -13,6 +13,9 @@ rule all:
     input:
         expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list),
         "results/flags/chromcompare_installed",
+        "results/flags/pcangsd_installed",
+        "results/qc/coverage-depth/avg_depth.txt",
+        "results/qc/coverage-depth/{sample}.txt"
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list), #to get avg depth
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output

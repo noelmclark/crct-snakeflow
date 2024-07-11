@@ -9,8 +9,13 @@
 # Recent versions of ms include the -p flag which allows you to set the number of decimal places to report. 
 # I recommend using -p8 in most cases.
 
-## rule to install Chrom-Compare from https://github.com/Paleogenomics/Chrom-Compare into the bcftools-chromcompare.yaml
-# the pu2fa function from chrom compare is needed to haploidize bam sections for hPMSC
+## this is a rule that will install Chrom-Compare from https://github.com/Paleogenomics/Chrom-Compare 
+# into the active conda env and make (compile) it
+# the pu2fa function from Chrom-Compare is needed to haploidize bam sections for hPMSC
+# so, whenever you need to use Chrom-Compare, you call the same
+# conda environment, and have the flagfile as an input
+# depenency to ensure that Chrom-Compare has already been successfully
+# built into that conda env. Similar to process for pcangsd from Eric's bcf snakeflow
 rule install_chromcompare:
     params:
         url=config["params"]["chromcompare"]["url"]
@@ -32,6 +37,7 @@ rule haploidize_bam_sections:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
+        flagfile="results/flags/chromcompare_installed"
     output:
         temp("results/hpsmc/haploidize_bam_sect/{sample}/{chromo}_haploidized.fa"),
     conda:
