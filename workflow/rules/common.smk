@@ -216,7 +216,7 @@ def get_pcangsd_bam_filelist(wildcards):
 
 def get_sgc_list(wildcards):
     if wildcards.sample == wildcards.sample:
-        ret=sg_or_chrom.tolist()
+        ret=sg_or_chrom
     else: 
         raise Exception("That didn't work.")
     return ret
