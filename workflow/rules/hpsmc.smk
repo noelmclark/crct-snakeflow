@@ -9,17 +9,20 @@
 # Recent versions of ms include the -p flag which allows you to set the number of decimal places to report. 
 # I recommend using -p8 in most cases.
 
-rule test_haploidize_bam:
+rule haploidize_bam_sections:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
-    params:
-        sgc=get_sgc_list
+        sgc={sg_or_chrom}
     output:
-        "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
+        temp("results/hpsmc/haploidize_bam_sect/{sample}/{sg_or_chrom}_haploidized.fa"),
+    conda:
+        "../envs/bcftools-pu2fa.yaml"
+    #resources:
     log:
-        "results/logs/hpsmc/test_haploidize_bam/{sample}.log",
+        "results/logs/hpsmc/haploidize-bam-sect/{sample}/{sg_or_chrom}.log",
+    benchmark:
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{sample}/{sg_or_chrom}.bmk",
     shell:
-        " for i in ${params.sgc}; do "
-        "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-        "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "
+        " bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {input.sgc} {input.bam} | "
+        " pu2fa -c {input.sgc} -C 50 > {output} "

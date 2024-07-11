@@ -1,13 +1,10 @@
 rule haploidize_bam_sections:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
-        bai="results/angsd_bams/overlap_clipped/{sample}.bai",
         ref="resources/genome/OmykA.fasta",
-        idx="resources/genome/OmykA.dict",
-        fai="resources/genome/OmykA.fasta.fai",
         sgc={sg_or_chrom}
     output:
-        "results/hpsmc/haploidize_bam_sect/{sample}/{sg_or_chrom}_haploidized.fa",
+        temp("results/hpsmc/haploidize_bam_sect/{sample}/{sg_or_chrom}_haploidized.fa"),
     conda:
         "../envs/bcftools-pu2fa.yaml"
     #resources:
@@ -32,15 +29,17 @@ rule concat_haploidized_bam:
         " cat {input} > {output} 2> {log} "
 
 
-#is there a way to do both rules at once?
-#        " for i in {input.sgc}; do "
-#        "  bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-#        "  pu2fa -c $i -C 50 >> {output} 2>> {log}; "
-#        " done "
-#
-#        or
-#
-#
-#       " for i in {input.sgc}; do "
-#        "  bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-#        "  pu2fa -c $i -C 50 ; done > {output} 2> {log} "
+rule test_haploidize_bam:
+    input:
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        ref="resources/genome/OmykA.fasta",
+    params:
+        sgc=get_sgc_list
+    output:
+        "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
+    log:
+        "results/logs/hpsmc/test_haploidize_bam/{sample}.log",
+    shell:
+        " for i in {params.sgc}; do "
+        "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
+        "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "

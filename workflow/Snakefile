@@ -12,7 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list),
-        expand("results/hpsmc/test_haploidize_bam/{s}_test_haploid.txt", s=sample_list)
+        expand("results/hpsmc/haploidize_bam_sect/{s}/{sgc}_haploidized.fa", s=sample_list, sgc=sg_or_chrom)
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list), #to get avg depth
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
