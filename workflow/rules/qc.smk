@@ -1,15 +1,27 @@
 #rule to calculate avg depth of coverage of the mkdup bam file using samtools
-
+rule get_coverage_depth:
+    input:
+        "results/angsd_bams/overlap_clipped/{sample}.bam"
+    output:
+        "results/qc/coverage-depth/{sample}.txt"
+    conda:
+        "../envs/sambcftools.yaml"
+    log:
+        "results/logs/qc/get-coverage-depth/{sample}.log"
+    benchmark:
+        "results/benchmarks/qc/get-coverage-depth/{sample}.bmk"
+    shell:
+        "samtools depth -a -H {input} -o {output} 2> {log}"
 
 rule calc_avg_depth:
     input:
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
     output:
-        "results/qc/coverage-depth/avg_depth.txt",
+        "results/qc/coverage-depth/avg-depth.txt",
     log:
-        "results/logs/qc/coverage-depth/avg_depth.log"
+        "results/logs/qc/coverage-depth/avg-depth.log"
     benchmark:
-        "results/benchmarks/qc/coverage-depth/avg_depth.log"
+        "results/benchmarks/qc/coverage-depth/avg-depth.bmk"
     shell:
         " for i in {input}; do "
         "  awk '{{sum+=$3}} END {{ print "The average depth of", i," = ",sum/NR}}' $i; "
@@ -20,11 +32,11 @@ rule count_above_10_depth:
     input:
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list)
     output:
-        "results/qc/coverage-depth/count_above_10.txt",
+        "results/qc/coverage-depth/count-above-10.txt",
     log:
-        "results/logs/qc/coverage-depth/count_above_10.log"
+        "results/logs/qc/coverage-depth/count-above-10.log"
     benchmark:
-        "results/benchmarks/qc/coverage-depth/count_above_10.log"
+        "results/benchmarks/qc/coverage-depth/count-above-10.bmk"
     shell:
         " for i in {input}; do "
         "  awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is ",count}}' $i; "

@@ -15,8 +15,8 @@ rule all:
         "results/flags/chromcompare_installed",
         "results/flags/pcangsd_installed",
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
-        "results/qc/coverage-depth/avg_depth.txt",
-        "results/qc/coverage-depth/count_above_10.txt",
+        "results/qc/coverage-depth/avg-depth.txt",
+        "results/qc/coverage-depth/count-above-10.txt",
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list), #to get avg depth
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
