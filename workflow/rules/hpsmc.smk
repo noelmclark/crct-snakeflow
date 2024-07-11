@@ -57,8 +57,8 @@ rule test_haploidize_bam:
         "results/logs/hpsmc/test_haploidize_bam/{sample}/{sg_or_chrom}.log",
     shell:
         " for i in {input.sgc}; do "
-        "  echo "bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
-        "  pu2fa -c $i -C 50" ; done > {output} 2> {log} "
+        "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
+        "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "
 
 #is there a way to do both rules at once?
 #        " for i in {input.sgc}; do "
