@@ -11,10 +11,10 @@
 # joint calling them in the calling phase
 rule psmc_consensus_sequence:
     input:
-        bam="results/angsd_bams/overlap_clipped/{sample}.bam", #should this be a bam with -baq 2 done on it for indel stuff? 
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
-        "results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz"
+        temp("results/psmc/bams2psmc/psmc-consensus-sequence/{sample}.fq.gz")
     conda:
         "../envs/sambcftools.yaml"
     resources:
