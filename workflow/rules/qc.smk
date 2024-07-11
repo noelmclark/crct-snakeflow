@@ -13,9 +13,6 @@ rule get_coverage_depth:
     shell:
         "samtools depth -a -H {input} -o {output} 2> {log}"
 
-
-
-
 rule calc_avg_depth:
     input:
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
@@ -28,7 +25,7 @@ rule calc_avg_depth:
     shell:
         " for i in {input}; do "
         " awk '{{sum+=$3}} END {{ print "The average depth of", i, "=", sum/NR}}' $i; "
-        " done "
+        " done > {output} 2> {log}"
 
 # maybe using this to determine which individual per population to use for hPSMC
 rule count_above_10_depth:
@@ -42,7 +39,7 @@ rule count_above_10_depth:
         "results/benchmarks/qc/coverage-depth/count-above-10.bmk",
     shell:
         " for i in {input}; do "
-        "  awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is", count}}' $i; "
+        " awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is", count}}' $i; "
         " done "
 
 rule samtools_stats:
