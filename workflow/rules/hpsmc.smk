@@ -66,20 +66,20 @@ rule concat_haploidized_bam:
         " cat {input} > {output} 2> {log} "
 
 
-rule psmcfa_from_2_fastas:
-    input:
-        pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
-        pop2="sample2_all.fa"
-    output:
-        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
-    conda:
-        "../envs/hpsmc.yaml"
-    log:
-        ""
-    benchmark:
-        ""
-    shell:
-        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output}"
+#rule psmcfa_from_2_fastas:
+#    input:
+#        pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
+#        pop2="sample2_all.fa"
+#    output:
+#        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
+#    conda:
+#        "../envs/hpsmc.yaml"
+#    log:
+#        ""
+#    benchmark:
+#        ""
+#    shell:
+#        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output}"
 
 
 ## 2. run PSMC on each of the pop1---x---pop2-hPSMC.psmcfa files
@@ -117,14 +117,14 @@ rule hpsmc_plot:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
 
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
-rule simulate_hpsmc_divergence:
-    input:
-    output:
-    conda:
-    log:
-    benchmark:
-    shell:
-        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=? -l ? -u ? -s "
+#rule simulate_hpsmc_divergence:
+#    input:
+#    output:
+#    conda:
+#    log:
+#    benchmark:
+#    shell:
+#        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=? -l ? -u ? -s "
  	
     #OPTIONS:
  	#-h print help message with user options
