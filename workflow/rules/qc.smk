@@ -40,7 +40,7 @@ rule count_above_10_depth:
     shell:
         " for i in {input}; do "
         " awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is", count}}' $i; "
-        " done "
+        " done > {output} 2> {log}"
 
 rule samtools_stats:
     input:
