@@ -24,7 +24,7 @@ rule calc_avg_depth:
         "results/benchmarks/qc/coverage-depth/avg-depth.bmk"
     shell:
         " for i in {input}; do "
-        " awk '{{sum+=$3}} END {{ print "The average depth of", i, "=", sum/NR}}' $i; "
+        " cat $i | awk '{{sum+=$3}} END {{ print "The average depth of", i, "=", sum/NR}}'; "
         " done > {output} 2> {log}"
 
 # maybe using this to determine which individual per population to use for hPSMC
