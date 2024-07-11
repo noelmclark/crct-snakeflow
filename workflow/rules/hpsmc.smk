@@ -13,12 +13,12 @@ rule test_haploidize_bam:
     input:
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         ref="resources/genome/OmykA.fasta",
-        sgc="|".join(unique_scaff_groups + unique_chromosomes)
     output:
         "results/hpsmc/test_haploidize_bam/{sample}_test_haploid.txt"
     log:
         "results/logs/hpsmc/test_haploidize_bam/{sample}.log",
     shell:
-        " for i in {input.sgc}; do "
+        " SGC={wildcards.sg_or_chrom}; "
+        " for i in $SGC; do "
         "  echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r $i {input.bam} | "
         "  pu2fa -c $i -C 50' ; done > {output} 2> {log} "
