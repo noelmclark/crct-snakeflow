@@ -27,22 +27,6 @@ rule clip_overlaps:
         " samtools index {output.bam} -o {output.bai} 2> {log.index}"
 
 
-## Rule to run Base Alignment Quality (-baq 2) in ANGSD which is an alternative to species specific indel realignment.
-# The idea with this is to prep BAMs for all downstream analyses. & maybe for calling?
-rule run_baq_2:
-    input:
-        "results/mapping/gatk-rmdup/{sample}.bam",
-    output:
-        "results/angsd_bams/baq2/{sample}.bam"
-    conda:
-        "../envs/angsd.yaml"
-    log:
-        "results/logs/angsd_bams/baq2/{sample}.bam"
-    benchmark:
-        "results/benchmarks/angsd_bams/baq2/{sample}.bam"
-    shell:
-        "angsd -out {output} -baq 2 -bam {input} 2> {log}"
-
 ## 2. This is a new rule I wrote because HaplotyeCaller was throwing an error in my make_gvcf_sections rule with the bam files
 # from samples that had multiple units because I erroneously had the SM field of @RG include unit. 
 # They had multiple @RG tags listed so HaplotyeCaller thought there were two samples 
