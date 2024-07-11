@@ -12,7 +12,7 @@
 ## rule to install chromcompare into the bcftools-chromcompare.yaml
 rule install_chromcompare:
     params:
-        hash=config["params]["chromcompare"]["version"],
+        hash=config["params"]["chromcompare"]["version"],
         url=config["params"]["chromcompare"]["url"]
     output:  
         flagfile=touch("results/flags/chromcompare_installed")
