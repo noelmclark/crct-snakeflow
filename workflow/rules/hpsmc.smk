@@ -18,7 +18,7 @@ rule haploidize_bam_sections:
         fai="resources/genome/OmykA.fasta.fai",
         sgc={sg_or_chrom}
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{sample}/{sg_or_chrom}_haploidized.fa"),
+        "results/hpsmc/haploidize_bam_sect/{sample}/{sg_or_chrom}_haploidized.fa",
     conda:
         "../envs/bcftools-pu2fa.yaml"
     #resources:
