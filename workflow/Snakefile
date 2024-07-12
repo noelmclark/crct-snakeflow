@@ -13,8 +13,8 @@ rule all:
     input:
         "results/qc/coverage-depth/avg-count/above-10.txt",
         "results/qc/coverage-depth/avg-count/avg-depth.txt",
-        "results/flags/chromcompare_installed",
-        "results/flags/pcangsd_installed",
+        #"results/flags/chromcompare_installed",
+        #"results/flags/pcangsd_installed",
         expand("results/psmc-test/psmcfa-test/{s}.psmcfa", s=sample_list),
         
         #hpsmc outputs
