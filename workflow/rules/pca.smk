@@ -7,8 +7,8 @@
 # the active conda env.  Yep! That works nicely. -copied from Eric's post-bcf-snakeflow
 rule install_pcangsd:
     params:
-        hash=config["params]["pcangsd"]["version"],
-        url=config["params]["pcangsd"]["url"]
+        hash=config["params"]["pcangsd"]["version"],
+        url=config["params"]["pcangsd"]["url"]
     output:  
         flagfile=touch("results/flags/pcangsd_installed")
     conda:
