@@ -15,7 +15,21 @@ rule get_coverage_depth:
 
 rule calc_avg_depth:
     input:
-        expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
+        "results/qc/coverage-depth/{sample}.txt",
+    output:
+        temp("results/qc/coverage-depth/avg-count/avg-depth-{sample}.txt"),
+    log:
+        "results/logs/qc/coverage-depth/avg-count/avg-depth-{sample}.log"
+    benchmark:
+        "results/benchmarks/qc/coverage-depth/avg-count/avg-depth-{sample}.bmk"
+    shell:
+        " cat {input} | "
+        " awk '{{sum+=$3}} END {{ print \"The average depth of\", $i, \"=\", sum/NR}}' "
+        " > {output} 2> {log}"
+
+rule concat_avg_depth:
+    input:
+        expand("results/qc/coverage-depth/avg-count/avg-depth-{s}.txt", s=sample_list),
     output:
         "results/qc/coverage-depth/avg-count/avg-depth.txt",
     log:
@@ -24,8 +38,7 @@ rule calc_avg_depth:
         "results/benchmarks/qc/coverage-depth/avg-count/avg-depth.bmk"
     shell:
         " for i in {input}; do "
-        " awk '{{sum+=$3}} END {{ print \"The average depth of\", $i, \"=\", sum/NR}}' $i; "
-        " done > {output} 2> {log}"
+        " cat $i; done > {output} 2> {log}"
 
 # maybe using this to determine which individual per population to use for hPSMC
 rule count_above_10_depth:
@@ -44,7 +57,7 @@ rule count_above_10_depth:
 
 rule concat_counts:
     input:
-       expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
+       expand("results/qc/coverage-depth/avg-count/above-10-{s}.txt", s=sample_list),
     output:
         "results/qc/coverage-depth/avg-count/above-10.txt",
     log:
