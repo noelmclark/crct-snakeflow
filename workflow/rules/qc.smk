@@ -39,7 +39,7 @@ rule count_above_10_depth:
         "results/benchmarks/qc/coverage-depth/count-above-10.bmk",
     shell:
         " for i in {input}; do "
-        " awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", $i, "with depth greater than 10 is", count}}' $i; "
+        " awk '$3 >= 10 {{ count++ }} END {{ print 'the count of bases in', i, 'with depth greater than 10 is', count}}' $i; "
         " done > {output} 2> {log}"
 
 rule samtools_stats:
