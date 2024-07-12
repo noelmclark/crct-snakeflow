@@ -23,8 +23,7 @@ rule calc_avg_depth:
     benchmark:
         "results/benchmarks/qc/coverage-depth/avg-count/avg-depth-{sample}.bmk"
     shell:
-        " cat {input} | "
-        " awk '{{sum+=$3}} END {{ print \"The average depth of\", $i, \"=\", sum/NR}}' "
+        " awk '{{sum+=$3}} END {{ print \"The average depth of\", {wildcards.sample}, \"=\", sum/NR}}' {input} "
         " > {output} 2> {log}"
 
 rule concat_avg_depth:
@@ -51,8 +50,7 @@ rule count_above_10_depth:
     benchmark:
         "results/benchmarks/qc/coverage-depth/avg-count/above-10-{sample}.bmk",
     shell:
-        " cat {input} | "
-        " awk '$3 >= 10 {{ count++ }} END {{ print \"the count of bases in\", {input}, \"with depth greater than 10 is\", count}}' "
+        " awk '$3 >= 10 {{ count++ }} END {{ print \"the count of bases in\", {wildcards.sample}, \"with depth greater than 10 is\", count}}' {input}"
         " > {output} 2> {log}"
 
 rule concat_counts:
