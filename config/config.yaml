@@ -80,8 +80,6 @@ params:
         - ' -filter "MQ < 40.0" --filter-name "MQ40" '
         - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
-  pcangsd:
-    url: git@github.com:Rosemeis/pcangsd.git
   chromcompare:
     url: git@github.com:Paleogenomics/Chrom-Compare.git
   hpsmc:
@@ -93,3 +91,9 @@ params:
       #- LoFtool
     # extra command line arguments (e.g. --sift, see docs)
     #extra: "" 
+
+#### SETTING SECTIONS #####
+
+pcangsd:
+  url: https://github.com/eriqande/pcangsd.git
+  version: 705ca4c19630ed9c2dd254b0bfd528b8ee25d5c0

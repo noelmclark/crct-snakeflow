@@ -7,7 +7,8 @@
 # the active conda env.  Yep! That works nicely. -copied from Eric's post-bcf-snakeflow
 rule install_pcangsd:
     params:
-        url=config["params"]["pcangsd"]["url"]
+        hash=config["pcangsd"]["version"],
+        url=config["pcangsd"]["url"]
     output:  
         flagfile=touch("results/flags/pcangsd_installed")
     conda:
@@ -15,10 +16,10 @@ rule install_pcangsd:
     log:
         "results/logs/install_pcangsd/log.txt"
     shell:
-        "(cd results/snake-tmp && "
-        " eval 'ssh-agent -s'; ssh-add ~/.ssh/id_ed25519 && " #connecting to Github via ssh key
+        "(TMP=$(mktemp -d) && cd $TMP && "
         " git clone {params.url} && "
         " cd pcangsd  && "
+        " git checkout {params.hash} && "
         " python setup.py build_ext --inplace && "
         " pip3 install -e .  ) > {log} 2>&1  "
 

@@ -12,7 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list),
-        "results/flags/chromcompare_installed",
+        #"results/flags/chromcompare_installed",
         "results/flags/pcangsd_installed",
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
         #"results/qc/coverage-depth/avg-depth.txt",
