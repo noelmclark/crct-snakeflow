@@ -13,11 +13,11 @@ rule all:
     input:
         "results/flags/chromcompare_installed",
         "results/flags/pcangsd_installed",
-        expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
         #"results/qc/coverage-depth/avg-depth.txt",
         #"results/qc/coverage-depth/count-above-10.txt",
+        
+        #hpsmc outputs
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
-        #expand("results/qc/coverage-depth/{s}.txt", s=sample_list), #to get avg depth
         
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
@@ -45,6 +45,7 @@ rule all:
         #expand("results/psmc/psmc-plot/{s}.eps", s=sample_list), #PSMC final outputs, does weird things with file endings to this needs some help
         #expand("results/psmc/psmc-plot/{s}.par", s=sample_list),
 
+        #qc outputs
         #expand("results/qc/samtools_stats/{s}.txt", s=sample_list),
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
