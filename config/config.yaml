@@ -91,10 +91,13 @@ params:
 #### SETTING SECTIONS #####
 ## I forked the most up to date version of the repository for the packages I was using
 # Linking it to my fork makes it reproducible in case the main page is updated and commands are depreciated in the future
+# The version hash refers to the commit version you want to pull - github is so cool!
 pcangsd:
   url: git@github.com:noelmclark/pcangsd.git
-  version: 705ca4c19630ed9c2dd254b0bfd528b8ee25d5c0
+  version: 94f5c33d76e99e998beb2897699d4605dac3b34b
 chromcompare:
     url: git@github.com:noelmclark/Chrom-Compare.git
+    version: e38bc94d8bca18347e6c4c20582850e03cbd0cfd
 hpsmc:
    url: git@github.com:noelmclark/hPSMC.git
+   version: f69f899bb924637611d818f2bb35c574837420f3
