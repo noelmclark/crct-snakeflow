@@ -16,6 +16,7 @@ rule install_pcangsd:
         "results/logs/install_pcangsd/log.txt"
     shell:
         "(TMP=$(mktemp -d) && cd $TMP && "
+        " gitup " #my alias for connecting to Github via ssh key
         " git clone {params.url} && "
         " cd pcangsd  && "
         " python setup.py build_ext --inplace && "

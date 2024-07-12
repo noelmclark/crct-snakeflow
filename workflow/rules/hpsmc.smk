@@ -27,6 +27,7 @@ rule install_chromcompare:
         "results/logs/install_chromcompare/log.txt"
     shell:
         "(TMP=$(mktemp -d) && cd $TMP && "
+        " gitup " #my alias for connecting to Github via ssh key
         " git clone {params.url} && "
         " cd Chrom-Compare && "
         " make ) > {log} 2>&1  "
