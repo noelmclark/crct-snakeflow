@@ -37,7 +37,7 @@ rule concat_avg_depth:
         "results/benchmarks/qc/coverage-depth/avg-count/avg-depth.bmk"
     shell:
         " for i in {input}; do "
-        " cat $i; done > {output} 2> {log}"
+        " (echo $i && cat $i); done > {output} 2> {log}"
 
 # maybe using this to determine which individual per population to use for hPSMC
 rule count_above_10_depth:
@@ -64,7 +64,7 @@ rule concat_counts:
         "results/benchmarks/qc/coverage-depth/avg-count/above-10.bmk",
     shell:
         " for i in {input}; do "
-        " cat $i; done > {output} 2> {log}"
+        " (echo $i && cat $i); done > {output} 2> {log}"
 
 rule samtools_stats:
     input:
