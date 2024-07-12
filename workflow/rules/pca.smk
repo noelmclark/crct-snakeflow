@@ -20,8 +20,7 @@ rule install_pcangsd:
         " git clone {params.url} && "
         " cd pcangsd  && "
         " git checkout {params.hash} && "
-        " python setup.py build_ext --inplace && "
-        " pip3 install -e .  ) > {log} 2>&1  "
+        " pip3 install .  ) > {log} 2>&1  "
 
 
 ## this rule takes the bam.filelist and generates a beagle file for use in pcangsd

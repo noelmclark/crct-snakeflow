@@ -88,7 +88,7 @@ params:
     # extra command line arguments (e.g. --sift, see docs)
     #extra: "" 
 
-#### SETTING SECTIONS #####
+#### SETTING INSTALL SECTIONS #####
 ## I forked the most up to date version of the repository for the packages I was using
 # Linking it to my fork makes it reproducible in case the main page is updated and commands are depreciated in the future
 # The version hash refers to the commit version you want to pull - github is so cool!
@@ -97,7 +97,7 @@ pcangsd:
   version: 94f5c33d76e99e998beb2897699d4605dac3b34b
 chromcompare:
     url: git@github.com:noelmclark/Chrom-Compare.git
-    version: e38bc94d8bca18347e6c4c20582850e03cbd0cfd
+    version: e0c33667ad92333f792852399fb25221ff75912e
 hpsmc:
    url: git@github.com:noelmclark/hPSMC.git
-   version: f69f899bb924637611d818f2bb35c574837420f3
+   version: f69f899bb924637611d818f2bb35c574837420f3 #this is here just for the version of hPSMC scripts I used
