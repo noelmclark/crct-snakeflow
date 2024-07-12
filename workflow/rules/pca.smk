@@ -15,7 +15,7 @@ rule install_pcangsd:
     log:
         "results/logs/install_pcangsd/log.txt"
     shell:
-        "(TMP=$(mkdtemp) && cd $TMP && "
+        "(cd results/snake-tmp && "
         " eval 'ssh-agent -s'; ssh-add ~/.ssh/id_ed25519 && " #connecting to Github via ssh key
         " git clone {params.url} && "
         " cd pcangsd  && "
