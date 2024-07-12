@@ -82,7 +82,6 @@ params:
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
   pcangsd:
     url: git@github.com:Rosemeis/pcangsd.git
-    verion: 705ca4c19630ed9c2dd254b0bfd528b8ee25d5c0
   chromcompare:
     url: git@github.com:Paleogenomics/Chrom-Compare.git
   hpsmc:
