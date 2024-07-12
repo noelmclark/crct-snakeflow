@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list),
+        
         #"results/flags/chromcompare_installed",
         "results/flags/pcangsd_installed",
         expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
@@ -19,9 +19,10 @@ rule all:
         #"results/qc/coverage-depth/count-above-10.txt",
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list), #to get avg depth
+        
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
-        #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams intermediate output
+        #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams output
         #expand("results/calling/corrected_missing_vcf_sect/{sgc}.vcf.gz", sgc=sg_or_chrom), #calling final output
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
@@ -41,8 +42,7 @@ rule all:
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
         
-        #expand("results/angsd_bams/indel_realigned/{{igrp}}/{s}.bam", s=sample_list), #angsd-bams indel realignment final output
-        
+        #expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list), #psmc/psmc-test initial output
         #expand("results/psmc/psmc-plot/{s}.eps", s=sample_list), #PSMC final outputs, does weird things with file endings to this needs some help
         #expand("results/psmc/psmc-plot/{s}.par", s=sample_list),
 

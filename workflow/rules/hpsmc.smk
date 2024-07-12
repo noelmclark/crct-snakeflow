@@ -18,7 +18,8 @@
 # built into that conda env. Similar to process for pcangsd from Eric's bcf snakeflow
 rule install_chromcompare:
     params:
-        url=config["params"]["chromcompare"]["url"]
+        hash=config["chromcompare"]["version"],
+        url=config["chromcompare"]["url"]
     output:  
         flagfile=touch("results/flags/chromcompare_installed")
     conda:
@@ -27,9 +28,9 @@ rule install_chromcompare:
         "results/logs/install_chromcompare/log.txt"
     shell:
         "(TMP=$(mktemp -d) && cd $TMP && "
-        " gitup " #my alias for connecting to Github via ssh key
         " git clone {params.url} && "
-        " cd Chrom-Compare && "
+        " cd Chrom-Compare  && "
+        " git checkout {params.hash} && "
         " make ) > {log} 2>&1  "
 
 
