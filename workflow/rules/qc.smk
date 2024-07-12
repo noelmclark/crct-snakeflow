@@ -28,19 +28,19 @@ rule get_coverage_depth:
  #       " done > {output} 2> {log}"
 
 # maybe using this to determine which individual per population to use for hPSMC
-#rule count_above_10_depth:
-#    input:
-#       expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
-#    output:
- #       "results/qc/coverage-depth/count-above-10.txt",
- #   log:
- #       "results/logs/qc/coverage-depth/count-above-10.log",
- #   benchmark:
- #       "results/benchmarks/qc/coverage-depth/count-above-10.bmk",
- #   shell:
- #       " for i in {input}; do "
- #       " awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is", count}}' $i; "
- #       " done > {output} 2> {log}"
+rule count_above_10_depth:
+    input:
+       expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
+    output:
+        "results/qc/coverage-depth/count-above-10.txt",
+    log:
+        "results/logs/qc/coverage-depth/count-above-10.log",
+    benchmark:
+        "results/benchmarks/qc/coverage-depth/count-above-10.bmk",
+    shell:
+        " for i in {input}; do "
+        " awk '$3 >= 10 {{ count++ }} END {{ print "the count of bases in", i, "with depth greater than 10 is", count}}' $i; "
+        " done > {output} 2> {log}"
 
 rule samtools_stats:
     input:
