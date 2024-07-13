@@ -258,7 +258,7 @@ def get_psmc_subsamp_bams(wildcards):
     elif(wildcards.subsamp == "crct-both"):
         bgvalues=["BL", "GR"]
         bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
-        return(expand("results/psmc-test/run-psmc-test/{s}.psmc", s=gb["sample"].tolist()))
+        return(expand("results/psmc-test/run-psmc-test/{s}.psmc", s=bg["sample"].tolist()))
     elif(wildcards.subsamp == "outgroups"):
         bgvalues=["BL", "GR"]
         out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
