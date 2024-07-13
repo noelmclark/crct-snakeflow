@@ -223,4 +223,4 @@ def get_sgc_list(wildcards):
 
 def get_comma_sep_sample_names(sample_list):
     sample_list=sample_table["sample"].unique().tolist()
-    return ', '.join(sample_list)
+    return ','.join(sample_list)
