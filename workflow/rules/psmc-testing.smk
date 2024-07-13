@@ -80,3 +80,21 @@ rule psmc_plot_test:
         "results/benchmarks/psmc-test/psmc-plot-test/{sample}.bmk"
     shell:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
+
+
+## rule to plot all PSMC outputs together!
+# can also set min (-x) and max (-X) generations for mapping
+rule psmc_plot_all_test:
+    input:
+        expand("results/psmc/run-psmc/{sample}.psmc")
+    output:
+        "results/psmc-test/psmc-plot-all-test/all-together.eps",
+        #par="results/psmc-test/psmc-plot-all-test/all-together.par"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc-test/psmc-plot-test-test/all-together.log"
+    benchmark:
+        "results/benchmarks/psmc-test/psmc-plot-test-test/all-together.bmk"
+    shell:
+        "psmc_plot.pl -u 8.0e-09 -g 3 -x 1000 -X 5000000 {output} -M {input} 2> {log}"

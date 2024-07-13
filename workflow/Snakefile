@@ -11,15 +11,14 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/qc/coverage-depth/avg-count/above-10.txt",
-        "results/qc/coverage-depth/avg-count/avg-depth.txt",
+        "results/psmc-test/psmc-plot-all-test/all-together",
         #"results/flags/chromcompare_installed",
         #"results/flags/pcangsd_installed",
-        expand("results/psmc-test/psmcfa-test/{s}.psmcfa", s=sample_list),
         
         #hpsmc outputs
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
-        
+        #expand("results/psmc-test/psmcfa-test/{s}.psmcfa", s=sample_list),
+
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams output
@@ -52,7 +51,9 @@ rule all:
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=mafs,),
         #expand("results/qc/bcftools_stats/all-pass-maf-{maf}.txt", maf=config["bqsr_maf"], bq=[str(x) for x in range(0, int(config["bqsr_rounds"])+1)]),
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
-        
+        #"results/qc/coverage-depth/avg-count/above-10.txt",
+        #"results/qc/coverage-depth/avg-count/avg-depth.txt",
+
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
         #"qc/multiqc.html",
