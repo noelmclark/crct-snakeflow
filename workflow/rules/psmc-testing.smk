@@ -108,8 +108,8 @@ rule echo_psmc_subsamp:
     input:
         bams=get_psmc_subsamp_bams
     output:
-        "results/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}/{sample}.txt"
+        "results/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}.txt"
     log:
-        "results/logs/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}/{sample}.txt"
+        "results/logs/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}.txt"
     shell:
         " echo {input} > {output} 2> {log} "
