@@ -86,7 +86,7 @@ rule psmc_plot_test:
 # can also set min (-x) and max (-X) generations for mapping
 rule psmc_plot_all_test:
     input:
-        expand("results/psmc/run-psmc/{sample}.psmc")
+        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list)
     output:
         "results/psmc-test/psmc-plot-all-test/all-together.eps",
         #par="results/psmc-test/psmc-plot-all-test/all-together.par"
