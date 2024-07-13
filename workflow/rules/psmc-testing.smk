@@ -118,5 +118,4 @@ rule psmc_plot_by_subsamp:
     benchmark:
         "results/benchmarks/psmc-plot-subsamp/{psmc_id}/{subsamp}.bmk"
     shell:
-        " echo {input.psmc} -M {params.samps} > {output} 2> {log} "
-        #" psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
