@@ -233,18 +233,11 @@ psmc_table=pd.read_table(config["psmc_info"], dtype="str").set_index(
     ["sample"], drop=False
 )
 
-lineage_list = psmc_table["lineage"].unique().tolist()
-population_list = psmc_table["population"].unique().tolist()
-
 psmc_id="lineage"
 subsamp=["all", "crct-blue", "crct-green", "crct-both", "outgroups"]
 
-#def get_psmc_subsamp_bams(wildcards):
-#    p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample)]
-#    if wildcards.sample == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]:
-#        return(expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list))
-#    else:
-#        raise Exception("Wildcard psmc_id must be Lineage for now (or Population later).")
+lineage_list = psmc_table["lineage"].unique().tolist()
+population_list = psmc_table["population"].unique().tolist()
 
 def get_psmc_subsamps(wildcards):
     if(wildcards.subsamp == "all"):
