@@ -241,8 +241,18 @@ subsamp=["all", "crct-blue", "crct-green", "crct-both", "outgroups"]
 
 def get_psmc_subsamp_bams(wildcards):
     p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample)]
-    if wildcards.sample == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]:
+    if wildcards.subsamp == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]:
         return(expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list))
     else:
         raise Exception("Wildcard psmc_id must be Lineage for now (or Population later).")
 
+#def get_psmc_subsamp_bams(wildcards):
+#    p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample)]
+#    if wildcards.subsamp == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]
+#        
+#        
+#        return(expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list))
+#    else:
+#        raise Exception("Wildcard psmc_id must be Lineage for now (or Population later).")
+#
+# config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]:
