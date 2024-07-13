@@ -99,4 +99,4 @@ rule psmc_plot_all_test:
     benchmark:
         "results/benchmarks/psmc-test/psmc-plot-test-test/all-together.bmk"
     shell:
-        " psmc_plot.pl -u 8.0e-09 -g 3 -x 1000 -X 5000000 -M {params.samps} {output} {input.psmc} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -M {params.samps} {output} {input.psmc} 2> {log}"
