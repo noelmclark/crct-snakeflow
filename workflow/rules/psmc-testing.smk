@@ -87,6 +87,7 @@ rule psmc_plot_test:
 rule psmc_plot_all_test:
     input:
         psmc=expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
+    params:
         samps=expand("{s}", s=sample_list),
     output:
         "results/psmc-test/psmc-plot-all-test/all-together",
@@ -98,4 +99,4 @@ rule psmc_plot_all_test:
     benchmark:
         "results/benchmarks/psmc-test/psmc-plot-test-test/all-together.bmk"
     shell:
-        " echo (psmc_plot.pl -u 8.0e-09 -g 3 -x 1000 -X 5000000 -M {input.samps} {input.psmc}) > {output} 2> {log}"
+        " echo (psmc_plot.pl -u 8.0e-09 -g 3 -x 1000 -X 5000000 -M {params.samps} {input.psmc}) > {output} 2> {log}"
