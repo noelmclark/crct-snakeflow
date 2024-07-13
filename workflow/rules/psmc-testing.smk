@@ -104,12 +104,19 @@ rule psmc_plot_all_test:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log}"
 
 ## testing PSMC by subsamp code
-rule echo_psmc_subsamp:
+rule psmc_plot_by_subsamp:
     input:
-        bams=get_psmc_subsamp_bams
+        psmc=get_psmc_subsamps,
+    params:
+        samps=get_comma_sep_subsamp_names,
     output:
-        "results/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}.txt"
+        "results/psmc-plot-subsamp/{psmc_id}/{subsamp}",
+    conda:
+        "../envs/psmc.yaml"
     log:
-        "results/logs/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}.txt"
+        "results/logs/psmc-plot-subsamp/{psmc_id}/{subsamp}.log"
+    benchmark:
+        "results/benchmarks/psmc-plot-subsamp/{psmc_id}/{subsamp}.bmk"
     shell:
-        " echo {input} > {output} 2> {log} "
+        " echo {input.psmc} -M {params.samps} > {output} 2> {log} "
+        #" psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
