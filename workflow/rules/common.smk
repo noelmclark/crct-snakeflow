@@ -102,7 +102,7 @@ wildcard_constraints:
     scatter=scatter_wc_constraint,
     post_id="ALL",
     psmc_id="lineage",
-    subsamp="all|crct-blue|crct-green|crct-both|outgroups",
+    subsamp=["all", "crct-blue", "crct-green", "crct-both", "outgroups"],
 
 
 
