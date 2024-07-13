@@ -88,7 +88,7 @@ rule psmc_plot_all_test:
     input:
         psmc=expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
     params:
-        samps=get_comma_sep_samples,
+        samps=expand("', '.join({s})", s=sample_list),
     output:
         "results/psmc-test/psmc-plot-all-test/all-together",
         #par="results/psmc-test/psmc-plot-all-test/all-together.par"

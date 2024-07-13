@@ -221,6 +221,6 @@ def get_sgc_list(wildcards):
         raise Exception("That didn't work.")
     return ret
 
-def get_comma_sep_samples(wildcards):
-    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
-    return( ', '.join({sample}), sample == s["sample"].tolist())
+#def get_comma_sep_sample_names():
+#    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
+#    return( ', '.join({sample}), sample == s["sample"].tolist())
