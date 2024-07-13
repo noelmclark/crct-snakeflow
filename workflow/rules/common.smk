@@ -220,3 +220,6 @@ def get_sgc_list(wildcards):
     else: 
         raise Exception("That didn't work.")
     return ret
+
+def get_comma_sep_samples(wildcards):
+    return ', '.join(wildcards.sample)
