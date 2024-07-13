@@ -84,6 +84,7 @@ rule psmc_plot_test:
 
 ## rule to plot all PSMC outputs together!
 # can also set min (-x) and max (-X) generations for mapping
+# explanation of psmc_plot.pl options https://github.com/lh3/psmc/blob/master/utils/psmc_plot.pl
 rule psmc_plot_all_test:
     input:
         psmc=expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
@@ -99,4 +100,4 @@ rule psmc_plot_all_test:
     benchmark:
         "results/benchmarks/psmc-test/psmc-plot-test-test/all-together.bmk"
     shell:
-        " psmc_plot.pl -u 8.0e-09 -g 3 -M {params.samps} {output} {input.psmc} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P "below" -M {params.samps} {output} {input.psmc} 2> {log}"
