@@ -222,4 +222,5 @@ def get_sgc_list(wildcards):
     return ret
 
 def get_comma_sep_samples(wildcards):
+    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
     return ', '.join(wildcards.sample)
