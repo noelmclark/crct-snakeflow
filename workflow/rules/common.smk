@@ -267,8 +267,6 @@ def get_psmc_subsamps(wildcards):
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, or outgroups.")
 
 def get_comma_sep_subsamp_names(wildcards):
-    sample_list=sample_table["sample"].unique().tolist()
-    return ','.join(sample_list)
     if(wildcards.subsamp == "all"):
         return','.join(sample_list)
     elif(wildcards.subsamp == "crct-blue"):
