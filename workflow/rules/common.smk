@@ -238,7 +238,7 @@ population_list = psmc_table["population"].unique().tolist()
 
 def get_psmc_subsamp_bams(wildcards):
     p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample_list)]
-    if wildcards.sample_list == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]
+    if wildcards.sample_list == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]:
         return(expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list))
     else:
         raise Exception("Wildcard psmc_id must be Lineage for now (or Population later).")
