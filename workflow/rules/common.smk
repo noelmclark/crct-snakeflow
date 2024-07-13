@@ -250,7 +250,7 @@ def get_psmc_subsamp_bams(wildcards):
     if(wildcards.subsamp == "all"):
         return(expand("results/psmc-test/run-psmc-test/{s}.psmc", s=sample_list))
     elif(wildcards.subsamp == "crct-blue"):
-        b=psmc_table.loc[(psmc_table["lineage"] == BL)]
+        b=psmc_table.loc[(psmc_table["lineage"] == "BL")]
         return(expand("results/psmc-test/run-psmc-test/{s}.psmc", s=b["sample"].tolist()))
     elif(wildcards.subsamp == "crct-green"):
         return(expand("results/psmc-test/run-psmc-test/{s}.psmc", s=green_list))
