@@ -237,7 +237,7 @@ lineage_list = psmc_table["lineage"].unique().tolist()
 population_list = psmc_table["population"].unique().tolist()
 
 psmc_id="lineage"
-subsamp="all|crct-blue|crct-green|crct-both|outgroups"
+subsamp=[all, crct-blue, crct-green, crct-both, outgroups]
 
 def get_psmc_subsamp_bams(wildcards):
     p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample_list)]
