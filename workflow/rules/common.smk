@@ -236,6 +236,9 @@ psmc_table=pd.read_table(config["psmc_info"], dtype="str").set_index(
 lineage_list = psmc_table["lineage"].unique().tolist()
 population_list = psmc_table["population"].unique().tolist()
 
+psmc_id="lineage"
+subsamp="all|crct-blue|crct-green|crct-both|outgroups"
+
 def get_psmc_subsamp_bams(wildcards):
     p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample_list)]
     if wildcards.sample_list == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]:
