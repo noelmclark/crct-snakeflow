@@ -88,7 +88,7 @@ rule psmc_plot_all_test:
     input:
         expand("results/psmc/run-psmc/{s}.psmc", s=sample_list)
     output:
-        "results/psmc-test/psmc-plot-all-test/all-together.eps",
+        "results/psmc-test/psmc-plot-all-test/all-together",
         #par="results/psmc-test/psmc-plot-all-test/all-together.par"
     conda:
         "../envs/psmc.yaml"
