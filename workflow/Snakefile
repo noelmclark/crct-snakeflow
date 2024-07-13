@@ -11,7 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/psmc-test/psmc-plot-all-test/all-together",
+        #"results/psmc-test/psmc-plot-all-test/all-together",
+        expand("results/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}/{s}.txt", psmc_id=psmc_id, subsamp=subsamp, s=sample_list)
         #"results/flags/chromcompare_installed",
         #"results/flags/pcangsd_installed",
         

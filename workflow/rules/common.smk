@@ -101,11 +101,13 @@ wildcard_constraints:
     binsize="|".join(binsize),
     scatter=scatter_wc_constraint,
     post_id="ALL",
-    #igrp="|".join(indel_grps_list)
+    psmc_id="lineage",
+    subsamp="all|crct-blue|crct-green|crct-both|outgroups",
+    )
 
 
 
-### Input Functins that use the tabular sample_info
+##### Input Functins #####
 
 # define a function to get the fastq path from the sample_table. This
 # returns it as a dict, so we need to unpack it in the rule
@@ -224,3 +226,21 @@ def get_sgc_list(wildcards):
 def get_comma_sep_sample_names(sample_list):
     sample_list=sample_table["sample"].unique().tolist()
     return ','.join(sample_list)
+
+
+##### PSMC grouping things #####
+### Get a PSMC sample info table read into a pandas data frame
+psmc_table=pd.read_table(config["psmc_info"], dtype="str").set_index(
+    ["sample"], drop=False
+)
+
+lineage_list = psmc_table["lineage"].unique().tolist()
+population_list = psmc_table["population"].unique().tolist()
+
+def get_psmc_subsamp_bams(wildcards):
+    p=psmc_table.loc[(psmc_table["sample"] == wildcards.sample_list)]
+    if wildcards.sample_list == config["psmc"][wildcards.psmc_id]["sample_subsets"][wildcards.subsamp]["path"]
+        return(expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list))
+    else:
+        raise Exception("Wildcard psmc_id must be Lineage for now (or Population later).")
+

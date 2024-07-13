@@ -7,6 +7,7 @@ chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
 scatter_intervals_file: "results/scatter_config/scatters_1200000.tsv"
 replace_RG: "config/replace-RG.tsv"
+psmc_info: "config/psmc-info.tsv"
 
 #this is only needed when doing species specific indel realignment
 #indel_grps: "config/igrps.tsv" 
@@ -101,3 +102,29 @@ chromcompare:
 hpsmc:
    url: git@github.com:noelmclark/hPSMC.git
    version: f69f899bb924637611d818f2bb35c574837420f3 #this is here just for the version of hPSMC scripts I used
+
+
+#### Setting the subsample wildcards for PSMC ####
+
+# this is the short name and the path to the BCF file that will be used
+# the key here (testy) corresponds to wildcard {bcf_id}.  The sample subsets
+# should, of course, correspond to a particular
+# bcf file, so they go here.  If there are meta data files for association
+# studies in ANGSD, these go here as the dotsample.
+psmc:
+  lineage:
+    sample_subsets:
+      all:
+        path: config/sample_subsets/all-fish.txt
+      crct-blue:
+        path: config/sample_subsets/blue-fish.txt
+      crct-green:
+        path: config/sample_subsets/green-fish.txt
+      crct-both:
+        path: config/sample_subsets/crct-fish.txt
+      outgroups:
+        path: config/sample_subsets/outgroup-fish.txt
+  #population:
+  #  sample_subsets:
+  #    all:
+  #      path: config/sample_subsets/all-fish.txt

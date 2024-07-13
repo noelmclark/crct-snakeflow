@@ -84,6 +84,7 @@ rule psmc_plot_test:
 
 ## rule to plot all PSMC outputs together!
 # can also set min (-x) and max (-X) generations for mapping
+# -P sets the legend position based on gnuplot syntax: https://gnuplot.sourceforge.net/docs_4.2/node192.html 
 # explanation of psmc_plot.pl options https://github.com/lh3/psmc/blob/master/utils/psmc_plot.pl
 rule psmc_plot_all_test:
     input:
@@ -101,3 +102,14 @@ rule psmc_plot_all_test:
         "results/benchmarks/psmc-test/psmc-plot-test-test/all-together.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log}"
+
+## testing PSMC by subsamp code
+rule echo_psmc_subsamp:
+    input:
+        bams=get_psmc_subsamp_bams
+    output:
+        "results/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}/{sample}.txt"
+    log:
+        "results/logs/psmc-echo-test/{psmc_id}/psmc-consensus-sequence/{subsamp}/{sample}.txt"
+    shell:
+        " echo {input} > {output} 2> {log} "
