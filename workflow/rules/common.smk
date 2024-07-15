@@ -276,9 +276,13 @@ def get_comma_sep_subsamp_names(wildcards):
         bgvalues=["BL", "GR"]
         bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
         return','.join(bg["sample"].tolist())
+    elif(wildcards.subsamp == "srm"):
+        srmvalues=["BL", "GR", "GB", "RG", "SJ"]
+        srm=psmc_table.loc[(psmc_table["lineage"].isin(srmvalues))]
+        return','.join(srm["sample"].tolist())
     elif(wildcards.subsamp == "outgroups"):
         bgvalues=["BL", "GR"]
         out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
         return','.join(out["sample"].tolist())
     else:
-        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, or outgroups.")
+        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
