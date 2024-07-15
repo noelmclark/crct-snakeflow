@@ -102,7 +102,7 @@ wildcard_constraints:
     scatter=scatter_wc_constraint,
     post_id="ALL",
     psmc_id="lineage",
-    subsamp="all|crct-blue|crct-green|crct-both|outgroups",
+    subsamp="all|crct-blue|crct-green|crct-both|srm|outgroups",
 
 
 
@@ -234,7 +234,7 @@ psmc_table=pd.read_table(config["psmc_info"], dtype="str").set_index(
 )
 
 psmc_id="lineage"
-subsamp=["all", "crct-blue", "crct-green", "crct-both", "outgroups"]
+subsamp=["all", "crct-blue", "crct-green", "crct-both", "srm", "outgroups"]
 
 lineage_list = psmc_table["lineage"].unique().tolist()
 population_list = psmc_table["population"].unique().tolist()
@@ -252,12 +252,16 @@ def get_psmc_subsamps(wildcards):
         bgvalues=["BL", "GR"]
         bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
         return(expand("results/psmc/run-psmc/{s}.psmc", s=bg["sample"].tolist()))
+    elif(wildcards.subsamp == "srm"):
+        srmvalues=["BL", "GR", "GB", "RG", "SJ"]
+        srm=psmc_table.loc[(psmc_table["lineage"].isin(srmvalues))]
+        return(expand("results/psmc/run-psmc/{s}.psmc", s=srm["sample"].tolist()))
     elif(wildcards.subsamp == "outgroups"):
         bgvalues=["BL", "GR"]
         out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
         return(expand("results/psmc/run-psmc/{s}.psmc", s=out["sample"].tolist()))
     else:
-        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, or outgroups.")
+        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
 
 def get_comma_sep_subsamp_names(wildcards):
     if(wildcards.subsamp == "all"):
