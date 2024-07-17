@@ -105,12 +105,8 @@ hpsmc:
 
 
 #### Setting the subsample wildcards for PSMC ####
-
-# this is the short name and the path to the BCF file that will be used
-# the key here (testy) corresponds to wildcard {bcf_id}.  The sample subsets
-# should, of course, correspond to a particular
-# bcf file, so they go here.  If there are meta data files for association
-# studies in ANGSD, these go here as the dotsample.
+# I actually don't use this right now but might use it later 
+# or use a similar structure for the hPSMC subsets
 psmc:
   lineage:
     sample_subsets:
