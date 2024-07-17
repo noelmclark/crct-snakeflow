@@ -48,7 +48,7 @@ rule bcf2beagle_gl_scatter:
     input:
         bcf="results/bcf/all.bcf",
         csi="results/bcf/all.bcf.csi",
-        regions="results/scat_regions/{scatter}.scat_regions.tsv",
+        regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
     params:
         sfile=get_samples_txt
     output:
