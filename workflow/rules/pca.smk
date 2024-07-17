@@ -49,7 +49,7 @@ rule bcf2beagle_gl_scatter:
         bcf="results/bcf/all.bcf",
         csi="results/bcf/all.bcf.csi",
         regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
-        sfile="../config/sample_subsets/all-fish.txt"
+        sfile="config/sample_subsets/all-fish.txt"
     output:
         body=temp("results/bcf/beagle-gl/sections/{scatter}.body.gz"),
         top_row=temp("results/bcf/beagle-gl/sections/{scatter}.toprow.gz"),
