@@ -12,7 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         "results/flags/chromcompare_installed",
-        "results/flags/pcangsd_installed",
+        #"results/flags/pcangsd_installed",
         #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
         #expand("results/bcf/beagle-gl/sections/{scat}.beagle-gl.gz", scat=unique_scats),
         #"results/bcf/beagle-gl/beagle-gl.gz",

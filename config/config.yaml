@@ -94,13 +94,13 @@ params:
 # Linking it to my fork makes it reproducible in case the main page is updated and commands are depreciated in the future
 # The version hash refers to the commit version you want to pull - github is so cool!
 pcangsd:
-  url: git@github.com:noelmclark/pcangsd.git
-  version: 94f5c33d76e99e998beb2897699d4605dac3b34b
+  url: https://github.com/Rosemeis/pcangsd.git
+  version: 982ba6f7b2d2f015aa64b600a524d842b3615dad
 chromcompare:
-    url: git@github.com:noelmclark/Chrom-Compare.git
-    version: e0c33667ad92333f792852399fb25221ff75912e
+    url: https://github.com/Paleogenomics/Chrom-Compare.git
+    version: e38bc94d8bca18347e6c4c20582850e03cbd0cfd
 hpsmc:
-   url: git@github.com:noelmclark/hPSMC.git
+   url: https://github.com/jacahill/hPSMC.git
    version: f69f899bb924637611d818f2bb35c574837420f3 #this is here just for the version of hPSMC scripts I used
 
 
