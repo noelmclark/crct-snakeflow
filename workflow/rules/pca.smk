@@ -73,8 +73,8 @@ rule bcf2beagle_gl_scatter:
 
 rule bcf2beagle_gl_gather:
     input: 
-        header=expand("results/bcf_{{bcf_id}}/filt_{{bcfilt}}/{{sampsub}}/thin_{{thin_int}}_{{thin_start}}/beagle-gl/sections/{sg}.toprow.gz", sg=first_scatter_id),
-        scaff_gzs=expand("results/bcf_{{bcf_id}}/filt_{{bcfilt}}/{{sampsub}}/thin_{{thin_int}}_{{thin_start}}/beagle-gl/sections/{sg}.body.gz", sg=unique_scatters)
+        header=expand("results/bcf/beagle-gl/sections/{scat}.toprow.gz", scat=first_scatter_id),
+        scat_gzs=expand("results/bcf/beagle-gl/sections/{scat}.body.gz", scat=unique_scatters)
     output:
         "results/bcf/beagle-gl/beagle-gl.gz"
     log:
