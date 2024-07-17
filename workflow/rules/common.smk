@@ -277,10 +277,10 @@ def get_comma_sep_subsamp_names(wildcards):
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
 
 ##### PCA Rule Things #####
-def get_samples_txt(samples):
-    samples = sample_table["sample"].unique()
-    filename = 'samples.txt'
-    samples.to_csv(filename, index=False, header=False, line_terminator='\n') 
-    return filename
+#def get_samples_txt(samples):
+#    samples = sample_table["sample"].unique()
+#    filename = 'samples.txt'
+#    samples.to_csv(filename, index=False, header=False, line_terminator='\n') 
+#    return filename
 
 first_scat_id=unique_scats[0]

@@ -49,8 +49,7 @@ rule bcf2beagle_gl_scatter:
         bcf="results/bcf/all.bcf",
         csi="results/bcf/all.bcf.csi",
         regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
-    params:
-        sfile=get_samples_txt
+        sfile="../config/sample_subsets/all-fish.txt"
     output:
         body=temp("results/bcf/beagle-gl/sections/{scatter}.body.gz"),
         top_row=temp("results/bcf/beagle-gl/sections/{scatter}.toprow.gz"),
@@ -63,7 +62,7 @@ rule bcf2beagle_gl_scatter:
         "../envs/bcftools.yaml"
     shell:
         " ( " 
-        " awk -f workflow/scripts/pca/beagle3header.awk {params.sfile} | gzip -c > {output.top_row}  && "
+        " awk -f workflow/scripts/pca/beagle3header.awk {input.sfile} | gzip -c > {output.top_row}  && "
         " bcftools view -Ou -R {input.regions} {input.bcf} |  "
         " bcftools query -f '%CHROM:%POS\\t%REF\\t%ALT[\\t%PL]\\n' | "
         " awk -f workflow/scripts/pca/pl2gl.awk | gzip -c  >  {output.body} && "
