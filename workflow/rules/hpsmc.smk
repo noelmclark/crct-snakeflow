@@ -30,7 +30,6 @@ rule install_chromcompare:
         "(TMP=$(mktemp -d) && cd $TMP && "
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
-        " eval \"$(ssh-agent -s)\"; ssh-add ~/.ssh/id_ed25519 && "
         " git checkout {params.hash} && "
         " make ) > {log} 2>&1  "
 
