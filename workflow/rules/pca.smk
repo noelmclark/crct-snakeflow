@@ -82,7 +82,7 @@ rule bcf2beagle_gl_gather:
     benchmark:
         "results/logs/bcf2beagle_gl_gather/bcf/main.bmk"
     shell:
-        "cat {input.header} {input.scaff_gzs} > {output} 2> {log} "
+        "cat {input.header} {input.scat_gzs} > {output} 2> {log} "
 
 
 
