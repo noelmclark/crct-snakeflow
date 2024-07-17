@@ -19,8 +19,8 @@ rule install_pcangsd:
         "(TMP=$(mktemp -d) && cd $TMP && "
         " git clone {params.url} && "
         " cd pcangsd  && "
-        " eval \"$(ssh-agent -s)\"; ssh-add ~/.ssh/id_ed25519 && "
-        " git checkout {params.hash} && "
+        #" eval \"$(ssh-agent -s)\"; ssh-add ~/.ssh/id_ed25519 && "
+        #" git checkout {params.hash} && "
         " pip3 install .  ) > {log} 2>&1  "
 
 ## The following 3 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk & format.smk) with edits
