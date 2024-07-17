@@ -204,17 +204,6 @@ def get_bcftools_stats_filter_option(wildcards):
     else:
         raise Exception("Wildcard filter_condition must be ALL, PASS, or FAIL.")
 
-def get_pcangsd_bam_filelist(wildcards):
-    s=sample_table.loc[(sample_table["sample"] == wildcards.sample)]
-    if(wildcards.post_id == "ALL"):
-        return(expand("results/angsd_bams/overlap_clipped/{sample}.bam", sample = s["sample"].tolist()))
-    elif(wildcards.post_id == "CRCT"):
-        return( " ")
-    elif(wildcards.post_id == "OUT"):
-        return( " ")
-    else:
-        raise Exception("Wildcard post_id must be ALL, CRCT, or OUT.")
-
 def get_sgc_list(wildcards):
     if wildcards.sample == wildcards.sample:
         ret=sg_or_chrom
@@ -286,3 +275,10 @@ def get_comma_sep_subsamp_names(wildcards):
         return','.join(out["sample"].tolist())
     else:
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
+
+##### PCA Rule Things #####
+def get_samples_txt():
+    samples = sample_table["sample"].unique()
+    filename = 'samples.txt'
+    samples.to_csv(filename, index=False, header=False, line_terminator='\n') 
+    return filename

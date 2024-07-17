@@ -23,39 +23,101 @@ rule install_pcangsd:
         " git checkout {params.hash} && "
         " pip3 install .  ) > {log} 2>&1  "
 
-
-## this rule takes the bam.filelist and generates a beagle file for use in pcangsd
-# the {post_id} wildcard determines which bam files are used as input - ALL is all samples,
-# CRCT is just the blue/green lineage individuals & OUT is just the outgroups
-rule get_beagle_input:
+## The following 3 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk & format.smk) with edits
+# https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
+# this rule takes our scatter intervals file and creates a region file needed for the next step
+# it uses a modified version of Eric's get_scaff_members.awk script
+rule make_scat_regions:
     input:
-        get_pcangsd_bam_filelist
+        scat_path="results/scatter_config/scatters_1200000.tsv"
+    params:
+        scat="{scatter}"
     output:
-        "results/pca/get-beagle-input/{post_id}.beagle.gz"
-    conda:
-        "../envs/angsd.yaml"
+        "results/pca/scat_regions/{scatter}.scat_regions.tsv",
     log:
-        "results/logs/pca/get-beagle-input/{post_id}.log"
+        "results/logs/pca/scat_regions/{scatter}.scat_regions.log"
     benchmark:
-        "results/benchmarks/pca/get-beagle-input/{post_id}.bmk"
+        "results/benchmarks/pca/scat_regions/{scatter}.scat_regions.bmk"
     shell:
-        " angsd -GL 2 -baq 2 -out {output} -nThreads 10 -doGlf 2 "
-        " -doMajorMinor 1 -SNP_pval 1e-6 -doMaf 1 -bam {input} "
+        " (awk -v scat='{params.scat}' -f workflow/scripts/pca/get_scat_regions.awk {input.scat_path} > {output}) 2> {log} "
+
+
+# makes beagle GL file from the PL field in BCF file.  Note that we capitate them
+# and keep them around in case the individual sections are useful down the road
+rule bcf2beagle_gl_scatter:
+    input:
+        bcf="results/bcf/all.bcf",
+        csi="results/bcf/all.bcf.csi",
+        regions="results/scat_regions/{scatter}.scat_regions.tsv",
+        sfile=get_samples_txt
+    output:
+        body=temp("results/bcf/beagle-gl/sections/{scatter}.body.gz"),
+        top_row=temp("results/bcf/beagle-gl/sections/{scatter}.toprow.gz"),
+        beag="results/bcf/beagle-gl/sections/{scatter}.beagle-gl.gz"
+    log:
+        "results/logs/bcf2beagle_gl_scatter/bcf/{scatter}.log"
+    benchmark:
+        "results/benchmarks/bcf2beagle_gl_scatter/bcf/{scatter}.bmk"
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " ( " 
+        " awk -f workflow/scripts/pca/beagle3header.awk {input.sfile} | gzip -c > {output.top_row}  && "
+        " bcftools view -Ou -R {input.regions} {input.bcf} |  "
+        " bcftools query -f '%CHROM:%POS\\t%REF\\t%ALT[\\t%PL]\\n' | "
+        " awk -f workflow/scripts/pca/pl2gl.awk | gzip -c  >  {output.body} && "
+        " cat {output.top_row} {output.body} > {output.beag}  " 
+        " ) 2> {log}  "
+
+
+
+rule bcf2beagle_gl_gather:
+    input: 
+        header=expand("results/bcf_{{bcf_id}}/filt_{{bcfilt}}/{{sampsub}}/thin_{{thin_int}}_{{thin_start}}/beagle-gl/sections/{sg}.toprow.gz", sg=first_scatter_id),
+        scaff_gzs=expand("results/bcf_{{bcf_id}}/filt_{{bcfilt}}/{{sampsub}}/thin_{{thin_int}}_{{thin_start}}/beagle-gl/sections/{sg}.body.gz", sg=unique_scatters)
+    output:
+        "results/bcf/beagle-gl/beagle-gl.gz"
+    log:
+        "results/logs/bcf2beagle_gl_gather/bcf/main.log"
+    benchmark:
+        "results/logs/bcf2beagle_gl_gather/bcf/main.bmk"
+    shell:
+        "cat {input.header} {input.scaff_gzs} > {output} 2> {log} "
+
+
+
+
+### These are rules to get PCA from BAM files
+## this rule takes the bam.filelist and generates a beagle file for use in pcangsd
+#rule get_beagle_input:
+#    input:
+#        expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list),
+#    output:
+#        "results/pca/get-beagle-input/all.beagle.gz"
+#    conda:
+#        "../envs/angsd.yaml"
+#    log:
+#        "results/logs/pca/get-beagle-input/all.log"
+#    benchmark:
+#        "results/benchmarks/pca/get-beagle-input/all.bmk"
+#    shell:
+#        " angsd -GL 2 -baq 2 -out {output} -nThreads 10 -doGlf 2 "
+#        " -doMajorMinor 1 -SNP_pval 1e-6 -doMaf 1 -bam {input} "
 
 
 ## this rule runs pcangsd on the beagle input file
 # with no genotype posteriors, selection, or anything else
-rule run_pcangsd:
-    input:
-        flagfile="results/flags/pcangsd_installed",
-        beagle="results/pca/get-beagle-input/{post_id}.beagle.gz"
-    output:
-        "results/pca/run-pcangsd/{post_id}.cov"
-    conda:
-        "../envs/pcangsd.yaml"
-    log:
-        "results/logs/pca/run-pcangsd/{post_id}.log"
-    benchmark:
-        "results/benchmarks/pca/run-pcangsd/{post_id}.bmk"
-    shell:
-        "pcangsd -beagle {input.beagle} -o {output} 2> {log}"
+#rule run_pcangsd:
+#    input:
+#        flagfile="results/flags/pcangsd_installed",
+#        beagle="results/pca/get-beagle-input/all.beagle.gz"
+#    output:
+#        "results/pca/run-pcangsd/all.cov"
+#    conda:
+#        "../envs/pcangsd.yaml"
+#    log:
+#        "results/logs/pca/run-pcangsd/all.log"
+#    benchmark:
+#        "results/benchmarks/pca/run-pcangsd/all.bmk"
+#    shell:
+#        "pcangsd -beagle {input.beagle} -o {output} 2> {log}"

@@ -11,8 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
+        expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
         #"results/psmc-test/psmc-plot-all-test/all-together",
-        expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
+        #expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
         #"results/flags/chromcompare_installed",
         #"results/flags/pcangsd_installed",
         
