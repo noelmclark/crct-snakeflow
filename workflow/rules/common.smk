@@ -283,4 +283,4 @@ def get_samples_txt():
     samples.to_csv(filename, index=False, header=False, line_terminator='\n') 
     return filename
 
-first_scatter_id=unique_scatters[0]
+first_scat_id=unique_scats[0]
