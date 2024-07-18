@@ -11,7 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/bcf/filt_biallelic_maf_0.05/main.bcf"
+        "results/plink/pca/snps-no-y-pca"
+        #plink-pca outputs
+        #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
         
         #"results/psmc-test/psmc-plot-all-test/all-together",
         #expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
