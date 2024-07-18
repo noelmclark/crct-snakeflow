@@ -3,5 +3,5 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - plink2 ==2.00
-  - plink ==1.90
+  - plink2
+  - plink
