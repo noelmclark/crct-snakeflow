@@ -2,7 +2,7 @@
 
 ## The following 2 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk) with edits
 # https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
-
+# they generate a BCF file with only biallelic snps that pass a MAF cuttoff of 0.05
 rule bcf_filt_scatter:
     input:
         bcf="results/bcf/all.bcf",
@@ -49,7 +49,8 @@ rule bcf_filt_gather:
     benchmark:
         "results/benchmarks/bcf/filt_biallelic_maf_0.05/main.bmk"
     shell:
-        "( bcftools concat --naive {input.bcfs} > {output.bcf} && "
+        "( bcftools concat --naive -Ou {input.bcfs} | "
+        "  bcftools sort -Ob > {output.bcf} && "
         "  bcftools index {output.bcf} && "
         "  cat {input.poses} > {output.pos} && "
         "  plot-vcfstats -m {input.statses} > {output.stats} "
@@ -57,6 +58,21 @@ rule bcf_filt_gather:
 
 
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
+# --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
+# the --not-chr options removes the Y chromosome from the bed file
+#rule make_plink_bed:
+#    input:
+#        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
+#        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+#    output:
+#        bed="results/plink/bed/",
+#    conda:
+#        "../envs/plink.yaml"
+#    log:
+#    benchmark:
+#    shell:
+#        "plink2 --bcf {input.bcf} --make-rel cov --allow-extra-chr --not-chr NC_048593.1"
+
 #rule make_cov_matrix:
 #    input:
 #        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
