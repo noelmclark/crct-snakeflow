@@ -9,7 +9,7 @@ rule bcf_filt_scatter:
         csi="results/bcf/all.bcf.csi",
         sfile="config/sample_subsets/all-fish.txt"
     params:
-        bcftools_opts="-v snps -m 2 -M 2 -i 'FILTER="PASS" && MAF >= 0.05",
+        bcftools_opts="-v snps -m 2 -M 2 -i 'FILTER=\"PASS\" && MAF >= 0.05'",
         scat="{scatter}"
     output:
         scat_regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
