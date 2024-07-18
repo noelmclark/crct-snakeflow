@@ -69,11 +69,11 @@ rule calc_allele_freq:
     conda:
         "../envs/plink.yaml"
     log:
-        "results/plink/allele-freq/snps-no-y-pca.log",
+        "results/logs/plink/allele-freq/snps-no-y.log",
     benchmark:
-        "results/plink/allele-freq/snps-no-y-pca.bmk",
+        "results/benchmarks/plink/allele-freq/snps-no-y.bmk",
     shell:
-        "plink2 --bcf {input.bcf} --freq --allow-extra-chr --not-chr NC_048593.1 --out {output.afreq}"
+        "plink2 --bcf {input.bcf} --freq --allow-extra-chr --not-chr NC_048593.1 --out {output.afreq} 2> {log}"
 
 rule make_plink_pca:
     input:
@@ -85,8 +85,8 @@ rule make_plink_pca:
     conda:
         "../envs/plink.yaml"
     log:
-        "results/plink/pca/snps-no-y-pca.log",
+        "results/logs/plink/pca/snps-no-y-pca.log",
     benchmark:
-        "results/plink/pca/snps-no-y-pca.bmk",
+        "results/benchmarks/plink/pca/snps-no-y-pca.bmk",
     shell:
-        "plink2 --bcf {input.bcf} --read-freq {input.afreq} --pca --allow-extra-chr --not-chr NC_048593.1 --out {output.pca}"
+        "plink2 --bcf {input.bcf} --read-freq {input.afreq} --pca --allow-extra-chr --not-chr NC_048593.1 --out {output.pca} 2> {log}"
