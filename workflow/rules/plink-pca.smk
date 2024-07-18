@@ -13,10 +13,10 @@ rule bcf_filt_scatter:
         bcftools_opts="-v snps -m 2 -M 2 -i 'FILTER=\"PASS\" && MAF >= 0.05'",
         scat="{scatter}"
     output:
-        scat_regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
-        bcf="results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.bcf",
-        stats="results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.bcf_stats.txt",
-        pos="results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.positions.tsv.gz",
+        scat_regions=temp("results/pca/scat_regions/{scatter}.scat_regions.tsv"),
+        bcf=temp("results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.bcf"),
+        stats=temp("results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.bcf_stats.txt"),
+        pos=temp("results/bcf/filt_biallelic_maf_0.05/sections/{scatter}.positions.tsv.gz"),
     conda:
         "../envs/bcftools.yaml"
     log:
@@ -55,4 +55,18 @@ rule bcf_filt_gather:
         "  plot-vcfstats -m {input.statses} > {output.stats} "
         ") 2> {log} "
 
+
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
+#rule make_cov_matrix:
+#    input:
+#        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
+#        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+#    output:
+#        rel="",
+#        id=""
+#    conda:
+#        "../envs/plink.yaml"
+#    log:
+#    benchmark:
+#    shell:
+#        "plink2 --bcf {input.bcf} --make-rel"
