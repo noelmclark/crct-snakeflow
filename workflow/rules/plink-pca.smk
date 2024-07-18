@@ -60,10 +60,26 @@ rule bcf_filt_gather:
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # the --not-chr options removes the Y chromosome from the bed file
+rule calc_allele_freq:
+    input:
+        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
+        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+    output:
+        afreq="results/plink/allele-freq/snps-no-y",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/plink/allele-freq/snps-no-y-pca.log",
+    benchmark:
+        "results/plink/allele-freq/snps-no-y-pca.bmk",
+    shell:
+        "plink2 --bcf {input.bcf} --freq --allow-extra-chr --not-chr NC_048593.1 --out {output.afreq}"
+
 rule make_plink_pca:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+        afreq="results/plink/allele-freq/snps-no-y.afreq"
     output:
         pca="results/plink/pca/snps-no-y-pca",
     conda:
@@ -73,4 +89,4 @@ rule make_plink_pca:
     benchmark:
         "results/plink/pca/snps-no-y-pca.bmk",
     shell:
-        "plink2 --bcf {input.bcf} --pca --allow-extra-chr --not-chr NC_048593.1 --out {output.pca}"
+        "plink2 --bcf {input.bcf} --read-freq {input.afreq} --pca --allow-extra-chr --not-chr NC_048593.1 --out {output.pca}"
