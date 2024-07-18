@@ -42,7 +42,7 @@ NR == 1 {
 }
 
 # all others just print out the three columns of the correct scat group needed for the regions file 
-$1 == scatter_idx {
+$2 == scat {
 	print $3, $4, $5;
 	n++
 }

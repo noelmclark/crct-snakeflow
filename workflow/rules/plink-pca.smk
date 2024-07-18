@@ -62,8 +62,8 @@ rule bcf_filt_gather:
 #        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
 #        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
 #    output:
-#        rel="",
-#        id=""
+#        rel="results/plink/pca/",
+#        rel_id=""
 #    conda:
 #        "../envs/plink.yaml"
 #    log:
