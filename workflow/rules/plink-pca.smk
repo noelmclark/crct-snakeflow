@@ -49,7 +49,7 @@ rule bcf_filt_gather:
     benchmark:
         "results/benchmarks/bcf/filt_biallelic_maf_0.05/main.bmk"
     shell:
-        "( bcftools concat --naive -Ou {input.bcfs} | "
+        "( bcftools concat --naive {input.bcfs} | "
         "  bcftools sort -Ob > {output.bcf} && "
         "  bcftools index {output.bcf} && "
         "  cat {input.poses} > {output.pos} && "
@@ -60,12 +60,12 @@ rule bcf_filt_gather:
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # the --not-chr options removes the Y chromosome from the bed file
-#rule make_plink_bed:
+#rule make_cov_matrix:
 #    input:
 #        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
 #        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
 #    output:
-#        bed="results/plink/bed/",
+#        rel="results/plink/pca/",
 #    conda:
 #        "../envs/plink.yaml"
 #    log:
@@ -73,12 +73,11 @@ rule bcf_filt_gather:
 #    shell:
 #        "plink2 --bcf {input.bcf} --make-rel cov --allow-extra-chr --not-chr NC_048593.1"
 
-#rule make_cov_matrix:
+#rule make_plink_pca:
 #    input:
-#        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
-#        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+#        rel="
 #    output:
-#        rel="results/plink/pca/",
+#        pca="results/plink/pca/",
 #        rel_id=""
 #    conda:
 #        "../envs/plink.yaml"
