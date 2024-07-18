@@ -7,7 +7,7 @@ rule bcf_filt_scatter:
     input:
         bcf="results/bcf/all.bcf",
         csi="results/bcf/all.bcf.csi",
-        sfile="config/sample_subsets/all-fish.txt"
+        sfile="config/sample_subsets/all-fish.txt",
         scat_path="results/scatter_config/scatters_1200000.tsv"
     params:
         bcftools_opts="-v snps -m 2 -M 2 -i 'FILTER=\"PASS\" && MAF >= 0.05'",
@@ -54,3 +54,5 @@ rule bcf_filt_gather:
         "  cat {input.poses} > {output.pos} && "
         "  plot-vcfstats -m {input.statses} > {output.stats} "
         ") 2> {log} "
+
+## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
