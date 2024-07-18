@@ -73,7 +73,10 @@ rule calc_allele_freq:
     benchmark:
         "results/benchmarks/plink/allele-freq/snps-no-y.bmk",
     shell:
-        "plink2 --bcf {input.bcf} --freq --allow-extra-chr --not-chr NC_048593.1 --out {output.afreq} 2> {log}"
+        " plink2 --bcf {input.bcf} "
+        " --freq --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr --not-chr NC_048593.1 "
+        " --out {output.afreq} 2> {log} "
 
 rule make_plink_pca:
     input:
