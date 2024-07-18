@@ -11,11 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/flags/chromcompare_installed",
-        #"results/flags/pcangsd_installed",
-        #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
-        #expand("results/bcf/beagle-gl/sections/{scat}.beagle-gl.gz", scat=unique_scats),
-        #"results/bcf/beagle-gl/beagle-gl.gz",
+        "results/bcf/filt_biallelic_maf_0.05/main.bcf"
+        
         #"results/psmc-test/psmc-plot-all-test/all-together",
         #expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
         
@@ -50,6 +47,11 @@ rule all:
         #expand("results/psmc/psmc-plot/{s}.eps", s=sample_list), #PSMC final outputs, does weird things with file endings to this needs some help
         #expand("results/psmc/psmc-plot/{s}.par", s=sample_list),
 
+        #PCANGSD PCA outputs
+        #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
+        #expand("results/bcf/beagle-gl/sections/{scat}.beagle-gl.gz", scat=unique_scats),
+        #"results/bcf/beagle-gl/beagle-gl.gz",
+
         #qc outputs
         #expand("results/qc/samtools_stats/{s}.txt", s=sample_list),
         #expand("results/qc/bcftools_stats/all-{fc}.txt", fc=["ALL", "PASS", "FAIL"],),
@@ -58,6 +60,10 @@ rule all:
         #expand("results/qc/coverage-depth/{s}.txt", s=sample_list),
         #"results/qc/coverage-depth/avg-count/above-10.txt",
         #"results/qc/coverage-depth/avg-count/avg-depth.txt",
+
+        #installing flagfiles 
+        #"results/flags/chromcompare_installed",
+        #"results/flags/pcangsd_installed",
 
         #expand("results/qc/coverage/{s}.txt", s=SAMPLES),
         #"annotated/all.vcf.gz",
