@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/allele-freq/snps-no-y-pca"
+        "results/plink/allele-freq/snps-no-y"
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
         
