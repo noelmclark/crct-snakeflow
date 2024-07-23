@@ -57,6 +57,7 @@ rule bcf_filt_gather:
         ") 2> {log} "
 
 
+### PLINK based rules
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # the --not-chr options removes the Y chromosome from the bed file
@@ -92,4 +93,7 @@ rule make_plink_pca:
     benchmark:
         "results/benchmarks/plink/pca/snps-no-y-pca.bmk",
     shell:
-        "plink2 --bcf {input.bcf} --read-freq {input.afreq} --pca --allow-extra-chr --not-chr NC_048593.1 --out {output.pca} 2> {log}"
+        " plink2 --bcf {input.bcf} "
+        " --read-freq {input.afreq} --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --pca --allow-extra-chr --not-chr NC_048593.1 "
+        " --out {output.pca} 2> {log} "
