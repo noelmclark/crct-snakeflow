@@ -3,6 +3,22 @@
 # and the -t -p and -r in run_psmc
 # based on lh3 documentation at: https://github.com/lh3/psmc
 
+## rule to remove sex chrom from bam files
+# sex chroms are shown to have impacts on PSMC curves
+rule make_bed_y_chrom:
+    input:
+        scat_path="results/scatter_config/scatters_1200000.tsv"
+    output:
+        y_regions="results/scatter_config/y_chrom.bed"
+    params:
+        ychrom="NC_048593.1"
+    log:
+        "results/logs/scatter_config/make_bed_y_chrom.log"
+    benchmark:
+        "results/benchmarks/scatter_config/make_bed_y_chrom.bmk"
+    shell:
+        " (awk -v chrom='{params.ychrom}' -f workflow/scripts/pca/get_y_regions.awk {input.scat_path} > {output.y_regions} 2> {log} "
+
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
@@ -58,7 +74,7 @@ rule run_psmc_test:
     benchmark:
         "results/benchmarks/psmc-test/run-psmc-test/{sample}.bmk"
     shell:
-        "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"
+        "psmc -N25 -t5 -r5 -p '4+20*2+64+4' -o {output} {input} 2> {log}"
 
 
 ## rule to plot psmc to visualize result

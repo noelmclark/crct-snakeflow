@@ -11,11 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/pca/snps-no-y-pca"
-        #"results/plink/allele-freq/snps-no-y"
+        "results/scatter_config/y_chrom.bed"
         
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
+        #"results/plink/pca/snps-no-y-pca"
+        #"results/plink/allele-freq/snps-no-y"
         
         #"results/psmc-test/psmc-plot-all-test/all-together",
         #expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
