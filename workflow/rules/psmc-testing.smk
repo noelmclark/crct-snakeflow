@@ -17,7 +17,7 @@ rule make_bed_y_chrom:
     benchmark:
         "results/benchmarks/scatter_config/make_bed_y_chrom.bmk"
     shell:
-        " (awk -v chrom='{params.ychrom}' -f workflow/scripts/pca/get_y_regions.awk {input.scat_path} > {output.y_regions} 2> {log} "
+        " (awk -v chrom='{params.ychrom}' -f workflow/scripts/PSMC/get_y_regions.awk {input.scat_path} > {output.y_regions} 2> {log} "
 
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
