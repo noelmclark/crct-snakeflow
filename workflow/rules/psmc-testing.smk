@@ -3,21 +3,27 @@
 # and the -t -p and -r in run_psmc
 # based on lh3 documentation at: https://github.com/lh3/psmc
 
-## rule to remove sex chrom from bam files
+## rule to split bam files into aut and y-chrom bam files
 # sex chroms are shown to have impacts on PSMC curves
-rule make_bed_y_chrom:
+# the y-chrom for the o. mykiss reference is NC_048593.1
+rule split_sex_bams:
     input:
-        scat_path="results/scatter_config/scatters_1200000.tsv"
+        y_bed="results/scatter_config/y_chrom.bed",
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     output:
-        y_regions="results/scatter_config/y_chrom.bed"
-    params:
-        ychrom="NC_048593.1"
+        y_bam="results/psmc-test/split-sex-bams/y_{sample}.bam",
+        aut_bam="results/psmc-test/split-sex-bams/aut_{sample}.bam",
+        aut_bai="results/psmc-test/split-sex-bams/aut_{sample}.bai"
+    conda:
+        "../envs/sambcftools.yaml"
     log:
-        "results/logs/scatter_config/make_bed_y_chrom.log"
+        "results/logs/psmc-test/split-sex-bams/{sample}.log"
     benchmark:
-        "results/benchmarks/scatter_config/make_bed_y_chrom.bmk"
+        "results/benchmarks/psmc-test/split-sex-bams/{sample}.bmk"
     shell:
-        " awk -v chrom='{params.ychrom}' -f workflow/scripts/PSMC/get_y_regions.awk {input.scat_path} > {output.y_regions} 2> {log} "
+        " (samtools view -L {input.y_bed} -h {input.bam} -ob {output.y_bam} -Ub {output.aut_bam} "
+        " ) 2> {log} "
 
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
