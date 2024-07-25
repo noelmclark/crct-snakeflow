@@ -1,38 +1,27 @@
 ### following rules are to run PSMC
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 
-##rule to rest the remove chrom regions awk script
-rule remove_y_regions:
-    input:
-        scat_path="results/scatter_config/scatters_1200000.tsv"
-    output:
-        regions="results/psmc/remove_y_regions/autosomal_regions.bed"
-    log:
-        "results/logs/psmc/remove_y_regions.log"
-    benchmark:
-        "results/benchmarks/psmc/remove_y_regions.bmk"
-    shell:
-        " awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk {input.scat_path} > {output.regions} 2> {log}"
-
 ## rule to split bam files into aut and y-chrom bam files
 # sex chroms are shown to have impacts on PSMC curves
 # the y-chrom for the o. mykiss reference is NC_048593.1
-rule split_sex_bams:
+rule remove_sex_bams:
     input:
+        scat_path="results/scatter_config/scatters_1200000.tsv",
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     output:
-        y_bam="results/psmc/split-sex-bams/y_{sample}.bam",
-        aut_bam="results/psmc/split-sex-bams/aut_{sample}.bam",
-        aut_bai="results/psmc/split-sex-bams/aut_{sample}.bai"
+        regions="results/psmc/remove-sex-bams/autosomal_regions.bed",
+        aut_bam="results/psmc/remove-sex-bams/aut_{sample}.bam",
+        aut_bai="results/psmc/remove-sex-bams/aut_{sample}.bai"
     conda:
         "../envs/sambcftools.yaml"
     log:
-        "results/logs/psmc/split-sex-bams/{sample}.log"
+        "results/logs/psmc/remove-sex-bams/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc/split-sex-bams/{sample}.bmk"
+        "results/benchmarks/psmc/remove-sex-bams/{sample}.bmk"
     shell:
-        " (samtools view -h -b -o {output.y_bam} -U {output.aut_bam} {input.bam} NC_048593.1 &&"
+        " ( awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk {input.scat_path} > {output.regions} && "
+        " samtools view -h -b -L {output.regions} -o {output.aut_bam} {input.bam} && "
         " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
 
 
@@ -43,7 +32,7 @@ rule split_sex_bams:
 # the flycatcher paper recommends setting -d 10 for depth coverage >10x
 rule psmc_consensus_sequence:
     input:
-        bam="results/psmc/split-sex-bams/aut_{sample}.bam",  
+        bam="results/psmc/remove-sex-bams/aut_{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
         temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz") #temp removes files once they're no longer needed downstream
