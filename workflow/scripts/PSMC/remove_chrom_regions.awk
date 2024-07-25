@@ -1,5 +1,5 @@
-# simple awk script that picks sex chr regions for all given
-# scatter groups.  If it picks out none, then it throws an error.
+# simple awk script that removes the y chr (or any chrom passed to chrom=) regions for all given
+# scatter groups.  Then it prints the ones that pass in bed format If it picks out none, then it throws an error.
 
 # use -v on invocation to set the value of scat to the chrom id
 
@@ -41,15 +41,15 @@ NR == 1 {
 	next
 }
 
-# all others just print out the three columns of the correct scat group needed for the regions file 
-$3 == chrom {
+# all others just print out the three columns needed for the regions file that don't match the chrom listed
+$3 != chrom {
 	print $3, $4, $5;
 	n++
 }
 
 END {
 	if(n==0) {
-		print "Didn't find any elements in scat group", chrom ". Bailing out!" > "/dev/stderr"
+		print "Didn't find any elements from chrom", chrom ". Bailing out!" > "/dev/stderr"
 		exit(1);
 	}
 }

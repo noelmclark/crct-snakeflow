@@ -1,6 +1,19 @@
 ### following rules are to run PSMC
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 
+##rule to rest the remove chrom regions awk script
+rule remove_y_regions:
+    input:
+        scat_path="results/scatter_config/scatters_1200000.tsv"
+    output:
+        regions=temp("results/psmc/remove_y_regions/autosomal_regions.bed")
+    log:
+        "results/logs/psmc/remove_y_regions.log"
+    benchmark:
+        "results/benchmarks/psmc/remove_y_regions.bmk"
+    shell:
+        " awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk {input.scat_path} > {output.regions} 2> {log}"
+
 ## rule to split bam files into aut and y-chrom bam files
 # sex chroms are shown to have impacts on PSMC curves
 # the y-chrom for the o. mykiss reference is NC_048593.1
