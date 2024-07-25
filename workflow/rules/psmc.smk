@@ -29,12 +29,13 @@ rule remove_sex_bams:
     conda:
         "../envs/sambcftools.yaml"
     log:
-        "results/logs/psmc/remove-sex-bams/{sample}.log"
+        remove="results/logs/psmc/remove-sex-bams/remove-{sample}.log",
+        index="results/logs/psmc/remove-sex-bams/index-{sample}.log",
     benchmark:
         "results/benchmarks/psmc/remove-sex-bams/{sample}.bmk"
     shell:
-        " ( samtools view -h -b -L {input.regions} -o {output.aut_bam} {input.bam} && "
-        " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
+        " samtools view -b -h -L {input.regions} -o {output.aut_bam} {input.bam} 2> {log.remove} && "
+        " samtools index {output.aut_bam} -o {output.aut_bai} 2> {log.index} "
 
 
 ## rule to get a consensus fastq sequence file for PSMC
