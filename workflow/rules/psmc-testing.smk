@@ -21,7 +21,7 @@ rule split_sex_bams:
     benchmark:
         "results/benchmarks/psmc-test/split-sex-bams/{sample}.bmk"
     shell:
-        " (samtools view -h -ob {output.y_bam} -Ub {output.aut_bam} {input.bam} NC_048593.1 &&"
+        " (samtools view -h -b -o {output.y_bam} -U {output.aut_bam} {input.bam} NC_048593.1 &&"
         " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
 
 ## rule to get a consensus fastq sequence file for PSMC
