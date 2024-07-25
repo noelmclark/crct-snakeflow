@@ -8,7 +8,6 @@
 # the y-chrom for the o. mykiss reference is NC_048593.1
 rule split_sex_bams:
     input:
-        y_bed="results/scatter_config/y_chrom.bed",
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     output:
@@ -22,8 +21,8 @@ rule split_sex_bams:
     benchmark:
         "results/benchmarks/psmc-test/split-sex-bams/{sample}.bmk"
     shell:
-        " (samtools view -L {input.y_bed} -h {input.bam} -ob {output.y_bam} -Ub {output.aut_bam} "
-        " ) 2> {log} "
+        " (samtools view -h {input.bam} NC_048593.1 -ob {output.y_bam} -Ub {output.aut_bam} &&"
+        " samtools index {input.aut_bam} {output.aut_bai}) 2> {log} "
 
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
