@@ -6,7 +6,7 @@ rule remove_y_regions:
     input:
         scat_path="results/scatter_config/scatters_1200000.tsv"
     output:
-        regions=temp("results/psmc/remove_y_regions/autosomal_regions.bed")
+        regions="results/psmc/remove_y_regions/autosomal_regions.bed"
     log:
         "results/logs/psmc/remove_y_regions.log"
     benchmark:
