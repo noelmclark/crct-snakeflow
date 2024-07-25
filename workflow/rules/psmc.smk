@@ -29,7 +29,7 @@ rule remove_sex_bams:
     conda:
         "../envs/sambcftools.yaml"
     log:
-        remove="results/logs/psmc/remove-sex-bams/remove-{sample}.log",
+        rem="results/logs/psmc/remove-sex-bams/remove-{sample}.log",
         index="results/logs/psmc/remove-sex-bams/index-{sample}.log",
     benchmark:
         "results/benchmarks/psmc/remove-sex-bams/{sample}.bmk"
