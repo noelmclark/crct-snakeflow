@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/scatter_config/y_chrom.bed"
+        expand("results/psmc-test/split-sex-bams/aut_{s}.bam", s=sample_list),
         
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
