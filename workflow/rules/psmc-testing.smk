@@ -22,7 +22,7 @@ rule split_sex_bams:
         "results/benchmarks/psmc-test/split-sex-bams/{sample}.bmk"
     shell:
         " (samtools view -h {input.bam} NC_048593.1 -ob {output.y_bam} -Ub {output.aut_bam} &&"
-        " samtools index {input.aut_bam} {output.aut_bai}) 2> {log} "
+        " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
 
 ## rule to get a consensus fastq sequence file for PSMC
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
