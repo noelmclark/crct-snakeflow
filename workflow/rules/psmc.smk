@@ -1,31 +1,53 @@
-## following rules are to run PSMC
-# based on lh3 documentation at: https://github.com/lh3/psmc
+### following rules are to run PSMC
+## based on lh3 documentation at: https://github.com/lh3/psmc
+
+## rule to split bam files into aut and y-chrom bam files
+# sex chroms are shown to have impacts on PSMC curves
+# the y-chrom for the o. mykiss reference is NC_048593.1
+rule split_sex_bams:
+    input:
+        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
+    output:
+        y_bam="results/psmc/split-sex-bams/y_{sample}.bam",
+        aut_bam="results/psmc/split-sex-bams/aut_{sample}.bam",
+        aut_bai="results/psmc/split-sex-bams/aut_{sample}.bai"
+    conda:
+        "../envs/sambcftools.yaml"
+    log:
+        "results/logs/psmc/split-sex-bams/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/split-sex-bams/{sample}.bmk"
+    shell:
+        " (samtools view -h -b -o {output.y_bam} -U {output.aut_bam} {input.bam} NC_048593.1 &&"
+        " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
+
 
 ## rule to get a consensus fastq sequence file for PSMC
+# uses the bam files with only reads mapping to autosomal chromosomes
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
-# It is recommended to set -d to a third of the average depth and -D to twice
-# this takes the bams from each individual and generates a tmp vcf file then 
-# generates a consensus sequence for psmc
-# alternatively add a rule that does this from the hard filtered vcf files after
-# joint calling them in the calling phase
+# the flycatcher paper recommends setting -d 10 for depth coverage >10x
 rule psmc_consensus_sequence:
     input:
-        bam="results/angsd_bams/overlap_clipped/{sample}.bam",  
+        bam="results/psmc/split-sex-bams/aut_{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
-        temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz") #temp tells snakemake to remove these files once they're no longer needed downstream
+        temp("results/psmc/psmc-consensus-sequence/{sample}.fq.gz") #temp removes files once they're no longer needed downstream
     conda:
         "../envs/sambcftools.yaml"
     resources:
-        time="23:59:59"
+        time="23:59:59",
+        mem_mb=9400,
+        cpus=2,
+    threads: 2
     log:
         "results/logs/psmc/psmc-consensus-sequence/{sample}.log"
     benchmark:
         "results/benchmarks/psmc/psmc-consensus-sequence/{sample}.bmk"
     shell:
-        "bcftools mpileup -C50 -uf {input.ref} {input.bam} | bcftools call -c - | " 
-        "vcfutils.pl vcf2fq -d 6 -D 36 | gzip > {output} 2> {log}"
+        "bcftools mpileup --full-BAQ -C50 -Ou -f {input.ref} {input.bam} | bcftools call -c - | " 
+        "vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log}"
 
 
 # rule to create psmcfa file per sample
@@ -44,7 +66,15 @@ rule psmcfa:
         "fq2psmcfa -q20 {input} > {output} 2> {log}"
 
 
-# rule to run psmc
+
+
+
+
+### PSMC plotting ###
+## following rules are to test the effect of different parameter values on running PSMC
+## namely the -t -p and -r in run_psmc
+
+## rule to run psmc with whitefish options
 rule run_psmc:
     input:
         "results/psmc/psmcfa/{sample}.psmcfa"
@@ -57,41 +87,66 @@ rule run_psmc:
     benchmark:
         "results/benchmarks/psmc/run-psmc/{sample}.bmk"
     shell:
-        "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"
+        "psmc -N25 -t5 -r5 -p '4+20*2+64+4' -o {output} {input} 2> {log}"
 
 
 ## rule to plot psmc to visualize result
+# apparently, you can set it to multiline mode using -M and supplying all psmc files you want plotted together
+# can also set min (-x) and max (-X) generations for mapping 
 # -u [per-generation mutation rate] from https://doi.org/10.1371/journal.pgen.1010918
 # -g [generation time in years] 
 rule psmc_plot:
     input:
         "results/psmc/run-psmc/{sample}.psmc"
     output:
-        eps="results/psmc/psmc-plot/{sample}.eps",
-        par="results/psmc/psmc-plot/{sample}.par"
+        eps="results/psmc/psmc-plot/by-sample/{sample}.eps",
+        par="results/psmc/psmc-plot/by-sample/{sample}.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/psmc-plot/{sample}.log"
+        "results/logs/psmc/psmc-plot/by-sample/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc/psmc-plot/{sample}.bmk"
+        "results/benchmarks/psmc/psmc-plot/by-sample/{sample}.bmk"
     shell:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
 
 
-## alternative rule to run psmc2history & history2ms to generate the ms
-# command line that simulates the history inferred by PSMC
-# I use the rule psmc_plot instead
-rule psmc2history2ms:
+## rule to plot all PSMC outputs together!
+# can also set min (-x) and max (-X) generations for mapping
+# -P sets the legend position based on gnuplot syntax: https://gnuplot.sourceforge.net/docs_4.2/node192.html 
+# explanation of psmc_plot.pl options https://github.com/lh3/psmc/blob/master/utils/psmc_plot.pl
+rule psmc_plot_all:
     input:
-        "results/psmc/run-psmc/{sample}.psmc"
+        psmc=expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
+    params:
+        samps=get_comma_sep_sample_names,
     output:
-        "results/psmc/psmc2history2ms/{sample}-ms-cmd.sh"
+        "results/psmc/psmc-plot/all/all-together",
+        #par="results/psmc/psmc-plot/all/all-together.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/psmc2history2ms/{sample}.log"
+        "results/logs/psmc/psmc-plot/all/all-together.log"
     benchmark:
-        "results/benchmarks/psmc/psmc2history2ms/{sample}.bmk"
+        "results/benchmarks/psmc/psmc-plot/all/all-together.bmk"
     shell:
-        "psmc2history.pl {input} | history2ms.pl > {output} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log}"
+
+
+## rule to plot all PSMC by subsamp code
+# I wrote this up to easily get overlain plots with different combinations of individuals 
+rule psmc_plot_by_subsamp:
+    input:
+        psmc=get_psmc_subsamps,
+    params:
+        samps=get_comma_sep_subsamp_names,
+    output:
+        "results/psmc/psmc-plot/by-subsamp/{psmc_id}/{subsamp}",
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmc-plot/by-subsamp/{psmc_id}/{subsamp}.log"
+    benchmark:
+        "results/benchmarks/psmc/psmc-plot/by-subsamp/{psmc_id}/{subsamp}.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "

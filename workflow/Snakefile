@@ -11,20 +11,15 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc-test/split-sex-bams/aut_{s}.bam", s=sample_list),
-        
+        expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list)
+
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
         #"results/plink/pca/snps-no-y-pca"
-        #"results/plink/allele-freq/snps-no-y"
-        
-        #"results/psmc-test/psmc-plot-all-test/all-together",
-        #expand("results/psmc-plot-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
-        
+        #"results/plink/allele-freq/snps-no-y"   
         
         #hpsmc outputs
         #expand("results/hpsmc/haploidize_bam_sect/{s}/{chrom}_haploidized.fa", s=sample_list, chrom=unique_chromosomes)
-        #expand("results/psmc-test/psmcfa-test/{s}.psmcfa", s=sample_list),
 
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
@@ -48,9 +43,12 @@ rule all:
         #expand("results/vcf_sections/{sgc}.{ext}", sgc=sg_or_chrom, ext = ["vcf.gz", "vcf.gz.tbi"]), #calling intermediate output
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
         
-        #expand("results/psmc-test/psmc-consensus-sequence-test/{s}.fq.gz", s=sample_list), #psmc/psmc-test initial output
+        #PSMC outputs
+        #expand("results/psmc/split-sex-bams/aut_{s}.bam", s=sample_list),
         #expand("results/psmc/psmc-plot/{s}.eps", s=sample_list), #PSMC final outputs, does weird things with file endings to this needs some help
         #expand("results/psmc/psmc-plot/{s}.par", s=sample_list),
+        #"results/psmc/psmc-plot/all/all-together",
+        #expand("results/psmc-plot/by-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
 
         #PCANGSD PCA outputs
         #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
@@ -86,7 +84,6 @@ include: "rules/angsd-ready-bams.smk"
 include: "rules/calling.smk"
 include: "rules/hardfilter.smk"
 include: "rules/psmc.smk"
-include: "rules/psmc-testing.smk"
 include: "rules/hpsmc.smk"
 include: "rules/qc.smk"
 include: "rules/destination-rules.smk"
