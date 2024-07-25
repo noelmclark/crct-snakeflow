@@ -1,16 +1,29 @@
 ### following rules are to run PSMC
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 
+##rule to rest the remove chrom regions awk script
+rule remove_y_regions:
+    input:
+        scat_path="results/scatter_config/scatters_1200000.tsv"
+    output:
+        regions="results/psmc/remove-y-regions/autosomal_regions.bed"
+    log:
+        "results/logs/psmc/remove-y-regions.log"
+    benchmark:
+        "results/benchmarks/psmc/remove-y-regions.bmk"
+    shell:
+        " awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
+        " {input.scat_path} > {output.regions} 2> {log} "
+
 ## rule to split bam files into aut and y-chrom bam files
 # sex chroms are shown to have impacts on PSMC curves
 # the y-chrom for the o. mykiss reference is NC_048593.1
 rule remove_sex_bams:
     input:
-        scat_path="results/scatter_config/scatters_1200000.tsv",
+        regions="results/psmc/remove-y-regions/autosomal_regions.bed",
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     output:
-        regions="results/psmc/remove-sex-bams/autosomal_regions.bed",
         aut_bam="results/psmc/remove-sex-bams/aut_{sample}.bam",
         aut_bai="results/psmc/remove-sex-bams/aut_{sample}.bai"
     conda:
@@ -20,8 +33,7 @@ rule remove_sex_bams:
     benchmark:
         "results/benchmarks/psmc/remove-sex-bams/{sample}.bmk"
     shell:
-        " ( awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk {input.scat_path} > {output.regions} && "
-        " samtools view -h -b -L {output.regions} -o {output.aut_bam} {input.bam} && "
+        " ( samtools view -h -b -L {input.regions} -o {output.aut_bam} {input.bam} && "
         " samtools index {output.aut_bam} {output.aut_bai}) 2> {log} "
 
 

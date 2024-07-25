@@ -11,7 +11,6 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/psmc/remove_y_regions/autosomal_regions.bed",
         expand("results/psmc/remove-sex-bams/aut_{s}.bam", s=sample_list)
         #expand("results/psmc/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
         #expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list)
