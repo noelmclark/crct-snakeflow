@@ -34,7 +34,7 @@ rule remove_sex_bams:
     benchmark:
         "results/benchmarks/psmc/remove-sex-bams/{sample}.bmk"
     shell:
-        " samtools view -b -h -L {input.regions} -o {output.aut_bam} {input.bam} 2> {log.remove} && "
+        " samtools view -b -h -L {input.regions} -o {output.aut_bam} {input.bam} 2> {log.rem} && "
         " samtools index {output.aut_bam} -o {output.aut_bai} 2> {log.index} "
 
 
