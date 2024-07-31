@@ -102,7 +102,7 @@ rule run_psmc:
     benchmark:
         "results/benchmarks/psmc/run-psmc/{sample}.bmk"
     shell:
-        "psmc -N25 -t5 -r5 -p '4+20*2+64+4' -o {output} {input} 2> {log}"
+        "psmc -N25 -t5 -r5 -p '4+20*2+6*4+4' -o {output} {input} 2> {log}"
 
 
 ## rule to plot psmc to visualize result
