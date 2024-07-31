@@ -37,33 +37,35 @@ rule install_chromcompare:
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
 rule haploidize_bam_sections:
     input:
-        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
+        bam="results/psmc/remove-sex-bams/aut_{hpsmc_pop}.bam", #change this to the aut bams & we'll need a new wildcard for just the samples we want to run hspmc on
         ref="resources/genome/OmykA.fasta",
         flagfile="results/flags/chromcompare_installed"
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{sample}/{chromo}_haploidized.fa"),
+        temp("results/hpsmc/haploidize_bam_sect/{hpsmc_pop}/{chromo}_haploidized.fa"),
+    params:
+        chrom={unique_chromosomes}
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
         time="23:59:59",
     log:
-        "results/logs/hpsmc/haploidize-bam-sect/{sample}/{chromo}.log",
+        "results/logs/hpsmc/haploidize-bam-sect/{hpsmc_pop}/{chromo}.log",
     benchmark:
-        "results/benchmarks/hpsmc/haploidize-bam-sect/{sample}/{chromo}.bmk",
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmc_pop}/{chromo}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromo} {input.bam} | "
-        " pu2fa -c {wildcards.chromo} -C 50 > {output}' "
+        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {params.chrom} {input.bam} | "
+        " pu2fa -c {params.chrom} -C 50 > {output}' "
 
 
 rule concat_haploidized_bam:
     input:
-        expand("results/hpsmc/haploidize_bam_sect/{{sample}}/{c}_haploidized.fa", c=unique_chromosomes),
+        expand("results/hpsmc/haploidize_bam_sect/{{hpsmc_pop}}/{c}_haploidized.fa", c=unique_chromosomes),
     output:
-        "results/hpsmc/haploidized_bam/{sample}_haploidized.fa",
+        "results/hpsmc/haploidized_bam/{hpsmc_pop}_haploidized.fa",
     log:
-        "results/logs/hpsmc/concat_haploidized_bam/{sample}.log",
+        "results/logs/hpsmc/concat_haploidized_bam/{hpsmc_pop}.log",
     benchmark:
-        "results/benchmarks/hpsmc/concat_haploidized_bam/{sample}.log",
+        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmc_pop}.log",
     shell:
         " cat {input} > {output} 2> {log} "
 
@@ -81,7 +83,7 @@ rule concat_haploidized_bam:
 #    benchmark:
 #        ""
 #    shell:
-#        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output}"
+#        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 
 ## 2. run PSMC on each of the pop1---x---pop2-hPSMC.psmcfa files
