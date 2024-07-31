@@ -14,7 +14,7 @@ rule all:
         expand("results/psmc/remove-sex-bams/aut_{s}.bam", s=sample_list),
         expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list),\
         expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
-        #expand("results/psmc-plot/by-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
+        expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
         #expand("results/psmc/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
         #expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list)
 
