@@ -100,8 +100,8 @@ chromcompare:
     url: https://github.com/Paleogenomics/Chrom-Compare.git
     version: e38bc94d8bca18347e6c4c20582850e03cbd0cfd
 hpsmc:
-   url: https://github.com/jacahill/hPSMC.git
-   version: f69f899bb924637611d818f2bb35c574837420f3 #this is here just for the version of hPSMC scripts I used
+    url: https://github.com/jacahill/hPSMC.git
+    version: f69f899bb924637611d818f2bb35c574837420f3 #this is here just for the version of hPSMC scripts I used
 
 
 #### Setting the subsample wildcards for PSMC ####
@@ -124,7 +124,6 @@ psmc:
   #  sample_subsets:
   #    all:
   #      path: config/sample_subsets/all-fish.txt
-  hpsmc:
+hpsmc-test:
     bams: config/hpsmc-bams.tsv
     pwcomps: config/hpsmc-pwcomps.tsv
-    
