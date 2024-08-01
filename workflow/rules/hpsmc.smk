@@ -37,56 +37,58 @@ rule install_chromcompare:
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
 rule haploidize_bam_sections:
     input:
-        bam="results/psmc/remove-sex-bams/aut_{hpsmc_pop}.bam", #change this to the aut bams & we'll need a new wildcard for just the samples we want to run hspmc on
+        bam=get_hpsmc_bams_in_pop,
         ref="resources/genome/OmykA.fasta",
+        chrom={unique_chromosomes},
         flagfile="results/flags/chromcompare_installed"
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{hpsmc_pop}/{chromo}_haploidized.fa"),
-    params:
-        chrom={unique_chromosomes}
+        temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromo}_haploidized.fa"),
+    #params:
+    #    chrom={unique_chromosomes}
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
         time="23:59:59",
     log:
-        "results/logs/hpsmc/haploidize-bam-sect/{hpsmc_pop}/{chromo}.log",
+        "results/logs/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromo}.log",
     benchmark:
-        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmc_pop}/{chromo}.bmk",
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromo}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {params.chrom} {input.bam} | "
-        " pu2fa -c {params.chrom} -C 50 > {output}' "
+        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {input.chrom} {input.bam} | "
+        " pu2fa -c {input.chrom} -C 50 > {output}' "
 
 
 rule concat_haploidized_bam:
     input:
-        expand("results/hpsmc/haploidize_bam_sect/{{hpsmc_pop}}/{c}_haploidized.fa", c=unique_chromosomes),
+        expand("results/hpsmc/haploidize_bam_sect/{{hpsmcpops}}/{c}_haploidized.fa", c=unique_chromosomes),
     output:
-        "results/hpsmc/haploidized_bam/{hpsmc_pop}_haploidized.fa",
+        "results/hpsmc/haploidized_bam/{hpsmcpops}_haploidized.fa",
     log:
-        "results/logs/hpsmc/concat_haploidized_bam/{hpsmc_pop}.log",
+        "results/logs/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
     benchmark:
-        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmc_pop}.log",
+        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
     shell:
         " cat {input} > {output} 2> {log} "
 
 
 #rule psmcfa_from_2_fastas:
-#    input:
-#        pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
-#        pop2="sample2_all.fa"
-#    output:
-#        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
-#    conda:
-#        "../envs/hpsmc.yaml"
-#    log:
-#        ""
-#    benchmark:
-#        ""
-#    shell:
-#        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
+    input:
+        pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
+        pop2="results/hpsmc/haploidized_bam/{pop2}_haploidized.fa"
+    output:
+        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
+    conda:
+        "../envs/hpsmc.yaml"
+    log:
+        "results/logs/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.log"
+    benchmark:
+        "results/benchmarks/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.bmk"
+    shell:
+        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 
 ## 2. run PSMC on each of the pop1---x---pop2-hPSMC.psmcfa files
+# using same defaults as psmc
 rule run_hpsmc:
     input:
         "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
@@ -99,7 +101,7 @@ rule run_hpsmc:
     benchmark:
         "results/benchmarks/hpsmc/run-hpsmc/{pop1}---x---{pop2}.bmk"
     shell:
-        "psmc -N25 -t15 -r5 -p '4+25*2+4+6' -o {output} {input} 2> {log}"
+        "psmc -N25 -t5 -r5 -p '4+20*2+6*4+4' -o {output} {input} 2> {log}"
 
 ## 3. visualize hPSMC plots (using PSMC) and esimate pre-divergence Ne & upper and lower divergence time by looking at plots
 ## rule to plot hpsmc to visualize result

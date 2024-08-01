@@ -11,12 +11,13 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc/remove-sex-bams/aut_{s}.bam", s=sample_list),
-        expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list),\
-        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
-        expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
+        expand("results/hpsmc/haploidize_bam_sect/{hpops}/{c}_haploidized.fa", hpops=hpsmcpops, c=unique_chromosomes)
+        
+        #expand("results/psmc/remove-sex-bams/aut_{s}.bam", s=sample_list),
         #expand("results/psmc/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
         #expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list)
+        #expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
+        #expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
 
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
