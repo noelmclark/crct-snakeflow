@@ -278,11 +278,11 @@ def get_comma_sep_subsamp_names(wildcards):
 
 ##### hPSMC grouping things #####
 
-bams = pd.read_table(config["hspmc"]["bams"], dtype=str).set_index(
+bams = pd.read_table(config["hpsmc"]["bams"], dtype=str).set_index(
     ["sample"], drop=False
 )
 
-pwcomps = pd.read_table(config["hspmc"]["pwcomps"], dtype=str).set_index(
+pwcomps = pd.read_table(config["hpsmc"]["pwcomps"], dtype=str).set_index(
     ["pop1", "pop2"], drop=False
 )
 
