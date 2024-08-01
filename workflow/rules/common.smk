@@ -297,5 +297,5 @@ pop2=pwcomps.pop2.tolist()
 chromsg=chromsg.chrom.tolist()
 
 def get_hpsmc_bams_in_pop(wc):
-  b=bams.loc[(bams["group"] == wc.grp)]
+  b=bams.loc[(bams["group"] == wc.hpsmcpops)]
   return b.path.tolist()

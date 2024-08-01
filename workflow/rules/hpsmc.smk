@@ -42,8 +42,6 @@ rule haploidize_bam_sect:
         flagfile="results/flags/chromcompare_installed"
     output:
         temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromsg}_haploidized.fa"),
-    #params:
-    #    chrom={wildcards.chromo}
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
