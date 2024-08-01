@@ -70,7 +70,7 @@ rule haploidize_bam_sect:
 #        " cat {input} > {output} 2> {log} "
 
 
-#rule psmcfa_from_2_fastas:
+rule psmcfa_from_2_fastas:
     input:
         pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
         pop2="results/hpsmc/haploidized_bam/{pop2}_haploidized.fa"
