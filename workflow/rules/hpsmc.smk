@@ -52,7 +52,7 @@ rule haploidize_bam_sect:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromsg}.bmk",
     shell:
         " bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
-        " pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
+        " \pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
 
 
 rule concat_haploidized_bam:
