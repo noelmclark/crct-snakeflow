@@ -31,7 +31,7 @@ rule install_chromcompare:
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
         " git checkout {params.hash} && "
-        " make ) > {log} 2>&1  "
+        " make . ) > {log} 2>&1  "
 
 
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
