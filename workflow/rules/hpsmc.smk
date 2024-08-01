@@ -21,13 +21,14 @@ rule install_chromcompare:
         hash=config["chromcompare"]["version"],
         url=config["chromcompare"]["url"]
     output:  
-        flagfile=touch("results/flags/chromcompare_installed")
+        flagfile=touch("results/flags/chromcompare_installed"),
+        dir="results/chromcompare",
     conda:
         "../envs/bcftools-chromcompare.yaml"
     log:
         "results/logs/install_chromcompare/log.txt"
     shell:
-        "(OUT_DIR=$(mkdir results/chromcompare) && cd $OUT_DIR && "
+        "(cd {output.dir} && "
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
         " git checkout {params.hash} && "
