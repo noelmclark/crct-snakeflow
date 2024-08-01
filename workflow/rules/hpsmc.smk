@@ -58,17 +58,17 @@ rule haploidize_bam_sections:
         " pu2fa -c {input.chrom} -C 50 > {output}' "
 
 
-rule concat_haploidized_bam:
-    input:
-        expand("results/hpsmc/haploidize_bam_sect/{{hpsmcpops}}/{c}_haploidized.fa", c=unique_chromosomes),
-    output:
-        "results/hpsmc/haploidized_bam/{hpsmcpops}_haploidized.fa",
-    log:
-        "results/logs/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
-    benchmark:
-        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
-    shell:
-        " cat {input} > {output} 2> {log} "
+#rule concat_haploidized_bam:
+#    input:
+#        expand("results/hpsmc/haploidize_bam_sect/{{hpsmcpops}}/{c}_haploidized.fa", c=unique_chromosomes),
+#    output:
+#        "results/hpsmc/haploidized_bam/{hpsmcpops}_haploidized.fa",
+#    log:
+#        "results/logs/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
+#    benchmark:
+#        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
+#    shell:
+#        " cat {input} > {output} 2> {log} "
 
 
 #rule psmcfa_from_2_fastas:
