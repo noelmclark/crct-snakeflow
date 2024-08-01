@@ -31,7 +31,7 @@ rule install_chromcompare:
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
         " git checkout {params.hash} && "
-        " make . ) > {log} 2>&1  "
+        " make ) > {log} 2>&1  "
 
 
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
@@ -52,7 +52,7 @@ rule haploidize_bam_sect:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromsg}.bmk",
     shell:
         " bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
-        " \pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
+        " pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
 
 
 rule concat_haploidized_bam:
