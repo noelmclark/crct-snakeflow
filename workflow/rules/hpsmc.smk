@@ -27,7 +27,7 @@ rule install_chromcompare:
     log:
         "results/logs/install_chromcompare/log.txt"
     shell:
-        "(TMP=$(mktemp -d) && cd $TMP && "
+        "(OUT_DIR=$(mkdir results/chromcompare) && cd $OUT_DIR && "
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
         " git checkout {params.hash} && "
@@ -51,7 +51,7 @@ rule haploidize_bam_sect:
     benchmark:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromsg}.bmk",
     shell:
-        " bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
+        " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
         " pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
 
 
