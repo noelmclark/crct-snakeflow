@@ -51,21 +51,21 @@ rule haploidize_bam_sect:
     benchmark:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromsg}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
-        " pu2fa -c {wildcards.chromsg} -C 50 > {output}' "
+        " bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
+        " pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
 
 
-#rule concat_haploidized_bam:
-#    input:
-#        expand("results/hpsmc/haploidize_bam_sect/{{hpsmcpops}}/{c}_haploidized.fa", c=unique_chromosomes),
-#    output:
-#        "results/hpsmc/haploidized_bam/{hpsmcpops}_haploidized.fa",
-#    log:
-#        "results/logs/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
-#    benchmark:
-#        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
-#    shell:
-#        " cat {input} > {output} 2> {log} "
+rule concat_haploidized_bam:
+    input:
+        expand("results/hpsmc/haploidize_bam_sect/{{hpsmcpops}}/{csg}_haploidized.fa", csg=chromsg),
+    output:
+        "results/hpsmc/haploidized_bam/{hpsmcpops}_haploidized.fa",
+    log:
+        "results/logs/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
+    benchmark:
+        "results/benchmarks/hpsmc/concat_haploidized_bam/{hpsmcpops}.log",
+    shell:
+        " cat {input} > {output} 2> {log} "
 
 
 rule psmcfa_from_2_fastas:
