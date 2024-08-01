@@ -41,7 +41,7 @@ rule haploidize_bam_sect:
         ref="resources/genome/OmykA.fasta",
         flagfile="results/flags/chromcompare_installed"
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromo}_haploidized.fa"),
+        temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{hpsmc-chromsg}_haploidized.fa"),
     #params:
     #    chrom={wildcards.chromo}
     conda:
@@ -49,12 +49,12 @@ rule haploidize_bam_sect:
     resources:
         time="23:59:59",
     log:
-        "results/logs/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromo}.log",
+        "results/logs/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmc-chromsg}.log",
     benchmark:
-        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromo}.bmk",
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmc-chromsg}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromo} {input.bam} | "
-        " pu2fa -c {wildcards.chromo} -C 50 > {output}' "
+        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.hpsmc-chromsg} {input.bam} | "
+        " pu2fa -c {wildcards.hpsmc-chromsg} -C 50 > {output}' "
 
 
 #rule concat_haploidized_bam:
