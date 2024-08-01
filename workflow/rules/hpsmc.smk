@@ -35,7 +35,7 @@ rule install_chromcompare:
 
 
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
-rule haploidize_bam_sections:
+rule haploidize_bam_sect:
     input:
         bam=get_hpsmc_bams_in_pop,
         ref="resources/genome/OmykA.fasta",
@@ -43,7 +43,7 @@ rule haploidize_bam_sections:
     output:
         temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromo}_haploidized.fa"),
     params:
-        chrom={unique_chromosomes}
+        chrom={wildcards.chromo}
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
