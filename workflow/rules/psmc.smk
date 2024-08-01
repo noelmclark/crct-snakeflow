@@ -156,7 +156,7 @@ rule psmc_plot_by_subsamp:
     params:
         samps=get_comma_sep_subsamp_names,
     output:
-        "results/psmc/psmc-plot/by-{psmc_id}/{subsamp}",
+        "results/psmc/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
     conda:
         "../envs/psmc.yaml"
     log:

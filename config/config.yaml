@@ -124,3 +124,7 @@ psmc:
   #  sample_subsets:
   #    all:
   #      path: config/sample_subsets/all-fish.txt
+  hpsmc:
+    bams: config/hpsmc-bams.tsv
+    pwcomps: config/hpsmc-pwcomps.tsv
+    

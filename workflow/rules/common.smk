@@ -276,11 +276,20 @@ def get_comma_sep_subsamp_names(wildcards):
     else:
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
 
-##### PCA Rule Things #####
-#def get_samples_txt(samples):
-#    samples = sample_table["sample"].unique()
-#    filename = 'samples.txt'
-#    samples.to_csv(filename, index=False, header=False, line_terminator='\n') 
-#    return filename
+##### hPSMC grouping things #####
 
-first_scat_id=unique_scats[0]
+bams = pd.read_table(config["hspmc"]["bams"], dtype=str).set_index(
+    ["sample"], drop=False
+)
+
+pwcomps = pd.read_table(config["hspmc"]["pwcomps"], dtype=str).set_index(
+    ["pop1", "pop2"], drop=False
+)
+
+hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
+pop1=pwcomps.pop1.tolist()
+pop2=pwcomps.pop2.tolist()
+
+def get_bams_in_pop(wc):
+  b=bams.loc[(bams["group"] == wc.grp)]
+  return b.path.tolist()
