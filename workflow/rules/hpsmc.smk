@@ -42,8 +42,8 @@ rule haploidize_bam_sect:
         flagfile="results/flags/chromcompare_installed"
     output:
         temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromo}_haploidized.fa"),
-    params:
-        chrom={wildcards.chromo}
+    #params:
+    #    chrom={wildcards.chromo}
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
@@ -53,8 +53,8 @@ rule haploidize_bam_sect:
     benchmark:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromo}.bmk",
     shell:
-        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {params.chrom} {input.bam} | "
-        " pu2fa -c {params.chrom} -C 50 > {output}' "
+        " echo 'bcftools mpileup --full-BAQ -s -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromo} {input.bam} | "
+        " pu2fa -c {wildcards.chromo} -C 50 > {output}' "
 
 
 #rule concat_haploidized_bam:
