@@ -290,11 +290,11 @@ chromsg=pd.read_table(config["hpsmc-test"]["chromsg"], dtype=str).set_index(
     ["chrom"], drop=False
 )
 
-hpsmcpops==list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
+hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
 pop1=pwcomps.pop1.tolist()
 pop2=pwcomps.pop2.tolist()
 
-hpsmc-chromsg=chromsg.chrom.tolist()
+chromsg=chromsg.chrom.tolist()
 
 def get_hpsmc_bams_in_pop(wc):
   b=bams.loc[(bams["group"] == wc.grp)]
