@@ -28,7 +28,7 @@ rule install_chromcompare:
     log:
         "results/logs/install_chromcompare/log.txt"
     shell:
-        "(cd {output.dir} && "
+        "(mkdir {output.dir} && cd {output.dir} && "
         " git clone {params.url} && "
         " cd Chrom-Compare  && "
         " git checkout {params.hash} && "
