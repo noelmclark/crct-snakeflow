@@ -10,7 +10,7 @@
 # I recommend using -p8 in most cases.
 
 ## this is a rule that will install Chrom-Compare from https://github.com/Paleogenomics/Chrom-Compare 
-# into the active conda env and make (compile) it
+# into the given path and make (compile) it
 # the pu2fa function from Chrom-Compare is needed to haploidize bam sections for hPMSC
 # so, whenever you need to use Chrom-Compare, you call the same
 # conda environment, and have the flagfile as an input
@@ -21,7 +21,6 @@ rule install_chromcompare:
         hash=config["chromcompare"]["version"],
         url=config["chromcompare"]["url"]
     output:  
-        flagfile=touch("results/flags/chromcompare_installed"),
         dir="results/chromcompare",
     conda:
         "../envs/bcftools-chromcompare.yaml"
@@ -40,7 +39,7 @@ rule haploidize_bam_sect:
     input:
         bam=get_hpsmc_bams_in_pop,
         ref="resources/genome/OmykA.fasta",
-        flagfile="results/flags/chromcompare_installed"
+        dir="results/chromcompare/Chrom-Compare"
     output:
         temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{chromsg}_haploidized.fa"),
     conda:
@@ -53,7 +52,7 @@ rule haploidize_bam_sect:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{chromsg}.bmk",
     shell:
         " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.chromsg} {input.bam} | "
-        " pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
+        " {input/dir}/pu2fa -c {wildcards.chromsg} -C 50 > {output} 2> {log} "
 
 
 rule concat_haploidized_bam:
