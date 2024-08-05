@@ -73,7 +73,7 @@ rule psmcfa_from_2_fastas:
         pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
         pop2="results/hpsmc/haploidized_bam/{pop2}_haploidized.fa"
     output:
-        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
+        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.psmcfa"
     conda:
         "../envs/hpsmc.yaml"
     log:
@@ -84,13 +84,13 @@ rule psmcfa_from_2_fastas:
         "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 
-## 2. run PSMC on each of the pop1---x---pop2-hPSMC.psmcfa files
+## 2. run PSMC on each of the pop1---x---pop2.psmcfa files
 # using same defaults as psmc
 rule run_hpsmc:
     input:
-        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.hPSMC.psmcfa"
+        "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.psmcfa"
     output:
-        "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.hPSMC.psmc"
+        "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.psmc"
     conda:
         "../envs/hpsmc.yaml"
     log:
@@ -106,7 +106,7 @@ rule run_hpsmc:
 # -g [generation time in years] 
 rule hpsmc_plot:
     input:
-        "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.hPSMC.psmc"
+        "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.psmc"
     output:
         "results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}",
         #par="results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.par"
