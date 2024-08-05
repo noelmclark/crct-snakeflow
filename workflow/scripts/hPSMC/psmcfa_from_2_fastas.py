@@ -1,4 +1,5 @@
 #### from https://github.com/jacahill/hPSMC ####
+### I updated some syntax and one function to play better with python v3.12.4 ###
 ### Script to combine two fastas into a single psmcfa file ###
 
 import sys,os
@@ -95,7 +96,7 @@ def fa2psmcfa(samp1,samp2,bin,min):
 		i+=1
 	return psmcfa
 
-## I re-wrote this funciton ##
+## I re-wrote this function ##
 def check_TV(indA, indB):
     purines = {"A", "G"}
     pyrimidines = {"C", "T"}
