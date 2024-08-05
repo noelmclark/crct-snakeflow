@@ -92,7 +92,7 @@ rule run_hpsmc:
     output:
         "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.psmc"
     conda:
-        "../envs/psmc.yaml"
+        "../envs/hpsmc.yaml"
     log:
         "results/logs/hpsmc/run-hpsmc/{pop1}---x---{pop2}.log"
     benchmark:
