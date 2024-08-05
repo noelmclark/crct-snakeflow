@@ -117,7 +117,7 @@ scaf_names=chr_names(sys.argv[-1])
 #print len(sample1), len(sample2), len(scaf_names)
 
 if len(sample1) != len(sample2) or len(sample1) != len(scaf_names) or len(sample2) != len(scaf_names):
-	print "error input files appear to be different lengths"
+	print("error: input files appear to be different lengths")
 	sys.exit()
 	
 count=0
