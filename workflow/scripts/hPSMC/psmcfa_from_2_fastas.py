@@ -122,9 +122,9 @@ if len(sample1) != len(sample2) or len(sample1) != len(scaf_names) or len(sample
 	
 count=0
 while count < len(scaf_names):
-	print scaf_names[count]
+	print(scaf_names[count])
 	out=fa2psmcfa(sample1[count], sample2[count], bin, min)
-	print out
+	print(out)
 	count+=1
 	
 	
