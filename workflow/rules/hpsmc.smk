@@ -117,7 +117,7 @@ rule hpsmc_plot:
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 {output} {input} 2> {log}"
 
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
 #rule simulate_hpsmc_divergence:
