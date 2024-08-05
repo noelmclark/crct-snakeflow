@@ -108,8 +108,8 @@ rule hpsmc_plot:
     input:
         "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.hPSMC.psmc"
     output:
-        eps="results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.eps",
-        par="results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.par"
+        "results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}",
+        #par="results/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.par"
     conda:
         "../envs/hpsmc.yaml"
     log:
