@@ -94,40 +94,16 @@ def fa2psmcfa(samp1,samp2,bin,min):
 			first="N"
 		i+=1
 	return psmcfa
-			
 
+## I re-wrote this funciton ##
 def check_TV(indA, indB):
-	tc="No" # tc for type of change, transition=No transversion=Yes
-	if indA=="A":
-		if indB=="C":
-			tc="Yes"
-		elif indB=="G":
-			tc="No"
-		elif indB=="T":
-			tc="Yes"
-	elif indA=="C":
-		if indB=="A":
-			tc="Yes"
-		elif indB=="G":
-			tc="Yes"
-		elif indB=="T":
-			tc="No"
-	elif indA=="G":
-		if indB=="A":
-			tc="No"
-		elif indB=="C":
-			tc="Yes"
-		elif indB=="T":
-			tc="Yes"
-	elif indA=="T":
-		if indB=="A":
-			tc="Yes"
-		elif indB=="C":
-			tc="No"
-		elif indB=="G":
-			tc="Yes"
-	return tc
+    purines = {"A", "G"}
+    pyrimidines = {"C", "T"}
 
+    if (indA in purines and indB in pyrimidines) or (indA in pyrimidines and indB in purines):
+        return "Yes"  # Transversion
+    else:
+        return "No"   # Transition
 
 
 ### BODY ###
