@@ -112,9 +112,9 @@ rule make_plink_pw_fst:
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/snps-no-y-pca.log",
+        "results/logs/plink/pw-fst/fst.log",
     benchmark:
-        "results/benchmarks/plink/pca/snps-no-y-pca.bmk",
+        "results/benchmarks/plink/pw-fst/fst.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
