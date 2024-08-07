@@ -165,3 +165,26 @@ rule psmc_plot_by_subsamp:
         "results/benchmarks/psmc/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
+
+
+
+### I was curious if there would be a difference in estimates using the bcftools call vs gatk variant pipelines
+## so this chunk of rules runs PSMC from the BCF files
+
+# first we need to break the BCF into samples and remove the variants mapping to the y chrom
+rule psmc_consensus_seq_from_vcf:
+    input:
+        bcf="results/bcf/all.bcf",
+        tbi="results/bcf/all.bcf.csi",
+        regions="results/psmc/remove-y-regions/autosomal_regions.bed",
+    output:
+        "results/psmc/from-vcf/psmc-consensus-sequence/{sample}.fq.gz"
+    conda:
+        "../envs/sambcftools.yaml"
+    log:
+        "results/logs/psmc/from-vcf/psmc-consensus-sequence/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/from-vcf/psmc-consensus-sequence/{sample}.bmk"
+    shell:
+        " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} | "
+        " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log} "
