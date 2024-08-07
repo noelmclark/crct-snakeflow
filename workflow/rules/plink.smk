@@ -1,8 +1,8 @@
-### These rules generate a PCA using Plink2.0 from our filtered BCF
+#### These rules use Plink2.0 & Plink1.9 on our filtered BCF ####
 
-## The following 2 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk) with edits
-# https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
-# they generate a BCF file with only biallelic snps that pass a MAF cuttoff of 0.05
+### The following 2 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk) with edits
+## https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
+## they generate a BCF file with only biallelic snps that pass a MAF cuttoff of 0.05
 rule bcf_filt_scatter:
     input:
         bcf="results/bcf/all.bcf",
@@ -57,7 +57,7 @@ rule bcf_filt_gather:
         ") 2> {log} "
 
 
-### PLINK based rules
+### PLINK based rules ###
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # the --not-chr options removes the Y chromosome from the bed file
@@ -79,6 +79,7 @@ rule calc_allele_freq:
         " --allow-extra-chr --not-chr NC_048593.1 "
         " --out {output.afreq} 2> {log} "
 
+## This rules generates a PCA using Plink2.0 from our filtered BCF
 rule make_plink_pca:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
@@ -97,3 +98,26 @@ rule make_plink_pca:
         " --read-freq {input.afreq} --set-missing-var-ids @:#[b37]\$r,\$a "
         " --pca --allow-extra-chr --not-chr NC_048593.1 "
         " --out {output.pca} 2> {log} "
+
+## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
+# on our hard filtered BCF file
+# populations are loaded as categorical phenotypes first from a popfile
+rule make_plink_pw_fst:
+    input:
+        bcf="results/bcf/all.bcf",
+        tbi="results/bcf/all.bcf.csi"
+        popfile="config/plink-popfile.tsv",
+    output:
+        fst="results/plink/pw-fst/fst-",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/pca/snps-no-y-pca.log",
+    benchmark:
+        "results/benchmarks/plink/pca/snps-no-y-pca.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr --not-chr NC_048593.1 "
+        " --const-fid 0 --within {input.popfile} population"
+        " --out {output.fst} --fst population method=wc 2> {log} "
