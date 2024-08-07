@@ -49,12 +49,12 @@ rule bcf_filt_gather:
     benchmark:
         "results/benchmarks/bcf/filt_biallelic_maf_0.05/main.bmk"
     shell:
-        "( bcftools concat --naive {input.bcfs} | "
+        " ( bcftools concat --naive {input.bcfs} | "
         "  bcftools sort -Ob > {output.bcf} && "
         "  bcftools index {output.bcf} && "
         "  cat {input.poses} > {output.pos} && "
         "  plot-vcfstats -m {input.statses} > {output.stats} "
-        ") 2> {log} "
+        " ) 2> {log} "
 
 
 ### PLINK based rules ###
