@@ -102,6 +102,7 @@ rule make_plink_pca:
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file
 # populations are loaded as categorical phenotypes first from a popfile
+# if we want to do jacknife blocksize as well: https://groups.google.com/g/plink2-users/c/vr8rHzYVhZo/m/syHgeWLYAAAJ
 rule make_plink_pw_fst:
     input:
         bcf="results/bcf/all.bcf",
@@ -121,3 +122,8 @@ rule make_plink_pw_fst:
         " --allow-extra-chr --not-chr NC_048593.1 "
         " --const-fid 0 --within {input.popfile} population"
         " --out {output.fst} --fst population method=wc 2> {log} "
+
+## This rule calculates a sample based missing data report from a BCF file
+
+## This rule identifies runs of homozygosity (ROH) using the PLINK1.9 method
+# https://www.cog-genomics.org/plink/1.9/ibd#homozyg
