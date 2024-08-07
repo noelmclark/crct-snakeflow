@@ -32,29 +32,7 @@ rule bcf_filt_scatter:
         "    bcftools query -f '%CHROM\\t%POS\\n' {output.bcf} | gzip -c > {output.pos} "
         " ) 2> {log} "
 
-rule bcf_filt_gather:
-    input:
-        bcfs=expand("results/bcf/filt_biallelic_maf_0.05/sections/{scat}.bcf", scat=unique_scats),
-        poses=expand("results/bcf/filt_biallelic_maf_0.05/sections/{scat}.positions.tsv.gz", scat=unique_scats),
-        statses=expand("results/bcf/filt_biallelic_maf_0.05/sections/{scat}.bcf_stats.txt", scat=unique_scats),
-    output:
-        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
-        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
-        pos="results/bcf/filt_biallelic_maf_0.05/info/positions.tsv.gz",
-        stats="results/bcf/filt_biallelic_maf_0.05/info/bcf_stats.txt",
-    conda:
-        "../envs/bcftools.yaml"
-    log:
-        "results/logs/bcf/filt_biallelic_maf_0.05/main.log"
-    benchmark:
-        "results/benchmarks/bcf/filt_biallelic_maf_0.05/main.bmk"
-    shell:
-        " ( bcftools concat --naive {input.bcfs} | "
-        "  bcftools sort -Ob > {output.bcf} && "
-        "  bcftools index {output.bcf} && "
-        "  cat {input.poses} > {output.pos} && "
-        "  plot-vcfstats -m {input.statses} > {output.stats} "
-        " ) 2> {log} "
+
 
 
 ### PLINK based rules ###
