@@ -112,6 +112,10 @@ rule make_plink_pw_fst:
         fst="results/plink/pw-fst/fst-",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=9400,
+        cpus=2,
+    threads: 2
     log:
         "results/logs/plink/pw-fst/fst.log",
     benchmark:
