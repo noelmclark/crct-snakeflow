@@ -1,7 +1,7 @@
 ### following rules are to run PSMC
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 
-##rule to rest the remove chrom regions awk script
+##rule to test the remove chrom regions awk script
 rule remove_y_regions:
     input:
         scat_path="results/scatter_config/scatters_1200000.tsv"
@@ -189,3 +189,20 @@ rule psmc_consensus_seq_from_vcf:
     shell:
         " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} | "
         " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log} "
+
+
+## rule to test psmc parameters with whitefish options but first 4 intervals split
+rule run_psmc:
+    input:
+        "results/psmc/psmcfa/C106394.psmcfa"
+    output:
+        "results/psmc/run-psmc/param-test/4-split/C106394.psmc"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/run-psmc/param-test/4-split/C106394.log"
+    benchmark:
+        "results/benchmarks/psmc/run-psmc/param-test/4-split/C106394.bmk"
+    shell:
+        "psmc -N25 -t5 -r5 -p '1+1+1+1+20*2+6*4+4' -o {output} {input} 2> {log}"
+        # could try splitting up some of the time intervals
