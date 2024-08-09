@@ -100,16 +100,16 @@ rule make_plink_pca:
         " --out {output.pca} 2> {log} "
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
-# on our hard filtered BCF file
+# on our hard filtered BCF file with all variants
 # populations are loaded as categorical phenotypes first from a popfile
 # if we want to do jacknife blocksize as well: https://groups.google.com/g/plink2-users/c/vr8rHzYVhZo/m/syHgeWLYAAAJ
-rule make_plink_pw_fst:
+rule make_pw_fst_all:
     input:
         bcf="results/bcf/all.bcf",
         tbi="results/bcf/all.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        fst="results/plink/pw-fst/fst-",
+        fst="results/plink/pw-fst-all/fst-all",
     conda:
         "../envs/plink.yaml"
     resources:
@@ -117,9 +117,36 @@ rule make_plink_pw_fst:
         cpus=2,
     threads: 2
     log:
-        "results/logs/plink/pw-fst/fst.log",
+        "results/logs/plink/pw-fst-all/fst-all.log",
     benchmark:
-        "results/benchmarks/plink/pw-fst/fst.bmk",
+        "results/benchmarks/plink/pw-fst-all/fst-all.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --new-id-max-allele-len 387 "
+        " --allow-extra-chr --not-chr NC_048593.1 "
+        " --const-fid 0 --within {input.popfile} population"
+        " --out {output.fst} --fst population method=wc 2> {log} "
+
+## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
+# on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
+rule make_pw_fst_snp:
+    input:
+        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
+        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+        popfile="config/plink-popfile.tsv",
+    output:
+        fst="results/plink/pw-fst-snps-0.05/fst-snps-0.05",
+    conda:
+        "../envs/plink.yaml"
+    resources:
+        mem_mb=9400,
+        cpus=2,
+    threads: 2
+    log:
+        "results/logs/plink/pw-fst-snps-0.05/fst-snps-0.05.log",
+    benchmark:
+        "results/benchmarks/plink/pw-fst-snps-0.05/fst-snps-0.05.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
