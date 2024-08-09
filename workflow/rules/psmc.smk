@@ -192,7 +192,7 @@ rule psmc_consensus_seq_from_vcf:
 
 
 ## rule to test psmc parameters with whitefish options but first 4 intervals split
-rule run_psmc:
+rule run_psmc_param_test:
     input:
         "results/psmc/psmcfa/C106394.psmcfa"
     output:
