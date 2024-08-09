@@ -113,7 +113,7 @@ rule make_pw_fst_all:
     conda:
         "../envs/plink.yaml"
     resources:
-        mem_mb=9400,
+        mem_mb=18800,
         cpus=2,
     threads: 2
     log:
@@ -139,10 +139,6 @@ rule make_pw_fst_snp:
         fst="results/plink/pw-fst-snps-0.05/fst-snps-0.05",
     conda:
         "../envs/plink.yaml"
-    resources:
-        mem_mb=9400,
-        cpus=2,
-    threads: 2
     log:
         "results/logs/plink/pw-fst-snps-0.05/fst-snps-0.05.log",
     benchmark:
