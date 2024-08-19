@@ -196,13 +196,13 @@ rule run_psmc_param_test:
     input:
         "results/psmc/psmcfa/C106394.psmcfa"
     output:
-        "results/psmc/run-psmc/param-test/4-split/C106394.psmc"
+        "results/psmc/run-psmc/param-test/4-split/4split_t10_C106394.psmc"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/run-psmc/param-test/4-split/C106394.log"
+        "results/logs/psmc/run-psmc/param-test/4-split/4split_t10_C106394.log"
     benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/4-split/C106394.bmk"
+        "results/benchmarks/psmc/run-psmc/param-test/4-split/4split_t10_C106394.bmk"
     shell:
-        "psmc -N25 -t5 -r5 -p '1+1+1+1+20*2+6*4+4' -o {output} {input} 2> {log}"
+        "psmc -N25 -t10 -r5 -p '1+1+1+1+20*2+6*4+4' -o {output} {input} 2> {log}"
         # could try splitting up some of the time intervals
