@@ -12,7 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         "results/psmc/run-psmc/param-test/4-split/4split_t10_p111125_C106394.psmc",
-        "results/psmc/run-psmc/param-test/4-split/4split_t5_p111125_C106394.psmc"
+        "results/psmc/run-psmc/param-test/4-split/4split_t5_p111125_C106394.psmc",
         "results/psmc/run-psmc/param-test/4-split/4split_t10_default_C106394.psmc"
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
