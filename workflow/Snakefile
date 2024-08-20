@@ -11,10 +11,6 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/psmc/run-psmc/param-test/2split_t10_p11584_C106394.psmc",
-        "results/psmc/run-psmc/param-test/2split_t15_p11584_C106394.psmc",
-        "results/psmc/run-psmc/param-test/2split_t20_p11584_C106394.psmc", 
-        "results/psmc/run-psmc/param-test/4split_t15_p11115811_C106394.psmc",
         expand("results/mapping/gatk-rmdup/{s}.bam", s="C132065")
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
