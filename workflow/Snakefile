@@ -11,7 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/mapping/gatk-rmdup/{s}.bam", s="C132065")
+        expand("results/mapping/gatk-rmdup/{s}.bam", s="C132065"),
+        multiext("resources/genome/OmykA.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
         
