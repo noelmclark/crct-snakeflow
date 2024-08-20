@@ -154,3 +154,24 @@ rule make_pw_fst_snp:
 
 ## This rule identifies runs of homozygosity (ROH) using the PLINK1.9 method
 # https://www.cog-genomics.org/plink/1.9/ibd#homozyg
+
+## This rule generates a Phylip file which is used as input for the IQ Tree and splits-tree programs
+rule make_phylip:
+    input:
+        bcf="results/bcf/all.bcf",
+        csi="results/bcf/all.bcf.csi",
+        popfile="config/plink-popfile.tsv",
+    output:
+        phylip="results/plink/phylip/all-samp-no-y",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/phylip/all-samp-no-y.log",
+    benchmark:
+        "results/benchmarks/plink/phylip/all-samp-no-y.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr --not-chr NC_048593.1 "
+        " --geno 0.25 --snps-only "
+        " --export phylip used-sites --out {output.phylip} 2> {log} "
