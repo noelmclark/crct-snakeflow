@@ -215,13 +215,13 @@ rule run_psmc_param_test2:
     input:
         "results/psmc/psmcfa/C106394.psmcfa"
     output:
-        "results/psmc/run-psmc/param-test/i18_p1111582_C106394.psmc"
+        "results/psmc/run-psmc/param-test/i18_C106394.psmc"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/run-psmc/param-test/i18_p1111582_C106394.log"
+        "results/logs/psmc/run-psmc/param-test/i18_C106394.log"
     benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i18_p1111582_C106394.bmk"
+        "results/benchmarks/psmc/run-psmc/param-test/i18_C106394.bmk"
     shell:
         "psmc -N25 -t20 -r5 -p '4*1+13*2+4+6*5' -o {output} {input} 2> {log}"
         # could try splitting up some of the time intervals
@@ -230,13 +230,13 @@ rule run_psmc_param_test3:
     input:
         "results/psmc/psmcfa/C106394.psmcfa"
     output:
-        "results/psmc/run-psmc/param-test/i18_C106394.psmc"
+        "results/psmc/run-psmc/param-test/i19_C106394.psmc"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/run-psmc/param-test/i18_C106394.log"
+        "results/logs/psmc/run-psmc/param-test/i19_C106394.log"
     benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i18_C106394.bmk"
+        "results/benchmarks/psmc/run-psmc/param-test/i19_C106394.bmk"
     shell:
         "psmc -N25 -t15 -r5 -p '4*1+10*2+40' -o {output} {input} 2> {log}"
         # could try splitting up some of the time intervals
