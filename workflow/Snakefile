@@ -12,11 +12,21 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
-        "results/psmc/run-psmc/param-test/i26_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i27_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i28_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i29_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i30_C106394.psmc"
+        "results/psmc/run-psmc/param-test/i31_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i32_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i33_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i34_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i35_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i36_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i37_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i38_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i39_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i40_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i41_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i42_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i43_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i44_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i45_C106394.psmc"
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
         
