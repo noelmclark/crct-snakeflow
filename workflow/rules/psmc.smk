@@ -280,128 +280,22 @@ rule run_psmc_param_test6:
     shell:
         "psmc -N25 -t10 -r5 -p '10+6*3+15+3*7' -o {output} {input} 2> {log}"
 
-rule run_psmc_param_test7:
+rule psmc_plot_params:
     input:
-        "results/psmc/psmcfa/C106394.psmcfa"
+        psmc43="results/psmc/run-psmc/param-test/i43_C106394.psmc",
+        psmc45="results/psmc/run-psmc/param-test/i45_C106394.psmc",
+        psmc46="results/psmc/run-psmc/param-test/i46_C106394.psmc",
+        psmc47="results/psmc/run-psmc/param-test/i47_C106394.psmc",
+        psmc50="results/psmc/run-psmc/param-test/i50_C106394.psmc",
+        psmc51="results/psmc/run-psmc/param-test/i51_C106394.psmc"
     output:
-        "results/psmc/run-psmc/param-test/i37_C106394.psmc"
+        "results/psmc/psmc-plot/param-test/param-test",
+        #par="results/psmc/psmc-plot/param-test/param-test.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/run-psmc/param-test/i37_C106394.log"
+        "results/logs/psmc/psmc-plot/param-test/param-test.log"
     benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i37_C106394.bmk"
+        "results/benchmarks/psmc/psmc-plot/param-test/param-test.bmk"
     shell:
-        "psmc -N25 -t15 -r5 -p '1+1+1+1+4*5+2*20' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test8:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i38_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i38_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i38_C106394.bmk"
-    shell:
-        "psmc -N25 -t15 -r5 -p '1+1+1+1+2*10+2*20' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test9:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i39_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i39_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i39_C106394.bmk"
-    shell:
-        "psmc -N25 -t15 -r5 -p '1+1+1+1+3*20' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test10:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i40_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i40_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i40_C106394.bmk"
-    shell:
-        "psmc -N25 -t15 -r5 -p '1+1+1+1+1*60' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test11:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i41_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i41_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i41_C106394.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '4*4+5*4+4*7' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test12:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i42_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i42_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i42_C106394.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '4*4+2+2*23' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test13:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i43_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i43_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i43_C106394.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '10+5*4+2*17' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test14:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i44_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i44_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i44_C106394.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '4+6*10' -o {output} {input} 2> {log}"
-
-rule run_psmc_param_test15:
-    input:
-        "results/psmc/psmcfa/C106394.psmcfa"
-    output:
-        "results/psmc/run-psmc/param-test/i45_C106394.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/run-psmc/param-test/i45_C106394.log"
-    benchmark:
-        "results/benchmarks/psmc/run-psmc/param-test/i45_C106394.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '10+6+14+2*17' -o {output} {input} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M i43,i45,i46,i47,i50,i51 {output} {input.psmc43} {input.psmc45} {input.psmc46} {input.psmc47} {input.psmc50} {input.psmc51} 2> {log}"
