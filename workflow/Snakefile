@@ -12,7 +12,18 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
-        "results/psmc/psmc-plot/param-test/param-test",
+        "results/psmc/run-psmc/param-test/i52_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i53_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i54_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i55_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i56_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i57_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i58_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i59_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i60_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i61_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i62_C106394.psmc",
+        #"results/psmc/psmc-plot/param-test/param-test",
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
         
