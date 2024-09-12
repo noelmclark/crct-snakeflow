@@ -12,11 +12,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
-        "results/psmc/run-psmc/param-test/i63_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i64_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i65_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i66_C106394.psmc",
-        "results/psmc/run-psmc/param-test/i67_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i68_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i69_C106394.psmc",
+        "results/psmc/run-psmc/param-test/i70_C106394.psmc",
         #"results/psmc/psmc-plot/param-test/param-test",
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
