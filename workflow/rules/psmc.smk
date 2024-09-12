@@ -352,20 +352,19 @@ rule run_psmc_param_test11:
 
 rule psmc_plot_params:
     input:
-        psmc43="results/psmc/run-psmc/param-test/i43_C106394.psmc",
-        psmc45="results/psmc/run-psmc/param-test/i45_C106394.psmc",
-        psmc46="results/psmc/run-psmc/param-test/i46_C106394.psmc",
-        psmc47="results/psmc/run-psmc/param-test/i47_C106394.psmc",
-        psmc50="results/psmc/run-psmc/param-test/i50_C106394.psmc",
+        psmc63="results/psmc/run-psmc/param-test/i63_C106394.psmc",
+        psmc65="results/psmc/run-psmc/param-test/i65_C106394.psmc",
+        psmc69="results/psmc/run-psmc/param-test/i69_C106394.psmc",
+        psmc70="results/psmc/run-psmc/param-test/i70_C106394.psmc",
         psmc51="results/psmc/run-psmc/param-test/i51_C106394.psmc"
     output:
-        "results/psmc/psmc-plot/param-test/param-test",
+        "results/psmc/psmc-plot/param-test/param-test-2",
         #par="results/psmc/psmc-plot/param-test/param-test.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/psmc-plot/param-test/param-test.log"
+        "results/logs/psmc/psmc-plot/param-test/param-test-2.log"
     benchmark:
-        "results/benchmarks/psmc/psmc-plot/param-test/param-test.bmk"
+        "results/benchmarks/psmc/psmc-plot/param-test/param-test-2.bmk"
     shell:
-        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M i43,i45,i46,i47,i50,i51 {output} {input.psmc43} {input.psmc45} {input.psmc46} {input.psmc47} {input.psmc50} {input.psmc51} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M i63,i65,i69,i70,i51 {output} {input.psmc63} {input.psmc65} {input.psmc69} {input.psmc70} {input.psmc51} 2> {log}"
