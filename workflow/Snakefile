@@ -12,8 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
-        expand("results/psmc/from-vcf/echo-test-{s}.txt", s=sample_list)
-        #expand("results/psmc/from-vcf/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
+        expand("results/psmc/from-vcf/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
         
