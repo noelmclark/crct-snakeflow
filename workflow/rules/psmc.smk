@@ -156,7 +156,8 @@ rule psmc_consensus_seq_from_vcf:
         tbi="results/bcf/all.bcf.csi",
         regions="results/psmc/remove-y-regions/autosomal_regions.bed",
     output:
-        "results/psmc/from-vcf/psmc-consensus-sequence/{sample}.fq.gz"
+        seq="results/psmc/from-vcf/psmc-consensus-sequence/{sample}.fq.gz",
+        echo="results/psmc/from-vcf/echo-test-{sample}.txt"
     conda:
         "../envs/sambcftools.yaml"
     log:
@@ -164,8 +165,8 @@ rule psmc_consensus_seq_from_vcf:
     benchmark:
         "results/benchmarks/psmc/from-vcf/psmc-consensus-sequence/{sample}.bmk"
     shell:
-        " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} | "
-        " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log} "
+        " echo 'bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} | "
+        " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output.seq}' > {output.echo} 2> {log} "
 
 
 
