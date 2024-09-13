@@ -176,24 +176,40 @@ rule psmc_plot:
         "psmc_plot.pl -u 8.0e-09 -g 3 {output.eps} {input} 2> {log}"
 
 
-## rule to plot all PSMC by subsamp code - use this one the most
+## rule to plot all from-bam PSMC by subsamp code - use this one the most
 # I wrote this up to easily get overlain plots with different combinations of individuals 
-rule psmc_plot_by_subsamp:
+rule psmc_plot_by_subsamp_from_bam:
     input:
-        psmc=get_psmc_subsamps,
+        psmc=get_psmc_subsamps_from_bam,
     params:
         samps=get_comma_sep_subsamp_names,
     output:
-        "results/psmc/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
+        "results/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/psmc-plot/by-{psmc_id}/{subsamp}.log"
+        "results/logs/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}.log"
     benchmark:
-        "results/benchmarks/psmc/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
+        "results/benchmarks/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
+## rule to plot all from-bcf PSMC by subsamp code 
+rule psmc_plot_by_subsamp_from_bcf:
+    input:
+        psmc=get_psmc_subsamps_from_bcf,
+    params:
+        samps=get_comma_sep_subsamp_names,
+    output:
+        "results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}.log"
+    benchmark:
+        "results/benchmarks/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
 ## rule to plot all PSMC outputs together! super messy so don't normally use
 # can also set min (-x) and max (-X) generations for mapping

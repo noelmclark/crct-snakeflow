@@ -228,27 +228,51 @@ subsamp=["all", "crct-blue", "crct-green", "crct-both", "srm", "outgroups"]
 lineage_list = psmc_table["lineage"].unique().tolist()
 population_list = psmc_table["population"].unique().tolist()
 
-def get_psmc_subsamps(wildcards):
+def get_psmc_subsamps_from_bam(wildcards):
     if(wildcards.subsamp == "all"):
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=sample_list))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=sample_list))
     elif(wildcards.subsamp == "crct-blue"):
         b=psmc_table.loc[(psmc_table["lineage"] == "BL")]
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=b["sample"].tolist()))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=b["sample"].tolist()))
     elif(wildcards.subsamp == "crct-green"):
         g=psmc_table.loc[(psmc_table["lineage"] == "GR")]
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=g["sample"].tolist()))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=g["sample"].tolist()))
     elif(wildcards.subsamp == "crct-both"):
         bgvalues=["BL", "GR"]
         bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=bg["sample"].tolist()))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=bg["sample"].tolist()))
     elif(wildcards.subsamp == "srm"):
         srmvalues=["BL", "GR", "GB", "RG", "SJ"]
         srm=psmc_table.loc[(psmc_table["lineage"].isin(srmvalues))]
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=srm["sample"].tolist()))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=srm["sample"].tolist()))
     elif(wildcards.subsamp == "outgroups"):
         bgvalues=["BL", "GR"]
         out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
-        return(expand("results/psmc/run-psmc/{s}.psmc", s=out["sample"].tolist()))
+        return(expand("results/psmc/from-bam/run-psmc/{s}.psmc", s=out["sample"].tolist()))
+    else:
+        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
+
+def get_psmc_subsamps_from_bcf(wildcards):
+    if(wildcards.subsamp == "all"):
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=sample_list))
+    elif(wildcards.subsamp == "crct-blue"):
+        b=psmc_table.loc[(psmc_table["lineage"] == "BL")]
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=b["sample"].tolist()))
+    elif(wildcards.subsamp == "crct-green"):
+        g=psmc_table.loc[(psmc_table["lineage"] == "GR")]
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=g["sample"].tolist()))
+    elif(wildcards.subsamp == "crct-both"):
+        bgvalues=["BL", "GR"]
+        bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=bg["sample"].tolist()))
+    elif(wildcards.subsamp == "srm"):
+        srmvalues=["BL", "GR", "GB", "RG", "SJ"]
+        srm=psmc_table.loc[(psmc_table["lineage"].isin(srmvalues))]
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=srm["sample"].tolist()))
+    elif(wildcards.subsamp == "outgroups"):
+        bgvalues=["BL", "GR"]
+        out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
+        return(expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=out["sample"].tolist()))
     else:
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
 
