@@ -118,7 +118,7 @@ rule psmc_consensus_seq_from_bcf:
     benchmark:
         "results/benchmarks/psmc/from-bcf/psmc-consensus-sequence/{sample}.bmk"
     shell:
-        " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} | "
+        " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} - | "
         " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log} "
 
 # rule to create psmcfa file per sample
