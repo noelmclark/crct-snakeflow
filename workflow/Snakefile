@@ -13,7 +13,7 @@ rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
         expand("results/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
-        expand("results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}, psmc_id=psmc_id, subsamp=subsamp")
+        expand("results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
         #expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=sample_list),
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
