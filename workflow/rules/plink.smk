@@ -61,10 +61,13 @@ rule bcf_filt_gather:
 ## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # the --not-chr options removes the Y chromosome from the bed file
+# the --pheno option splits our bcf into one per population that includes all indivdiuals with the population id from the popfile
+# this is so --freq can generate population specific allele frequencies vs ones based on the all sample bcf
 rule calc_allele_freq:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+        popfile="config/plink-popfile.tsv",
     output:
         afreq="results/plink/allele-freq/snps-no-y",
     conda:
@@ -75,8 +78,10 @@ rule calc_allele_freq:
         "results/benchmarks/plink/allele-freq/snps-no-y.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
-        " --freq --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --pheno {input.popfile} "
         " --allow-extra-chr --not-chr NC_048593.1 "
+        " --freq --loop-cats population "
         " --out {output.afreq} 2> {log} "
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
