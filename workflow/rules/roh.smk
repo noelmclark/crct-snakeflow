@@ -15,8 +15,8 @@ rule make_bcftools_pop_afreq:
     benchmark:
         "results/benchmarks/roh/allele-freq/snps-maf-0.05/{population}-freqs.bmk",
     shell:
-        " bcftools view -s {params.pops} {input.bcf} | "
-        " bctools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' | "
+        " bcftools view -s {params.pops} {input.bcf} |"
+        " bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' |"
         " bgzip -c > {output.afreq} 2> {log} "
 
 
