@@ -1,6 +1,6 @@
 # this filters the bcf file by sample names listed in the given population wildcard 
 # and generates an allele frequency file for each population
-make_bcftools_pop_afreq:
+rule make_bcftools_pop_afreq:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
@@ -20,7 +20,7 @@ make_bcftools_pop_afreq:
         " bgzip -c > {output.afreq} 2> {log} "
 
 
-run_bcftools_roh:
+rule run_bcftools_roh:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
