@@ -226,7 +226,7 @@ psmc_id="lineage"
 subsamp=["all", "crct-blue", "crct-green", "crct-both", "srm", "outgroups"]
 
 lineage_list = psmc_table["lineage"].unique().tolist()
-population_list = psmc_table["population"].unique().tolist()
+population = psmc_table["population"].unique().tolist()
 
 def get_psmc_subsamps_from_bam(wildcards):
     if(wildcards.subsamp == "all"):
@@ -299,6 +299,82 @@ def get_comma_sep_subsamp_names(wildcards):
         return','.join(out["sample"].tolist())
     else:
         raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
+
+def get_comma_sep_pop_names(wildcards):
+    if(wildcards.population == "navajo"):
+        nav=psmc_table.loc[(psmc_table["population"] == "navajo")]
+        return','.join(nav["sample"].tolist())
+    elif(wildcards.population == "williamson"):
+        wil=psmc_table.loc[(psmc_table["population"] == "williamson")]
+        return','.join(wil["sample"].tolist())
+    elif(wildcards.population == "steelman"):
+        ste=psmc_table.loc[(psmc_table["population"] == "steelman")]
+        return','.join(ste["sample"].tolist())
+    elif(wildcards.population == "nanita"):
+        nan=psmc_table.loc[(psmc_table["population"] == "nanita")]
+        return','.join(nan["sample"].tolist())
+    elif(wildcards.population == "como"):
+        com=psmc_table.loc[(psmc_table["population"] == "como")]
+        return','.join(com["sample"].tolist())
+    elif(wildcards.population == "s_hayden"):
+        sha=psmc_table.loc[(psmc_table["population"] == "s_hayden")]
+        return','.join(sha["sample"].tolist())
+    elif(wildcards.population == "severy"):
+        sev=psmc_table.loc[(psmc_table["population"] == "severy")]
+        return','.join(sev["sample"].tolist())
+    elif(wildcards.population == "abrams"):
+        abr=psmc_table.loc[(psmc_table["population"] == "abrams")]
+        return','.join(abr["sample"].tolist())
+    elif(wildcards.population == "e_fk_piedra"):
+        efk=psmc_table.loc[(psmc_table["population"] == "e_fk_piedra")]
+        return','.join(efk["sample"].tolist())
+    elif(wildcards.population == "w_fk_boulder"):
+        wfk=psmc_table.loc[(psmc_table["population"] == "w_fk_boulder")]
+        return','.join(wfk["sample"].tolist())
+    elif(wildcards.population == "kelso"):
+        kel=psmc_table.loc[(psmc_table["population"] == "kelso")]
+        return','.join(kel["sample"].tolist())
+    elif(wildcards.population == "roan"):
+        roa=psmc_table.loc[(psmc_table["population"] == "roan")]
+        return','.join(roa["sample"].tolist())
+    elif(wildcards.population == "dry_gulch"):
+        dry=psmc_table.loc[(psmc_table["population"] == "dry_gulch")]
+        return','.join(dry["sample"].tolist())
+    elif(wildcards.population == "s_twin"):
+        stw=psmc_table.loc[(psmc_table["population"] == "s_twin")]
+        return','.join(stw["sample"].tolist())
+    elif(wildcards.population == "hunter"):
+        hun=psmc_table.loc[(psmc_table["population"] == "hunter")]
+        return','.join(hun["sample"].tolist())
+    elif(wildcards.population == "w_antelope"):
+        wan=psmc_table.loc[(psmc_table["population"] == "w_antelope")]
+        return','.join(wan["sample"].tolist())
+    elif(wildcards.population == "yellowstone"):
+        yel=psmc_table.loc[(psmc_table["population"] == "yellowstone")]
+        return','.join(yel["sample"].tolist())
+    elif(wildcards.population == "san_juan"):
+        san=psmc_table.loc[(psmc_table["population"] == "san_juan")]
+        return','.join(san["sample"].tolist())
+    elif(wildcards.population == "bonneville"):
+        bon=psmc_table.loc[(psmc_table["population"] == "bonneville")]
+        return','.join(bon["sample"].tolist())
+    elif(wildcards.population == "greenback"):
+        gre=psmc_table.loc[(psmc_table["population"] == "greenback")]
+        return','.join(gre["sample"].tolist())
+    elif(wildcards.population == "lahontan"):
+        lah=psmc_table.loc[(psmc_table["population"] == "lahontan")]
+        return','.join(lah["sample"].tolist())
+    elif(wildcards.population == "coastal"):
+        coa=psmc_table.loc[(psmc_table["population"] == "coastal")]
+        return','.join(coa["sample"].tolist())
+    elif(wildcards.population == "westslope"):
+        wes=psmc_table.loc[(psmc_table["population"] == "westslope")]
+        return','.join(wes["sample"].tolist())
+    elif(wildcards.population == "rio_grande"):
+        rio=psmc_table.loc[(psmc_table["population"] == "rio_grande")]
+        return','.join(rio["sample"].tolist())
+    else:
+        raise Exception("Wildcard population must be one of those listed in psmc-info.tsv.")
 
 ##### hPSMC grouping things #####
 
