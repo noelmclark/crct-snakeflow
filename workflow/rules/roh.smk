@@ -17,7 +17,7 @@ rule make_bcftools_pop_afreq:
     shell:
         " bcftools view -s {params.pops} {input.bcf} |"
         " bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' "
-        " -Ob {output.afreq} 2> {log} "
+        " -o {output.afreq} 2> {log} "
 
 
 rule run_bcftools_roh:
