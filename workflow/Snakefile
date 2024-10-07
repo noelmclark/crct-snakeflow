@@ -13,7 +13,7 @@ rule all:
     input:
         #"results/plink/phylip/all-samp-no-y",
         #"results/plink/allele-freq/snps-no-y"
-        expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.gz", pop=population)
+        expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.bcf", pop=population)
         #expand("results/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
         #expand("results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
         #expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=sample_list),
