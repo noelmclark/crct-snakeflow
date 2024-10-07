@@ -9,7 +9,7 @@ rule make_bcftools_pop_afreq:
     output:
         afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz",
     conda:
-        "../envs/bcftools.yaml"
+        "../envs/sambcftools.yaml"
     log:
         "results/logs/roh/allele-freq/snps-maf-0.05/{population}-freqs.log",
     benchmark:
@@ -28,7 +28,7 @@ rule run_bcftools_roh:
     output:
         "results/roh/snps-maf-0.05-roh.?",
     conda:
-        "../envs/bcftools.yaml"
+        "../envs/sambcftools.yaml"
     log:
         "results/logs/roh/snps-maf-0.05-roh.log",
     benchmark:
