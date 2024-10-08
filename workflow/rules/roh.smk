@@ -19,7 +19,7 @@ rule make_bcftools_pop_afreq:
     shell:
         " bcftools view -s {params.pops} {input.bcf} |"
         " bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' | "
-        " bgzip -c {output.afreq} 2> {log.freq} && "
+        " bgzip -c > {output.afreq} 2> {log.freq} && "
         " tabix -s1 -b2 -e2 {output.afreq} > {output.tbi} 2> {log.index} "
 
 
