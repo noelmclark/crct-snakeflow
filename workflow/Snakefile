@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        #"results/plink/phylip/all-samp-no-y",
+        "results/plink/phylip/all-samp-no-y",
         #"results/plink/allele-freq/snps-no-y"
         expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.gz", pop=population),
         expand("results/roh/snps-maf-0.05/{pop}-roh.txt", pop=population)
