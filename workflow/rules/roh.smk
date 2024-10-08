@@ -27,7 +27,7 @@ rule run_bcftools_roh:
     input:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
-        afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.bcf",
+        afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz",
         tbi="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz.tbi"
     params:
         pops=get_comma_sep_pop_names
