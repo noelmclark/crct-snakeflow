@@ -30,9 +30,9 @@ rule run_bcftools_roh:
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/roh/snps-maf-0.05-roh.log",
+        "results/logs/roh/snps-maf-0.05/{population}-roh.log",
     benchmark:
-        "results/benchmarks/roh/snps-maf-0.05-roh.bmk",
+        "results/benchmarks/roh/snps-maf-0.05/{population}-roh.bmk",
     shell:
         " bcftools view -s {params.pops} {input.bcf} | "
         " bcftools roh --AF-file {input.afreq} --GTs-only 30 "
