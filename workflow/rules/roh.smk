@@ -26,7 +26,7 @@ rule run_bcftools_roh:
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
         afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.bcf",
     output:
-        "results/roh/snps-maf-0.05-roh.?",
+        "results/roh/snps-maf-0.05/{population}-roh.txt",
     conda:
         "../envs/bcftools.yaml"
     log:
