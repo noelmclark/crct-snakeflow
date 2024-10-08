@@ -7,17 +7,20 @@ rule make_bcftools_pop_afreq:
     params:
         pops=get_comma_sep_pop_names
     output:
-        afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.bcf",
+        afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz",
+        tbi="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz.tbi"
     conda:
         "../envs/bcftools.yaml"
     log:
-        "results/logs/roh/allele-freq/snps-maf-0.05/{population}-freqs.log",
+        freq="results/logs/roh/allele-freq/snps-maf-0.05/{population}-freqs.log",
+        index="results/logs/roh/allele-freq/snps-maf-0.05/{population}-freqs.tbi.log"
     benchmark:
         "results/benchmarks/roh/allele-freq/snps-maf-0.05/{population}-freqs.bmk",
     shell:
         " bcftools view -s {params.pops} {input.bcf} |"
-        " bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' "
-        " -o {output.afreq} 2> {log} "
+        " bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t[%AF]\n' | "
+        " bgzip -c {output.afreq} 2> {log.freq} && "
+        " tabix -s1 -b2 -e2 {output.afreq} > {output.tbi} 2> {log.index} "
 
 
 rule run_bcftools_roh:
@@ -25,6 +28,7 @@ rule run_bcftools_roh:
         bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
         csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
         afreq="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.bcf",
+        tbi="results/roh/allele-freq/snps-maf-0.05/{population}-freqs.tabs.gz.tbi"
     params:
         pops=get_comma_sep_pop_names
     output:
