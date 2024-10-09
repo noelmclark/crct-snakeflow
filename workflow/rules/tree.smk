@@ -17,9 +17,9 @@ rule make_iqtree:
     benchmark:
         "results/benchmarks/tree/all-samp-no-y.bmk",
     resources:
-        mem_mb=9400,
+        mem_mb=11750,
         cpus=2,
-        time="23:59:59",
+        time="23:59:59"
     shell:
         " iqtree2 -s {input} -alrt 1000 -B 1000 -T AUTO "
         " --prefix {output.prefix} 2> {log} "
