@@ -160,11 +160,11 @@ rule make_pw_fst_snp:
 ## This rule identifies runs of homozygosity (ROH) using the PLINK1.9 method
 # https://www.cog-genomics.org/plink/1.9/ibd#homozyg
 
-## This rule generates a Phylip file which is used as input for the IQ Tree and splits-tree programs
+## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
 rule make_phylip:
     input:
-        bcf="results/bcf/all.bcf",
-        csi="results/bcf/all.bcf.csi",
+        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
+        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
         phylip="results/plink/phylip/all-samp-no-y",
