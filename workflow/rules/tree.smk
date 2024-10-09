@@ -17,7 +17,7 @@ rule make_iqtree:
     benchmark:
         "results/benchmarks/tree/all-samp-no-y.bmk",
     resources:
-        mem_mb=11750,
+        mem_mb=19200,
         cpus=2,
         time="23:59:59"
     shell:
