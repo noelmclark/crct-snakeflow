@@ -95,7 +95,7 @@ rule all:
 
 ##### Modules #####
 
-include: "rules/ref.smk"
+#include: "rules/ref.smk"
 include: "rules/mapping.smk"
 include: "rules/angsd-ready-bams.smk"
 include: "rules/calling.smk"
