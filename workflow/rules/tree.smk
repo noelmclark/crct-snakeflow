@@ -16,6 +16,10 @@ rule make_iqtree:
         "results/logs/tree/all-samp-no-y.log",
     benchmark:
         "results/benchmarks/tree/all-samp-no-y.bmk",
+    resources:
+        mem_mb=9400,
+        cpus=2,
+        time="23:59:59",
     shell:
         " iqtree2 -s {input} -alrt 1000 -B 1000 -T AUTO "
         " --prefix {output.prefix} 2> {log} "
