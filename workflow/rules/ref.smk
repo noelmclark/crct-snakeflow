@@ -1,22 +1,22 @@
 # Rule to download the genome using wget from NCBI if you don't have the fasta locally  
-#rule get_genome:
-#    output:
-#        "resources/genome/OmykA.fasta",
-#    log:
-#        "results/logs/get_OmykA.log",
-#    benchmark:
-#        "results/benchmarks/get_genome/get_OmykA.bmk",
-#    params:
-#        url=config["ref"]["genome_url"],
-#    conda:
-#        "../envs/wget.yaml"
-#    shell:
-#        " (tmp_dir=$(mktemp -d) && "
-#        " URL={params.url} && "
-#        " if [[ $URL =~ \.gz$ ]]; then EXT='.gz'; else EXT=''; fi && "
-#        " wget -O $tmp_dir/file$EXT $URL && "
-#        " if [[ $URL =~ \.gz$ ]]; then gunzip $tmp_dir/file$EXT; fi && "
-#        " mv $tmp_dir/file {output}) > {log} 2>&1 "
+rule get_genome:
+    output:
+        "resources/genome/OmykA.fasta",
+    log:
+        "results/logs/get_OmykA.log",
+    benchmark:
+        "results/benchmarks/get_genome/get_OmykA.bmk",
+    params:
+        url=config["ref"]["genome_url"],
+    conda:
+        "../envs/wget.yaml"
+    shell:
+        " (tmp_dir=$(mktemp -d) && "
+        " URL={params.url} && "
+        " if [[ $URL =~ \.gz$ ]]; then EXT='.gz'; else EXT=''; fi && "
+        " wget -O $tmp_dir/file$EXT $URL && "
+        " if [[ $URL =~ \.gz$ ]]; then gunzip $tmp_dir/file$EXT; fi && "
+        " mv $tmp_dir/file {output}) > {log} 2>&1 "
 
 
 
