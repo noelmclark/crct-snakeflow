@@ -41,7 +41,7 @@ ref:
   #the URL where this can be downloaded, if public and easy to
   #get with wget.  If not, then you should hand-download
   #genome.fasta and genome.gff or genome.gtf
-  genome_url: "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_013265735.2/"
+  genome_url: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/265/735/GCF_013265735.2_USDA_OmykA_1.1/GCF_013265735.2_USDA_OmykA_1.1_genomic.fna.gz"
   #if there is a GFF or GTF file, they have to have a .gff or
   #.gtf extension. This is where you put the URL for it
 #  gff_or_gtf_url: ""
