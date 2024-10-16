@@ -228,6 +228,8 @@ rule gather_scattered_vcfs:
 # see https://gatk.broadinstitute.org/hc/en-us/community/posts/4476803114779-GenotypeGVCFs-Output-no-call-as-reference-genotypes?page=1#community_comment_6006727219867
 # this also adds an INFO field NMISS, which gives the number of samples missing a call.
 # 8/26/22: This has been updated to also mark genotypes as missing if they have a PL of 0,0,0.
+## this rule is unecessary when using gatk v4.6.0.0 and greater as they reverted back to ./. 
+# see https://github.com/broadinstitute/gatk/releases/tag/4.6.0.0
 rule correct_missing_vcf_sect:
     input:
         vcf="results/calling/vcf_sections/{sg_or_chrom}.vcf.gz"
