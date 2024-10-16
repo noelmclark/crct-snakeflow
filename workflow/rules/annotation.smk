@@ -1,3 +1,4 @@
+## Right now my snakeflow does not include this rule or .smk file
 rule annotate_variants:
     input:
         calls="filtered/all.vcf.gz",

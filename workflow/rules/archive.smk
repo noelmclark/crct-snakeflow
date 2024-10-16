@@ -1,3 +1,4 @@
+## This entire .smk is copied from Eric's MEGA WGS workflow and I currently do not use it
 # this is a simple rule that checks to make sure that the
 # final requested bcfs, bams, and gvcfs have been produced.
 # Then it tarballs up the qc folders and the benchmark folders
