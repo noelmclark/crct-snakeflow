@@ -11,8 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/bcf/all.bcf"), #hardfiltering final outputs
-        expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
+        expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom),
+        expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"])
+        
+        #misc in progress outputs
+        #expand("results/bcf/all.bcf"), #hardfiltering final outputs
+        #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
         #"results/plink/phylip/all-samp-no-y",
         #"results/tree/all-samp-no-y",
         #"results/plink/allele-freq/snps-no-y"
@@ -41,6 +45,7 @@ rule all:
         #expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2),
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
 
+        #final outputs
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
         #expand("results/mapping/gatk-rmdup/{s}.bam", s=sample_list), #mapping rmdup final output
         #expand("results/angsd_bams/overlap_clipped/{s}.bam", s=sample_list), #angsd-bams output
