@@ -30,7 +30,8 @@ rule clip_overlaps:
 ## 2. This is a new rule I wrote because HaplotyeCaller was throwing an error in my make_gvcf_sections rule with the bam files
 # from samples that had multiple units because I erroneously had the SM field of @RG include unit. 
 # They had multiple @RG tags listed so HaplotyeCaller thought there were two samples 
-# in these BAM files which it doesn't like. The rule worked for the samples with only one unit though.  
+# in these BAM files which it doesn't like. The rule worked for the samples with only one unit though.
+## this rule is no longer needed if you run the workflow from the very beginning because I updated the @RG tag SM field  
 rule fix_RG_sample:
     input:
         "results/mapping/mapped/{sample}---{unit}.sorted.bam",
