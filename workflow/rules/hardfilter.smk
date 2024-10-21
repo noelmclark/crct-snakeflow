@@ -116,7 +116,7 @@ rule merge_filtered_vcfs:
         " gatk MergeVcfs -I {input.indel} -I {input.snp} -O {output.vcf} 2> {log} "
 
 
-## convert each merged filtered vcf into a vcf
+## convert each merged filtered vcf into a bcf
 # I think there's a way to do this all in one with concat but I was running into errors
 rule merged_filtered_vcfs_to_bcfs:
     input:
@@ -132,7 +132,7 @@ rule merged_filtered_vcfs_to_bcfs:
     shell:
         " bcftools view -Ob {input} > {output} 2>{log} "
 
-# this gives us a single merged bcf file without any maf filtering
+# this gives us a single merged bcf file without any maf filtering & with variants that failed the hard filtering flagged
 rule bcf_concat_hardfilter_merged_sect:
     input:
         expand("results/hard_filtering/merged-filtered-bcf/hardfiltered-merged-{sgc}.bcf", sgc=sg_or_chrom),
@@ -176,7 +176,7 @@ rule maf_filter:
 
 
 ## this gives us a single merged bcf file for each of the maf cuttoffs we specify that contains only variants 
-# which pass the specified maf cuttoff
+# which pass the specified maf cuttoff & all other filters
 rule concat_mafs_bcf:
     input:
         expand("results/hard_filtering/filter-maf-{{maf}}/hardfiltered-merged-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)

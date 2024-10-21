@@ -11,9 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/calling/genomics_db/{sgc}", sgc=sg_or_chrom),
-        #expand("results/calling/gvcf/{s}.{ext}", s=sample, ext = ["g.vcf.gz", "g.vcf.gz.tbi"])
-        
+        expand("results/bcf/all.bcf"), #hardfiltering final outputs
+        expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs       
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
