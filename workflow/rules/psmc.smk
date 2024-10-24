@@ -1,21 +1,8 @@
-### following rules are to run PSMC using either (1) cleaned BAM files or (2) a BCF file
+### following rules are to run PSMC using cleaned BAM files
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 ## I was curious if there would be a difference in estimates using the bcftools call (from-bam) vs gatk variant pipelines (from-bcf)
 
-##rule to test the remove chrom regions awk script
-rule remove_y_regions:
-    input:
-        scat_path="results/scatter_config/scatters_1200000.tsv"
-    output:
-        regions="results/psmc/remove-y-regions/autosomal_regions.bed"
-    log:
-        "results/logs/psmc/remove-y-regions.log"
-    benchmark:
-        "results/benchmarks/psmc/remove-y-regions.bmk"
-    shell:
-        " awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
-        " {input.scat_path} > {output.regions} 2> {log} "
-
+##rule to remove the y chrom and scaffold regions awk script
 rule get_aut_regions:
     input:
         scat_path="results/scatter_config/scatters_1200000.tsv"
@@ -31,27 +18,25 @@ rule get_aut_regions:
         " awk -v chrom='NW_*' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
         " {input.scat_path} >> {output.regions} ) 2> {log} "
 
-
-
-### (1) run PSMC from BAMs
-## rule to split bam files into aut and y-chrom bam files
+### run PSMC from BAMs
+## rule to extract only regions that map to autosomes (not Y chrom or scaffolds)
 # sex chroms are shown to have impacts on PSMC curves
 # the y-chrom for the o. mykiss reference is NC_048593.1
-rule remove_sex_bams:
+rule get_aut_bams:
     input:
-        regions="results/psmc/remove-y-regions/autosomal_regions.bed",
+        regions="results/psmc/get-aut-regions/autosomal_regions.bed",
         bam="results/angsd_bams/overlap_clipped/{sample}.bam",
         bai="results/angsd_bams/overlap_clipped/{sample}.bai"
     output:
-        aut_bam="results/psmc/from-bam/remove-sex-bams/aut_{sample}.bam",
-        aut_bai="results/psmc/from-bam/remove-sex-bams/aut_{sample}.bai"
+        aut_bam="results/psmc/aut-bams/aut_{sample}.bam",
+        aut_bai="results/psmc/aut-bams/aut_{sample}.bai"
     conda:
         "../envs/sambcftools.yaml"
     log:
-        rem="results/logs/psmc/from-bam/remove-sex-bams/remove-{sample}.log",
-        index="results/logs/psmc/from-bam/remove-sex-bams/index-{sample}.log",
+        rem="results/logs/psmc/aut-bams/aut-{sample}.log",
+        index="results/logs/psmc/aut-bams/index-{sample}.log",
     benchmark:
-        "results/benchmarks/psmc/from-bam/remove-sex-bams/{sample}.bmk"
+        "results/benchmarks/psmc/aut-bams/{sample}.bmk"
     shell:
         " samtools view -b -h -L {input.regions} -o {output.aut_bam} {input.bam} 2> {log.rem} && "
         " samtools index {output.aut_bam} -o {output.aut_bai} 2> {log.index} "
