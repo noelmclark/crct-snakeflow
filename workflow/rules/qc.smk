@@ -98,10 +98,10 @@ rule calc_missingness:
     benchmark:
         "results/qc/missingness/percent-missing-{sample}.bmk"
     shell:
-        " ( zero=$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4==0 {bpCountZero+=($3-$2)} {print bpCountZero}' | tail -1) && " 
-        " nonzero=$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4>0 {bpCountNonZero+=($3-$2)} {print bpCountNonZero}' | tail -1) && " 
-        " percent=$(bc <<< "scale=6; ($nonzero / ($zero + $nonzero))*100") && "
-        " echo $percent > {output} ) 2> {log}"
+        " ( zero=\$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4==0 {bpCountZero+=($3-$2)} {print bpCountZero}' | tail -1) && " 
+        " nonzero=\$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4>0 {bpCountNonZero+=($3-$2)} {print bpCountNonZero}' | tail -1) && " 
+        " percent=\$(bc <<< "scale=6; (\$nonzero / (\$zero + \$nonzero))*100") && "
+        " echo \$percent > {output} ) 2> {log}"
 
 
 
