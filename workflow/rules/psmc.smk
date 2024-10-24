@@ -2,8 +2,7 @@
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 ## I was curious if there would be a difference in estimates using the bcftools call (from-bam) vs gatk variant pipelines (from-bcf)
 
-##rule to remove the y chrom and mitogenome
-# scaffold regions were manually rawk script
+##rule to remove the y chrom (NC_048593.1) and mitogenome (NC_001717.1) and all scaffold regions (NW.*)
 rule get_aut_regions:
     input:
         scat_path="results/scatter_config/scatters_1200000.tsv"
@@ -14,10 +13,10 @@ rule get_aut_regions:
     benchmark:
         "results/benchmarks/psmc/get-aut-regions.bmk"
     shell:
-        " (awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
-        " {input.scat_path} > {output.regions} && "
-        " awk -v chrom='NW_*' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
-        " {input.scat_path} >> {output.regions} ) 2> {log} "
+        " (awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk {input.scat_path} | "
+        " awk -v chrom='NC_001717.1' -f workflow/scripts/PSMC/remove_more_regions.awk | "
+        " awk -v chrom='NW_.*' -f workflow/scripts/PSMC/remove_more_regions.awk "
+        " > {output.regions} ) 2> {log} "
 
 ### run PSMC from BAMs
 ## rule to extract only regions that map to autosomes (not Y chrom or scaffolds)
