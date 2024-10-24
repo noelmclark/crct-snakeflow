@@ -81,27 +81,20 @@ rule samtools_stats:
         "samtools stats {input} > {output} 2> {log} "
 
 
-## Rule to calculate % missingness of individual BAM files
-# First determines number of bases at 0 read depth (zero)
-# then determines number of bases at >0 read depth, i.e., non-zero bases (nonzero)
-# Last, calculates the percent of the reference genome covered by >0 read depth bases & rounds up to 6 decimal places
-#rule calc_missingness:
-#    input:
-#        bam="results/angsd_bams/overlap_clipped/{sample}.bam",
-#        bai="results/angsd_bams/overlap_clipped/{sample}.bai"
-#    output:
-#        "results/qc/missingness/percent-missing-{sample}.txt"
-#    conda:
-#        "..envs/bedtools.yaml",
-#    log:
-#        "results/qc/missingness/percent-missing-{sample}.log"
-#    benchmark:
-#        "results/qc/missingness/percent-missing-{sample}.bmk"
-#    shell:
-#        " ( zero=$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4==0 {bpCountZero+=($3-$2)} {print bpCountZero}' | tail -1) && " 
-#        " nonzero=$(bedtools genomecov -ibam {input.bam} -g hg38.fasta -bga | awk '$4>0 {bpCountNonZero+=($3-$2)} {print bpCountNonZero}' | tail -1) && " 
-#        " percent=$(bc <<< "scale=6; ($nonzero / ($zero + $nonzero))*100") && "
-#        " echo $percent > {output} ) 2> {log}"
+## Rule to calculate % missingness of individual BAM files using a custom bash script and bedtools
+rule calc_missingness:
+    input:
+        expand("results/psmc/aut-bams/aut_{s}.bam", s=sample_list),
+    output:
+        "results/qc/missingness/percent-missing-aut-bams.txt",
+    conda:
+        "..envs/bedtools.yaml",
+    log:
+        "results/qc/missingness/percent-missing-aut-bams.log",
+    benchmark:
+        "results/qc/missingness/percent-missing-aut-bams.bmk",
+    shell:
+        " ./workflow/scripts/PSMC/calc_percent_missingness.sh {output} {input} > {log} "
 
 
 
