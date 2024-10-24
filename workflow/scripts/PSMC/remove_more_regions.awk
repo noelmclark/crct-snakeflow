@@ -10,8 +10,8 @@ BEGIN {
 }
 
 
-# all others just print out the three columns needed for the regions file that don't match the chrom listed
-$1 != chrom {
+# all others just print out the three columns needed for the regions file that don't match the chrom or regular expression listed
+$1 !~ chrom {
 	print $1, $2, $3;
 	n++
 }

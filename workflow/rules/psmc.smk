@@ -2,7 +2,8 @@
 ## based on lh3 documentation at: https://github.com/lh3/psmc
 ## I was curious if there would be a difference in estimates using the bcftools call (from-bam) vs gatk variant pipelines (from-bcf)
 
-##rule to remove the y chrom, mitogenome, and scaffold regions awk script
+##rule to remove the y chrom and mitogenome
+# scaffold regions were manually rawk script
 rule get_aut_regions:
     input:
         scat_path="results/scatter_config/scatters_1200000.tsv"
