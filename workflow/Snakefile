@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        #expand("results/psmc/aut-bams/aut_{s}.bam", s=sample_list),
+        expand("results/psmc/aut-bams/aut_{s}.bam", s=sample_list),
         "results/psmc/get-aut-regions/autosomal_regions.bed" 
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
