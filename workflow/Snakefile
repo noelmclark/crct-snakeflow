@@ -11,8 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/bcf/all.bcf"), #hardfiltering final outputs
-        expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs       
+        expand("results/qc/missingness/percent-missing-{s}.txt", s=sample_list),
+        "results/psmc/get-aut-regions/autosomal_regions.bed" 
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
