@@ -88,7 +88,7 @@ rule calc_missingness:
     output:
         "results/qc/missingness/percent-missing-aut-bams.txt",
     conda:
-        "..envs/bedtools.yaml",
+        "../envs/bedtools.yaml",
     log:
         "results/qc/missingness/percent-missing-aut-bams.log",
     benchmark:
