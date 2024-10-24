@@ -16,6 +16,21 @@ rule remove_y_regions:
         " awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
         " {input.scat_path} > {output.regions} 2> {log} "
 
+rule get_aut_regions:
+    input:
+        scat_path="results/scatter_config/scatters_1200000.tsv"
+    output:
+        regions="results/psmc/get-aut-regions/autosomal_regions.bed"
+    log:
+        "results/logs/psmc/get-aut-regions.log"
+    benchmark:
+        "results/benchmarks/psmc/get-aut-regions.bmk"
+    shell:
+        " (awk -v chrom='NC_048593.1' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
+        " {input.scat_path} > {output.regions} && "
+        " awk -v chrom='NW_*' -f workflow/scripts/PSMC/remove_chrom_regions.awk "
+        " {input.scat_path} >> {output.regions} ) 2> {log} "
+
 
 
 ### (1) run PSMC from BAMs
@@ -97,59 +112,6 @@ rule run_psmc_from_bam:
         "results/benchmarks/psmc/from-bam/run-psmc/{sample}.bmk"
     shell:
         "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
-
-
-
-
-### (2) run PSMC from BCF
-
-# first we need to break the BCF into samples and remove the variants mapping to the y chrom
-rule psmc_consensus_seq_from_bcf:
-    input:
-        bcf="results/bcf/all.bcf",
-        tbi="results/bcf/all.bcf.csi",
-        regions="results/psmc/remove-y-regions/autosomal_regions.bed",
-    output:
-        temp("results/psmc/from-bcf/psmc-consensus-sequence/{sample}.fq.gz"),
-    conda:
-        "../envs/sambcftools.yaml"
-    log:
-        "results/logs/psmc/from-bcf/psmc-consensus-sequence/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc/from-bcf/psmc-consensus-sequence/{sample}.bmk"
-    shell:
-        " bcftools query -s {wildcards.sample} -R {input.regions} {input.bcf} - | "
-        " vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log} "
-
-# rule to create psmcfa file per sample
-rule make_psmcfa_from_bcf:
-    input:
-        "results/psmc/from-bcf/psmc-consensus-sequence/{sample}.fq.gz"
-    output:
-        "results/psmc/from-bcf/psmcfa/{sample}.psmcfa"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/pmsc/from-bcf/psmcfa/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc/from-bcf/psmcfa/{sample}.bmk"
-    shell:
-        "fq2psmcfa -q20 {input} > {output} 2> {log}"
-
-rule run_psmc_from_bcf:
-    input:
-        "results/psmc/from-bcf/psmcfa/{sample}.psmcfa"
-    output:
-        "results/psmc/from-bcf/run-psmc/{sample}.psmc"
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/from-bcf/run-psmc/{sample}.log"
-    benchmark:
-        "results/benchmarks/psmc/from-bcf/run-psmc/{sample}.bmk"
-    shell:
-        "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
-
 
 
 
