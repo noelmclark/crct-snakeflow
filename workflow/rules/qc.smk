@@ -89,6 +89,10 @@ rule calc_missingness:
         "results/qc/missingness/percent-missing-aut-bams.txt",
     conda:
         "../envs/bedtools.yaml",
+    resources:
+        time="12:00:00",
+        mem_mb=9400,
+        cpus=2,
     log:
         "results/qc/missingness/percent-missing-aut-bams.log",
     benchmark:
