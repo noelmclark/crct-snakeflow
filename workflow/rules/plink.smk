@@ -31,8 +31,8 @@ rule calc_allele_freq:
 # the --geno 0.01 applies a 10% missingness threshold filter
 rule make_plink_pca:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
+        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         afreq="results/plink/allele-freq/aut-snps-{maf}.afreq"
     output:
         pca="results/plink/pca/aut-snps-{maf}-pca",
