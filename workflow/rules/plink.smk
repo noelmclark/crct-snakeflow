@@ -9,7 +9,7 @@
 rule calc_allele_freq:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi"
+        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
         afreq="results/plink/allele-freq/snps-no-y",
