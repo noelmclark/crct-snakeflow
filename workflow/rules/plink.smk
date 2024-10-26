@@ -32,7 +32,7 @@ rule calc_allele_freq:
 rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi"
+        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/snps-no-y.afreq"
     output:
         pca="results/plink/pca/aut-snps-0.05-pca",
@@ -54,7 +54,7 @@ rule make_plink_pca:
 rule make_pw_fst_snp:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi"
+        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
         fst="results/plink/pw-fst/aut-snps-0.05-fst",
@@ -75,8 +75,8 @@ rule make_pw_fst_snp:
 # need to update this
 rule make_phylip:
     input:
-        bcf="results/bcf/filt_biallelic_maf_0.05/main.bcf",
-        csi="results/bcf/filt_biallelic_maf_0.05/main.bcf.csi",
+        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
+        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
         phylip="results/plink/phylip/all-samp-no-y",
