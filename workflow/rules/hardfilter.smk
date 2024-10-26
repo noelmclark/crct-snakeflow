@@ -179,7 +179,7 @@ rule filter_bisnp_maf:
 # which pass the specified maf cuttoff & all other filters
 rule concat_bisnp_maf_bcf:
     input:
-        expand("results/hard_filtering/filter-maf-{{maf}}/biallelic-snps-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
+        expand("results/hard_filtering/filter-bisnp-maf-{{maf}}/biallelic-snps-{sgc}-maf-{{maf}}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/biallelic-snps-maf-{maf}.bcf.csi"
