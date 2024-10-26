@@ -13,7 +13,8 @@ rule all:
     input:
         expand("results/psmc/aut-bams/aut_{s}.bam", s=sample_list),
         "results/qc/missingness/percent-missing-aut-bams.txt",
-        expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
+        expand("results/plink/allele-freq/aut-snps-{maf}", maf=mafs)
+        #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #expand("results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf", maf=mafs),
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
