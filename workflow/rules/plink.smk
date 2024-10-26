@@ -8,17 +8,17 @@
 # this is so --freq can generate population specific allele frequencies vs ones based on the all sample bcf
 rule calc_allele_freq:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
+        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        afreq="results/plink/allele-freq/snps-no-y",
+        afreq="results/plink/allele-freq/aut-snps-{maf}",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/allele-freq/snps-no-y.log",
+        "results/logs/plink/allele-freq/aut-snps-{maf}.log",
     benchmark:
-        "results/benchmarks/plink/allele-freq/snps-no-y.bmk",
+        "results/benchmarks/plink/allele-freq/aut-snps-{maf}.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -33,15 +33,15 @@ rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
-        afreq="results/plink/allele-freq/snps-no-y.afreq"
+        afreq="results/plink/allele-freq/aut-snps-{maf}.afreq"
     output:
-        pca="results/plink/pca/aut-snps-0.05-pca",
+        pca="results/plink/pca/aut-snps-{maf}-pca",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-0.05-pca.log",
+        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-0.05-pca.bmk",
+        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --read-freq {input.afreq} --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -57,13 +57,13 @@ rule make_pw_fst_snp:
         tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        fst="results/plink/pw-fst/aut-snps-0.05-fst",
+        fst="results/plink/pw-fst/aut-snps-{maf}-fst",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pw-fst/aut-snps-0.05-fst.log",
+        "results/logs/plink/pw-fst/aut-snps-{maf}-fst.log",
     benchmark:
-        "results/benchmarks/plink/pw-fst/aut-snps-0.05-fst.bmk",
+        "results/benchmarks/plink/pw-fst/aut-snps-{maf}-fst.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
