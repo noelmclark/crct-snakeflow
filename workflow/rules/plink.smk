@@ -53,8 +53,8 @@ rule make_plink_pca:
 # on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
 rule make_pw_fst_snp:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
+        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
         fst="results/plink/pw-fst/aut-snps-{maf}-fst",
