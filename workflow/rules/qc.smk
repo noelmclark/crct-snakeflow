@@ -84,21 +84,32 @@ rule samtools_stats:
 ## Rule to calculate % missingness of individual BAM files using a custom bash script and bedtools
 rule calc_missingness:
     input:
-        expand("results/psmc/aut-bams/aut_{s}.bam", s=sample_list),
+        "results/psmc/aut-bams/aut_{sample}.bam",
     output:
-        "results/qc/missingness/percent-missing-aut-bams.txt",
+        "results/qc/missingness/{sample}.txt",
     conda:
         "../envs/bedtools.yaml",
     resources:
-        time="12:00:00",
-        mem_mb=9400,
-        cpus=2,
+        time="6:00:00",
+    log:
+        "results/qc/missingness/{sample}.log",
+    benchmark:
+        "results/qc/missingness/{sample}.bmk",
+    shell:
+        " ./workflow/scripts/PSMC/calc_percent_missingness.sh {input} {output} > {log} "
+
+rule concat_missingness:
+    input:
+        expand("results/qc/missingness/{s}.txt", s=sample_list),
+    output:
+        "results/qc/missingness/percent-missing-aut-bams.txt",
     log:
         "results/qc/missingness/percent-missing-aut-bams.log",
     benchmark:
         "results/qc/missingness/percent-missing-aut-bams.bmk",
     shell:
-        " ./workflow/scripts/PSMC/calc_percent_missingness.sh {output} {input} > {log} "
+        " for i in {input}; do "
+        " (echo $i && cat $i); done > {output} 2> {log}"
 
 
 
