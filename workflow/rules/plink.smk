@@ -33,7 +33,7 @@ rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
+        #afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
     output:
         pca="results/plink/pca/aut-snps-{maf}-pca",
     conda:
@@ -44,9 +44,11 @@ rule make_plink_pca:
         "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
-        " --read-freq {input.afreq} --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --pca --allow-extra-chr --geno 0.1 "
         " --out {output.pca} 2> {log} "
+
+# " --read-freq {input.afreq} "
 
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
