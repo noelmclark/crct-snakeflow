@@ -33,7 +33,7 @@ rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-{maf}.afreq"
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
     output:
         pca="results/plink/pca/aut-snps-{maf}-pca",
     conda:
