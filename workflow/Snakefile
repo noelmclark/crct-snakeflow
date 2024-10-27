@@ -12,7 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         "results/qc/missingness/percent-missing-aut-bams.txt",
-        expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs)
+        #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs)
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #expand("results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf", maf=mafs),
         #misc in progress outputs
