@@ -115,7 +115,7 @@ rule split_psmcfa:
     benchmark:
         "results/benchmarks/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa.bmk"
     shell:
-        " utils/splitfa {input} > {output} 2> {log} "
+        " splitfa {input} > {output} 2> {log} "
 
 # this rule converts the fastq files to input format for 100 bootstrap replicates (seq 100 & -b) of PMSC
 # then merges all PSMC results of 100 bootstraps for each sample
@@ -201,6 +201,12 @@ rule psmc_plot_all:
         "results/benchmarks/psmc/psmc-plot/all/all-together.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log}"
+
+
+## rule to plot PSMC bootstraps per sample!
+#psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log}
+
+
 
 
 
