@@ -1,7 +1,8 @@
 #### These rules use Plink2.0 & Plink1.9 on our filtered BCF ####
 
 ### PLINK based rules ###
-## these rules take our filtered BCF and run PLINK2 on it to generate a PCA
+## these rules take our filtered BCF and run PLINK2 on it to generate different outputs
+
 # --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
 # I removed the Y chrom, mitogenome, and unassembled scaffolds using bcftools, but you could use the --not-chr flag in PLINK
 # the --pheno option splits our bcf into one per population that includes all indivdiuals with the population id from the popfile
@@ -27,13 +28,34 @@ rule calc_allele_freq:
         " --freq --loop-cats population "
         " --out {output.afreq} 2> {log} "
 
+# this rule keeps all the populations together and generates a whole dataset allele freq file
+# this is necessary for running PCA with all samples 
+rule calc_all_allele_freq:
+    input:
+        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
+        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
+    output:
+        afreq="results/plink/allele-freq/aut-snps-{maf}",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/allele-freq/aut-snps-{maf}.log",
+    benchmark:
+        "results/benchmarks/plink/allele-freq/aut-snps-{maf}.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --freq "
+        " --out {output.afreq} 2> {log} "
+
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # the --geno 0.01 applies a 10% missingness threshold filter
 rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        #afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
     output:
         pca="results/plink/pca/aut-snps-{maf}-pca",
     conda:
@@ -45,10 +67,11 @@ rule make_plink_pca:
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --pca --allow-extra-chr --geno 0.1 "
+        " --pca "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --read-freq {input.afreq} "
         " --out {output.pca} 2> {log} "
-
-# " --read-freq {input.afreq} "
 
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
