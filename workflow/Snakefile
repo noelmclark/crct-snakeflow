@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
+        expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp),
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs)
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #expand("results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf", maf=mafs),
@@ -23,9 +23,9 @@ rule all:
         #"results/plink/allele-freq/snps-no-y"
         #expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.gz", pop=population),
         #expand("results/roh/snps-maf-0.05/{pop}-roh.txt", pop=population)
-        #expand("results/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
-        #expand("results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
-        #expand("results/psmc/from-bcf/run-psmc/{s}.psmc", s=sample_list),
+        #expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp),
+        #expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp)
+        #expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
         #"results/plink/pw-fst-all/fst-all", 
         #"results/plink/pw-fst-snps-0.05/fst-snps-0.05"
         
@@ -33,7 +33,7 @@ rule all:
         #expand("results/psmc/psmc-consensus-sequence/{s}.fq.gz", s=sample_list)
         #expand("results/psmc/psmcfa/{s}.psmcfa", s=sample_list)
         #expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
-        #expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
+        #expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp),
 
         #plink-pca outputs
         #"results/bcf/filt_biallelic_maf_0.05/main.bcf"
@@ -74,7 +74,7 @@ rule all:
         #expand("results/psmc/psmc-plot/{s}.eps", s=sample_list), #PSMC final outputs, does weird things with file endings to this needs some help
         #expand("results/psmc/psmc-plot/{s}.par", s=sample_list),
         #"results/psmc/psmc-plot/all/all-together",
-        #expand("results/psmc-plot/by-subsamp/{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp)
+        #expand("results/psmc-plot/by-subsamp/{psmc_id}/{subsamp}", subsamp=subsamp)
 
         #PCANGSD PCA outputs
         #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
