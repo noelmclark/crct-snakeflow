@@ -141,22 +141,6 @@ rule psmc_plot_by_subsamp:
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
-## rule to plot all from-bcf PSMC by subsamp code 
-rule psmc_plot_by_subsamp_from_bcf:
-    input:
-        psmc=get_psmc_subsamps_from_bcf,
-    params:
-        samps=get_comma_sep_subsamp_names,
-    output:
-        "results/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
-    conda:
-        "../envs/psmc.yaml"
-    log:
-        "results/logs/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}.log"
-    benchmark:
-        "results/benchmarks/psmc/from-bcf/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
-    shell:
-        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
 ## rule to plot all PSMC outputs together! super messy so don't normally use
 # can also set min (-x) and max (-X) generations for mapping
