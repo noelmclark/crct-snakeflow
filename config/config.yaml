@@ -127,4 +127,4 @@ psmc:
 hpsmc-test:
     bams: config/hpsmc-bams.tsv
     pwcomps: config/hpsmc-pwcomps.tsv
-    chromsg: config/hpsmc-chrom-sg.tsv
+    chroms: config/hpsmc-chroms.tsv
