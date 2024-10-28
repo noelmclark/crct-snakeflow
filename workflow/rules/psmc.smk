@@ -121,7 +121,7 @@ rule split_psmcfa:
 # then merges all PSMC results of 100 bootstraps for each sample
 rule bootstrap_psmc:
     input:
-        whole="results/psmc/run-psmc/{sample}.psmc"
+        whole="results/psmc/run-psmc/{sample}.psmc",
         split="results/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa"
     output:
         "results/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.psmc"
