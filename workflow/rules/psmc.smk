@@ -121,23 +121,35 @@ rule split_psmcfa:
 # then merges all PSMC results of 100 bootstraps for each sample
 rule bootstrap_psmc:
     input:
-        whole="results/psmc/run-psmc/{sample}.psmc",
         split="results/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa"
     output:
-        "results/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.psmc"
+        "results/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.psmc"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.log"
+        "results/logs/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.log"
     benchmark:
-        "results/benchmarks/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.bmk"
+        "results/benchmarks/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.bmk"
     shell:
-        " {input.whole} > {output} && " #put whole psmc file into output file first
-        " for i in $(seq 1 100); do "
-        " (echo psmc -N25 -t10 -r5 -b -p '10+6*2+18*1+8*2+8*1' {input.split} | sh >> {output}) " #run 100 bootstrap replicates of psmc using the split files and add them onto the end of the output file
-        " done; 2> {log} "
+        "psmc -N25 -t10 -r5 -b -p '10+6*2+18*1+8*2+8*1' -o {output} {input.split} 2> {log} "
 
-
+rule merge_psmc_boostraps:
+    input:
+        whole="results/psmc/run-psmc/{sample}.psmc",
+        boots=expand("results/psmc/bootstrap/run-psmc/{{sample}}/{{sample}}-bootround-{pbr}.psmc", pbr=psmcbootround)
+    output:
+        "results/psmc/bootstrap/run-psmc/{sample}/{sample}-100bootstrap.psmc"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.log"
+    benchmark:
+        "results/benchmarks/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.bmk"
+    shell:
+        " cat {input.whole} > {output} && " #put whole psmc file into output file first
+        " for i in {input.boots}; do "
+        " (cat $i); " # then add each of the psmc bootstrap outputs
+        " done >> {output} 2> {log} "
 
 ### PSMC plotting ###
 
@@ -204,7 +216,20 @@ rule psmc_plot_all:
 
 
 ## rule to plot PSMC bootstraps per sample!
-#psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log}
+rule psmc_plot_bootstrap:
+    input:
+        "results/psmc/bootstrap/run-psmc/{sample}-100bootstrap.psmc",
+    output:
+        "results/psmc/bootstrap/psmc-plot/{sample}-100bootsrap",
+        #par="results/psmc/psmc-plot/all/all-together.par"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmc-plot/all/all-together.log"
+    benchmark:
+        "results/benchmarks/psmc/psmc-plot/all/all-together.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log} "
 
 
 
