@@ -99,6 +99,9 @@ rule run_psmc:
         "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
 
 
+
+
+
 ### PSMC bootstrapping ###
 ## these rules deal with running 100 bootstrap replicates of PSMC for each sample 
 
@@ -117,8 +120,7 @@ rule split_psmcfa:
     shell:
         " splitfa {input} > {output} 2> {log} "
 
-# this rule converts the fastq files to input format for 100 bootstrap replicates (seq 100 & -b) of PMSC
-# then merges all PSMC results of 100 bootstraps for each sample
+# this rule runs PSMC 100 times with a random sample (-b) of short chroms from the split file each of 100 times (wildcard.psmcbootround=1:100)
 rule bootstrap_psmc:
     input:
         split="results/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa"
@@ -133,6 +135,7 @@ rule bootstrap_psmc:
     shell:
         "psmc -N25 -t10 -r5 -b -p '10+6*2+18*1+8*2+8*1' -o {output} {input.split} 2> {log} "
 
+# this rule merges the full PSMC and all PSMC results of 100 bootstraps for each sample
 rule merge_psmc_boostraps:
     input:
         whole="results/psmc/run-psmc/{sample}.psmc",
@@ -150,6 +153,10 @@ rule merge_psmc_boostraps:
         " for i in {input.boots}; do "
         " (cat $i); " # then add each of the psmc bootstrap outputs
         " done >> {output} 2> {log} "
+
+
+
+
 
 ### PSMC plotting ###
 
@@ -215,21 +222,21 @@ rule psmc_plot_all:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log}"
 
 
-## rule to plot PSMC bootstraps per sample!
-#rule psmc_plot_bootstrap:
-#    input:
-#        "results/psmc/bootstrap/run-psmc/{sample}-100bootstrap.psmc",
-#    output:
-#        "results/psmc/bootstrap/psmc-plot/{sample}-100bootsrap",
-#        #par="results/psmc/psmc-plot/all/all-together.par"
-#    conda:
-#        "../envs/psmc.yaml"
-#    log:
-#        "results/logs/psmc/psmc-plot/all/all-together.log"
-#    benchmark:
-#        "results/benchmarks/psmc/psmc-plot/all/all-together.bmk"
-#    shell:
-#        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log} "
+## rule to plot whole PSMC and PSMC 100 bootstraps per sample, yay
+rule psmc_plot_bootstrap:
+    input:
+        "results/psmc/bootstrap/run-psmc/{sample}-100bootstrap.psmc",
+    output:
+        "results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap",
+        #par="results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.par"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.log"
+    benchmark:
+        "results/benchmarks/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log} "
 
 
 
