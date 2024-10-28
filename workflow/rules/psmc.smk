@@ -99,6 +99,45 @@ rule run_psmc:
         "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
 
 
+### PSMC bootstrapping ###
+## these rules deal with running 100 bootstrap replicates of PSMC for each sample 
+
+# this rule splits long chrom sequences to shorter segments for each sample
+rule split_psmcfa:
+    input:
+        "results/psmc/psmcfa/{sample}.psmcfa"
+    output:
+        "results/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa.log"
+    benchmark:
+        "results/benchmarks/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa.bmk"
+    shell:
+        " utils/splitfa {input} > {output} 2> {log} "
+
+# this rule converts the fastq files to input format for 100 bootstrap replicates (seq 100 & -b) of PMSC
+# then merges all PSMC results of 100 bootstraps for each sample
+rule bootstrap_psmc:
+    input:
+        whole="results/psmc/run-psmc/{sample}.psmc"
+        split="results/psmc/bootstrap/split-psmcfa/{sample}-split.psmcfa"
+    output:
+        "results/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.psmc"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.log"
+    benchmark:
+        "results/benchmarks/psmc/bootstrap/100bootstrap/{sample}-100bootstrap.bmk"
+    shell:
+        " {input.whole} > {output} && " #put whole psmc file into output file first
+        " for i in $(seq 1 100); do "
+        " (echo psmc -N25 -t10 -r5 -b -p '10+6*2+18*1+8*2+8*1' {input.split} | sh >> {output}) " #run 100 bootstrap replicates of psmc using the split files and add them onto the end of the output file
+        " done; 2> {log} "
+
+
 
 ### PSMC plotting ###
 
