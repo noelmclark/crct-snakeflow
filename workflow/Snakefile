@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc/run-psmc/{s}.psmc", s=sample_list),
+        expand("results/psmc/psmc-plot/by-{psmc_id}/{subsamp}", psmc_id=psmc_id, subsamp=subsamp),
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs)
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #expand("results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf", maf=mafs),
