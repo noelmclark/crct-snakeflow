@@ -131,13 +131,13 @@ rule psmc_plot_by_subsamp:
     params:
         samps=get_comma_sep_subsamp_names,
     output:
-        "results/psmc/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
+        "results/psmc/psmc-plot/{subsamp}/{subsamp}",
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/psmc-plot/by-{psmc_id}/{subsamp}.log"
+        "results/logs/psmc/psmc-plot/{subsamp}.log"
     benchmark:
-        "results/benchmarks/psmc/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
+        "results/benchmarks/psmc/psmc-plot/{subsamp}.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
