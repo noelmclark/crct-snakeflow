@@ -86,15 +86,15 @@ rule calc_missingness:
     input:
         "results/psmc/aut-bams/aut_{sample}.bam",
     output:
-        "results/qc/missingness/{sample}.txt",
+        temp("results/qc/missingness/{sample}.txt"),
     conda:
         "../envs/bedtools.yaml",
     resources:
         time="6:00:00",
     log:
-        "results/qc/missingness/{sample}.log",
+        "results/logs/qc/missingness/{sample}.log",
     benchmark:
-        "results/qc/missingness/{sample}.bmk",
+        "results/benchmarks/qc/missingness/{sample}.bmk",
     shell:
         " ./workflow/scripts/PSMC/calc_percent_missingness.sh {input} {output} > {log} "
 
@@ -104,9 +104,9 @@ rule concat_missingness:
     output:
         "results/qc/missingness/percent-missing-aut-bams.txt",
     log:
-        "results/qc/missingness/percent-missing-aut-bams.log",
+        "results/logs/qc/missingness/percent-missing-aut-bams.log",
     benchmark:
-        "results/qc/missingness/percent-missing-aut-bams.bmk",
+        "results/benchmarks/qc/missingness/percent-missing-aut-bams.bmk",
     shell:
         " for i in {input}; do "
         " (echo $i && cat $i); done > {output} 2> {log}"
