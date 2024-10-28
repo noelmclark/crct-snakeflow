@@ -224,7 +224,7 @@ psmc_table=pd.read_table(config["psmc_info"], dtype="str").set_index(
 
 psmc_id="lineage"
 subsamp=["all", "crct-blue", "crct-green", "crct-both", "srm", "outgroups"]
-psmcbootround = pd.Series(range(1, 101)).tolist() #specify wildcard for psmc bootstrap rounds, that is just a list of 1-100
+psmcbootround = list(range(1, 101)) #specify wildcard for psmc bootstrap rounds, that is just a list of 1-100
 
 lineage_list = psmc_table["lineage"].unique().tolist()
 population = psmc_table["population"].unique().tolist()

@@ -142,9 +142,9 @@ rule merge_psmc_boostraps:
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.log"
+        "results/logs/psmc/bootstrap/run-psmc/{sample}/{sample}-100bootstrap.log"
     benchmark:
-        "results/benchmarks/psmc/bootstrap/run-psmc/{sample}/{sample}-bootround-{psmcbootround}.bmk"
+        "results/benchmarks/psmc/bootstrap/run-psmc/{sample}/{sample}-100bootstrap.bmk"
     shell:
         " cat {input.whole} > {output} && " #put whole psmc file into output file first
         " for i in {input.boots}; do "
