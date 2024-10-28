@@ -47,12 +47,12 @@ rule get_aut_bams:
 # option -C 50 downgrades mapping quality (by coeff given) for reads containing excessive mismatches
 # option -d sets and minimum read depth and -D sets the maximum 
 # the flycatcher paper recommends setting -d 10 for depth coverage >10x
-rule psmc_consensus_sequence_from_bam:
+rule psmc_consensus_sequence:
     input:
-        bam="results/psmc/from-bam/remove-sex-bams/aut_{sample}.bam",  
+        bam="results/psmc/aut-bams/aut_{sample}.bam",  
         ref="resources/genome/OmykA.fasta",
     output:
-        temp("results/psmc/from-bam/psmc-consensus-sequence/{sample}.fq.gz") #temp removes files once they're no longer needed downstream
+        "results/psmc/psmc-consensus-sequence/{sample}.fq.gz",
     conda:
         "../envs/sambcftools.yaml"
     resources:
@@ -61,40 +61,40 @@ rule psmc_consensus_sequence_from_bam:
         cpus=2,
     threads: 2
     log:
-        "results/logs/psmc/from-bam/psmc-consensus-sequence/{sample}.log"
+        "results/logs/psmc/psmc-consensus-sequence/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc/from-bam/psmc-consensus-sequence/{sample}.bmk"
+        "results/benchmarks/psmc/psmc-consensus-sequence/{sample}.bmk"
     shell:
         "bcftools mpileup --full-BAQ -C50 -Ou -f {input.ref} {input.bam} | bcftools call -c - | " 
         "vcfutils.pl vcf2fq -d 10 -D 36 | gzip > {output} 2> {log}"
 
 # rule to create psmcfa file per sample
-#rule psmcfa_from_bam:
-#    input:
-#        "results/psmc/psmc-consensus-sequence/{sample}.fq.gz"
-#    output:
-#        "results/psmc/from-bam/psmcfa/{sample}.psmcfa"
-#    conda:
-#        "../envs/psmc.yaml"
-#    log:
-#        "results/logs/psmc/from-bam/psmcfa/{sample}.log"
-#    benchmark:
-#        "results/benchmarks/psmc/from-bam/psmcfa/{sample}.bmk"
-#    shell:
-#        "fq2psmcfa -q20 {input} > {output} 2> {log}"
-
-## rule to run psmc with approved options
-rule run_psmc_from_bam:
+rule psmcfa:
     input:
-        "results/psmc/from-bam/psmcfa/{sample}.psmcfa"
+        "results/psmc/psmc-consensus-sequence/{sample}.fq.gz"
     output:
-        "results/psmc/from-bam/run-psmc/{sample}.psmc"
+        "results/psmc/psmcfa/{sample}.psmcfa"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/from-bam/run-psmc/{sample}.log"
+        "results/logs/psmc/psmcfa/{sample}.log"
     benchmark:
-        "results/benchmarks/psmc/from-bam/run-psmc/{sample}.bmk"
+        "results/benchmarks/psmc/psmcfa/{sample}.bmk"
+    shell:
+        "fq2psmcfa -q20 {input} > {output} 2> {log}"
+
+## rule to run psmc with approved options
+rule run_psmc:
+    input:
+        "results/psmc/psmcfa/{sample}.psmcfa"
+    output:
+        "results/psmc/run-psmc/{sample}.psmc"
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/run-psmc/{sample}.log"
+    benchmark:
+        "results/benchmarks/psmc/run-psmc/{sample}.bmk"
     shell:
         "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
 
@@ -125,19 +125,19 @@ rule psmc_plot:
 
 ## rule to plot all from-bam PSMC by subsamp code - use this one the most
 # I wrote this up to easily get overlain plots with different combinations of individuals 
-rule psmc_plot_by_subsamp_from_bam:
+rule psmc_plot_by_subsamp:
     input:
-        psmc=get_psmc_subsamps_from_bam,
+        psmc=get_psmc_subsamps,
     params:
         samps=get_comma_sep_subsamp_names,
     output:
-        "results/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
+        "results/psmc/psmc-plot/by-{psmc_id}/{subsamp}/{subsamp}",
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}.log"
+        "results/logs/psmc/psmc-plot/by-{psmc_id}/{subsamp}.log"
     benchmark:
-        "results/benchmarks/psmc/from-bam/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
+        "results/benchmarks/psmc/psmc-plot/by-{psmc_id}/{subsamp}.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
