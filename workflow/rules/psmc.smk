@@ -225,16 +225,16 @@ rule psmc_plot_all:
 ## rule to plot whole PSMC and PSMC 100 bootstraps per sample, yay
 rule psmc_plot_bootstrap:
     input:
-        "results/psmc/bootstrap/run-psmc/{sample}-100bootstrap.psmc",
+        "results/psmc/bootstrap/run-psmc/{sample}/{sample}-100bootstrap.psmc",
     output:
-        "results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap",
+        "results/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap",
         #par="results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.log"
+        "results/logs/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap.log"
     benchmark:
-        "results/benchmarks/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.bmk"
+        "results/benchmarks/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log} "
 

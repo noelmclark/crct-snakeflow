@@ -13,7 +13,7 @@ rule all:
     input:
         expand("results/plink/allele-freq/aut-snps-{maf}", maf=mafs),
         expand("results/hpsmc/haploidized_bam/{hp}_haploidized.fa", hp=hpsmcpops),
-        expand("results/psmc/bootstrap/psmc-plot/{s}-100bootstrap", s=sample_list),
+        expand("results/psmc/bootstrap/psmc-plot/{s}/{s}-100bootstrap", s=sample_list),
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
