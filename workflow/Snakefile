@@ -11,7 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=sample_list)
+        expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
+        expand("results/hpsmc/haploidized_bam/{hp}_haploidized.fa", hp=hpsmcpops),
+        expand("results/psmc/bootstrap/psmc-plot/{s}-100bootstrap", s=sample_list)
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs)
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
         #expand("results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf", maf=mafs),
@@ -20,7 +22,7 @@ rule all:
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
         #"results/plink/phylip/all-samp-no-y",
         #"results/tree/all-samp-no-y",
-        #"results/plink/allele-freq/snps-no-y"
+        #"results/plink/allele-freq/snps-no-y"ls 
         #expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.gz", pop=population),
         #expand("results/roh/snps-maf-0.05/{pop}-roh.txt", pop=population)
         #expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp),
