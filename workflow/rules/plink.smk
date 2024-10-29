@@ -7,19 +7,19 @@
 # I removed the Y chrom, mitogenome, and unassembled scaffolds using bcftools, but you could use the --not-chr flag in PLINK
 # the --pheno option splits our bcf into one per population that includes all indivdiuals with the population id from the popfile
 # this is so --freq can generate population specific allele frequencies vs ones based on the all sample bcf
-rule calc_allele_freq:
+rule calc_pop_allele_freq:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        afreq="results/plink/allele-freq/aut-snps-{maf}",
+        afreq="results/plink/allele-freq/pops/aut-snps-{maf}",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/allele-freq/aut-snps-{maf}.log",
+        "results/logs/plink/allele-freq/pops/aut-snps-{maf}.log",
     benchmark:
-        "results/benchmarks/plink/allele-freq/aut-snps-{maf}.bmk",
+        "results/benchmarks/plink/allele-freq/pops/aut-snps-{maf}.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -30,7 +30,7 @@ rule calc_allele_freq:
 
 # this rule keeps all the populations together and generates a whole dataset allele freq file
 # this is necessary for running PCA with all samples 
-rule calc_all_allele_freq:
+rule calc_allele_freq:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
