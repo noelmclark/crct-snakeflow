@@ -353,6 +353,33 @@ def get_comma_sep_pop_names(wildcards):
     else:
         raise Exception("Wildcard population must be one of those listed in psmc-info.tsv.")
 
+def get_psmc_boot_subsamps(wildcards):
+    if(wildcards.subsamp == "all"):
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=sample_list))
+    elif(wildcards.subsamp == "crct-blue"):
+        b=psmc_table.loc[(psmc_table["lineage"] == "BL")]
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=b["sample"].tolist()))
+    elif(wildcards.subsamp == "crct-green"):
+        g=psmc_table.loc[(psmc_table["lineage"] == "GR")]
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=g["sample"].tolist()))
+    elif(wildcards.subsamp == "crct-both"):
+        bgvalues=["BL", "GR"]
+        bg=psmc_table.loc[(psmc_table["lineage"].isin(bgvalues))]
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=bg["sample"].tolist()))
+    elif(wildcards.subsamp == "srm"):
+        srmvalues=["BL", "GR", "GB", "RG", "SJ"]
+        srm=psmc_table.loc[(psmc_table["lineage"].isin(srmvalues))]
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=srm["sample"].tolist()))
+    elif(wildcards.subsamp == "outgroups"):
+        bgvalues=["BL", "GR"]
+        out=psmc_table.loc[(~psmc_table["lineage"].isin(bgvalues))]
+        return(expand("results/psmc/bootstrap/run-psmc/{s}/{s}-100bootstrap.psmc", s=out["sample"].tolist()))
+    else:
+        raise Exception("Wildcard subsamp must be all, crct-blue, crct-green, crct-both, srm, or outgroups.")
+
+
+
+
 ##### hPSMC grouping things #####
 
 bams=pd.read_table(config["hpsmc-test"]["bams"], dtype=str).set_index(

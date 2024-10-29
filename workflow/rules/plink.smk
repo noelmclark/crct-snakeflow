@@ -76,6 +76,7 @@ rule make_plink_pca:
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
+# need to check with Caitlin about jacknife estimates?
 rule make_pw_fst_snp:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
@@ -93,30 +94,36 @@ rule make_pw_fst_snp:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --const-fid 0 --within {input.popfile} population"
-        " --out {output.fst} --fst population method=wc 2> {log} "
+        " --const-fid 0 "
+        " --geno 0.1 "
+        " --within {input.popfile} population"
+        " --fst population method=wc "
+        " --out {output.fst} 2> {log} "
 
 ## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
-# need to update this
+# can update this with different missingness thresholds (--geno)
+# need to double check file options and recommended filters in PLINK and IQTree
 rule make_phylip:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        phylip="results/plink/phylip/all-samp-no-y",
+        phylip="results/plink/phylip/aut-snps-{maf}-geno-0.1",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/phylip/all-samp-no-y.log",
+        "results/logs/plink/phylip/aut-snps-{maf}-geno-0.1.log",
     benchmark:
-        "results/benchmarks/plink/phylip/all-samp-no-y.bmk",
+        "results/benchmarks/plink/phylip/aut-snps-{maf}-geno-0.1.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr --not-chr NC_048593.1 "
-        " --geno 0.25 --snps-only "
-        " --export phylip used-sites --out {output.phylip} 2> {log} "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --snps-only "
+        " --export phylip used-sites "
+        " --out {output.phylip} 2> {log} "
 
 
 ### BONEYARD (i.e. rules not used currently)

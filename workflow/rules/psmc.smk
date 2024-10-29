@@ -227,17 +227,33 @@ rule psmc_plot_bootstrap:
     input:
         "results/psmc/bootstrap/run-psmc/{sample}/{sample}-100bootstrap.psmc",
     output:
-        "results/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap",
+        "results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap",
         #par="results/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.par"
     conda:
         "../envs/psmc.yaml"
     log:
-        "results/logs/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap.log"
+        "results/logs/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.log"
     benchmark:
-        "results/benchmarks/psmc/bootstrap/psmc-plot/{sample}/{sample}-100bootstrap.bmk"
+        "results/benchmarks/psmc/bootstrap/psmc-plot/{sample}-100bootstrap.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log} "
 
+## rules to plot PSMC with 100 bootstraps per sample by subsamp -- not sure how it will look or if it will be useful
+rule psmc_plot_bootstrap_by_subsamp:
+    input:
+        psmc=get_psmc_boot_subsamps,
+    params:
+        samps=get_comma_sep_subsamp_names,
+    output:
+        "results/psmc/bootstrap/psmc-plot/{subsamp}/{subsamp}",
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/bootstrap/psmc-plot/{subsamp}.log"
+    benchmark:
+        "results/benchmarks/psmc/bootstrap/psmc-plot/{subsamp}.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
 
 
