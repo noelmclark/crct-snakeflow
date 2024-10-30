@@ -101,6 +101,10 @@ rule run_hpsmc:
         "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.psmc"
     conda:
         "../envs/hpsmc.yaml"
+    resources:
+        time="23:59:59",
+        mem_mb=9400,
+        cpus=2,
     log:
         "results/logs/hpsmc/run-hpsmc/{pop1}---x---{pop2}.log"
     benchmark:
