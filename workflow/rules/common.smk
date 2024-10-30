@@ -400,6 +400,10 @@ pop2=pwcomps.pop2.tolist()
 
 hpsmcchroms=hpsmcchroms.chrom.tolist()
 
+def get_hpsmc_chrom_end(wc):
+    c=hpsmcchroms.loc[(hpsmcchroms["chrom"] == wc.hpsmcchroms)]
+    return c.end.tolist()
+
 def get_hpsmc_bams_in_pop(wc):
   b=bams.loc[(bams["group"] == wc.hpsmcpops)]
   return b.path.tolist()

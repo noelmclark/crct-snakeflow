@@ -41,7 +41,9 @@ rule haploidize_bam_sect:
         ref="resources/genome/OmykA.fasta",
         dir="results/chromcompare"
     output:
-        temp("results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{hpsmcchroms}_haploidized.fa"),
+        "results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{hpsmcchroms}_haploidized.fa",
+    params:
+        end=get_hpsmc_chrom_end
     conda:
         "../envs/bcftools-chromcompare.yaml"
     resources:
@@ -52,7 +54,7 @@ rule haploidize_bam_sect:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
     shell:
         " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.hpsmcchroms} {input.bam} | "
-        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 > {output} 2> {log} "
+        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -s 1 -e {params.end} > {output} 2> {log} "
 
 
 rule concat_haploidized_bam:
