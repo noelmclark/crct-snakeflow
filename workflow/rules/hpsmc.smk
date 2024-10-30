@@ -98,7 +98,7 @@ rule run_hpsmc:
     benchmark:
         "results/benchmarks/hpsmc/run-hpsmc/{pop1}---x---{pop2}.bmk"
     shell:
-        "psmc -N25 -t5 -r5 -p '4+20*2+6*4+4' -o {output} {input} 2> {log}"
+        "psmc -N25 -t10 -r5 -p '10+6*2+18*1+8*2+8*1' -o {output} {input} 2> {log}"
 
 ## 3. visualize hPSMC plots (using PSMC) and esimate pre-divergence Ne & upper and lower divergence time by looking at plots
 ## rule to plot hpsmc to visualize result
@@ -117,7 +117,7 @@ rule hpsmc_plot:
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 {output} {input} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log}"
 
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
 #rule simulate_hpsmc_divergence:
