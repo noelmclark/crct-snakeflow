@@ -80,6 +80,10 @@ rule psmcfa_from_2_fastas:
         "results/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.psmcfa"
     conda:
         "../envs/hpsmc.yaml"
+    resources:
+        time="23:59:59",
+        mem_mb=9400,
+        cpus=2,
     log:
         "results/logs/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.log"
     benchmark:
