@@ -402,7 +402,7 @@ hpsmcchroms=hpsmcchromstab.chrom.tolist()
 
 def get_hpsmc_chrom_end(wc):
     c=hpsmcchromstab.loc[(hpsmcchromstab["chrom"] == wc.hpsmcchroms)]
-    return c.end.tolist()
+    return c.num_bases.tolist()
 
 def get_hpsmc_bams_in_pop(wc):
   b=bams.loc[(bams["group"] == wc.hpsmcpops)]
