@@ -40,14 +40,14 @@ rule hpsmc_wc_troubleshoot:
         bam=get_hpsmc_bams_in_pop,
     output:
         "results/hpsmc/troubleshoot/{hpsmcpops}/{hpsmcchroms}_trblsht.txt",
-    #params:
-    #    end=get_hpsmc_chrom_end
+    params:
+        end=get_hpsmc_chrom_end
     log:
         "results/hpsmc/troubleshoot/{hpsmcpops}/{hpsmcchroms}_trblsht.log",
     benchmark:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
     shell:
-        " echo {wildcards.hpsmcchroms} {input.bam} > {output} 2> {log} "
+        " echo {wildcards.hpsmcchroms} {params.end} {input.bam} > {output} 2> {log} "
 
 
 
