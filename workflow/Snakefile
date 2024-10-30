@@ -11,8 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/hpsmc/haploidized_bam/{hp}_haploidized.fa", hp=hpsmcpops),
-        #expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2),
+        expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2),
         #expand("results/hpsmc/haploidized_bam/{hp}_haploidized.fa", hp=hpsmcpops),
         #expand("results/hpsmc/psmcfa-from-2-fastas/{p1}---x---{p2}.psmcfa", p1=pop1, p2=pop2),
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
