@@ -390,7 +390,7 @@ pwcomps=pd.read_table(config["hpsmc-test"]["pwcomps"], dtype=str).set_index(
     ["pop1", "pop2"], drop=False
 )
 
-hpsmcchroms=pd.read_table(config["hpsmc-test"]["chroms"], dtype=str).set_index(
+hpsmcchromstab=pd.read_table(config["hpsmc-test"]["chroms"], dtype=str).set_index(
     ["chrom"], drop=False
 )
 
@@ -398,10 +398,10 @@ hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
 pop1=pwcomps.pop1.tolist()
 pop2=pwcomps.pop2.tolist()
 
-hpsmcchroms=hpsmcchroms.chrom.tolist()
+hpsmcchroms=hpsmcchromstab.chrom.tolist()
 
 def get_hpsmc_chrom_end(wc):
-    c=hpsmcchroms.loc[(hpsmcchroms["chrom"] == wc.hpsmcchroms)]
+    c=hpsmcchromstab.loc[(hpsmcchromstab["chrom"] == wc.hpsmcchroms)]
     return c.end.tolist()
 
 def get_hpsmc_bams_in_pop(wc):
