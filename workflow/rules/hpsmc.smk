@@ -34,6 +34,24 @@ rule install_chromcompare:
         " make ) > {log} 2>&1  "
 
 
+#some wildcard trouble shooting
+rule hpsmc_wc_troubleshoot:
+    input:
+        bam=get_hpsmc_bams_in_pop,
+    output:
+        "results/hpsmc/troubleshoot/{hpsmcpops}/{hpsmcchroms}_trblsht.txt",
+    #params:
+    #    end=get_hpsmc_chrom_end
+    log:
+        "results/hpsmc/troubleshoot/{hpsmcpops}/{hpsmcchroms}_trblsht.log",
+    benchmark:
+        "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
+    shell:
+        " echo {wildcards.hpsmcchroms} {input.bam} > {output} 2> {log} "
+
+
+
+
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
 rule haploidize_bam_sect:
     input:
