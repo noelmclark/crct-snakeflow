@@ -18,7 +18,7 @@ rule test_haploidize_bam_sect:
         " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -b -s 1 -e {params.end} > {output} 2> {log} "
 
 
-rule concat_haploidized_bam:
+rule test_concat_haploidized_bam:
     input:
         expand("results/hpsmc-test/haploidize_bam_sect/{{hpsmcpops}}/{c}_haploidized.fa", c=hpsmcchroms),
     output:
@@ -31,7 +31,7 @@ rule concat_haploidized_bam:
         " cat {input} > {output} 2> {log} "
 
 
-rule psmcfa_from_2_fastas:
+rule test_psmcfa_from_2_fastas:
     input:
         pop1="results/hpsmc-test/haploidized_bam/{pop1}_haploidized.fa",
         pop2="results/hpsmc-test/haploidized_bam/{pop2}_haploidized.fa"
