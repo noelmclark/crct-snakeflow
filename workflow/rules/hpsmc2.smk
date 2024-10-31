@@ -14,5 +14,5 @@ rule test_haploidize_bam_sect:
     benchmark:
         "results/benchmarks/hpsmc-test/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
     shell:
-        " bcftools mpileup --full-BAQ -Ou -f {input.ref} -r {wildcards.hpsmcchroms} {input.bam} | "
-        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -s 1 -e {params.end} > {output} 2> {log} "
+        " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.hpsmcchroms} {input.bam} | "
+        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -b -s 1 -e {params.end} > {output} 2> {log} "
