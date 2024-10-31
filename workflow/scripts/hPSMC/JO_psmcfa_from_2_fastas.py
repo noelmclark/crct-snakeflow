@@ -3,8 +3,9 @@
 import sys,os
 from optparse import OptionParser
 
-bin=100 # default bin size for psmcfa according to psmc.  For divergent taxa smaller bin sizes are preferable but will cause longer analysis times.
-min=50 # the minimum number of sites covered by both individuals to return a result.  Otherwise N
+# I changed the defaults to -b 10 and -m 5 because the hpsmc github said maybe the flags are silently failing and that could be part of the error
+bin=10 # default bin size for psmcfa according to psmc.  For divergent taxa smaller bin sizes are preferable but will cause longer analysis times.
+min=5 # the minimum number of sites covered by both individuals to return a result.  Otherwise N
 TV=False # For ancient DNA restricting analysis to transversion sites avoids bias from deamination damage.
 
 
