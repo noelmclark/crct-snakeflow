@@ -95,6 +95,7 @@ def fa2psmcfa(samp1,samp2,bin,min):
 			first="N"
 		i+=1
 	return psmcfa
+	print psmcfa #to see if it's empty or not
 			
 
 def check_TV(indA, indB):
