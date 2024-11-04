@@ -3,8 +3,8 @@
 import sys, os
 from optparse import OptionParser
 
-bin = 10  # Default bin size
-min = 5   # Minimum number of sites covered by both individuals to return a result
+bin = 5  # Default bin size
+min = 2   # Minimum number of sites covered by both individuals to return a result
 TV = False  # For ancient DNA, restrict to transversion sites
 
 ### OPTIONS ###
