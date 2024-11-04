@@ -23,7 +23,7 @@ rule install_chromcompare:
     output:  
         dir="results/chromcompare",
     conda:
-        "../envs/bcftools-chromcompare.yaml"
+        "../envs/chromcompare.yaml"
     log:
         "results/logs/install_chromcompare/log.txt"
     shell:
@@ -47,7 +47,7 @@ rule haploidize_bam_sect:
     params:
         end=get_hpsmc_chrom_end
     conda:
-        "../envs/bcftools-chromcompare.yaml"
+        "../envs/chromcompare.yaml"
     resources:
         time="23:59:59",
     log:
