@@ -8,14 +8,14 @@ rule test_haploidize_bam_sect:
     params:
         end=get_hpsmc_chrom_end
     conda:
-        "../envs/bcftools-chromcompare.yaml"
+        "../envs/chromcompare.yaml"
     log:
         "results/logs/hpsmc-test/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.log",
     benchmark:
         "results/benchmarks/hpsmc-test/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
     shell:
-        " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.hpsmcchroms} {input.bam} | "
-        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -b -s 1 -e {params.end} > {output} 2> {log} "
+        " samtools mpileup -s -f {input.ref} -q 30 -Q 30 -r {wildcards.hpsmcchroms} {input.bam} | "
+        " {input.dir}/Chrom-Compare/pu2fa -C 50 -c {wildcards.hpsmcchroms} > {output} 2> {log} "
 
 
 rule test_concat_haploidized_bam:
