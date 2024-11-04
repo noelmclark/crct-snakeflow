@@ -37,6 +37,7 @@ def make_chromosome(file_in):
 	file=open(file_in)
 	line=file.readline()
 	chr_seqs=[]
+	seq="" # Initialize seq as an empty string or appropriate starting value, added bc of error
 	while line:
 		if line[0]==">":
 			name=line[1:-1]
