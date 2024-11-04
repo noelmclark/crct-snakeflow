@@ -21,7 +21,7 @@ rule install_chromcompare:
         hash=config["chromcompare"]["version"],
         url=config["chromcompare"]["url"]
     output:  
-        dir="results/chromcompare",
+        dir=directory("results/chromcompare"),
     conda:
         "../envs/chromcompare.yaml"
     log:
