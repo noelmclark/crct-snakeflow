@@ -103,7 +103,7 @@ rule run_hpsmc:
         "../envs/hpsmc.yaml"
     resources:
         time="23:59:59",
-        mem_mb=12200,
+        mem_mb=30000,
         cpus=2,
     log:
         "results/logs/hpsmc/run-hpsmc/{pop1}---x---{pop2}.log"

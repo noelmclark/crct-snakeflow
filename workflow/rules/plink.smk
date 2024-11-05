@@ -66,6 +66,7 @@ rule prune_linkage_disequilibrium:
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indep-pairwise 50 10 0.1 "
+        " --bad-ld "
         " --out {output.ld} 2> {log} "
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
