@@ -40,7 +40,7 @@ rule test_psmcfa_from_2_fastas:
     conda:
         "../envs/hpsmc.yaml"
     resources:
-        time="23:59:59",
+        time="12:00:00",
         mem_mb=9400,
         cpus=2,
     log:
@@ -48,7 +48,7 @@ rule test_psmcfa_from_2_fastas:
     benchmark:
         "results/benchmarks/hpsmc-test/psmcfa-from-2-fastas/{pop1}---x---{pop2}.bmk"
     shell:
-        "python workflow/scripts/hPSMC/JO_psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
+        "python workflow/scripts/hPSMC/JO_psmcfa_from_2_fastas.py -b5 -m2 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 ## 2. run PSMC on each of the pop1---x---pop2.psmcfa files
 # using same defaults as psmc
@@ -61,7 +61,7 @@ rule test_run_hpsmc:
         "../envs/hpsmc.yaml"
     resources:
         time="23:59:59",
-        mem_mb=12200,
+        mem_mb=30000,
         cpus=2,
     log:
         "results/logs/hpsmc-test/run-hpsmc/{pop1}---x---{pop2}.log"
