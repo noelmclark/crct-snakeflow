@@ -23,7 +23,6 @@ if options.min is not None:
 ### DEFS ###
 
 def make_chromosome(file_in):
-    print("Testing make_chromosome with:", file_in)
     file = open(file_in)
     line = file.readline()
     chr_seqs = []
@@ -32,32 +31,26 @@ def make_chromosome(file_in):
         if line[0] == ">":
             if seq:
                 chr_seqs.append(seq)
-                print("Appending seq:", seq)
             seq = ""
         else:
             seq += line.strip()
         line = file.readline()
     chr_seqs.append(seq)  # Append the last sequence
     file.close()
-    print("Chromosome sequences:", chr_seqs)
     return chr_seqs
 
 def chr_names(file_in):
-    print("Testing chr_names with:", file_in)
     file = open(file_in)
     line = file.readline()
     names = []
     while line:
         if line[0] == ">":
             names.append(line.strip())
-            print("Found chromosome name:", line.strip())
         line = file.readline()
     file.close()
-    print("Chromosome names:", names)
     return names
 
 def fa2psmcfa(samp1, samp2, bin, min):
-    print("Testing fa2psmcfa with sample1:", samp1, "sample2:", samp2)
     i = 0
     N = 0
     K = 0
@@ -85,7 +78,6 @@ def fa2psmcfa(samp1, samp2, bin, min):
         elif i % bin == 0 and first == "Y":
             first = "N"
         i += 1
-    print("Generated psmcfa sequence:", psmcfa)
     return psmcfa
 
 def check_TV(indA, indB):
@@ -103,7 +95,6 @@ def check_TV(indA, indB):
     elif indA == "T":
         if indB == "A" or indB == "G":
             tc = "Yes"
-    print(f"check_TV result for {indA}->{indB}: {tc}")
     return tc
 
 ### BODY ###
@@ -123,7 +114,7 @@ if len(sample1) != len(sample2) or len(sample1) != len(scaf_names) or len(sample
 
 count = 0
 while count < len(scaf_names):
-    print("Processing scaffold:", scaf_names[count])
+    print(scaf_names[count])
     out = fa2psmcfa(sample1[count], sample2[count], bin, min)
-    print(f"Output for scaffold {scaf_names[count]}:\n", out)
+    print(out)
     count += 1

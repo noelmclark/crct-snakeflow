@@ -5,8 +5,8 @@
 import sys,os
 from optparse import OptionParser
 
-bin=100 # default bin size for psmcfa according to psmc.  For divergent taxa smaller bin sizes are preferable but will cause longer analysis times.
-min=50 # the minimum number of sites covered by both individuals to return a result.  Otherwise N
+bin=5 # default bin size for psmcfa according to psmc.  For divergent taxa smaller bin sizes are preferable but will cause longer analysis times.
+min=2 # the minimum number of sites covered by both individuals to return a result.  Otherwise N
 TV=False # For ancient DNA restricting analysis to transversion sites avoids bias from deamination damage.
 
 
@@ -38,6 +38,7 @@ def make_chromosome(file_in):
 	file=open(file_in)
 	line=file.readline()
 	chr_seqs=[]
+	seq = ""
 	while line:
 		if line[0]==">":
 			name=line[1:-1]
