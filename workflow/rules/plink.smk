@@ -2,9 +2,10 @@
 
 ### PLINK based rules ###
 ## these rules take our filtered BCF and run PLINK2 on it to generate different outputs
+## --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
+## I removed the Y chrom, mitogenome, and unassembled scaffolds using bcftools, but you could use the --not-chr flag in PLINK
 
-# --allow-extra-chromosomes lets the bed file include non-human chroms (PLINK is defaulted to humans)
-# I removed the Y chrom, mitogenome, and unassembled scaffolds using bcftools, but you could use the --not-chr flag in PLINK
+## this rule creates population level allele freq count files which I then combine in a custom script
 # the --pheno option splits our bcf into one per population that includes all indivdiuals with the population id from the popfile
 # this is so --freq can generate population specific allele frequencies vs ones based on the all sample bcf
 rule calc_pop_allele_freq:
@@ -13,19 +14,19 @@ rule calc_pop_allele_freq:
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
     output:
-        afreq="results/plink/allele-freq/pops/aut-snps-{maf}",
+        afreq="results/plink/allele-freq/pop-counts/aut-snps-{maf}",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/allele-freq/pops/aut-snps-{maf}.log",
+        "results/logs/plink/allele-freq/pop-counts/aut-snps-{maf}.log",
     benchmark:
-        "results/benchmarks/plink/allele-freq/pops/aut-snps-{maf}.bmk",
+        "results/benchmarksplink/allele-freq/pop-counts/aut-snps-{maf}.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --pheno {input.popfile} "
         " --allow-extra-chr "
-        " --freq --loop-cats population "
+        " --freq counts --loop-cats population "
         " --out {output.afreq} 2> {log} "
 
 # this rule keeps all the populations together and generates a whole dataset allele freq file
