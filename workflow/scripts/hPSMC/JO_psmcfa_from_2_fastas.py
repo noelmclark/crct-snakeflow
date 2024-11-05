@@ -3,8 +3,8 @@
 import sys, os
 from optparse import OptionParser
 
-bin = 5  # Default bin size
-min = 2   # Minimum number of sites covered by both individuals to return a result
+bin = 10  # Default bin size
+min = 5   # Minimum number of sites covered by both individuals to return a result
 TV = False  # For ancient DNA, restrict to transversion sites
 
 ### OPTIONS ###
@@ -72,7 +72,6 @@ def fa2psmcfa(samp1, samp2, bin, min):
                 psmcfa += "K"
             else:
                 psmcfa += "T"
-            print(f"At bin {i//bin}: Adding '{psmcfa[-1]}' to psmcfa")
             N = 0
             K = 0
         elif i % bin == 0 and first == "Y":
@@ -81,7 +80,6 @@ def fa2psmcfa(samp1, samp2, bin, min):
     return psmcfa
 
 def check_TV(indA, indB):
-    print(f"Testing check_TV with indA: {indA}, indB: {indB}")
     tc = "No"
     if indA == "A":
         if indB == "C" or indB == "T":
