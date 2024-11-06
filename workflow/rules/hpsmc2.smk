@@ -60,9 +60,8 @@ rule test_run_hpsmc:
     conda:
         "../envs/hpsmc.yaml"
     resources:
-        time="23:59:59",
-        mem_mb=30000,
-        cpus=2,
+        time="18:00:00",
+        mem_mb=112200,
     log:
         "results/logs/hpsmc-test/run-hpsmc/{pop1}---x---{pop2}.log"
     benchmark:
