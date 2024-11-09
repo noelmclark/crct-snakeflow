@@ -104,20 +104,20 @@ rule make_plink_pruned_pca:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld"
+        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
     output:
-        pca="results/plink/pca/aut-snps-{maf}-ld-pruned-pca",
+        pca="results/plink/pca/aut-snps-{maf}-pca",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-{maf}-ld-pruned-pca.log",
+        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-{maf}-ld-pruned-pca.bmk",
+        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --extract {input.ld}.prune.in "
+        " --extract {input.ld} "
         " --geno 0.1 "
         " --read-freq {input.afreq} "
         " --make-bed "
@@ -134,6 +134,7 @@ rule make_pw_fst_snp:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
+        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
     output:
         fst="results/plink/pw-fst/aut-snps-{maf}-fst",
     conda:
@@ -148,6 +149,7 @@ rule make_pw_fst_snp:
         " --allow-extra-chr "
         " --const-fid 0 "
         " --geno 0.1 "
+        " --extract {input.ld}"
         " --within {input.popfile} population"
         " --fst population method=wc "
         " --out {output.fst} 2> {log} "
@@ -162,19 +164,21 @@ rule make_phylip:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
+        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
     output:
-        phylip="results/plink/phylip/aut-snps-{maf}-geno-0.1",
+        phylip="results/plink/phylip/aut-snps-{maf}",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/phylip/aut-snps-{maf}-geno-0.1.log",
+        "results/logs/plink/phylip/aut-snps-{maf}.log",
     benchmark:
-        "results/benchmarks/plink/phylip/aut-snps-{maf}-geno-0.1.bmk",
+        "results/benchmarks/plink/phylip/aut-snps-{maf}.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
+        " --extract {input.ld} "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
