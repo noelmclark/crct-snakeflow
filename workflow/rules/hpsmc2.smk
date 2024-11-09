@@ -73,7 +73,7 @@ rule test_run_hpsmc:
 ## rule to plot hpsmc to visualize result
 # -u [per-generation mutation rate] from https://doi.org/10.1371/journal.pgen.1010918
 # -g [generation time in years] 
-rule hpsmc_plot:
+rule test_hpsmc_plot:
     input:
         "results/hpsmc-test/run-hpsmc/{pop1}---x---{pop2}.psmc"
     output:
