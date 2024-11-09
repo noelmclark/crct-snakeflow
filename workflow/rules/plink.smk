@@ -66,7 +66,7 @@ rule prune_linkage_disequilibrium:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --indep-pairwise 20kb 0.5 "
+        " --indep-pairwise 50kb 0.4 "
         " --bad-ld "
         " --out {output.ld} 2> {log} "
 
