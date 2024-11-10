@@ -106,13 +106,13 @@ rule make_plink_pruned_pca:
         afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
         ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
     output:
-        pca="results/plink/pca/aut-snps-{maf}-pca",
+        pca="results/plink/pca/aut-snps-{maf}-pruned-pca",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
+        "results/logs/plink/pca/aut-snps-{maf}-pruned-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
+        "results/benchmarks/plink/pca/aut-snps-{maf}-pruned-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
