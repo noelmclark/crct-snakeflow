@@ -399,10 +399,7 @@ hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
 #pop2=set(pwcomps.pop2.tolist())
 
 valid_pairs = [f"{pop1}---x---{pop2}" for pop1, pop2 in pwcomps.index]
-pair = set(valid_pairs.tolist())
-
-def restrict_hpsmc_pairs(wildcards):
-    return wildcards.pair in valid_pairs
+valid_pairs_pattern = "|".join(valid_pairs)
 
 hpsmcchroms=hpsmcchromstab.chrom.tolist()
 
