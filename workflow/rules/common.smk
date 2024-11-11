@@ -399,6 +399,7 @@ hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
 #pop2=set(pwcomps.pop2.tolist())
 
 valid_pairs = [f"{pop1}---x---{pop2}" for pop1, pop2 in pwcomps.index]
+pair = "|".join(valid_pairs)
 
 def restrict_hpsmc_pairs(wildcards):
     return wildcards.pair in valid_pairs
