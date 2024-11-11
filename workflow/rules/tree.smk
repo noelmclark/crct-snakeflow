@@ -1,3 +1,24 @@
+## This rule runs model finder only (compared to running model finder and immediately going into the tree construction)
+# I optionally constrained model finder (-mset) to test only those models with ascertainment bais correction (+ASC) 
+# bc our data is only SNPs
+    input:
+        "results/plink/phylip/aut-snps-{maf}.phy",
+    output:
+        prefix="results/tree/aut-snps-{maf}-model-finder",
+    conda:
+        "../envs/iqtree2.yaml"
+    log:
+        "results/logs/tree/aut-snps-{maf}-model-finder.log",
+    benchmark:
+        "results/benchmarks/tree/aut-snps-{maf}-model-finder.bmk",
+    #resources:
+    #    mem_mb=192000,
+    #    cpus=4,
+    #    time="23:59:59"
+    shell:
+        " iqtree2 -s {input} -m MF -mset +ASC "
+        " --prefix {output.prefix} 2> {log} "
+
 ## This rule runs IQTree2 on the Phylip file from the filtered BCF created in plink.smk 
 # by default, IQTree2 runs -m MFP which runs model finder plus 
 # and uses the model with the smallest BIC score to make an ML tree
@@ -6,16 +27,17 @@
 # for 1000 boostrap replicates which is the recommended minimum 
 # both flags (-alrt, -B) will give both SH-aLRT and UFBoot support values for each branch  
 rule make_iqtree:
+rule make_iqtree:
     input:
-        "results/plink/phylip/all-samp-no-y.phy",
+        "results/plink/phylip/aut-snps-{maf}.phy",
     output:
-        prefix="results/tree/all-samp-no-y",
+        prefix="results/tree/aut-snps-{maf}-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/all-samp-no-y.log",
+        "results/logs/tree/aut-snps-{maf}-tree.log",
     benchmark:
-        "results/benchmarks/tree/all-samp-no-y.bmk",
+        "results/benchmarks/tree/aut-snps-{maf}-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,

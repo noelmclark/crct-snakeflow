@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/plink/pca/aut-snps-{maf}-pruned-pca", maf=mafs),
+        expand("results/tree/aut-snps-{maf}-modelfinder", maf=mafs),
         #expand("results/plink/pw-fst/aut-snps-{maf}-fst", maf=mafs),
         #expand("results/plink/phylip/aut-snps-{maf}", maf=mafs),
         #expand("results/hpsmc-test/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
