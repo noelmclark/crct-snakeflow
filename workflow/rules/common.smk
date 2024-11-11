@@ -394,12 +394,12 @@ hpsmcchromstab=pd.read_table(config["hpsmc-test"]["chroms"], dtype=str).set_inde
     ["chrom"], drop=False
 )
 
-hpsmcpops=list(dict.fromkeys(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
-#pop1=set(pwcomps.pop1.tolist())
-#pop2=set(pwcomps.pop2.tolist())
+hpsmcpops=list(set(pwcomps.pop1.tolist() + pwcomps.pop2.tolist()))
+pop1=set(pwcomps.pop1.tolist())
+pop2=set(pwcomps.pop2.tolist())
 
 valid_pairs = [f"{pop1}---x---{pop2}" for pop1, pop2 in pwcomps.index]
-pair = ", ".join(valid_pairs)
+pair = "|".join(valid_pairs)
 
 hpsmcchroms=hpsmcchromstab.chrom.tolist()
 

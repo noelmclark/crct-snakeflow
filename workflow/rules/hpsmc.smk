@@ -72,8 +72,8 @@ rule concat_haploidized_bam:
 
 rule psmcfa_from_2_fastas:
     input:
-        lambda wildcards: f"results/hpsmc/haploidized_bam/{wildcards.pair.split('---x---')[0]}_haploidized.fa",
-        lambda wildcards: f"results/hpsmc/haploidized_bam/{wildcards.pair.split('---x---')[1]}_haploidized.fa"
+        pop1="results/hpsmc/haploidized_bam/{pop1}_haploidized.fa",
+        pop2="results/hpsmc/haploidized_bam/{pop2}_haploidized.fa"
     output:
         "results/hpsmc/psmcfa-from-2-fastas/{pair}.psmcfa"
     conda:
@@ -87,7 +87,7 @@ rule psmcfa_from_2_fastas:
     benchmark:
         "results/benchmarks/hpsmc/psmcfa-from-2-fastas/{pair}.bmk"
     shell:
-        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input[0]} {input[1]} > {output} 2> {log}"
+        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 
 ## 2. run PSMC on each of the pop1---x---pop2.psmcfa files
