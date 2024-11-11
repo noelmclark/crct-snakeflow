@@ -1,6 +1,7 @@
 ## This rule runs model finder only (compared to running model finder and immediately going into the tree construction)
 # I optionally constrained model finder (-mset) to test only those models with ascertainment bais correction (+ASC) 
 # bc our data is only SNPs
+rule find_model_iqtree:
     input:
         "results/plink/phylip/aut-snps-{maf}.phy",
     output:
@@ -26,7 +27,6 @@
 # the -alrt 1000 flag runs the SH-like approximate likelihood ratio test (Guindon et al., 2010) 
 # for 1000 boostrap replicates which is the recommended minimum 
 # both flags (-alrt, -B) will give both SH-aLRT and UFBoot support values for each branch  
-rule make_iqtree:
 rule make_iqtree:
     input:
         "results/plink/phylip/aut-snps-{maf}.phy",
