@@ -11,9 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/plink/ld-prune/aut-snps-{maf}-ld-pruned", maf=mafs),
-        #expand("results/plink/pw-fst/aut-snps-{maf}-fst", maf=mafs),
-        #expand("results/plink/phylip/aut-snps-{maf}", maf=mafs),
+        expand("results/plink/pca/aut-snps-{maf}-pruned-pca", maf=mafs),
+        expand("results/plink/pw-fst/aut-snps-{maf}-fst", maf=mafs),
+        expand("results/plink/phylip/aut-snps-{maf}", maf=mafs),
         #expand("results/hpsmc-test/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
         #expand("results/plink/allele-freq/pop-counts/aut-snps-{maf}", maf=mafs),
         #expand("results/plink/pca/aut-snps-{maf}-ld-pruned-pca", maf=mafs),

@@ -101,14 +101,14 @@ rule make_plink_pca:
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # and using a LD pruned variant set 
-# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the purned sites
+# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # the --make-bed file also produced the input needed for running ADMIXTURE
 rule make_plink_pruned_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
+        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
     output:
         pca="results/plink/pca/aut-snps-{maf}-pruned-pca",
     conda:
@@ -132,13 +132,13 @@ rule make_plink_pruned_pca:
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
-# need to check with Caitlin about jacknife estimates?
+# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 rule make_pw_fst_snp:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
         popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
+        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
     output:
         fst="results/plink/pw-fst/aut-snps-{maf}-fst",
     conda:
@@ -161,14 +161,14 @@ rule make_pw_fst_snp:
 
 
 ## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
-# can update this with different missingness thresholds (--geno)
+# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # need to double check file options and recommended filters in PLINK and IQTree
 rule make_phylip:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/20kb-0.4/aut-snps-{maf}-ld-pruned.prune.in"
+        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
     output:
         phylip="results/plink/phylip/aut-snps-{maf}",
     conda:
