@@ -86,8 +86,6 @@ rule psmcfa_from_2_fastas:
         "results/logs/hpsmc/psmcfa-from-2-fastas/{pair}.log"
     benchmark:
         "results/benchmarks/hpsmc/psmcfa-from-2-fastas/{pair}.bmk"
-    wildcard_constraints:
-        pair=valid_pairs_pattern
     shell:
         "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input[0]} {input[1]} > {output} 2> {log}"
 
