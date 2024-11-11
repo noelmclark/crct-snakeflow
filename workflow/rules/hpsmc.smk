@@ -35,8 +35,8 @@ rule install_chromcompare:
 
 
 ## 1. Create an hPSMC.psmcfa file for each combination of 2 samples 
-# for pu2fa, -c sets the chrom name, -s sets the base start position and -e sets the base end position
-# in the pu2fa documentation, it doesn't say that -s and -e are required, but when I don't include them I get empty .fa files
+# for pu2fa, -c sets the chrom name and -C 50 sets a maximum depth limit (50)
+# the defaults given in the hPSMC documentation say to use -q30 and -Q60 for samtools, but that returns empty files for my dataset
 rule haploidize_bam_sect:
     input:
         bam=get_hpsmc_bams_in_pop,
@@ -44,8 +44,6 @@ rule haploidize_bam_sect:
         dir="results/chromcompare"
     output:
         "results/hpsmc/haploidize_bam_sect/{hpsmcpops}/{hpsmcchroms}_haploidized.fa",
-    params:
-        end=get_hpsmc_chrom_end
     conda:
         "../envs/chromcompare.yaml"
     resources:
@@ -55,8 +53,8 @@ rule haploidize_bam_sect:
     benchmark:
         "results/benchmarks/hpsmc/haploidize-bam-sect/{hpsmcpops}/{hpsmcchroms}.bmk",
     shell:
-        " bcftools mpileup --full-BAQ -Ou -f {input.ref} -q30 -Q60 -r {wildcards.hpsmcchroms} {input.bam} | "
-        " {input.dir}/Chrom-Compare/pu2fa -c {wildcards.hpsmcchroms} -C 50 -s 1 -e {params.end} > {output} 2> {log} "
+        " samtools mpileup -s -f {input.ref} -q 30 -Q 30 -r {wildcards.hpsmcchroms} {input.bam} | "
+        " {input.dir}/Chrom-Compare/pu2fa -C 50 -c {wildcards.hpsmcchroms} > {output} 2> {log} "
 
 
 rule concat_haploidized_bam:
@@ -81,7 +79,7 @@ rule psmcfa_from_2_fastas:
     conda:
         "../envs/hpsmc.yaml"
     resources:
-        time="23:59:59",
+        time="12:00:00",
         mem_mb=9400,
         cpus=2,
     log:
@@ -103,8 +101,7 @@ rule run_hpsmc:
         "../envs/hpsmc.yaml"
     resources:
         time="23:59:59",
-        mem_mb=30000,
-        cpus=2,
+        mem_mb=112200,
     log:
         "results/logs/hpsmc/run-hpsmc/{pop1}---x---{pop2}.log"
     benchmark:
