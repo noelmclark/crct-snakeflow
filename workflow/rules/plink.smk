@@ -50,6 +50,9 @@ rule calc_allele_freq:
         " --freq "
         " --out {output.afreq} 2> {log} "
 
+# this rule creates a list of variants that pass the ld prune filter (20kb window, slide by 1kb, r^2 0.4)
+# and a --geno 0.1 missingness filter 
+# --bad-ld is needed to force plink to run ld pruning with less than 50 samples (we have 48)
 rule prune_linkage_disequilibrium:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
@@ -66,12 +69,13 @@ rule prune_linkage_disequilibrium:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --indep-pairwise 50kb 0.5 "
+        " --geno 0.1 " 
+        " --indep-pairwise 20kb 0.4 "
         " --bad-ld "
         " --out {output.ld} 2> {log} "
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
-# the --geno 0.01 applies a 10% missingness threshold filter
+# the --geno 0.01 applies a 10% missingness threshold filter 
 rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
@@ -97,7 +101,7 @@ rule make_plink_pca:
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # and using a LD pruned variant set 
-# the --geno 0.01 applies a 10% missingness threshold filter
+# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the purned sites
 # the --make-bed file also produced the input needed for running ADMIXTURE
 rule make_plink_pruned_pca:
     input:
