@@ -188,6 +188,56 @@ rule make_phylip:
         " --out {output.phylip} 2> {log} "
 
 
+
+## the next two rules calculate genome wide heterozygosity on the full variant set and the ld-pruned one
+# --het computes observed and expected homozygous/heterozygous genotype counts for each sample, 
+# and reports method-of-moments F coefficient estimates (i.e. (1 - (<observed het. count> / <expected het. count>)))
+rule calc_het:
+    input:
+        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
+        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
+    output:
+        het="results/plink/het/aut-snps-{maf}",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/het/aut-snps-{maf}.log",
+    benchmark:
+        "results/benchmarks/plink/het/aut-snps-{maf}.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --read-freq {input.afreq} "
+        " --out {output.het} 2> {log} "
+
+rule calc_pruned_het:
+    input:
+        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
+        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
+        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+    output:
+        het="results/plink/het/aut-snps-{maf}-pruned",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/het/aut-snps-{maf}-pruned.log",
+    benchmark:
+        "results/benchmarks/plink/het/aut-snps-{maf}-pruned.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --read-freq {input.afreq} "
+        " --extract {input.ld} "
+        " --out {output.het} 2> {log} "
+
+
+
 ### BONEYARD (i.e. rules not used currently) ###
 
 ## This rule identifies runs of homozygosity (ROH) using the PLINK1.9 method
