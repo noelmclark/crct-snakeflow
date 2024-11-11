@@ -1,6 +1,6 @@
 ## This rule runs model finder only (compared to running model finder and immediately going into the tree construction)
 # I optionally constrained model finder (-mset) to test only those models with ascertainment bais correction (+ASC) 
-# bc our data is only SNPs
+# bc our data is only SNPs, and -st tells IQtree the sequence type is DNA bc the first time it said it detected protein sequences 
 rule find_model_iqtree:
     input:
         "results/plink/phylip/aut-snps-{maf}.phy",
@@ -17,7 +17,7 @@ rule find_model_iqtree:
     #    cpus=4,
     #    time="23:59:59"
     shell:
-        " iqtree2 -s {input} -m MF -mset +ASC "
+        " iqtree2 -s {input} -st DNA -m MF -mset +ASC "
         " --prefix {output.prefix} 2> {log} "
 
 ## This rule runs IQTree2 on the Phylip file from the filtered BCF created in plink.smk 
