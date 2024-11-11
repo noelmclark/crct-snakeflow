@@ -211,6 +211,7 @@ rule calc_het:
         " --allow-extra-chr "
         " --geno 0.1 "
         " --read-freq {input.afreq} "
+        " --het "
         " --out {output.het} 2> {log} "
 
 rule calc_pruned_het:
@@ -234,6 +235,7 @@ rule calc_pruned_het:
         " --geno 0.1 "
         " --read-freq {input.afreq} "
         " --extract {input.ld} "
+        " --het "
         " --out {output.het} 2> {log} "
 
 
