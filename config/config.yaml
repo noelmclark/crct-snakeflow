@@ -105,19 +105,19 @@ hpsmc:
 #### Setting the subsample wildcards for PSMC ####
 # I actually don't use this right now but might use it later 
 # or use a similar structure for the hPSMC subsets
-psmc:
-  lineage:
-    sample_subsets:
-      all:
-        path: config/sample_subsets/all-fish.txt
-      crct-blue:
-        path: config/sample_subsets/blue-fish.txt
-      crct-green:
-        path: config/sample_subsets/green-fish.txt
-      crct-both:
-        path: config/sample_subsets/crct-fish.txt
-      outgroups:
-        path: config/sample_subsets/outgroup-fish.txt
+#psmc:
+#  lineage:
+#    sample_subsets:
+#      all:
+#        path: config/sample_subsets/all-fish.txt
+#      crct-blue:
+#        path: config/sample_subsets/blue-fish.txt
+#      crct-green:
+#        path: config/sample_subsets/green-fish.txt
+#      crct-both:
+#        path: config/sample_subsets/crct-fish.txt
+#      outgroups:
+#        path: config/sample_subsets/outgroup-fish.txt
   #population:
   #  sample_subsets:
   #    all:
