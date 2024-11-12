@@ -87,7 +87,7 @@ rule psmcfa_from_2_fastas:
     benchmark:
         "results/benchmarks/hpsmc/psmcfa-from-2-fastas/{pop1}---x---{pop2}.bmk"
     shell:
-        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b10 -m5 {input.pop1} {input.pop2} > {output} 2> {log}"
+        "python workflow/scripts/hPSMC/psmcfa_from_2_fastas.py -b100 -m50 {input.pop1} {input.pop2} > {output} 2> {log}"
 
 
 ## 2. run PSMC on each of the pop1---x---pop2.psmcfa files
