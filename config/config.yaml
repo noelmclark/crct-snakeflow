@@ -79,13 +79,6 @@ params:
         - ' -filter "MQ < 40.0" --filter-name "MQ40" '
         - ' -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" '
         - ' -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" '
-  #vep:
-    #plugins:
-      # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
-      # Plugin args can be passed as well, e.g. "LoFtool,path/to/custom/scores.txt".
-      #- LoFtool
-    # extra command line arguments (e.g. --sift, see docs)
-    #extra: "" 
 
 #### SETTING INSTALL SECTIONS #####
 ## I forked the most up to date version of the repository for the packages I was using
@@ -126,3 +119,9 @@ hpsmc-test:
     bams: config/hpsmc-bams.tsv
     pwcomps: config/hpsmc-pwcomps.tsv
     chroms: config/hpsmc-chroms.tsv
+bcf:
+  sample_subsets:
+    co-lineages:
+      path: config/sample_subsets/co-lineages.txt
+    o-virginialis:
+      path: config/sample_subsets/o-virginialis.txt

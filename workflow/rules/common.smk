@@ -103,6 +103,7 @@ wildcard_constraints:
     post_id="ALL",
     psmc_id="lineage",
     subsamp="all|crct-blue|crct-green|crct-both|srm|outgroups",
+    bcfsubsamp="co-lineages|o-virginialis",
 
 
 
@@ -215,6 +216,8 @@ def get_comma_sep_sample_names(sample_list):
     sample_list=sample_table["sample"].unique().tolist()
     return ','.join(sample_list)
 
+def get_bcf_subsamp_path(wildcards):
+    return config["bcf"]["sample_subsets"][wildcards.bcfsubsamp]["path"]
 
 ##### PSMC grouping things #####
 ### Get a PSMC sample info table read into a pandas data frame

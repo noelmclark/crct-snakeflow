@@ -215,10 +215,76 @@ rule get_aut_bcf:
         " bcftools index {output.bcf}) 2> {log} "
 
 
+
+## These rules filter the bcf down to a desired subset of samples given in a txt file
+# this part of the workflow was heavily influenced by Eric's mega-post-bcf-exploratory-snakeflows github (https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows)
+# it will run on each scaffold group or chromosome for the missing-corrected-merged-vcf files from the correct_merged_vcfs rule 
+# including only samples that are listed in the subsamp file 
+# the +fill-tags refills all of the tags - this makes it so that our new MAFs in particular are only dependent on the variants present in any of the new subset of samples
+# before we filter our variants by a MAF >= 0.05
+rule subset_filter_bcf:
+    input:
+        bcf="results/hard_filtering/merged-filtered/hardfiltered-merged-{sg_or_chrom}.vcf.gz",
+        subsamp=get_bcf_subsamp_path
+    output:
+        temp("results/hard_filtering/subsets/{bcfsubsamp}/bisnps-{sg_or_chrom}-maf-0.05-{bcfsubsamp}.bcf")
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/hard_filtering/subsets/{bcfsubsamp}/filter-{sg_or_chrom}-{bcfsubsamp}.log",
+    benchmark:
+        "results/benchmarks/hard_filtering/subsets/{bcfsubsamp}/filter-{sg_or_chrom}-{bcfsubsamp}.bmk"
+    shell:
+        " bcftools view -Ou -S {input.subsamp} {input.bcf} | "
+        " bcftools +fill-tags -Ou -- -t all | "
+        " bcftools view -Ob -v snps -m 2 -M 2 -i 'FILTER=\"PASS\" && MAF >= 0.05' "
+        " {input} > {output} 2>{log} "
+
+## this merges the subsamped & filtered bcf file 
+rule concat_subset_filter_bcf:
+    input:
+        expand("results/hard_filtering/subsets/{{bcfsubsamp}}/bisnps-{sgc}-maf-0.05-{{bcfsubsamp}}.bcf", sgc=sg_or_chrom)
+    output:
+        bcf="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf.csi"
+    log:
+        "results/logs/hard_filtering/subsets/{bcfsubsamp}/concat-bisnps-maf-0.05-{bcfsubsamp}.log"
+    benchmark:
+        "results/benchmarks/hard_filtering/subsets/{bcfsubsamp}/concat-bisnps-maf-0.05-{bcfsubsamp}.bmk",
+    params:
+        opts=" --naive "
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " (bcftools concat {params.opts} -Ob {input} > {output.bcf}; "
+        " bcftools index {output.bcf})  2>{log}; "
+
+## this rule filters the biallelic snp and maf file to include only autosomal regions and not scaffold reads
+rule get_aut_bcf:
+    input:
+        bcf="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf.csi"
+        regions="results/psmc/get-aut-regions/autosomal_regions.bed"
+    output:
+        bcf="results/bcf/{bcfsubsamp}-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/{bcfsubsamp}-aut-bisnps-maf-0.05.bcf.csi"
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/hard_filtering/subsets/{bcfsubsamp}/aut-bisnp-maf-0.05-{bcfsubsamp}.log"
+    benchmark:
+        "results/benchmarks/hard_filtering/subsets/{bcfsubsamp}/aut-bisnp-maf-0.05-{bcfsubsamp}.bmk"
+    shell:
+        " (bcftools view -Ob -R {input.regions} {input.bcf} > {output.bcf}; "
+        " bcftools index {output.bcf}) 2> {log} "
+
+
+
+
 ### The following 2 rules are copied from Eric's post-bcf workflow (bcftools_filter.smk) with edits
 ## https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
 ## they generate a BCF file with only biallelic snps that pass a MAF cuttoff of 0.05
-# I use the two previous rules instead of these right now
+# I don't currently use these right now (11/12/24)
 rule bcf_filt_scatter:
     input:
         bcf="results/bcf/all.bcf",
