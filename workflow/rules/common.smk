@@ -415,3 +415,7 @@ def get_hpsmc_chrom_end(wc):
 def get_hpsmc_bams_in_pop(wc):
   b=bams.loc[(bams["group"] == wc.hpsmcpops)]
   return b.path.tolist()
+
+def get_comma_sep_hpsmc_names(wildcards):
+    h=expand("{p1}---x---{p2}", p1=pop1, p2=pop2)
+    return','.join(h)

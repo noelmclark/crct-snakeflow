@@ -133,7 +133,7 @@ rule hpsmc_plot_multiple:
     input:
         expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2)
     params:
-        expand("{p1}---x---{p2}", p1=pop1, p2=pop2)
+        get_comma_sep_hpsmc_names
     output:
         "results/hpsmc/hpsmc-plot/all-comps",
         #par="results/hpsmc/hpsmc-plot/all-comps.par"
