@@ -268,17 +268,17 @@ rule subsamp_prune_ld:
 # the --geno 0.01 applies a 10% missingness threshold filter 
 rule subsamp_plink_pca:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq"
     output:
-        pca="results/plink/pca/aut-snps-{maf}-pca",
+        pca="results/plink/pca/co-lineages-aut-snps-0.05-pca",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
+        "results/logs/plink/pca/co-lineages-aut-snps-0.05-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
+        "results/benchmarks/plink/pca/co-lineages-aut-snps-0.05-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -295,8 +295,8 @@ rule subsamp_plink_pca:
 # the --make-bed file also produced the input needed for running ADMIXTURE
 rule subsamp_plink_pruned_pca:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
@@ -318,25 +318,24 @@ rule subsamp_plink_pruned_pca:
         " --pca "
         " --out {output.pca} 2> {log} "
 
-####################################### have not finished editing past this point 
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 rule subsamp_pw_fst_snp:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
-        fst="results/plink/pw-fst/aut-snps-{maf}-fst",
+        fst="results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pw-fst/aut-snps-{maf}-fst.log",
+        "results/logs/plink/pw-fst/co-lineages-aut-snps-0.05-fst.log",
     benchmark:
-        "results/benchmarks/plink/pw-fst/aut-snps-{maf}-fst.bmk",
+        "results/benchmarks/plink/pw-fst/co-lineages-aut-snps-0.05-fst.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -355,18 +354,18 @@ rule subsamp_pw_fst_snp:
 # need to double check file options and recommended filters in PLINK and IQTree
 rule subsamp_phylip:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
-        phylip="results/plink/phylip/aut-snps-{maf}",
+        phylip="results/plink/phylip/co-lineages-aut-snps-0.05",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/phylip/aut-snps-{maf}.log",
+        "results/logs/plink/phylip/co-lineages-aut-snps-0.05.log",
     benchmark:
-        "results/benchmarks/plink/phylip/aut-snps-{maf}.bmk",
+        "results/benchmarks/plink/phylip/co-lineages-aut-snps-0.05.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -384,17 +383,17 @@ rule subsamp_phylip:
 # and reports method-of-moments F coefficient estimates (i.e. (1 - (<observed het. count> / <expected het. count>)))
 rule subsamp_het:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
     output:
-        het="results/plink/het/aut-snps-{maf}",
+        het="results/plink/het/co-lineages-aut-snps-0.05",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/het/aut-snps-{maf}.log",
+        "results/logs/plink/het/co-lineages-aut-snps-0.05.log",
     benchmark:
-        "results/benchmarks/plink/het/aut-snps-{maf}.bmk",
+        "results/benchmarks/plink/het/co-lineages-aut-snps-0.05.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -406,18 +405,18 @@ rule subsamp_het:
 
 rule subsamp_pruned_het:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
+        ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
-        het="results/plink/het/aut-snps-{maf}-pruned",
+        het="results/plink/het/co-lineages-aut-snps-0.05-pruned",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/het/aut-snps-{maf}-pruned.log",
+        "results/logs/plink/het/co-lineages-aut-snps-0.05-pruned.log",
     benchmark:
-        "results/benchmarks/plink/het/aut-snps-{maf}-pruned.bmk",
+        "results/benchmarks/plink/het/co-lineages-aut-snps-0.05-pruned.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "

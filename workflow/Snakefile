@@ -11,7 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/hpsmc/hpsmc-plot/all-comps"
+        "results/plink/het/co-lineages-aut-snps-0.05",
+        "results/plink/het/co-lineages-aut-snps-0.05-pruned",
+        "results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
+        "results/plink/phylip/co-lineages-aut-snps-0.05",
+        "results/plink/pca/co-lineages-aut-snps-0.05-pruned-pca"
+        #"results/hpsmc/hpsmc-plot/all-comps"
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
         #expand("results/bcf/{b}-aut-bisnps-maf-0.05.bcf", b=bcfsubsamp),
         #expand("results/tree/aut-snps-{maf}-tree", maf=mafs),
@@ -29,9 +34,6 @@ rule all:
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
-        #"results/plink/phylip/all-samp-no-y",
-        #"results/tree/all-samp-no-y",
-        #"results/plink/allele-freq/snps-no-y"ls 
         #expand("results/roh/allele-freq/snps-maf-0.05/{pop}-freqs.tabs.gz", pop=population),
         #expand("results/roh/snps-maf-0.05/{pop}-roh.txt", pop=population)
         #expand("results/psmc/psmc-plot/{subsamp}/{subsamp}", subsamp=subsamp),
