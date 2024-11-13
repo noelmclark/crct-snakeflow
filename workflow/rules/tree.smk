@@ -6,6 +6,7 @@ rule find_model_iqtree:
         "results/plink/phylip/aut-snps-{maf}.phy",
     output:
         prefix="results/tree/aut-snps-{maf}-model-finder",
+        varsites="results/tree/aut-snps-{maf}-tree.varsties.phy",
     conda:
         "../envs/iqtree2.yaml"
     log:
