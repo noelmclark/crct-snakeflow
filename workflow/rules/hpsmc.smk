@@ -113,7 +113,7 @@ rule run_hpsmc:
 ## rule to plot hpsmc to visualize result
 # -u [per-generation mutation rate] from https://doi.org/10.1371/journal.pgen.1010918
 # -g [generation time in years] 
-# -Y [maximum pop size]
+# -Y [maximum pop size] (in x10^4)
 rule hpsmc_plot:
     input:
         "results/hpsmc/run-hpsmc/{pop1}---x---{pop2}.psmc"
@@ -127,7 +127,7 @@ rule hpsmc_plot:
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/{pop1}---x---{pop2}.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 400000 {output} {input} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 40 {output} {input} 2> {log}"
 
 
 rule hpsmc_plot_multiple:
