@@ -131,18 +131,20 @@ rule hpsmc_plot:
 
 rule hpsmc_plot_multiple:
     input:
-        expand("results/hpsmc/run-hpsmc/greenback---x---{p2}.psmc", p2=pop2)
+        expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2)
+    params:
+        expand("{p1}---x---{p2}", p1=pop1, p2=pop2)
     output:
-        "results/hpsmc/hpsmc-plot/greenback---x---all3",
-        #par="results/hpsmc/hpsmc-plot/greenback---x---all3.par"
+        "results/hpsmc/hpsmc-plot/all-comps",
+        #par="results/hpsmc/hpsmc-plot/all-comps.par"
     conda:
         "../envs/hpsmc.yaml"
     log:
-        "results/logs/hpsmc/hpsmc-plot/greenback---x---all3.log"
+        "results/logs/hpsmc/hpsmc-plot/all-comps.log"
     benchmark:
-        "results/benchmarks/hpsmc/hpsmc-plot/greenback---x--all3.bmk"
+        "results/benchmarks/hpsmc/hpsmc-plot/all-comps.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M greenback---x---w_fk_boulder,greenback---x---s_hayden,greenback---x---como "
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params} "
         "{output} {input} 2> {log}"
 
 

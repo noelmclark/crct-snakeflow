@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/hpsmc/hpsmc-plot/greenback---x---all3"
+        "results/hpsmc/hpsmc-plot/all-comps"
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
         #expand("results/bcf/{b}-aut-bisnps-maf-0.05.bcf", b=bcfsubsamp),
         #expand("results/tree/aut-snps-{maf}-tree", maf=mafs),
