@@ -128,6 +128,25 @@ rule hpsmc_plot:
     shell:
         "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" {output} {input} 2> {log}"
 
+
+rule hpsmc_plot_multiple:
+    input:
+        expand("results/hpsmc/run-hpsmc/greenback---x---{p2}.psmc", p2=pop2)
+    output:
+        "results/hpsmc/hpsmc-plot/greenback---x---all3",
+        #par="results/hpsmc/hpsmc-plot/greenback---x---all3.par"
+    conda:
+        "../envs/hpsmc.yaml"
+    log:
+        "results/logs/hpsmc/hpsmc-plot/greenback---x---all3.log"
+    benchmark:
+        "results/benchmarks/hpsmc/hpsmc-plot/greenback---x--all3.bmk"
+    shell:
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M greenback---x---como,greenback---x---s_hayden,greenback---x---w_fk_boulder "
+        "{output} {input} 2> {log}"
+
+
+
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
 #rule simulate_hpsmc_divergence:
 #    input:
