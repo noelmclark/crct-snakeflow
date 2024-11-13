@@ -142,7 +142,7 @@ rule hpsmc_plot_multiple:
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/greenback---x--all3.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M greenback---x---s_hayden,greenback---x---como,greenback---x---w_fk_boulder "
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M greenback---x---w_fk_boulder,greenback---x---s_hayden,greenback---x---como "
         "{output} {input} 2> {log}"
 
 
