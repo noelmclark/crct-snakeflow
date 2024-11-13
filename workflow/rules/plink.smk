@@ -221,7 +221,7 @@ rule calc_pruned_het:
 # I set up a wildcard called bcfsubsamp which currently has two values (co-lineages, o-virginialis)
 # and right now I am just testing on the co-lineages bcf
 
-rule calc_allele_freq:
+rule subsamp_allele_freq:
     input:
         bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
         tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
@@ -243,7 +243,7 @@ rule calc_allele_freq:
 # this rule creates a list of variants that pass the ld prune filter (20kb window, slide by 1kb, r^2 0.4)
 # and a --geno 0.1 missingness filter 
 # --bad-ld is needed to force plink to run ld pruning with less than 50 samples (we have 38 in this subset)
-rule prune_linkage_disequilibrium:
+rule subsamp_prune_ld:
     input:
         bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
         tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
@@ -266,7 +266,7 @@ rule prune_linkage_disequilibrium:
 
 ## This rules generates a PCA of our subset using Plink2.0 from our filtered BCF
 # the --geno 0.01 applies a 10% missingness threshold filter 
-rule make_plink_pca:
+rule subsamp_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
@@ -293,7 +293,7 @@ rule make_plink_pca:
 # and using a LD pruned variant set 
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # the --make-bed file also produced the input needed for running ADMIXTURE
-rule make_plink_pruned_pca:
+rule subsamp_plink_pruned_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
@@ -323,7 +323,7 @@ rule make_plink_pruned_pca:
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
-rule make_pw_fst_snp:
+rule subsamp_pw_fst_snp:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
@@ -353,7 +353,7 @@ rule make_pw_fst_snp:
 ## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # need to double check file options and recommended filters in PLINK and IQTree
-rule make_phylip:
+rule subsamp_phylip:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
@@ -382,7 +382,7 @@ rule make_phylip:
 ## the next two rules calculate genome wide heterozygosity on the full variant set and the ld-pruned one
 # --het computes observed and expected homozygous/heterozygous genotype counts for each sample, 
 # and reports method-of-moments F coefficient estimates (i.e. (1 - (<observed het. count> / <expected het. count>)))
-rule calc_het:
+rule subsamp_het:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
@@ -404,7 +404,7 @@ rule calc_het:
         " --het "
         " --out {output.het} 2> {log} "
 
-rule calc_pruned_het:
+rule subsamp_pruned_het:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
