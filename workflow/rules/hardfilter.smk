@@ -260,7 +260,7 @@ rule concat_subset_filter_bcf:
         " bcftools index {output.bcf})  2>{log}; "
 
 ## this rule filters the biallelic snp and maf file to include only autosomal regions and not scaffold reads
-rule get_aut_bcf:
+rule aut_subset_bcf:
     input:
         bcf="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf",
         tbi="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf.csi"
