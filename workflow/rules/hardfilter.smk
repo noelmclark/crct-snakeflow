@@ -263,7 +263,7 @@ rule concat_subset_filter_bcf:
 rule aut_subset_bcf:
     input:
         bcf="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf.csi"
+        tbi="results/bcf/{bcfsubsamp}-bisnps-maf-0.05.bcf.csi",
         regions="results/psmc/get-aut-regions/autosomal_regions.bed"
     output:
         bcf="results/bcf/{bcfsubsamp}-aut-bisnps-maf-0.05.bcf",
