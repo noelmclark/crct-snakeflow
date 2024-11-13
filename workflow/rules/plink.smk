@@ -378,69 +378,6 @@ rule subsamp_phylip:
 
 
 
-## the next two rules calculate genome wide heterozygosity on the full variant set and the ld-pruned one
-# --het computes observed and expected homozygous/heterozygous genotype counts for each sample, 
-# and reports method-of-moments F coefficient estimates (i.e. (1 - (<observed het. count> / <expected het. count>)))
-rule subsamp_het:
-    input:
-        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
-        afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
-    output:
-        het="results/plink/het/co-lineages-aut-snps-0.05",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/het/co-lineages-aut-snps-0.05.log",
-    benchmark:
-        "results/benchmarks/plink/het/co-lineages-aut-snps-0.05.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --geno 0.1 "
-        " --read-freq {input.afreq} "
-        " --het "
-        " --out {output.het} 2> {log} "
-
-rule subsamp_pruned_het:
-    input:
-        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
-        afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
-    output:
-        het="results/plink/het/co-lineages-aut-snps-0.05-pruned",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/het/co-lineages-aut-snps-0.05-pruned.log",
-    benchmark:
-        "results/benchmarks/plink/het/co-lineages-aut-snps-0.05-pruned.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --geno 0.1 "
-        " --read-freq {input.afreq} "
-        " --extract {input.ld} "
-        " --het "
-        " --out {output.het} 2> {log} "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

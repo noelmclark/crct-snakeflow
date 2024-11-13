@@ -11,11 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/het/co-lineages-aut-snps-0.05",
-        "results/plink/het/co-lineages-aut-snps-0.05-pruned",
-        "results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
-        "results/plink/phylip/co-lineages-aut-snps-0.05",
-        "results/plink/pca/co-lineages-aut-snps-0.05-pruned-pca"
+        "results/hpsmc/hpsmc-plot/greenback---x---w_fk_boulder"
+        #"results/plink/het/co-lineages-aut-snps-0.05",
+        #"results/plink/het/co-lineages-aut-snps-0.05-pruned",
+        #"results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
+        #"results/plink/phylip/co-lineages-aut-snps-0.05",
+        #"results/plink/pca/co-lineages-aut-snps-0.05-pruned-pca"
         #"results/plink/ld-prune/co-lineages-aut-snps-0.05",
         #"results/plink/allele-freq/co-lineages-aut-snps-0.05",
         #"results/hpsmc/hpsmc-plot/all-comps"
@@ -126,7 +127,6 @@ include: "rules/calling.smk"
 include: "rules/hardfilter.smk"
 include: "rules/psmc.smk"
 include: "rules/hpsmc.smk"
-include: "rules/hpsmc2.smk"
 include: "rules/qc.smk"
 include: "rules/destination-rules.smk"
 #include: "rules/pcangsd.smk"
