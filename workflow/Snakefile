@@ -11,11 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/het/co-lineages-aut-snps-0.05",
-        "results/plink/het/co-lineages-aut-snps-0.05-pruned",
-        "results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
-        "results/plink/phylip/co-lineages-aut-snps-0.05",
-        "results/plink/pca/co-lineages-aut-snps-0.05-pruned-pca"
+        "results/plink/allele-freq/co-lineages-aut-snps-0.05"
+        #"results/plink/het/co-lineages-aut-snps-0.05",
+        #"results/plink/het/co-lineages-aut-snps-0.05-pruned",
+        #"results/plink/pw-fst/co-lineages-aut-snps-0.05-fst",
+        #"results/plink/phylip/co-lineages-aut-snps-0.05",
+        #"results/plink/pca/co-lineages-aut-snps-0.05-pruned-pca"
         #"results/hpsmc/hpsmc-plot/all-comps"
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
         #expand("results/bcf/{b}-aut-bisnps-maf-0.05.bcf", b=bcfsubsamp),
