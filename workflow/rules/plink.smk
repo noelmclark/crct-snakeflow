@@ -223,8 +223,8 @@ rule calc_pruned_het:
 
 rule subsamp_allele_freq:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
     output:
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05",
     conda:
@@ -245,8 +245,8 @@ rule subsamp_allele_freq:
 # --bad-ld is needed to force plink to run ld pruning with less than 50 samples (we have 38 in this subset)
 rule subsamp_prune_ld:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
     output:
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05",
     conda:
@@ -268,8 +268,8 @@ rule subsamp_prune_ld:
 # the --geno 0.01 applies a 10% missingness threshold filter 
 rule subsamp_plink_pca:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq"
     output:
         pca="results/plink/pca/co-lineages-aut-snps-0.05-pca",
@@ -295,8 +295,8 @@ rule subsamp_plink_pca:
 # the --make-bed file also produced the input needed for running ADMIXTURE
 rule subsamp_plink_pruned_pca:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
@@ -324,8 +324,8 @@ rule subsamp_plink_pruned_pca:
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 rule subsamp_pw_fst_snp:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
@@ -354,8 +354,8 @@ rule subsamp_pw_fst_snp:
 # need to double check file options and recommended filters in PLINK and IQTree
 rule subsamp_phylip:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         popfile="config/plink-popfile.tsv",
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
@@ -383,8 +383,8 @@ rule subsamp_phylip:
 # and reports method-of-moments F coefficient estimates (i.e. (1 - (<observed het. count> / <expected het. count>)))
 rule subsamp_het:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
     output:
         het="results/plink/het/co-lineages-aut-snps-0.05",
@@ -405,8 +405,8 @@ rule subsamp_het:
 
 rule subsamp_pruned_het:
     input:
-        bcf="results/bcf/co-lineages-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-bisnps-maf-0.05.bcf.csi",
+        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
+        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
         afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05.afreq",
         ld="results/plink/ld-prune/co-lineages-aut-snps-0.05.prune.in",
     output:
