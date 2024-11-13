@@ -238,7 +238,7 @@ rule subset_filter_bcf:
         " bcftools view -Ou -S {input.subsamp} {input.bcf} | "
         " bcftools +fill-tags -Ou -- -t all | "
         " bcftools view -Ob -v snps -m 2 -M 2 -i 'FILTER=\"PASS\" && MAF >= 0.05' "
-        " {input} > {output} 2>{log} "
+        " > {output} 2>{log} "
 
 ## this merges the subsamped & filtered bcf file 
 rule concat_subset_filter_bcf:
