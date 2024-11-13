@@ -21,10 +21,12 @@ rule find_model_iqtree:
 # the -bb 1000 flag runs UFBoot for 1000 bootstrap replicates to generate branch support files
 # the -alrt 1000 flag runs the SH-like approximate likelihood ratio test (Guindon et al., 2010) 
 # for 1000 boostrap replicates which is the recommended minimum 
-# both flags (-alrt, -B) will give both SH-aLRT and UFBoot support values for each branch  
+# both flags (-alrt, -B) will give both SH-aLRT and UFBoot support values for each branch
+# when running a model with +ASC, an error will be thrown if any invariable sites are left in the alignment but IQTree(v>1.5)
+# is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree:
     input:
-        "results/plink/phylip/aut-snps-{maf}.phy",
+        "results/tree/aut-snps-{maf}-tree.varsties.phy",
     output:
         prefix="results/tree/aut-snps-{maf}-tree",
     conda:
