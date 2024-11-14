@@ -132,7 +132,7 @@ rule hpsmc_plot:
 
 rule hpsmc_plot_multiple:
     input:
-        first="expand(results/hpsmc/run-hpsmc/w_fk_boulder---x---{pop2}.psmc", pop2=pop2),
+        first=expand("results/hpsmc/run-hpsmc/w_fk_boulder---x---{pop2}.psmc", pop2=pop2),
         last="results/hpsmc/run-hpsmc/greenback---x---w_fk_boulder.psmc"
     params:
         get_comma_sep_hpsmc_names
