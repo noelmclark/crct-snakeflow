@@ -26,7 +26,7 @@ rule find_model_iqtree:
 # is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree:
     input:
-        "results/tree/aut-snps-{maf}-tree.varsties.phy",
+        "results/tree/aut-snps-{maf}-tree.varsites.phy",
     output:
         prefix="results/tree/aut-snps-{maf}-tree",
     conda:
@@ -42,7 +42,3 @@ rule make_iqtree:
     shell:
         " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC "
         " --prefix {output.prefix} 2> {log} "
-
-rule iqtree_varsites:
-    output:
-        "results/tree/aut-snps-{maf}-tree.varsties.phy",
