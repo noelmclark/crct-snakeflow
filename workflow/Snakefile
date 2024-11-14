@@ -12,6 +12,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         expand("results/tree/aut-snps-{maf}-tree", maf=mafs),
+        "results/hpsmc/hpsmc-plot/w_fk_boulder-x-all",
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
         #"results/plink/het/co-lineages-aut-snps-0.05",
         #"results/plink/het/co-lineages-aut-snps-0.05-pruned",

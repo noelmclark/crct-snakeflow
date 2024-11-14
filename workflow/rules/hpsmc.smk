@@ -132,32 +132,24 @@ rule hpsmc_plot:
 
 rule hpsmc_plot_multiple:
     input:
-        "results/hpsmc/run-hpsmc/s_hayden---x---como.psmc",
-        "results/hpsmc/run-hpsmc/s_hayden---x---w_fk_boulder.psmc",
-        "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
-        "results/hpsmc/run-hpsmc/greenback---x---como.psmc",
-        "results/hpsmc/run-hpsmc/greenback---x---w_fk_boulder.psmc",
-        "results/hpsmc/run-hpsmc/steelman---x---s_hayden.psmc",
-        "results/hpsmc/run-hpsmc/steelman---x---como.psmc",
-        "results/hpsmc/run-hpsmc/steelman---x---w_fk_boulder.psmc",
-        "results/hpsmc/run-hpsmc/kelso---x---s_hayden.psmc",
-        "results/hpsmc/run-hpsmc/kelso---x---como.psmc",
-        "results/hpsmc/run-hpsmc/kelso---x---w_fk_boulder.psmc"
-    #params:
-    #    get_comma_sep_hpsmc_names
+        first="expand(results/hpsmc/run-hpsmc/w_fk_boulder---x---{pop2}.psmc", pop2=pop2),
+        last="results/hpsmc/run-hpsmc/greenback---x---w_fk_boulder.psmc"
+    params:
+        get_comma_sep_hpsmc_names
     output:
-        "results/hpsmc/hpsmc-plot/all-comps",
-        #par="results/hpsmc/hpsmc-plot/all-comps.par"
+        "results/hpsmc/hpsmc-plot/w_fk_boulder-x-all",
+        #par="results/hpsmc/hpsmc-plot/w_fk_boulder-x-all.par"
     conda:
         "../envs/hpsmc.yaml"
     log:
-        "results/logs/hpsmc/hpsmc-plot/all-comps.log"
+        "results/logs/hpsmc/hpsmc-plot/w_fk_boulder-x-all.log"
     benchmark:
-        "results/benchmarks/hpsmc/hpsmc-plot/all-comps.bmk"
+        "results/benchmarks/hpsmc/hpsmc-plot/w_fk_boulder-x-all.bmk"
+    wildcard_constraints:
+        pop2="^(?!w_fk_boulder$).+$"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
-        "-M s_hayden---x---como,s_hayden---x---w_fk_boulder,greenback---x---s_hayden,greenback---x---como,greenback---x---w_fk_boulder,steelman---x---s_hayden,steelman---x---como,steelman---x---w_fk_boulder,kelso---x---s_hayden,kelso---x---como,kelso---x---w_fk_boulder "
-        "{output} {input} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params},greenback---x---w_fk_boulder"
+        "{output} {input.first} {input.last} 2> {log}"
 
 
 
