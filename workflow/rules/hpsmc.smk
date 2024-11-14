@@ -132,10 +132,15 @@ rule hpsmc_plot:
 
 rule hpsmc_plot_multiple:
     input:
-        first=expand("results/hpsmc/run-hpsmc/w_fk_boulder---x---{pop2}.psmc", pop2=pop2),
-        last="results/hpsmc/run-hpsmc/greenback---x---w_fk_boulder.psmc"
-    params:
-        get_comma_sep_hpsmc_names
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---nanita.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---steelman.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---san_juan.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---rio_grande.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---como.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---s_hayden.psmc",
+        "results/hpsmc/run-hpsmc/greenback---x---w_fk_boulder.psmc",
+    #params:
+    #    get_comma_sep_hpsmc_names
     output:
         "results/hpsmc/hpsmc-plot/w_fk_boulder-x-all",
         #par="results/hpsmc/hpsmc-plot/w_fk_boulder-x-all.par"
@@ -145,11 +150,10 @@ rule hpsmc_plot_multiple:
         "results/logs/hpsmc/hpsmc-plot/w_fk_boulder-x-all.log"
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/w_fk_boulder-x-all.bmk"
-    wildcard_constraints:
-        pop2="^(?!w_fk_boulder$).+$"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params},greenback---x---w_fk_boulder"
-        "{output} {input.first} {input.last} 2> {log}"
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
+        "-M w_fk_boulder---x---nanita,w_fk_boulder---x---steelman,w_fk_boulder---x---san_juan,w_fk_boulder---x---rio_grande,w_fk_boulder---x---como,w_fk_boulder---x---s_hayden,greenback---x---w_fk_boulder"
+        "{output} {input} 2> {log}"
 
 
 
