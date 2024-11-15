@@ -4,7 +4,7 @@ rule bcftools_stats:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
     output:
-        stats="results/inbreeding/het/{sample}-stats.txt",
+        "results/inbreeding/het/{sample}-stats.txt",
     conda:
         "../envs/bcftools.yaml",
     log:
@@ -12,7 +12,7 @@ rule bcftools_stats:
     benchmark:
         "results/inbreeding/het/{sample}-stats.bmk"
     shell:
-        " bcftools stats -s {wildcards.sample} {input} > {output.stat} 2> {log} "
+        " bcftools stats -s {wildcards.sample} {input} > {output} 2> {log} "
 
 ## This rule counts the heterozygous sites (0/1) in an individual vcf
 rule count_hets:
