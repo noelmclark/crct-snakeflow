@@ -16,17 +16,37 @@ rule bcftools_stats:
         " bcftools stats > {output} 2> {log} "
 
 ## This rule counts the heterozygous sites (0/1) in an individual vcf
-rule count_hets:
+rule count_hets_nmiss:
     input:
-        "results/inbreeding/het/{sample}-stats.txt",
+        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
+        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
     output:
-        "results/inbreeding/het/{sample}-het.txt",
+        het="results/inbreeding/het/{sample}-het-count.txt",
+        nmiss="results/inbreeding/het/{sample}-nmiss-count.txt",
+    conda:
+        "../envs/bcftools.yaml",
     log:
-        "results/inbreeding/het/{sample}-het.log",
+        "results/inbreeding/het/{sample}-het-nmiss-count.log",
     benchmark:
-        "results/inbreeding/het/{sample}-het.bmk"
+        "results/inbreeding/het/{sample}-het-nmiss-count.bmk"
     shell:
-        " grep \"0/1:\" {input} | wc -l > {output} 2> {log} "
+        " ( bcftools view -H -s {wildcards.sample} {input.bcf} | grep \"0/1:\" | wc -l > {output.het} && "
+        " bcftools view -H -s {wildcards.sample} {input.bcf} | grep -v \"./.:\" | wc -l > {output.nmiss} ) "
+        " 2> {log} "
+
+rule calc_percent_het:
+    input:
+        het="results/inbreeding/het/{sample}-het-count.txt",
+        nmiss="results/inbreeding/het/{sample}-nmiss-count.txt",
+    output:
+        "results/inbreeding/het/{sample}-het-perc.txt",
+    log:
+        "results/inbreeding/het/{sample}-het-perc.log",
+    benchmark:
+        "results/inbreeding/het/{sample}-het-perc.bmk"
+    shell:
+        " awk 'NR==FNR{{het=$0; next}} {{print het / $0}}' {input.het} {input.nmiss} "
+        " > {output} 2> {log} "
 
 
 
