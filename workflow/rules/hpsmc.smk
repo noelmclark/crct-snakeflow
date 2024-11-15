@@ -170,7 +170,7 @@ rule simulate_hpsmc_divergence:
     benchmark:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.bmk"
     shell:
-        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 -p 10 "
+        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 "
         " -o {output} {input} 2> {log} "
  	
     #OPTIONS:
