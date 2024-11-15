@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand(prefix="results/hpsmc/split-time-sim/greenback---x---s_hayden_"),
+        expand("results/hpsmc/split-time-sim/greenback---x---s_hayden_*.psmc"),
         #expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
         #"results/inbreeding/het/combined-het-percents.tsv",
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
