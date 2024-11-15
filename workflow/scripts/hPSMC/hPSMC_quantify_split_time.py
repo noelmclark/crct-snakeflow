@@ -125,7 +125,7 @@ print("### Convert ms to psmcfa format ###")
 i = 0
 while i < sims:
     sim_out = (
-        f"python {hPSMC}hPSMC_ms2psmcfa.py -b100 -d -c{N_SITES} {sim_names[i]} > {sim_names[i]}.psmcfa &"
+        f"python {hPSMC}ms2psmcfa.py -b100 -d -c{N_SITES} {sim_names[i]} > {sim_names[i]}.psmcfa &"
     )
     print(sim_out)
     i += 1
@@ -153,6 +153,6 @@ print("")
 ## Estimate Divergence time ##
 print("### Estimate Divergence time with hPSMC ###")
 command = (
-    f"ls {out}*psmc | python {hPSMC}hPSMC_compare_sims_to_data.py -i {sys.argv[-1]} > {out}result.txt"
+    f"ls {out}*psmc | python {hPSMC}compare_sims_to_data.py -i {sys.argv[-1]} > {out}result.txt"
 )
 print(command)
