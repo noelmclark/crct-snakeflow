@@ -158,14 +158,20 @@ rule hpsmc_plot_multiple:
 
 
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
-#rule simulate_hpsmc_divergence:
-#    input:
-#    output:
-#    conda:
-#    log:
-#    benchmark:
-#    shell:
-#        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=? -l ? -u ? -s "
+rule simulate_hpsmc_divergence:
+    input:
+        "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
+    output:
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim_"
+    conda:
+        "../envs/hpsmc-split.yaml"
+    log:
+        "results/logs/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.log"
+    benchmark:
+        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.bmk"
+    shell:
+        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 -p 10 "
+        " -o {output} {input} 2> {log} "
  	
     #OPTIONS:
  	#-h print help message with user options

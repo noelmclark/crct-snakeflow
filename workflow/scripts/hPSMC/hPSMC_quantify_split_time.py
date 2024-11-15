@@ -26,15 +26,15 @@ hPSMC="./"
 
 ## Hard Coded ##
 ## ms command ##
-N_CHRMS=4
-N_REPS=40
-GENERATION_TIME=25
-N_SITES=5000000
-MU=0.000000001  # 10^-9  Mutation rate per year
-RECOMB_S=0.00000001  # 10^-8 1CM/MB per site per generation 
+N_CHRMS=4 #left as default - NC
+N_REPS=40 #left as default - NC
+GENERATION_TIME=3 # updated for CRCT - NC
+N_SITES=5000000 #left as default - NC
+MU=0.000000008  # 0.8x10^-8  Mutation rate per year - updated for CRCT - NC
+RECOMB_S=0.00000001  # 10^-8 1CM/MB per site per generation - left as default - NC 
 
 ## ms2psmcfa command ##
-BIN_SIZE=10
+BIN_SIZE=100 #changed this to match the psmcfa-from-2-fastas option I used - NC
 
 ### OPTIONS ###
 usage = "usage: python %prog [options] input.psmc > outfile.sh"

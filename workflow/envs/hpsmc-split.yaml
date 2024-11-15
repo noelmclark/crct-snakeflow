@@ -1,0 +1,9 @@
+channels:
+  - bioconda
+  - conda-forge
+  - genomedk
+  - defaults
+dependencies:
+  - psmc ==0.6.5
+  - python ==3.12.4
+  - ms ==2014_03_04-0
