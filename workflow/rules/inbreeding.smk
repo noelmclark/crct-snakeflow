@@ -8,9 +8,9 @@ rule bcftools_stats:
     conda:
         "../envs/bcftools.yaml",
     log:
-        "results/inbreeding/het/{sample}-stats.log",
+        "results/logs/inbreeding/het/{sample}-stats.log",
     benchmark:
-        "results/inbreeding/het/{sample}-stats.bmk"
+        "results/benchmarks/inbreeding/het/{sample}-stats.bmk"
     shell:
         " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
         " bcftools stats > {output} 2> {log} "
@@ -26,9 +26,9 @@ rule count_hets_nmiss:
     conda:
         "../envs/bcftools.yaml",
     log:
-        "results/inbreeding/het/{sample}-het-nmiss-count.log",
+        "results/logs/inbreeding/het/{sample}-het-nmiss-count.log",
     benchmark:
-        "results/inbreeding/het/{sample}-het-nmiss-count.bmk"
+        "results/benchmarks/inbreeding/het/{sample}-het-nmiss-count.bmk"
     shell:
         " ( bcftools view -H -s {wildcards.sample} {input.bcf} | grep \"0/1:\" | wc -l > {output.het} && "
         " bcftools view -H -s {wildcards.sample} {input.bcf} | grep -v \"./.:\" | wc -l > {output.nmiss} ) "
@@ -41,12 +41,33 @@ rule calc_percent_het:
     output:
         "results/inbreeding/het/{sample}-het-perc.txt",
     log:
-        "results/inbreeding/het/{sample}-het-perc.log",
+        "results/logs/inbreeding/het/{sample}-het-perc.log",
     benchmark:
-        "results/inbreeding/het/{sample}-het-perc.bmk"
+        "results/benchmarks/inbreeding/het/{sample}-het-perc.bmk"
     shell:
         " awk 'NR==FNR{{het=$0; next}} {{print het / $0}}' {input.het} {input.nmiss} "
         " > {output} 2> {log} "
+
+
+# thank you to chat gpt for this code
+rule combine_het_perc:
+    input:
+        results=expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
+    output:
+        "results/inbreeding/het/combined-het-percents.tsv",
+    log:
+        "results/logs/inbreeding/het/combined-het-percents.tsv"
+    benchmark:
+        "results/benchmarks/inbreeding/het/combined-het-percents.tsv"
+    shell:
+        """
+        echo -e "Sample\tPercHet" > {output}
+        for file in {input.results}; do
+            sample=$(basename $file -het-perc.txt)
+            value=$(cat $file)
+            echo -e "$sample\t$value" >> {output}
+        done
+        """
 
 
 
