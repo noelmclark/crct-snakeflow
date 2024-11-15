@@ -162,7 +162,7 @@ rule simulate_hpsmc_divergence:
     input:
         "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
     output:
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim_"
+        prefix("results/hpsmc/split-time-sim/greenback---x---s_hayden_")
     conda:
         "../envs/hpsmc-split.yaml"
     log:
