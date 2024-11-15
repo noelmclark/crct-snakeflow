@@ -12,7 +12,8 @@ rule bcftools_stats:
     benchmark:
         "results/inbreeding/het/{sample}-stats.bmk"
     shell:
-        " bcftools stats -s {wildcards.sample} {input.bcf} > {output} 2> {log} "
+        " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
+        " bcftools stats > {output} 2> {log} "
 
 ## This rule counts the heterozygous sites (0/1) in an individual vcf
 rule count_hets:
