@@ -6,7 +6,7 @@ rule bcftools_stats:
     output:
         stats="results/inbreeding/het/{sample}-stats.txt",
     conda:
-        "./envs/bcftools.yaml",
+        "../envs/bcftools.yaml",
     log:
         "results/inbreeding/het/{sample}-stats.log",
     benchmark:
