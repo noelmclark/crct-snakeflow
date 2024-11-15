@@ -1,4 +1,6 @@
 #### from https://github.com/jacahill/hPSMC ####
+#### I (w/ chatgpt) updated a lot of the old python syntax to match the newer syntax used in python v3.12.4 #### 
+
 ### General Structure ###
 ## 1) Run hPSMC
 ## 2) Look at hPSMC output, what is the approximate Ne before it begins to rise to infinite, what is the approximate time range
@@ -87,66 +89,70 @@ def ms_command(YEARS):
 	RECOMB = 4 * Ne * RECOMB_S * N_SITES
 	SPLIT = (float(YEARS) / GENERATION_TIME) / (4 * float(Ne))
 	MS_NAME = out+str(YEARS)+".ms_sim"
-	print ms, N_CHRMS, N_REPS, "-p 8 -t", THETA, "-r", RECOMB, N_SITES, "-I 2 2 2 -ej", SPLIT, "2 1 >", MS_NAME, "&"
+	print(ms, N_CHRMS, N_REPS, "-p 8 -t", THETA, "-r", RECOMB, N_SITES, "-I 2 2 2 -ej", SPLIT, "2 1 >", MS_NAME, "&")
 	return MS_NAME
 
 
 
 ### BODY ###
 
-## make header ###
-
+## make header ##
 now = datetime.datetime.now()
-print "#!/bin/bash/"
-print ""
-print "### File created:", now.strftime("%Y-%m-%d %H:%M")
-print "### Using Command:", " ".join(sys.argv)
-print ""
-
+print("#!/bin/bash/")
+print("")
+print(f"### File created: {now.strftime('%Y-%m-%d %H:%M')}")
+print(f"### Using Command: {' '.join(sys.argv)}")
+print("")
 
 ## build ms simulations ##
-print "### Begin ms simulations ###"
-step_size=(float(upper)-float(lower))/float(sims-1)
-i=0
-sim_names=[]   # I'm saving the simulation file names to avoid rounding errors
-while i<sims:
-	YEARS=lower+int(i*step_size)
-	sim_names.append(ms_command(YEARS))
-	i+=1
-	if i%par==0:
-		print "wait"
-if i%par!=0:
-	print "wait"
-print ""
+print("### Begin ms simulations ###")
+step_size = (float(upper) - float(lower)) / float(sims - 1)
+i = 0
+sim_names = []  # I'm saving the simulation file names to avoid rounding errors
+while i < sims:
+    YEARS = lower + int(i * step_size)
+    sim_names.append(ms_command(YEARS))
+    i += 1
+    if i % par == 0:
+        print("wait")
+if i % par != 0:
+    print("wait")
+print("")
 
 
 ## convert ms to psmcfa ##
-print "### Convert ms to psmcfa format ###"
-i=0
-while i<sims:
-	sim_out="python "+hPSMC+"hPSMC_ms2psmcfa.py -b10 -d -c"+str(N_SITES)+" "+sim_names[i]+" > "+sim_names[i]+".psmcfa &"
-	print sim_out
-	i+=1
-	if i%par==0:
-		print "wait"
-if i%par!=0:
-	print "wait"
-print ""
+print("### Convert ms to psmcfa format ###")
+i = 0
+while i < sims:
+    sim_out = (
+        f"python {hPSMC}hPSMC_ms2psmcfa.py -b10 -d -c{N_SITES} {sim_names[i]} > {sim_names[i]}.psmcfa &"
+    )
+    print(sim_out)
+    i += 1
+    if i % par == 0:
+        print("wait")
+if i % par != 0:
+    print("wait")
+print("")
 
 ## run psmc ##
-print "### Run PSMC ###"
-i=0
-while i<sims:
-	sim_out=PSMC+" -N25 -t15 -r5 -p \"4+25*2+4+6\" -o "+sim_names[i]+".psmc "+ sim_names[i] +".psmcfa &"
-	print sim_out
-	i+=1
-	if i%par==0:
-		print "wait"
-if i%par!=0:
-	print "wait"
-print ""
+print("### Run PSMC ###")
+i = 0
+while i < sims:
+    sim_out = (
+        f"{PSMC} -N25 -t15 -r5 -p \"4+25*2+4+6\" -o {sim_names[i]}.psmc {sim_names[i]}.psmcfa &"
+    )
+    print(sim_out)
+    i += 1
+    if i % par == 0:
+        print("wait")
+if i % par != 0:
+    print("wait")
+print("")
 
-## Estimate Divergence time ## 
-print "### Estimate Divergence time with hPSMC ###"
-command = "ls " + out + "*psmc | python " + hPSMC + "hPSMC_compare_sims_to_data.py -i "+ sys.argv[-1] + " > " + out + "result.txt" 
-print command
+## Estimate Divergence time ##
+print("### Estimate Divergence time with hPSMC ###")
+command = (
+    f"ls {out}*psmc | python {hPSMC}hPSMC_compare_sims_to_data.py -i {sys.argv[-1]} > {out}result.txt"
+)
+print(command)
