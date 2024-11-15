@@ -125,7 +125,7 @@ print("### Convert ms to psmcfa format ###")
 i = 0
 while i < sims:
     sim_out = (
-        f"python {hPSMC}hPSMC_ms2psmcfa.py -b10 -d -c{N_SITES} {sim_names[i]} > {sim_names[i]}.psmcfa &"
+        f"python {hPSMC}hPSMC_ms2psmcfa.py -b100 -d -c{N_SITES} {sim_names[i]} > {sim_names[i]}.psmcfa &"
     )
     print(sim_out)
     i += 1
@@ -140,7 +140,7 @@ print("### Run PSMC ###")
 i = 0
 while i < sims:
     sim_out = (
-        f"{PSMC} -N25 -t15 -r5 -p \"4+25*2+4+6\" -o {sim_names[i]}.psmc {sim_names[i]}.psmcfa &"
+        f"{PSMC} -N25 -t15 -r5 -p \"10+6*2+18*1+8*2+8*1\" -o {sim_names[i]}.psmc {sim_names[i]}.psmcfa &"
     )
     print(sim_out)
     i += 1
