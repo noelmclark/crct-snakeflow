@@ -162,9 +162,9 @@ rule get_hpsmc_divergence_sh:
     input:
         "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
     output:
-        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden_quantify_split_time.sh"
+        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_quantify_split_time.sh"
     params:
-        pfx="results/hpsmc/split-time-sim/greenback---x---s_hayden_",
+        pfx="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_",
     conda:
         "../envs/hpsmc-split.yaml"
     log:
@@ -177,15 +177,18 @@ rule get_hpsmc_divergence_sh:
 
 rule simulate_hpsmc_divergence:
     input:
-        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden_quantify_split_time.sh",
+        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_quantify_split_time.sh",
     output:
-        txt="results/hpsmc/split-time-sim/greenback---x---s_hayden_quantify_split_time.txt"
+        txt="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.txt"
+    resources:
+        time="23:59:59",
+        mem_mb=112200,
     conda:
         "../envs/hpsmc-split.yaml"
     benchmark:
-        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_divergence.bmk"
+        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_result.bmk"
     shell:
-        " ./{input.sh} 2> {output.txt} "
+        " bash ./{input.sh} 2> {output.txt} "
  	
     #OPTIONS:
  	#-h print help message with user options
