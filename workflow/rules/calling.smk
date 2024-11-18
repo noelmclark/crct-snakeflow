@@ -183,7 +183,7 @@ rule vcf_scattered_from_gdb:
         "results/benchmarks/calling/vcf_scattered_from_gdb/{sg_or_chrom}/{scatter}.bmk"
     params:
         java_opts="-Xmx4g",
-        extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, idk meaning
+        extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, first improves performance, second is to call only in specified region
     resources:
         mem_mb = 11750,
         cpus = 2,
