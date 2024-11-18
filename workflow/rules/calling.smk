@@ -247,4 +247,80 @@ rule correct_missing_vcf_sect:
         " bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
         " bcftools view -Oz - > {output.vcf}; "
         " bcftools index -t {output.vcf}) 2> {log} "
-                
+
+
+### all callable sites ###
+
+## The next rule is the same as above, except we keep all callable (even non-variant) sites
+rule vcf_scattered_from_gdb:
+    input:
+        gdb="results/calling/genomics_db/{sg_or_chrom}",
+        scatters="results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list",
+        ref="resources/genome/OmykA.fasta",
+        fai="resources/genome/OmykA.fasta.fai",
+        idx="resources/genome/OmykA.dict",
+    output:
+        vcf="results/calling/vcf_sections/all_sites/{sg_or_chrom}/{scatter}.vcf.gz",
+        idx="results/calling/vcf_sections/all_sites/{sg_or_chrom}/{scatter}.vcf.gz.tbi",
+    conda:
+        "../envs/gatk.yaml"
+    log:
+        "results/logs/calling/vcf_scattered_from_gdb/all_sites/{sg_or_chrom}/{scatter}.txt"
+    benchmark:
+        "results/benchmarks/calling/vcf_scattered_from_gdb/all_sites/{sg_or_chrom}/{scatter}.bmk"
+    params:
+        java_opts="-Xmx4g",
+        extra=" --genomicsdb-shared-posixfs-optimizations --only-output-calls-starting-in-intervals " #from Eric, first improves performance, second is to call only in specified region
+    resources:
+        mem_mb = 11750,
+        cpus = 2,
+        time = "23:59:59"
+    threads: 2
+    shell:
+        " gatk --java-options {params.java_opts} GenotypeGVCFs "
+        "  {params.extra} --include-non-variant-sites "
+        "  -L {input.scatters} "
+        "  -R {input.ref}  "
+        "  -V gendb://{input.gdb} "
+        "  -O {output.vcf} 2> {log} "
+
+
+## same as above, but for all sites
+rule gather_scattered_vcfs:
+    input:
+        vcf=lambda wc: get_scattered_all_sites_vcfs(wc, ""),
+        tbi=lambda wc: get_scattered_all_sites_vcfs(wc, ".tbi"),
+    output:
+        vcf="results/calling/vcf_sections/all_sites/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/vcf_sections/all_sites/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/gather_scattered_vcfs/all_sites/{sg_or_chrom}.txt"
+    benchmark:
+        "results/benchmarks/calling/gather_scattered_vcfs/all_sites/{sg_or_chrom}.bmk",
+    params:
+        opts=" --naive "
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " (bcftools concat {params.opts} -Oz {input.vcf} > {output.vcf}; "
+        " bcftools index -t {output.vcf})  2>{log}; "
+
+
+## same as above, but for all sites
+rule correct_missing_vcf_sect:
+    input:
+        vcf="results/calling/vcf_sections/all_sites/{sg_or_chrom}.vcf.gz"
+    output:
+        vcf="results/calling/corrected_missing_vcf_sect/all_sites/{sg_or_chrom}.vcf.gz",
+        tbi="results/calling/corrected_missing_vcf_sect/all_sites/{sg_or_chrom}.vcf.gz.tbi"
+    log:
+        "results/logs/calling/correct_missing_vcf_sect/all_sites/{sg_or_chrom}.log",
+    benchmark:
+        "results/benchmarks/calling/correct_missing_vcf_sect/all_sites/{sg_or_chrom}.bmk"
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        "(bcftools +setGT {input.vcf} -- -t q -n . -i 'FMT/DP=0 | (FMT/PL[:0]=0 & FMT/PL[:1]=0 & FMT/PL[:2]=0)' | "
+        " bcftools +fill-tags - -- -t 'NMISS=N_MISSING' | "
+        " bcftools view -Oz - > {output.vcf}; "
+        " bcftools index -t {output.vcf}) 2> {log} "

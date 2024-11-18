@@ -172,6 +172,10 @@ def get_scattered_vcfs(wildcards, ext):
     scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
     return expand("results/calling/vcf_sections/{{sg_or_chrom}}/{scat}.vcf.gz{e}", scat=scat_ids, e=ext)
 
+def get_scattered_all_sites_vcfs(wildcards, ext):
+    scat_ids=scatter_groups.loc[(scatter_groups["id"] == wildcards.sg_or_chrom), "scatter_idx"].unique()
+    return expand("results/calling/vcf_sections/all_sites/{{sg_or_chrom}}/{scat}.vcf.gz{e}", scat=scat_ids, e=ext)
+
 
 # here, we deal with indel realignment by species (or "igrp")
 def get_igrp_sample_names(wildcards):
