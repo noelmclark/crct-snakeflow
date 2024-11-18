@@ -252,7 +252,7 @@ rule correct_missing_vcf_sect:
 ### all callable sites ###
 
 ## The next rule is the same as above, except we keep all callable (even non-variant) sites
-rule vcf_scattered_from_gdb:
+rule vcf_scattered_from_gdb_all_sites:
     input:
         gdb="results/calling/genomics_db/{sg_or_chrom}",
         scatters="results/calling/scatter_interval_lists/{sg_or_chrom}/{scatter}.list",
@@ -286,7 +286,7 @@ rule vcf_scattered_from_gdb:
 
 
 ## same as above, but for all sites
-rule gather_scattered_vcfs:
+rule gather_scattered_vcfs_all_sites:
     input:
         vcf=lambda wc: get_scattered_all_sites_vcfs(wc, ""),
         tbi=lambda wc: get_scattered_all_sites_vcfs(wc, ".tbi"),
@@ -307,7 +307,7 @@ rule gather_scattered_vcfs:
 
 
 ## same as above, but for all sites
-rule correct_missing_vcf_sect:
+rule correct_missing_vcf_sect_all_sites:
     input:
         vcf="results/calling/vcf_sections/all_sites/{sg_or_chrom}.vcf.gz"
     output:
