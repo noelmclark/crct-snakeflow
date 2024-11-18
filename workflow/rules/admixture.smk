@@ -8,8 +8,8 @@ rule admixture_first_k:
     conda:
         "../envs/admixture.yaml"
     log:
-        "results/admixture/aut-snps-0.05-pruned-pca.10.log"
-    benchmarks:
-        "results/admixture/aut-snps-0.05-pruned-pca.10.bmk"
+        "results/logs/admixture/aut-snps-0.05-pruned-pca.10.log"
+    benchmark:
+        "results/benchmarks/admixture/aut-snps-0.05-pruned-pca.10.bmk"
     shell:
         "admixture --cv {input} 10"
