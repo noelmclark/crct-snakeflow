@@ -11,8 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.txt",
-        expand("results/calling/corrected_missing_vcf_sect/all_sites/{sgc}.vcf.gz", sgc=sg_or_chrom),
+        "results/admixture/aut-snps-0.05-pruned-pca.10.Q"
+        #"results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.txt",
+        #expand("results/calling/corrected_missing_vcf_sect/all_sites/{sgc}.vcf.gz", sgc=sg_or_chrom),
         #expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
         #"results/inbreeding/het/combined-het-percents.tsv",
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
@@ -131,6 +132,7 @@ include: "rules/destination-rules.smk"
 include: "rules/plink.smk"
 include: "rules/inbreeding.smk"
 include: "rules/tree.smk"
+include: "rules/admixture.smk"
 #include: "rules/archive.smk"
 #include: "rules/annotation.smk"
 #include: "rules/downsample.smk"
