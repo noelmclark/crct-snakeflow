@@ -427,4 +427,4 @@ def get_comma_sep_hpsmc_names(wildcards):
 
 ##### Admixture wildcards #####
 
-kclusters = list(range(2, 12)) #specify wildcard for testing K clusters in admxiture
+kclusters = list(range(2, 24)) #specify wildcard for testing K clusters in admxiture

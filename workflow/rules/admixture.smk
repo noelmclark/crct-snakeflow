@@ -37,7 +37,7 @@ rule test_k:
     input:
         "results/plink/bed/aut-snps-0.05-pruned.bed"
     output:
-        dir="results/admixture/test_k/",
+        dir="results/admixture/test_k/CV_5/",
         pfx="aut-snps-0.05-pruned-{kclusters}"
     conda:
         "../envs/admixture.yaml"
@@ -45,9 +45,9 @@ rule test_k:
         mem_mb=9400,
         cpus=2,
     log:
-        "results/logs/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.log"
+        "results/logs/admixture/test_k/CV_5/aut-snps-0.05-pruned-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.bmk"
+        "results/benchmarks/admixture/test_k/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
         " cd {output.dir} && "
         " admixture --cv {input} {wildcards.kclusters} > {output}.out 2> {log} " 
@@ -55,13 +55,13 @@ rule test_k:
 # grep-h CV log*.out to view cv values
 rule get_best_k:
     input:
-        expand("results/admixture/test_k/aut-snps-0.05-pruned{k}.out", k=kclusters)
+        expand("results/admixture/test_k/CV_5/aut-snps-0.05-pruned{k}.out", k=kclusters)
     output:
-        "results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
+        "results/admixture/test_k/CV_5/aut-snps-0.05-pruned.cv5.error"
     log:
-        "results/logs/admixture/test_k/aut-snps-0.05-pruned.cv5.error.log"
+        "results/logs/admixture/test_k/CV_5/aut-snps-0.05-pruned.cv5.error.log"
     benchmark:
-        "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned.cv5.error.bmk"
+        "results/benchmarks/admixture/test_k/CV_5/aut-snps-0.05-pruned.cv5.error.bmk"
     shell:
         " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
