@@ -423,3 +423,8 @@ def get_hpsmc_bams_in_pop(wc):
 def get_comma_sep_hpsmc_names(wildcards):
     h=expand("{p1}---x---{p2}", p1=pop1, p2=pop2)
     return','.join(h)
+
+
+##### Admixture wildcards #####
+
+kclusters = list(range(6, 24)) #specify wildcard for testing K clusters in admxiture

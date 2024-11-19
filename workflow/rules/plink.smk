@@ -50,35 +50,36 @@ rule prune_linkage_disequilibrium:
         " --bad-ld "
         " --out {output.ld} 2> {log} "
 
-## This rules generates a PCA using Plink2.0 from our filtered BCF
-# the --geno 0.01 applies a 10% missingness threshold filter 
-rule make_plink_pca:
+## This rules generates a .bed, .bim, and .fam file (input needed for running ADMIXTURE) using Plink2.0 from our filtered BCF
+# and using a LD pruned variant set, the --geno 0.01 applies a 10% missingness threshold filter 
+# that should be redundant when using the new ld purned sites 
+rule make_plink_pruned_bed:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
+        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
     output:
-        pca="results/plink/pca/aut-snps-{maf}-pca",
+        bed="results/plink/bed/aut-snps-{maf}-pruned",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
+        "results/logs/plink/bed/aut-snps-{maf}-pruned.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
+        "results/benchmarks/plink/bed/aut-snps-{maf}-pruned.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --pca "
         " --allow-extra-chr "
+        " --extract {input.ld} "
         " --geno 0.1 "
         " --read-freq {input.afreq} "
-        " --out {output.pca} 2> {log} "
-
+        " --make-bed "
+        " --out {output.bed} 2> {log} "
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # and using a LD pruned variant set 
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
-# the --make-bed file also produced the input needed for running ADMIXTURE
 rule make_plink_pruned_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
@@ -100,7 +101,6 @@ rule make_plink_pruned_pca:
         " --extract {input.ld} "
         " --geno 0.1 "
         " --read-freq {input.afreq} "
-        " --make-bed "
         " --pca "
         " --out {output.pca} 2> {log} "
 
@@ -249,7 +249,29 @@ rule calc_pop_allele_freq:
         " --freq counts --loop-cats population "
         " --out {output.afreq} 2> {log} "
 
-
+## This rules generates a PCA using Plink2.0 from our filtered BCF
+# the --geno 0.01 applies a 10% missingness threshold filter 
+rule make_plink_pca:
+    input:
+        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
+        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
+        afreq="results/plink/allele-freq/aut-snps-0.05.afreq"
+    output:
+        pca="results/plink/pca/aut-snps-{maf}-pca",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/pca/aut-snps-{maf}-pca.log",
+    benchmark:
+        "results/benchmarks/plink/pca/aut-snps-{maf}-pca.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --pca "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --read-freq {input.afreq} "
+        " --out {output.pca} 2> {log} "
 
 ## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
 # on our hard filtered BCF file with all variants

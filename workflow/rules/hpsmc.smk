@@ -172,14 +172,14 @@ rule get_hpsmc_divergence_sh:
     benchmark:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.bmk"
     shell:
-        " python workflow/scripts/hPSMC/hPSMC_quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 -p 10 "
-        " -o {params.pfx} --hPSMC scripts/hPSMC/ {input} > {output.sh} 2> {log} "
+        " python workflow/scripts/hPSMC/quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 -p 10 "
+        " -o {params.pfx} --hPSMC workflow/scripts/hPSMC/ {input} > {output.sh} 2> {log} "
 
 rule simulate_hpsmc_divergence:
     input:
         sh="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_quantify_split_time.sh",
     output:
-        txt="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.txt"
+        log="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.log"
     resources:
         time="23:59:59",
         mem_mb=112200,
@@ -188,7 +188,8 @@ rule simulate_hpsmc_divergence:
     benchmark:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_result.bmk"
     shell:
-        " bash ./{input.sh} 2> {output.txt} "
+        " chmod +rwx {input.sh} && "
+        " bash ./{input.sh} 2> {output.log} "
  	
     #OPTIONS:
  	#-h print help message with user options
