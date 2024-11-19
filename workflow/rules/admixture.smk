@@ -32,7 +32,7 @@
 
 ## runs through each of the selected k options
 # admixture is weird and will not let you redirect the Q and P outputs - they will be produced in the current WD
-# so we have to cd into where we want them to go
+# so we have to cd into where we want them to go. Also, the default for CV is 5 but can do up to 10
 rule test_k:
     input:
         "results/plink/bed/aut-snps-0.05-pruned.bed"
@@ -63,7 +63,7 @@ rule get_best_k:
     benchmark:
         "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} | cut -c 4,7-20 > {output} 2> {log} "
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
 ## Rule to use Jonah Meier's admxiture plotting r script (https://github.com/speciationgenomics/scripts/blob/master/plotADMIXTURE.r)
 # -l specifies a comma-separated list of populations/species in the order to be plotted
