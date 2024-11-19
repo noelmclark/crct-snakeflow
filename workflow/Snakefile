@@ -12,7 +12,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 rule all:
     input:
         "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.log",
-        "results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
+        "results/admixture/test_k/aut-snps-0.05-pruned"
+        #"results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
         #expand("results/calling/corrected_missing_vcf_sect/all_sites/{sgc}.vcf.gz", sgc=sg_or_chrom),
         #"results/admixture/aut-snps-0.05-pruned-pca.10.Q"
         #expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
