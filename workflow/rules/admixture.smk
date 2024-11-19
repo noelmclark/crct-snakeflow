@@ -40,9 +40,9 @@ rule test_k:
     conda:
         "../envs/admixture.yaml"
     log:
-        "results/logs/admixture/test_k/aut-snps-0.05-pruned.log"
+        "results/logs/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned.bmk"
+        "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
         " admixture --cv {input} {wildcards.kclusters} > {output}.out 2> {log} " 
 
