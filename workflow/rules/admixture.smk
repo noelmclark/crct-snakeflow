@@ -31,21 +31,28 @@
 #        "admixture --cv {input} 10"
 
 ## runs through each of the selected k options
-# grep-h CV log*.out to view cv values
+# admixture is weird and will not let you redirect the Q and P outputs - they will be produced in the current WD
+# so we have to cd into where we want them to go
 rule test_k:
     input:
         "results/plink/bed/aut-snps-0.05-pruned.bed"
     output:
-        "results/admixture/test_k/aut-snps-0.05-pruned-{kclusters}"
+        dir="results/admixture/test_k/",
+        pfx="aut-snps-0.05-pruned-{kclusters}"
     conda:
         "../envs/admixture.yaml"
+    resources:
+        mem_mb=9400,
+        cpus=2,
     log:
         "results/logs/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.log"
     benchmark:
         "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
+        " cd {output.dir} && "
         " admixture --cv {input} {wildcards.kclusters} > {output}.out 2> {log} " 
 
+# grep-h CV log*.out to view cv values
 rule get_best_k:
     input:
         expand("results/admixture/test_k/aut-snps-0.05-pruned{k}.out", k=kclusters)
@@ -56,14 +63,19 @@ rule get_best_k:
     benchmark:
         "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input}* | cut -c 4,7-20 > {output} 2> {log} "
+        " awk '/CV/ {print $3,$4}' {input} | cut -c 4,7-20 > {output} 2> {log} "
 
+## Rule to use Jonah Meier's admxiture plotting r script (https://github.com/speciationgenomics/scripts/blob/master/plotADMIXTURE.r)
+# -l specifies a comma-separated list of populations/species in the order to be plotted
 #rule plot_admixture:
 #    input:
+#        pfx="results/admixture/test_k/aut-snps-0.05-pruned-"
+#        list="admixture-info.tsv"
 #    output:
+#        "results/admixture/rplot/aut-snps-0.05-pruned"
 #    envmodules: 
 #        "R/4.2.2"
 #    log:
 #    benchmark:
 #    shell:
-#        " /scripts/admixture/plotADMIXTURE.r -p $FILE -i $FILE.list -k 5 -l "
+#        " /scripts/admixture/plotADMIXTURE.r -p {input.pfx} -i {input.list} -k 24 -m 6 -l ?? -o {output}"

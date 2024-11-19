@@ -74,6 +74,7 @@ rule make_plink_pruned_bed:
         " --extract {input.ld} "
         " --geno 0.1 "
         " --read-freq {input.afreq} "
+        " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
 
