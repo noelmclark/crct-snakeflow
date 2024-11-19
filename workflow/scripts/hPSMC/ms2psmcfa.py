@@ -131,7 +131,7 @@ while line:
 #	print len(header), chr[0][0:10], bin_dist
 #	print len(out), out[0:10]
 	line=file.readline()
-	print header
-	print out	
+	print(header)
+	print(out)	
 
 	
