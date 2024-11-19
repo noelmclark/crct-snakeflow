@@ -36,7 +36,7 @@ rule test_k:
     input:
         "results/plink/bed/aut-snps-0.05-pruned.bed"
     output:
-        "results/admixture/test_k/aut-snps-0.05-pruned"
+        "results/admixture/test_k/aut-snps-0.05-pruned-{kclusters}"
     conda:
         "../envs/admixture.yaml"
     log:
@@ -44,9 +44,7 @@ rule test_k:
     benchmark:
         "results/benchmarks/admixture/test_k/aut-snps-0.05-pruned.bmk"
     shell:
-        " (for k in {wildcards.kclusters}; do "
-        " admixture --cv {input} $k > {output}$k.out "
-        " done ) 2> {log} " 
+        " admixture --cv {input} {wildcards.kclusters} > {output}.out 2> {log} " 
 
 rule get_best_k:
     input:
