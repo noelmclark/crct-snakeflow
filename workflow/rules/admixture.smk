@@ -48,7 +48,7 @@ rule test_k:
         " admixture --cv {input} $k > {output}$k.out "
         " done ) 2> {log} " 
 
-#rule get_best_k:
+rule get_best_k:
     input:
         expand("results/admixture/test_k/aut-snps-0.05-pruned{k}.out", k=kclusters)
     output:
