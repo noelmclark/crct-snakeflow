@@ -8,7 +8,7 @@ import datetime
 out="./hPSMC_result.txt"
 Ne=10000
 input=""
-GENERATION_TIME=25
+GENERATION_TIME=3 # updated for CRCT - NC
 
 ## Hard Coded ##
 STEP=10
@@ -70,10 +70,10 @@ original=parse_psmc(input)
 simtable=[]
 for sim in sys.stdin:
 	simtable.append(parse_psmc(sim[:-1]))
-print original[1]
-print simtable
+print(original[1])
+print(simtable)
 for sim in simtable:
-	print sim
+	print(sim)
 	i=0
 	less="F"
 	more="F"
@@ -84,7 +84,7 @@ for sim in simtable:
 			while j<64:
 				best=[0,0]
 				dist=float(original[2][j])-float(sim[2][i])
-				print dist
+				print(dist)
 				if dist<0:
 					dist=dist*-1
 				#print dist,min
@@ -95,13 +95,13 @@ for sim in simtable:
 				if float(original[2][j])<Ne*1.5:
 					break
 				j+=1
-			print min, best, float(sim[1][i]), float(sim[2][i])
+			print(min, best, float(sim[1][i]), float(sim[2][i]))
 			if best[0] <= float(sim[1][i]):
 				more="T"
 			if best[0] >= float(sim[1][i]):
 				less="T"
 		i+=1
-	print sim[0], less, more
+	print(sim[0], less, more)
 		
 
 	
