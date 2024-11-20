@@ -151,7 +151,7 @@ rule hpsmc_plot_multiple:
     benchmark:
         "results/benchmarks/hpsmc/hpsmc-plot/w_fk_boulder-x-all.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 40 "
         "-M w_fk_boulder---x---nanita,w_fk_boulder---x---steelman,w_fk_boulder---x---san_juan,w_fk_boulder---x---rio_grande,w_fk_boulder---x---como,w_fk_boulder---x---s_hayden,greenback---x---w_fk_boulder"
         "{output} {input} 2> {log}"
 
@@ -236,6 +236,6 @@ rule hpsmc_plot_sims:
     benchmark:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.bmk"
     shell:
-        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 40 "
         " -M greenback---x---s_hayden,0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
         " {output} {input} 2> {log} "
