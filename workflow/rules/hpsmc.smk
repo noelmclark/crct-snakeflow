@@ -215,15 +215,15 @@ rule hpsmc_plot_sims:
     input:
         "results/hpsmc/run-hpsmc/w_fk_boulder---x---steelman.psmc",
         "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_0.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_38888.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_77777.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_116666.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_155555.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_194444.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_33333.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_66666.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_100000.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_133333.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_166666.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_200000.ms_sim.psmc",
         "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_233333.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_272222.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_311111.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_350000.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_266666.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_300000.ms_sim.psmc",
     #params:
     #    get_comma_sep_hpsmc_names
     output:
@@ -237,5 +237,5 @@ rule hpsmc_plot_sims:
         "results/benchmarks/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman-plot.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 40 "
-        " -M w_fk_boulder---x---steelman,0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
+        " -M w_fk_boulder---x---steelman,0,33333,66666,100000,133333,166666,200000,233333,266666,300000 "
         " {output} {input} 2> {log} "
