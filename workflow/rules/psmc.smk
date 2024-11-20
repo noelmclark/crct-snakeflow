@@ -200,6 +200,24 @@ rule psmc_plot_by_subsamp:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -M {params.samps} {output} {input.psmc} 2> {log} "
 
 
+rule psmc_plot_by_subsamp_upper_bound:
+    input:
+        psmc=get_psmc_subsamps,
+    params:
+        samps=get_comma_sep_subsamp_names,
+    output:
+        "results/psmc/psmc-plot/{subsamp}-upper-bound/{subsamp}-upper-bound",
+    conda:
+        "../envs/psmc.yaml"
+    log:
+        "results/logs/psmc/psmc-plot/{subsamp}-upper-bound.log"
+    benchmark:
+        "results/benchmarks/psmc/psmc-plot/{subsamp}-upper-bound.bmk"
+    shell:
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 10 -M {params.samps} {output} {input.psmc} 2> {log} "
+
+
+
 ## rule to plot all PSMC outputs together! super messy so don't normally use
 # can also set min (-x) and max (-X) generations for mapping
 # -P sets the legend position based on gnuplot syntax: https://gnuplot.sourceforge.net/docs_4.2/node192.html 
