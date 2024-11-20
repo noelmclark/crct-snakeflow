@@ -37,8 +37,9 @@ rule test_k:
     input:
         "results/plink/bed/aut-snps-0.05-pruned.bed"
     output:
-        dir="results/admixture/test_k/CV_5/",
         pfx="aut-snps-0.05-pruned-{kclusters}"
+    params:
+        dir="results/admixture/test_k/CV_5/",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -49,8 +50,8 @@ rule test_k:
     benchmark:
         "results/benchmarks/admixture/test_k/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
-        " cd {output.dir} && "
-        " admixture --cv {input} {wildcards.kclusters} > {output}.out 2> {log} " 
+        " cd {params.dir} && "
+        " admixture --cv {input} {wildcards.kclusters} > {params.dir}{output.pfx}.out 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k:
