@@ -213,6 +213,7 @@ rule simulate_hpsmc_divergence:
 
 rule hpsmc_plot_sims:
     input:
+        "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
         "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_0.ms_sim.psmc",
         "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_38888.ms_sim.psmc",
         "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_77777.ms_sim.psmc",
@@ -236,5 +237,5 @@ rule hpsmc_plot_sims:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
-        " -M 0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
+        " -M greenback---x---s_hayden,0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
         " {output} {input} 2> {log} "
