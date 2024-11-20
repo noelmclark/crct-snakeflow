@@ -38,7 +38,7 @@ rule echo_k_outputs:
     output:
         "results/admixture/test_k/CV_5/aut-snps-0.05-pruned-{kclusters}.out"
     shell:
-        " echo \" \" > output"
+        " echo \" \" > {output} "
 
 
 rule test_k:
