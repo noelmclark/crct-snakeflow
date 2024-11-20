@@ -34,13 +34,7 @@
 # admixture is weird and will not let you redirect the Q and P outputs - they will be produced in the current WD
 # so we have to cd into where we want them to go. Also, the default for CV is 5 but can do up to 10
 
-rule echo_k_outputs:
-    output:
-        "results/admixture/test_k/CV_5/aut-snps-0.05-pruned-{kclusters}.out"
-    shell:
-        " echo \" \" > {output} "
-
-
+# right now I just run these locally in a compute node
 rule test_k:
     input:
         bed="results/plink/bed/aut-snps-0.05-pruned.bed",
