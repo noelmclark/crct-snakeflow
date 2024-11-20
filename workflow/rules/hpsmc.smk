@@ -210,3 +210,31 @@ rule simulate_hpsmc_divergence:
 # B) Identify the range of values for divergence time that intersect your hPSMC plot between 1.5 and 10 times 
 # pre-divergence Ne. These are your simulations consistent with data. Your diverence time estimate is the 
 # narrowest range of inconsistent simulations surrounding the consistent simulations.
+
+rule hpsmc_plot_sims:
+    input:
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_0.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_38888.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_77777.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_116666.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_155555.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_194444.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_233333.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_272222.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_311111.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_350000.ms_sim.psmc",
+    #params:
+    #    get_comma_sep_hpsmc_names
+    output:
+        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden",
+        #par="results/hpsmc/hpsmc-plot/w_fk_boulder-x-all.par"
+    conda:
+        "../envs/hpsmc.yaml"
+    log:
+        "results/logs/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.log"
+    benchmark:
+        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.bmk"
+    shell:
+        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
+        "-M 0,38888,77777,116666,155555,194444,233333,272222,311111,350000"
+        "{output} {input} 2> {log}"
