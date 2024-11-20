@@ -235,6 +235,6 @@ rule hpsmc_plot_sims:
     benchmark:
         "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.bmk"
     shell:
-        "psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
-        "-M 0,38888,77777,116666,155555,194444,233333,272222,311111,350000"
-        "{output} {input} 2> {log}"
+        " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" "
+        " -M 0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
+        " {output} {input} 2> {log} "
