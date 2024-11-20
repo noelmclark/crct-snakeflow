@@ -160,33 +160,33 @@ rule hpsmc_plot_multiple:
 ## 4. Run simulations of divergence without post-divergence migration to compare to the original hPSMC plot
 rule get_hpsmc_divergence_sh:
     input:
-        "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---steelman.psmc",
     output:
-        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_quantify_split_time.sh"
+        sh="results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_quantify_split_time.sh"
     params:
-        pfx="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_",
+        pfx="results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_",
     conda:
         "../envs/hpsmc-split.yaml"
     log:
-        "results/logs/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.log"
+        "results/logs/hpsmc/split-time-sim/w_fk_boulder---x---steelman_split_sim.log"
     benchmark:
-        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_sim.bmk"
+        "results/benchmarks/hpsmc/split-time-sim/w_fk_boulder---x---steelman_split_sim.bmk"
     shell:
-        " python workflow/scripts/hPSMC/quantify_split_time.py --Ne=30000 -l 0 -u 350000 -s 10 -p 10 "
+        " python workflow/scripts/hPSMC/quantify_split_time.py --Ne=50000 -l 0 -u 300000 -s 10 -p 10 "
         " -o {params.pfx} --hPSMC workflow/scripts/hPSMC/ {input} > {output.sh} 2> {log} "
 
 rule simulate_hpsmc_divergence:
     input:
-        sh="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_quantify_split_time.sh",
+        sh="results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_quantify_split_time.sh",
     output:
-        log="results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_split_result.log"
+        log="results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_split_result.log"
     resources:
         time="23:59:59",
         mem_mb=112200,
     conda:
         "../envs/hpsmc-split.yaml"
     benchmark:
-        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden_split_result.bmk"
+        "results/benchmarks/hpsmc/split-time-sim/w_fk_boulder---x---steelman_split_result.bmk"
     shell:
         " chmod +rwx {input.sh} && "
         " bash ./{input.sh} 2> {output.log} "
@@ -213,29 +213,29 @@ rule simulate_hpsmc_divergence:
 
 rule hpsmc_plot_sims:
     input:
-        "results/hpsmc/run-hpsmc/greenback---x---s_hayden.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_0.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_38888.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_77777.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_116666.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_155555.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_194444.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_233333.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_272222.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_311111.ms_sim.psmc",
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden_350000.ms_sim.psmc",
+        "results/hpsmc/run-hpsmc/w_fk_boulder---x---steelman.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_0.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_38888.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_77777.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_116666.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_155555.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_194444.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_233333.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_272222.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_311111.ms_sim.psmc",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_350000.ms_sim.psmc",
     #params:
     #    get_comma_sep_hpsmc_names
     output:
-        "results/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden",
+        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman",
         #par="results/hpsmc/hpsmc-plot/w_fk_boulder-x-all.par"
     conda:
         "../envs/hpsmc.yaml"
     log:
-        "results/logs/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.log"
+        "results/logs/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman-plot.log"
     benchmark:
-        "results/benchmarks/hpsmc/split-time-sim/greenback---x---s_hayden/greenback---x---s_hayden-plot.bmk"
+        "results/benchmarks/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman-plot.bmk"
     shell:
         " psmc_plot.pl -u 8.0e-09 -g 3 -P \"below\" -Y 40 "
-        " -M greenback---x---s_hayden,0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
+        " -M w_fk_boulder---x---steelman,0,38888,77777,116666,155555,194444,233333,272222,311111,350000 "
         " {output} {input} 2> {log} "
