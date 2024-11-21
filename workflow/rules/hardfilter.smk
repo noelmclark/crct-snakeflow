@@ -558,7 +558,7 @@ rule concat_bisnp_bcf_all_callable_sites:
         expand("results/hard_filtering/all_callable_sites/filter-bisnp/bisnps-{sgc}.bcf", sgc=sg_or_chrom)
     output:
         bcf="results/bcf/all_callable_sites/bisnps_all_callable_sites.bcf",
-        tbi="results/bcf/all_callable_sites/bisnps_all_callable_sites.csi"
+        tbi="results/bcf/all_callable_sites/bisnps_all_callable_sites.bcf.csi"
     log:
         "results/logs/hard_filtering/all_callable_sites/concat_bisnp_bcf/bisnps.log"
     benchmark:
