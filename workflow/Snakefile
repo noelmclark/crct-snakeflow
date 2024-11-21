@@ -11,9 +11,11 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman",
-        "results/psmc/psmc-plot/srm-upper-bound/srm-upper-bound",
-        #"results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman_split_result.log",
+        "results/bcf/aut-all.bcf",
+        "results/bcf/all_callable_sites/all_callable_sites.bcf",
+        "results/bcf/all_callable_sites/aut_bisnps_all_callable_sites.bcf",
+
+
         #"results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
         #expand("results/calling/corrected_missing_vcf_sect/all_sites/{sgc}.vcf.gz", sgc=sg_or_chrom),
         #"results/admixture/aut-snps-0.05-pruned-pca.10.Q"
@@ -39,6 +41,7 @@ rule all:
         #expand("results/hpsmc/haploidized_bam/{hp}_haploidized.fa", hp=hpsmcpops),
         #expand("results/hpsmc-test/psmcfa-from-2-fastas/{p1}---x---{p2}.psmcfa", p1=pop1, p2=pop2),
         #expand("results/plink/pca/aut-snps-{maf}-pca", maf=mafs),
+        
         #misc in progress outputs
         #expand("results/bcf/all.bcf"), #hardfiltering final outputs
         #expand("results/bcf/all.bcf.csi"), #hardfiltering final outputs
@@ -66,6 +69,7 @@ rule all:
         #expand("results/hpsmc/psmcfa-from-2-fastas/{p1}---x---{p2}.psmcfa", p1=pop1, p2=pop2),
         #expand("results/hpsmc/run-hpsmc/{p1}---x---{p2}.psmc", p1=pop1, p2=pop2),
         #expand("results/hpsmc/hpsmc-plot/{p1}---x---{p2}", p1=pop1, p2=pop2),
+        #"results/hpsmc/split-time-sim/w_fk_boulder---x---steelman/w_fk_boulder---x---steelman",
 
         #final outputs
         #expand("results/mapping/mkdup/mkdup-{s}.bam", s=sample_list), #mapping final output
