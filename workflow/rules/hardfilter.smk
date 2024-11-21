@@ -246,6 +246,24 @@ rule get_aut_bisnp_bcf:
         " (bcftools view -Ob -R {input.regions} {input.bcf} > {output.bcf}; "
         " bcftools index {output.bcf}) 2> {log} "
 
+# this next rule is related, and removes all SNPs within +/- 5bp of indels 
+rule filter_snps_near_indels:
+    input:
+        bcf="results/bcf/aut-bisnps.bcf",
+        tbi="results/bcf/aut-bisnps.bcf.csi"
+    output:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi"
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/hard_filtering/aut_bisnp_bcf/aut-bisnps-no5indel.log"
+    benchmark:
+        "results/benchmarks/hard_filtering/aut_bisnp_bcf/aut-bisnps-no5indel.bmk"
+    shell:
+        " (bcftools filter --SnpGap 5 {input.bcf} > {output.bcf}; "
+        " bcftools index {output.bcf}) 2> {log} "
+
 ###############################
 
 

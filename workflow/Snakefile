@@ -13,6 +13,7 @@ rule all:
     input:
         "results/bcf/all-filtered.bcf",
         "results/bcf/aut-bisnps.bcf",
+        "results/bcf/aut-bisnps-no5indel.bcf",
         "results/bcf/all_callable_sites/all_callable_sites.bcf",
         "results/bcf/all_callable_sites/aut_bisnps_all_callable_sites.bcf",
 
