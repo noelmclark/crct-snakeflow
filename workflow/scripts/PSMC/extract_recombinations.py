@@ -1,49 +1,68 @@
 ## This is a script I asked chat gpt to write to extract the n_sum information from the header of each of
 # the .psmc files in order to compare total recombinations for QC 
 
+# run the script with
+# python extract_recombinations.py <input_directory> <output_file>
+
 import os
+import re
+import argparse
 
-def parse_file(file_path):
-    # Initialize variables to store the extracted values
-    n_seqs = None
-    sum_L = None
-    sum_n = None
-
-    # Open the file and extract the required values
-    with open(file_path, 'r') as file:
-        for line in file:
-            if "n_seqs:" in line:
-                n_seqs = int(line.split("n_seqs:")[1].split(",")[0].strip())
-            if "sum_L:" in line:
-                sum_L = int(line.split("sum_L:")[1].split(",")[0].strip())
-            if "sum_n:" in line:
-                sum_n = int(line.split("sum_n:")[1].strip())
-            # Stop reading further once all values are found
-            if n_seqs is not None and sum_L is not None and sum_n is not None:
-                break
-
+def extract_values_from_file(file_path):
+    """
+    Extract values from a single file: n_seqs, sum_L, and sum_n.
+    """
+    with open(file_path, 'r') as f:
+        content = f.read()
+    
+    # Extract n_seqs, sum_L, and sum_n values using regular expressions
+    n_seqs = re.search(r'n_seqs:(\d+)', content)
+    sum_L = re.search(r'sum_L:(\d+)', content)
+    sum_n = re.search(r'sum_n:(\d+)', content)
+    
+    # Convert extracted values to integers or default to 0 if not found
+    n_seqs = int(n_seqs.group(1)) if n_seqs else 0
+    sum_L = int(sum_L.group(1)) if sum_L else 0
+    sum_n = int(sum_n.group(1)) if sum_n else 0
+    
     return n_seqs, sum_L, sum_n
 
-
-def process_files(input_dir, output_tsv):
-    # List all files in the input directory
-    files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
-
-    # Open the output TSV file for writing
-    with open(output_tsv, 'w') as out_file:
+def process_files(input_directory, output_file):
+    """
+    Process all files in the input directory and write results to a TSV file.
+    """
+    # Open the output file for writing
+    with open(output_file, 'w') as out_f:
         # Write the header
-        out_file.write("Filename\tN_Seqs\tSum_L\tSum_N\n")
+        out_f.write("Base_Name\tn_seqs\tsum_L\tsum_n\n")
+        
+        # Iterate over all files in the input directory
+        for filename in os.listdir(input_directory):
+            file_path = os.path.join(input_directory, filename)
+            
+            # Skip if it's not a file
+            if not os.path.isfile(file_path):
+                continue
+            
+            # Extract values from the current file
+            n_seqs, sum_L, sum_n = extract_values_from_file(file_path)
+            
+            # Write the results to the output file
+            base_name = os.path.splitext(filename)[0]
+            out_f.write(f"{base_name}\t{n_seqs}\t{sum_L}\t{sum_n}\n")
 
-        # Process each file
-        for file in files:
-            file_path = os.path.join(input_dir, file)
-            base_name = os.path.splitext(file)[0]  # Get the base filename
-            n_seqs, sum_L, sum_n = parse_file(file_path)
-            # Write the extracted values to the TSV file
-            out_file.write(f"{base_name}\t{n_seqs}\t{sum_L}\t{sum_n}\n")
+def main():
+    """
+    Main function to handle command-line arguments and execute the script.
+    """
+    parser = argparse.ArgumentParser(description="Extract and summarize data from files.")
+    parser.add_argument("input_directory", help="Path to the input directory containing files.")
+    parser.add_argument("output_file", help="Path to the output TSV file.")
+    
+    args = parser.parse_args()
+    
+    # Process the files using provided arguments
+    process_files(args.input_directory, args.output_file)
 
-
-# Example usage:
-input_directory = "path/to/your/input/directory"
-output_file = "output.tsv"
-process_files(input_directory, output_file)
+if __name__ == "__main__":
+    main()
