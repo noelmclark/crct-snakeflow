@@ -11,7 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/bcf/aut-all.bcf",
+        "results/bcf/all-filtered.bcf",
+        "results/bcf/aut-bisnps.bcf",
         "results/bcf/all_callable_sites/all_callable_sites.bcf",
         "results/bcf/all_callable_sites/aut_bisnps_all_callable_sites.bcf",
 
