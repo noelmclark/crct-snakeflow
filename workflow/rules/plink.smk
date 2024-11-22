@@ -70,6 +70,8 @@ rule make_plink_bed:
         bed="results/plink/bed/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=7480
     log:
         "results/logs/plink/bed/aut-bisnps-no5indel.log",
     benchmark:
@@ -97,6 +99,8 @@ rule make_plink_pca:
         pca="results/plink/pca/aut-bisnps-no5indel-pca",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=7480
     log:
         "results/logs/plink/pca/aut-bisnps-no5indel-pruned-pca.log",
     benchmark:
@@ -124,6 +128,8 @@ rule make_phylip:
         phylip="results/plink/phylip/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=7480
     log:
         "results/logs/plink/phylip/aut-bisnps-no5indel.log",
     benchmark:
