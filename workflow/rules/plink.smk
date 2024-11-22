@@ -43,6 +43,8 @@ rule filter_missingness:
         "results/plink/missingness/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=7480 
     log:
         "results/logs/plink/missingness/aut-bisnps-no5indel.log",
     benchmark:
