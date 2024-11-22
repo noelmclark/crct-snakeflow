@@ -62,9 +62,9 @@ rule filter_missingness:
 # that includes only sites that pass our 10% missingness filter 
 rule make_plink_bed:
     input:
-        bcf="results/bcf/aut-bisnps-no5indel.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
         acount="results/plink/allele-freq/aut-snps-0.05.acount",
+        popfile="config/plink-popfile.tsv",
     output:
         bed="results/plink/bed/aut-bisnps-no5indel",
     conda:
@@ -74,7 +74,7 @@ rule make_plink_bed:
     benchmark:
         "results/benchmarks/plink/bed/aut-bisnps-no5indel.bmk",
     shell:
-        " plink2 --bcf {input.bcf} "
+        " plink2 --pfile {input.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
