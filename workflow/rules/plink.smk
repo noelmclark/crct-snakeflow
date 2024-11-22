@@ -62,7 +62,7 @@ rule filter_missingness:
 # that includes only sites that pass our 10% missingness filter 
 rule make_plink_bed:
     input:
-        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
+        pfile="results/plink/missingness/aut-bisnps-no5indel",
         acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
         popfile="config/plink-popfile.tsv",
     output:
@@ -89,7 +89,7 @@ rule make_plink_bed:
 # the --geno 0.01 applies a 10% missingness threshold filter  
 rule make_plink_pca:
     input:
-        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
+        pfile="results/plink/missingness/aut-bisnps-no5indel",
         acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
     output:
         pca="results/plink/pca/aut-bisnps-no5indel-pca",
@@ -115,7 +115,7 @@ rule make_plink_pca:
 # need to double check file options and recommended filters in PLINK and IQTree
 rule make_phylip:
     input:
-        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
+        pfile="results/plink/missingness/aut-bisnps-no5indel",
         acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
     output:
         phylip="results/plink/phylip/aut-bisnps-no5indel",
