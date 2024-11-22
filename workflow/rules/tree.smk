@@ -26,7 +26,7 @@ rule find_model_iqtree:
 # is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree:
     input:
-        "results/plink/phylip/aut-bisnps-no5indel-tree.varsites.phy",
+        "results/tree/aut-bisnps-no5indel-tree.varsites.phy",
     output:
         prefix="results/tree/aut-bisnps-no5indel-tree",
     conda:
