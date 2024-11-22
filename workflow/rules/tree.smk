@@ -26,15 +26,15 @@ rule find_model_iqtree:
 # is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree:
     input:
-        "results/tree/aut-snps-{maf}-tree.varsites.phy",
+        "results/plink/phylip/aut-bisnps-no5indel.phy",
     output:
-        prefix="results/tree/aut-snps-{maf}-tree",
+        prefix="results/tree/aut-bisnps-no5indel-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/aut-snps-{maf}-tree.log",
+        "results/logs/tree/aut-bisnps-no5indel-tree.log",
     benchmark:
-        "results/benchmarks/tree/aut-snps-{maf}-tree.bmk",
+        "results/benchmarks/tree/aut-bisnps-no5indel-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,

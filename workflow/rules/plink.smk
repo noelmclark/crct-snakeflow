@@ -145,6 +145,33 @@ rule make_phylip:
         " --out {output.phylip} 2> {log} "
 
 
+## this rule breaks the original bcf input file into individuals using --indv
+# and produces a genotype count report that I can extract #het/#calls from
+# we don't filter on missingess here because we're doing it by individual 
+# eventually we will filter on individual level MACs
+rule make_gt_count:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+    output:
+        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel",
+    conda:
+        "../envs/plink.yaml"
+    resources:
+        mem_mb=11220
+    log:
+        "results/logs/plink/gt-count/{sample}-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/plink/gt-count/{sample}-aut-bisnps-no5indel.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --indv {wildcards.sample} "
+        " --geno-counts "
+        " --out {output.gcount} 2> {log} "
+
+
 
 ###############################################################################
 
