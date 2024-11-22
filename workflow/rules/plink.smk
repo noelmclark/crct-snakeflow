@@ -18,6 +18,8 @@ rule calc_allele_counts:
         acount="results/plink/allele-count/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
+    resources:
+        mem_mb=7480    
     log:
         "results/logs/plink/allele-count/aut-bisnps-no5indel.log",
     benchmark:
@@ -32,12 +34,13 @@ rule calc_allele_counts:
 
 
 ## this rule removes variants that don't pass a 10% missingness filter
+# and creates a new PLINK2 binary fileset (pgen) that can be used for downstream rules
 rule filter_missingness:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
     output:
-        acount="results/plink/missingness/aut-bisnps-no5indel",
+        "results/plink/missingness/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
     log:
@@ -49,7 +52,8 @@ rule filter_missingness:
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
-        " --out {output.acount} 2> {log} "
+        " --make-pgen "
+        " --out {output} 2> {log} "
 
 
 ## This rules generates a .bed, .bim, and .fam file (input needed for running ADMIXTURE) 
