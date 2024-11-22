@@ -31,9 +31,6 @@ rule calc_global_allele_freq:
 
 
 
-
-
-
 ## This rules generates a .bed, .bim, and .fam file (input needed for running ADMIXTURE) 
 # that includes only sites that pass our 10% missingness filter 
 rule make_plink_bed:
@@ -60,6 +57,8 @@ rule make_plink_bed:
         " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
+
+
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # and using a LD pruned variant set 
@@ -148,79 +147,6 @@ rule make_phylip:
         " --out {output.phylip} 2> {log} "
 
 
-
-### rule for subsamps ###
-## these rules run the population structure analyses from above but on our subsampled bcf files 
-# I set up a wildcard called bcfsubsamp which currently has two values (co-lineages, o-virginialis)
-# and right now I am just testing on the co-lineages bcf
-
-rule subsamp_allele_freq:
-    input:
-        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
-    output:
-        afreq="results/plink/allele-freq/co-lineages-aut-snps-0.05",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/allele-freq/co-lineages-aut-snps-0.05.log",
-    benchmark:
-        "results/benchmarks/plink/allele-freq/co-lineages-aut-snps-0.05.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --freq "
-        " --out {output.afreq} 2> {log} "
-
-# this rule creates a list of variants that pass the ld prune filter (20kb window, slide by 1kb, r^2 0.4)
-# and a --geno 0.1 missingness filter 
-# --bad-ld is needed to force plink to run ld pruning with less than 50 samples (we have 38 in this subset)
-rule subsamp_prune_ld:
-    input:
-        bcf="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf",
-        tbi="results/bcf/co-lineages-aut-bisnps-maf-0.05.bcf.csi",
-    output:
-        ld="results/plink/ld-prune/co-lineages-aut-snps-0.05",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/ld-prune/co-lineages-aut-snps-0.05-ld-pruned.log",
-    benchmark:
-        "results/benchmarks/plink/ld-prune/co-lineages-aut-snps-0.05-ld-pruned.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --geno 0.1 " 
-        " --indep-pairwise 20kb 0.4 "
-        " --bad-ld "
-        " --out {output.ld} 2> {log} "
-
-
-# this rule creates a list of variants that pass the ld prune filter (20kb window, slide by 1kb, r^2 0.4)
-# and a --geno 0.1 missingness filter 
-# --bad-ld is needed to force plink to run ld pruning with less than 50 samples (we have 48)
-rule prune_linkage_disequilibrium:
-    input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-    output:
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/ld-prune/aut-snps-{maf}-ld-pruned.log",
-    benchmark:
-        "results/benchmarks/plink/ld-prune/aut-snps-{maf}-ld-pruned.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --geno 0.1 " 
-        " --indep-pairwise 20kb 0.4 "
-        " --bad-ld "
-        " --out {output.ld} 2> {log} "
 
 ###############################################################################
 
