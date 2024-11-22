@@ -10,7 +10,7 @@
 
 # this rule generates a global allele freq file
 # that is necessary for running PCA with all samples 
-rule calc_allele_freq:
+rule calc_global_allele_freq:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
@@ -64,7 +64,7 @@ rule make_plink_bed:
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # and using a LD pruned variant set 
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
-rule make_plink_pruned_pca:
+rule make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
@@ -369,7 +369,7 @@ rule make_pw_fst_snp:
 ## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # need to double check file options and recommended filters in PLINK and IQTree
-rule make_phylip:
+rule make_pruned_phylip:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
         csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
@@ -474,7 +474,7 @@ rule calc_pop_allele_freq:
 
 ## This rules generates a PCA using Plink2.0 from our filtered BCF
 # the --geno 0.01 applies a 10% missingness threshold filter 
-rule make_plink_pca:
+rule old_make_plink_pca:
     input:
         bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
         tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
