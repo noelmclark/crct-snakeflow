@@ -89,36 +89,6 @@ rule make_plink_pca:
 
 
 
-## This rule calculate pairwise Fst values using the Weir & Cockerham (1984) method 
-# on our hard filtered BCF file with only biallelic snps that pass a MAF cutoff of 0.05
-# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
-rule make_pw_fst_snp:
-    input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
-    output:
-        fst="results/plink/pw-fst/aut-snps-{maf}-fst",
-    conda:
-        "../envs/plink.yaml"
-    log:
-        "results/logs/plink/pw-fst/aut-snps-{maf}-fst.log",
-    benchmark:
-        "results/benchmarks/plink/pw-fst/aut-snps-{maf}-fst.bmk",
-    shell:
-        " plink2 --bcf {input.bcf} "
-        " --set-missing-var-ids @:#[b37]\$r,\$a "
-        " --allow-extra-chr "
-        " --const-fid 0 "
-        " --geno 0.1 "
-        " --extract {input.ld}"
-        " --within {input.popfile} population"
-        " --fst population method=wc "
-        " --out {output.fst} 2> {log} "
-
-
-
 ## This rule generates a Phylip file from the filtered BCF which is used as input for the IQ Tree and splits-tree programs
 # the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
 # need to double check file options and recommended filters in PLINK and IQTree
