@@ -32,7 +32,24 @@ rule calc_allele_counts:
 
 
 ## this rule removes variants that don't pass a 10% missingness filter
-
+rule filter_missingness:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+    output:
+        acount="results/plink/missingness/aut-bisnps-no5indel",
+    conda:
+        "../envs/plink.yaml"
+    log:
+        "results/logs/plink/missingness/aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/plink/missingness/aut-bisnps-no5indel.bmk",
+    shell:
+        " plink2 --bcf {input.bcf} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --geno 0.1 "
+        " --out {output.acount} 2> {log} "
 
 
 ## This rules generates a .bed, .bim, and .fam file (input needed for running ADMIXTURE) 
