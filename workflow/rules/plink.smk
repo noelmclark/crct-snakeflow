@@ -63,7 +63,7 @@ rule filter_missingness:
 rule make_plink_bed:
     input:
         pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
-        acount="results/plink/allele-count/aut-snps-0.05.acount",
+        acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
         popfile="config/plink-popfile.tsv",
     output:
         bed="results/plink/bed/aut-bisnps-no5indel",
@@ -89,9 +89,8 @@ rule make_plink_bed:
 # the --geno 0.01 applies a 10% missingness threshold filter  
 rule make_plink_pca:
     input:
-        bcf="results/bcf/aut-bisnps-no5indel.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        acount="results/plink/allele-count/aut-snps-0.05.acount",
+        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
+        acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
     output:
         pca="results/plink/pca/aut-bisnps-no5indel-pca",
     conda:
@@ -101,7 +100,7 @@ rule make_plink_pca:
     benchmark:
         "results/benchmarks/plink/pca/aut-bisnps-no5indel-pruned-pca.bmk",
     shell:
-        " plink2 --bcf {input.bcf} "
+        " plink2 --pfile {input.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
@@ -116,9 +115,8 @@ rule make_plink_pca:
 # need to double check file options and recommended filters in PLINK and IQTree
 rule make_phylip:
     input:
-        bcf="results/bcf/aut-bisnps-no5indel.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        acount="results/plink/allele-count/aut-snps-0.05.acount",
+        pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
+        acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
     output:
         phylip="results/plink/phylip/aut-bisnps-no5indel",
     conda:
@@ -128,7 +126,7 @@ rule make_phylip:
     benchmark:
         "results/benchmarks/plink/phylip/aut-bisnps-no5indel.bmk",
     shell:
-        " plink2 --bcf {input.bcf} "
+        " plink2 --pfile {input.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
