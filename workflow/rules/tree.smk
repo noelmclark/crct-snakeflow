@@ -26,7 +26,7 @@ rule find_model_iqtree:
 # is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree:
     input:
-        "results/plink/phylip/aut-bisnps-no5indel.phy",
+        "results/plink/phylip/aut-bisnps-no5indel-tree.varsites.phy",
     output:
         prefix="results/tree/aut-bisnps-no5indel-tree",
     conda:
@@ -40,5 +40,5 @@ rule make_iqtree:
         cpus=4,
         time="23:59:59"
     shell:
-        " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC "
+        " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC -nt AUTO "
         " --prefix {output.prefix} 2> {log} "
