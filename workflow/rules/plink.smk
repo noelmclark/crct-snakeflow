@@ -63,7 +63,7 @@ rule filter_missingness:
 rule make_plink_bed:
     input:
         pfile="results/plink/missingness/aut-bisnps-no5indel.pgen",
-        acount="results/plink/allele-freq/aut-snps-0.05.acount",
+        acount="results/plink/allele-count/aut-snps-0.05.acount",
         popfile="config/plink-popfile.tsv",
     output:
         bed="results/plink/bed/aut-bisnps-no5indel",
@@ -91,7 +91,7 @@ rule make_plink_pca:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        acount="results/plink/allele-freq/aut-snps-0.05.acount",
+        acount="results/plink/allele-count/aut-snps-0.05.acount",
     output:
         pca="results/plink/pca/aut-bisnps-no5indel-pca",
     conda:
@@ -118,7 +118,7 @@ rule make_phylip:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        acount="results/plink/allele-freq/aut-snps-0.05.acount",
+        acount="results/plink/allele-count/aut-snps-0.05.acount",
     output:
         phylip="results/plink/phylip/aut-bisnps-no5indel",
     conda:
