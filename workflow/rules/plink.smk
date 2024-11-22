@@ -10,24 +10,28 @@
 
 # this rule generates a global allele freq file
 # that is necessary for running PCA with all samples 
-rule calc_global_allele_freq:
+rule calc_allele_counts:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
     output:
-        afreq="results/plink/allele-freq/aut-bisnps-no5indel",
+        acount="results/plink/allele-count/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/allele-freq/aut-bisnps-no5indel.log",
+        "results/logs/plink/allele-count/aut-bisnps-no5indel.log",
     benchmark:
-        "results/benchmarks/plink/allele-freq/aut-bisnps-no5indel.bmk",
+        "results/benchmarks/plink/allele-count/aut-bisnps-no5indel.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --freq "
-        " --out {output.afreq} 2> {log} "
+        " --freq counts "
+        " --out {output.acount} 2> {log} "
+
+
+
+## this rule removes variants that don't pass a 10% missingness filter
 
 
 
@@ -35,55 +39,50 @@ rule calc_global_allele_freq:
 # that includes only sites that pass our 10% missingness filter 
 rule make_plink_bed:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        acount="results/plink/allele-freq/aut-snps-0.05.acount",
     output:
-        bed="results/plink/bed/aut-snps-{maf}-pruned",
+        bed="results/plink/bed/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/bed/aut-snps-{maf}-pruned.log",
+        "results/logs/plink/bed/aut-bisnps-no5indel.log",
     benchmark:
-        "results/benchmarks/plink/bed/aut-snps-{maf}-pruned.bmk",
+        "results/benchmarks/plink/bed/aut-bisnps-no5indel.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --extract {input.ld} "
         " --geno 0.1 "
-        " --read-freq {input.afreq} "
+        " --read-freq {input.acount} "
         " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
 
 
 
-## This rules generates a PCA using Plink2.0 from our filtered BCF
-# and using a LD pruned variant set 
-# the --geno 0.01 applies a 10% missingness threshold filter that should be redundant when using the new purned sites 
+## This rules generates a PCA from our filtered BCF
+# the --geno 0.01 applies a 10% missingness threshold filter  
 rule make_plink_pca:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf",
-        tbi="results/bcf/autosomal-biallelic-snps-maf-{maf}.bcf.csi",
-        afreq="results/plink/allele-freq/aut-snps-0.05.afreq",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        acount="results/plink/allele-freq/aut-snps-0.05.acount",
     output:
-        pca="results/plink/pca/aut-snps-{maf}-pruned-pca",
+        pca="results/plink/pca/aut-bisnps-no5indel-pca",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/pca/aut-snps-{maf}-pruned-pca.log",
+        "results/logs/plink/pca/aut-bisnps-no5indel-pruned-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/aut-snps-{maf}-pruned-pca.bmk",
+        "results/benchmarks/plink/pca/aut-bisnps-no5indel-pruned-pca.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --extract {input.ld} "
         " --geno 0.1 "
-        " --read-freq {input.afreq} "
+        " --read-freq {input.acount} "
         " --pca "
         " --out {output.pca} 2> {log} "
 
@@ -94,24 +93,23 @@ rule make_plink_pca:
 # need to double check file options and recommended filters in PLINK and IQTree
 rule make_phylip:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
-        popfile="config/plink-popfile.tsv",
-        ld="results/plink/ld-prune/aut-snps-{maf}-ld-pruned.prune.in"
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        acount="results/plink/allele-freq/aut-snps-0.05.acount",
     output:
-        phylip="results/plink/phylip/aut-snps-{maf}",
+        phylip="results/plink/phylip/aut-bisnps-no5indel",
     conda:
         "../envs/plink.yaml"
     log:
-        "results/logs/plink/phylip/aut-snps-{maf}.log",
+        "results/logs/plink/phylip/aut-bisnps-no5indel.log",
     benchmark:
-        "results/benchmarks/plink/phylip/aut-snps-{maf}.bmk",
+        "results/benchmarks/plink/phylip/aut-bisnps-no5indel.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --geno 0.1 "
-        " --extract {input.ld} "
+        " --read-freq {input.acount} "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "

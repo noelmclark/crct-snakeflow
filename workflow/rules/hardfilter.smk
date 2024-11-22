@@ -261,7 +261,7 @@ rule filter_snps_near_indels:
     benchmark:
         "results/benchmarks/hard_filtering/aut_bisnp_bcf/aut-bisnps-no5indel.bmk"
     shell:
-        " (bcftools filter --SnpGap 5 {input.bcf} > {output.bcf}; "
+        " (bcftools filter -Ob --SnpGap 5 {input.bcf} > {output.bcf}; "
         " bcftools index {output.bcf}) 2> {log} "
 
 ###############################
