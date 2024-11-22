@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/allele-count/aut-snps-0.05",
+        "results/plink/allele-count/aut-bisnps-no5indel",
         #"results/plink/bed/aut-bisnps-no5indel",
 
         #"results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
