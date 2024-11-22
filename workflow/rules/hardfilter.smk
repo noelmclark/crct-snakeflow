@@ -43,6 +43,7 @@ rule make_indel_vcf:
 
 # filter the snps and indels according to the recommendations at:
 # https://gatk.broadinstitute.org/hc/en-us/articles/360035531112--How-to-Filter-variants-either-with-VQSR-or-by-hard-filtering#2
+# https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants
 rule hard_filter_snps:
     input:
         vcf="results/hard_filtering/select-variants/snps-{sg_or_chrom}.vcf.gz",
