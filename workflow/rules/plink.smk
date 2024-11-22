@@ -100,7 +100,7 @@ rule make_plink_pca:
     conda:
         "../envs/plink.yaml"
     resources:
-        mem_mb=7480
+        mem_mb=11220
     log:
         "results/logs/plink/pca/aut-bisnps-no5indel-pruned-pca.log",
     benchmark:
@@ -129,7 +129,7 @@ rule make_phylip:
     conda:
         "../envs/plink.yaml"
     resources:
-        mem_mb=7480
+        mem_mb=11220
     log:
         "results/logs/plink/phylip/aut-bisnps-no5indel.log",
     benchmark:
