@@ -69,6 +69,59 @@ rule combine_het_perc:
         done
         """
 
+##################################
+
+
+## another way to get het from plink gt counts using awk
+rule get_het_from_gt_count:
+    input:
+        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel.txt",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/{sample}-aut-bisnps-no5indel.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/{sample}-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/{sample}-aut-bisnps-no5indel.bmk",
+    shell:
+        " awk 'BEGIN {FS=/"\t/"; OFS=/"\t/"; sum=0; count=0} NR>1 && "
+        " $10 == 0 {sum+=$6; count++} END "
+        " {if (count > 0) print /"Sum of HET_REF_ALT_CTS:/", sum; "
+        " print /"Total variants:/", count; "
+        " print /"Average HET_REF_ALT_CTS:/", (count ? sum/count : 0)}' "
+        " {input.gcount} 2> {log} "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

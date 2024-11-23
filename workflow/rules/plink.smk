@@ -171,23 +171,6 @@ rule make_gt_count:
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
-rule get_het_from_gt_count:
-    input:
-        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel.txt",
-    output:
-        "results/plink/het/{sample}-aut-bisnps-no5indel.txt",
-    log:
-        "results/logs/plink/het/{sample}-aut-bisnps-no5indel.log",
-    benchmark:
-        "results/benchmarks/plink/het/{sample}-aut-bisnps-no5indel.bmk",
-    shell:
-        " awk 'BEGIN {FS=/"\t/"; OFS=/"\t/"; sum=0; count=0} NR>1 && "
-        " $10 == 0 {sum+=$6; count++} END "
-        " {if (count > 0) print /"Sum of HET_REF_ALT_CTS:/", sum; "
-        " print /"Total variants:/", count; "
-        " print /"Average HET_REF_ALT_CTS:/", (count ? sum/count : 0)}' "
-        " {input.gcount} 2> {log} "
-
 
 
 ###############################################################################
