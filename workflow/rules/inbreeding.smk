@@ -84,11 +84,11 @@ rule get_het_from_gt_count:
         "results/benchmarks/inbreeding/het/from-plink-gt-counts/{sample}-aut-bisnps-no5indel.bmk",
     shell:
         """
-        awk 'BEGIN {FS="\t"; OFS="\t"; sum=0; count=0} NR>1 && 
-        $10 == 0 {sum+=$6; count++} END 
-        {if (count > 0) print /"Sum of HET_REF_ALT_CTS:/", sum; 
-        print /"Total variants:/", count; 
-        print /"Average HET_REF_ALT_CTS:/", (count ? sum/count : 0)}' 
+        awk 'BEGIN {{FS="\t"; OFS="\t"; sum=0; count=0}} NR>1 && 
+        $10 == 0 {{sum+=$6; count++}} END 
+        {{if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+        print "Total variants:", count; 
+        print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)}}' 
         {input.gcount} > {output} 2> {log} 
         """
 
