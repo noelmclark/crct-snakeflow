@@ -75,7 +75,7 @@ rule combine_het_perc:
 ## another way to get het from plink gt counts using awk
 rule get_het_from_gt_count:
     input:
-        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel.txt",
+        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel.gcount",
     output:
         "results/inbreeding/het/from-plink-gt-counts/{sample}-aut-bisnps-no5indel.txt",
     log:
