@@ -106,7 +106,7 @@ rule combine_hets_from_gt_count:
     benchmark:
         "results/benchmarks/inbreeding/het/aut-bisnps-no5indel.bmk",
     shell:
-        " python scripts/plink/het_from_gt_counts.py {input.dir} {output} "
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 
 
