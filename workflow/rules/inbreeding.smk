@@ -94,7 +94,7 @@ rule get_het_from_gt_count:
         """
 
 ## this rule takes the outputs from above and combines them into a tsv
-rule get_het_from_gt_count:
+rule combine_hets_from_gt_count:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/",
     output:
