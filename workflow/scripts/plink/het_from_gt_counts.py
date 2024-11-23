@@ -1,40 +1,56 @@
 # thank you chat gpt
-# run with: python process_variants.py <input_file>
-import pandas as pd
+# run with python het_from_gt_counts.py <input_directory> <output_file>
+import os
+import glob
 import sys
 
-def main():
-    # Check for command-line arguments
-    if len(sys.argv) != 2:
-        print("Usage: python process_variants.py <input_file>")
-        sys.exit(1)
+def process_files(input_dir, output_file):
+    # Initialize a list to hold the parsed data
+    data = []
 
-    # Get the input file path from the command-line argument
-    input_file = sys.argv[1]
+    # Iterate over all input files in the directory
+    for file_path in glob.glob(os.path.join(input_dir, "*.txt")):
+        # Extract the sample name from the file name
+        full_name = os.path.splitext(os.path.basename(file_path))[0]
+        sample_name = full_name.split("-")[0]  # Take only the first part before the first '-'
 
-    try:
-        # Read the file into a DataFrame
-        df = pd.read_csv(input_file, sep="\t", comment='#')
+        # Initialize values
+        sum_het_ref_alt = total_variants = average_het_ref_alt = None
 
-        # Filter rows where MISSING_CT is greater than 0
-        filtered_df = df[df['MISSING_CT'] == 0]
+        # Read the file line by line
+        with open(file_path, "r") as f:
+            for line in f:
+                if line.startswith("Sum of HET_REF_ALT_CTS:"):
+                    sum_het_ref_alt = line.split(":")[1].strip()
+                elif line.startswith("Total variants:"):
+                    total_variants = line.split(":")[1].strip()
+                elif line.startswith("Average HET_REF_ALT_CTS:"):
+                    average_het_ref_alt = line.split(":")[1].strip()
 
-        # Sum the HET_REF_ALT_CTS column
-        het_ref_alt_sum = filtered_df['HET_REF_ALT_CTS'].sum()
+        # Append the extracted values to the data list
+        if sum_het_ref_alt is not None and total_variants is not None and average_het_ref_alt is not None:
+            data.append([sample_name, sum_het_ref_alt, total_variants, average_het_ref_alt])
 
-        # Count the total number of remaining rows
-        total_variants = len(filtered_df)
+    # Write the output to a TSV file
+    with open(output_file, "w") as out:
+        # Write the header with the updated column names
+        out.write("sample\tsum_het\ttotal_var\tavg_het\n")
 
-        # Calculate the average
-        average_het_ref_alt = het_ref_alt_sum / total_variants if total_variants > 0 else 0
+        # Write the data rows
+        for row in data:
+            out.write("\t".join(row) + "\n")
 
-        # Print the results
-        print(f"Sum of HET_REF_ALT_CTS: {het_ref_alt_sum}")
-        print(f"Total variants: {total_variants}")
-        print(f"Average HET_REF_ALT_CTS: {average_het_ref_alt}")
-    except Exception as e:
-        print(f"Error processing file: {e}")
-        sys.exit(1)
+    print(f"Summary file created: {output_file}")
 
 if __name__ == "__main__":
-    main()
+    # Check for correct number of arguments
+    if len(sys.argv) != 3:
+        print("Usage: python het_from_gt_counts.py <input_directory> <output_file>")
+        sys.exit(1)
+
+    # Get the input directory and output file from command-line arguments
+    input_dir = sys.argv[1]
+    output_file = sys.argv[2]
+
+    # Run the processing function
+    process_files(input_dir, output_file)

@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/inbreeding/het/from-plink-gt-counts/{s}-aut-bisnps-no5indel.txt", s=sample_list)
+        "results/inbreeding/het/aut-bisnps-no5indel.tsv"
         #"results/tree/aut-bisnps-no5indel-tree",
         #expand("results/plink/gt-count/{s}-aut-bisnps-no5indel", s=sample_list),
         #expand("aut-bisnps-no5indel-{kclusters}.out, kclusters=kclusters"),

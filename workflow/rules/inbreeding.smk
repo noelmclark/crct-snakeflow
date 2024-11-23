@@ -93,6 +93,21 @@ rule get_het_from_gt_count:
          }}' {input.gcount} > {output} 2> {log}
         """
 
+## this rule takes the outputs from above and combines them into a tsv
+rule get_het_from_gt_count:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/",
+    output:
+        "results/inbreeding/het/aut-bisnps-no5indel.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/aut-bisnps-no5indel.bmk",
+    shell:
+        " python het_from_gt_counts.py {input.dir} {output} "
+
 
 
 
