@@ -13,7 +13,7 @@ rule fix_admixture_chroms:
         "results/logs/admixture/aut-bisnps-no5indel-fix-chrom.bmk"
     shell:
         " ( mv {input} {input}.tmp && "
-        " awk '{{$1=/"0/";print /$0}}' {input}.tmp > {output.pfx}.bim && "
+        " awk '{{/$1=/"0/";print /$0}}' {input}.tmp > {output.pfx}.bim && "
         " rm {input}.tmp && "
         " echo /"admixture chroms fixed/" > {output.flag}) 2> {log} "
 
