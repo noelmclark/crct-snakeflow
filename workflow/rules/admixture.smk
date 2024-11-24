@@ -48,8 +48,8 @@ rule test_k:
     benchmark:
         "results/benchmarks/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
-        " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {output.pfx} 2> {log} " 
+        " ( mkdir {params.dir} && cd {params.dir} && "
+        " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {output.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k:
