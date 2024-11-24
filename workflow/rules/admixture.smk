@@ -29,22 +29,22 @@ rule fix_admixture_chroms:
 # input.flag makes sure the previous rule is run before trying this
 # empty is so I can ask for the next rule and it knows to run this one first
 
-rule make_admix_CV5_dir:
-    output:
-        dir="results/admixture/CV_5/"
-    log:
-        "results/logs/admixture/make_admix_CV5_dir.log"
-    shell:
-        " mkdir {output.dir} 2> {log} "
+#rule make_admix_CV5_dir:
+#    output:
+#        dir="results/admixture/CV_5/"
+#    log:
+#        "results/logs/admixture/make_admix_CV5_dir.log"
+#    shell:
+#        " mkdir {output.dir} 2> {log} "
 
 rule test_k:
     input:
         bed="results/plink/bed/aut-bisnps-no5indel.bed",
         flag="results/plink/bed/fix-chrom-flag.txt",
-        dir="results/admixture/CV_5/",
     output:
         empty="results/admixture/CV_5/aut-bisnps-no5indel-{kclusters}.out",
     params:
+        dir="results/admixture/CV_5/",
         pfx="aut-bisnps-no5indel-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
@@ -57,7 +57,8 @@ rule test_k:
     benchmark:
         "results/benchmarks/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
-        " ( cd {input.dir} && "
+        " ( echo /" /" > {output.empty} && "
+        " cd {params.dir} && "
         " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
