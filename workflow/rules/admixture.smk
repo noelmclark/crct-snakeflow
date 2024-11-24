@@ -12,10 +12,13 @@ rule fix_admixture_chroms:
     benchmark:
         "results/logs/admixture/aut-bisnps-no5indel-fix-chrom.bmk"
     shell:
-        " ( mv {input} {input}.tmp && "
-        " awk '{{/$1=/"0/";print /$0}}' {input}.tmp > {output.pfx}.bim && "
-        " rm {input}.tmp && "
-        " echo /"admixture chroms fixed/" > {output.flag}) 2> {log} "
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {output.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
 
 
 ## runs through each of the selected k options
