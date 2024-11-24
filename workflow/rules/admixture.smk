@@ -57,7 +57,7 @@ rule test_k:
     benchmark:
         "results/benchmarks/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
-        " ( echo /" /" > {output.empty} && "
+        " ( > {output.empty} && "
         " cd {params.dir} && "
         " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {params.pfx} ) 2> {log} " 
 
