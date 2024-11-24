@@ -33,10 +33,10 @@ rule test_k:
         bed="results/plink/bed/aut-bisnps-no5indel.bed",
         flag="results/plink/bed/fix-chrom-flag.txt"
     output:
-        pfx="aut-bisnps-no5indel-{kclusters}.out",
         empty="results/admixture/CV_5/aut-bisnps-no5indel-{kclusters}.out"
     params:
         dir="results/admixture/CV_5/",
+        pfx="aut-bisnps-no5indel-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -49,7 +49,7 @@ rule test_k:
         "results/benchmarks/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.bmk"
     shell:
         " ( mkdir {params.dir} && cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {output.pfx} ) 2> {log} " 
+        " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k:
