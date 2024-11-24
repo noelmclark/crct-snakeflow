@@ -3,10 +3,11 @@
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
 rule fix_admixture_chroms:
     input:
-        "results/plink/bed/aut-bisnps-no5indel.bim"
+        "results/plink/bed/aut-bisnps-no5indel.bim",
     output:
-        pfx="results/plink/bed/aut-bisnps-no5indel",
-        flag="results/plink/bed/fix-chrom-flag.txt"
+        flag="results/plink/bed/fix-chrom-flag.txt",
+    params:
+        pfx="results/plink/bed/aut-bisnps-no5indel"
     log:
         "results/logs/admixture/aut-bisnps-no5indel-fix-chrom.log"
     benchmark:
@@ -14,7 +15,7 @@ rule fix_admixture_chroms:
     shell:
         """
         ( mv {input} {input}.tmp && 
-        awk '{{$1="0";print $0}}' {input}.tmp > {output.pfx}.bim && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
         rm {input}.tmp && 
         echo "admixture chroms fixed" > {output.flag} 
         ) 2> {log} 
