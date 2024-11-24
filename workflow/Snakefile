@@ -11,11 +11,11 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/inbreeding/het/aut-bisnps-no5indel.tsv"
+        expand("results/admixture/CV_5/aut-bisnps-no5indel-{k}.out", k=kclusters),
+
+        #"results/inbreeding/het/aut-bisnps-no5indel.tsv"
         #"results/tree/aut-bisnps-no5indel-tree",
         #expand("results/plink/gt-count/{s}-aut-bisnps-no5indel", s=sample_list),
-        #expand("aut-bisnps-no5indel-{kclusters}.out, kclusters=kclusters"),
-        
         #"results/plink/pca/aut-bisnps-no5indel-pca",
         #"results/plink/phylip/aut-bisnps-no5indel",
 
