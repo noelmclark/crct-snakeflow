@@ -22,21 +22,11 @@ rule fix_admixture_chroms:
         """
 
 
-## runs through each of the selected k options
+## runs through each of the selected k options -- super contrived
 # admixture is weird and will not let you redirect the Q and P outputs - they will be produced in the current WD
 # so we have to cd into where we want them to go. Also, the default for CV is 5 but can do up to 10
-# I might have to reroute to the input file in the shell code after cd-ing into the output dir, we'll see
 # input.flag makes sure the previous rule is run before trying this
-# empty is so I can ask for the next rule and it knows to run this one first
-
-#rule make_admix_CV5_dir:
-#    output:
-#        dir="results/admixture/CV_5/"
-#    log:
-#        "results/logs/admixture/make_admix_CV5_dir.log"
-#    shell:
-#        " mkdir {output.dir} 2> {log} "
-
+# empty is so the directory gets made before we cd into it, and so the next rule knows to run this one first
 rule test_k:
     input:
         bed="results/plink/bed/aut-bisnps-no5indel.bed",
@@ -49,9 +39,9 @@ rule test_k:
     conda:
         "../envs/admixture.yaml"
     resources:
-        mem_mb=11220,
+        mem_mb=112200,
         cpus=2,
-        time="12:00:00"
+        time="06:00:00"
     log:
         "results/logs/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.log"
     benchmark:
