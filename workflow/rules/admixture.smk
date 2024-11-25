@@ -40,8 +40,9 @@ rule test_k:
         "../envs/admixture.yaml"
     resources:
         mem_mb=112200,
-        cpus=2,
-        time="06:00:00"
+        time="23:59:59"
+    threads:
+        4
     log:
         "results/logs/admixture/CV_5/aut-snps-0.05-pruned-{kclusters}.log"
     benchmark:
@@ -49,7 +50,7 @@ rule test_k:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} > {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k:
