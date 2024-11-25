@@ -66,16 +66,23 @@ rule get_best_k:
         " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
 ## Rule to use Jonah Meier's admxiture plotting r script (https://github.com/speciationgenomics/scripts/blob/master/plotADMIXTURE.r)
-# -l specifies a comma-separated list of populations/species in the order to be plotted
-#rule plot_admixture:
-#    input:
-#        pfx="results/admixture/aut-snps-0.05-pruned-"
-#        list="admixture-info.tsv"
-#    output:
-#        "results/admixture/rplot/aut-snps-0.05-pruned"
-#    envmodules: 
-#        "R/4.2.2"
-#    log:
-#    benchmark:
-#    shell:
-#        " /scripts/admixture/plotADMIXTURE.r -p {input.pfx} -i {input.list} -k 24 -m 6 -l ?? -o {output}"
+# currently works but not very pretty
+# -i gives the info file that connects the sample names to pop/spp in the same order as admixture processed them
+# -l specifies a comma-separated list of populations/species in the order you want them to be plotted
+rule plot_admixture:
+    input:
+        pfx="results/admixture/CV_5/aut-bisnps-no5indel-"
+        list="config/admixture-info.tsv"
+    output:
+        "results/admixture/rplot/aut-bisnps-no5indel"
+    envmodules: 
+        "R/4.2.2"
+    log:
+        "results/logs/admixture/rplot/aut-bisnps-no5indel.log"
+    benchmark:
+        "results/benchmarks/admixture/rplot/aut-bisnps-no5indel.bmk"
+    shell:
+        " Rscript workflow/scripts/admixture/plotADMIXTURE.r -p {input.pfx} "
+        " -i {input.list} -k 3 -m 2 "
+        " -l navajo,williamson,nanita,w_fk_boulder,dry_gulch,e_fk_piedra,steelman,abrams,roan,hunter,kelso,s_twin,w_antelope,severy,como,s_hayden,greenback,rio_grande,san_juan,bonneville,yellowstone,lahontan,coastal,westslope "
+        " -o {output} 2> {log} "
