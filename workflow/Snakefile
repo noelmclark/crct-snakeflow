@@ -11,15 +11,15 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/inbreeding/het/from-plink-gt-counts/MAC1/{s}-aut-bisnps-no5indel-MAC1.txt", s=sample_list),
-        expand("results/inbreeding/het/from-plink-gt-counts/MAC3/{s}-aut-bisnps-no5indel-MAC3.txt", s=sample_list),
-        expand("results/inbreeding/het/from-plink-gt-counts/MAC5/{s}-aut-bisnps-no5indel-MAC5.txt", s=sample_list),
+        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.tsv",
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.tsv",
+        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.tsv",
         "results/tree/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-tree",
         "results/tree/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-tree",
         "results/tree/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-tree",
-        #"results/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.tsv",
-        #"results/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.tsv",
-        #"results/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.tsv",
+        #expand("results/inbreeding/het/from-plink-gt-counts/MAC1/{s}-aut-bisnps-no5indel-MAC1.txt", s=sample_list),
+        #expand("results/inbreeding/het/from-plink-gt-counts/MAC3/{s}-aut-bisnps-no5indel-MAC3.txt", s=sample_list),
+        #expand("results/inbreeding/het/from-plink-gt-counts/MAC5/{s}-aut-bisnps-no5indel-MAC5.txt", s=sample_list),
 
 
         #mac>5 filter
