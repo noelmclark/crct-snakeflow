@@ -11,11 +11,16 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
-        "results/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca",
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
-        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-MAC3", s=sample_list)
+        "results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
+        "results/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca",
+        "results/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
+        expand("results/plink/gt-count/MAC5/{s}-aut-bisnps-no5indel-MAC5", s=sample_list)
 
+        #mac>3 filter
+        #"results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
+        #"results/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca",
+        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
+        #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-MAC3", s=sample_list)
         
         #new - no MAC filters
         #expand("results/admixture/CV_5/aut-bisnps-no5indel-{k}.out", k=kclusters),

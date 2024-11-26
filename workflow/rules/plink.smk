@@ -68,15 +68,15 @@ rule make_plink_bed:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel",
     output:
-        bed="results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
+        bed="results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=7480
     log:
-        "results/logs/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.log",
+        "results/logs/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.bmk",
+        "results/benchmarks/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -84,7 +84,7 @@ rule make_plink_bed:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 4 "
+        " --mac 6 "
         " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
@@ -100,15 +100,15 @@ rule make_plink_pca:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel",
     output:
-        pca="results/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca",
+        pca="results/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca.log",
+        "results/logs/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca.bmk",
+        "results/benchmarks/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -116,7 +116,7 @@ rule make_plink_pca:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 4 "
+        " --mac 6 "
         " --pca "
         " --out {output.pca} 2> {log} "
 
@@ -132,15 +132,15 @@ rule make_phylip:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel",
     output:
-        phylip="results/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
+        phylip="results/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.log",
+        "results/logs/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.bmk",
+        "results/benchmarks/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -148,7 +148,7 @@ rule make_phylip:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 4 "
+        " --mac 6 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
@@ -164,22 +164,22 @@ rule make_gt_count:
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
         acount="results/plink/allele-count/aut-bisnps-no5indel.acount",
     output:
-        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-MAC3",
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-MAC3.log",
+        "results/logs/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-MAC3.bmk",
+        "results/benchmarks/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-MAC5.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indv {wildcards.sample} "
         " --read-freq {input.acount} "
-        " --mac 4 "
+        " --mac 6 "
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
