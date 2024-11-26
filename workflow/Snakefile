@@ -11,17 +11,22 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/admixture/CV_5/aut-bisnps-no5indel-{k}.out", k=kclusters),
+        "results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1",
+        "results/plink/pca/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-pca",
+        "results/plink/phylip/MAC1/aut-bisnps-no5indel-nooutlier-MAC1",
+        expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-MAC1", s=sample_list)
 
+        
+        #new - no MAC filters
+        #expand("results/admixture/CV_5/aut-bisnps-no5indel-{k}.out", k=kclusters),
         #"results/inbreeding/het/aut-bisnps-no5indel.tsv"
         #"results/tree/aut-bisnps-no5indel-tree",
-        #expand("results/plink/gt-count/{s}-aut-bisnps-no5indel", s=sample_list),
+        #"results/plink/bed/aut-bisnps-no5indel",
         #"results/plink/pca/aut-bisnps-no5indel-pca",
         #"results/plink/phylip/aut-bisnps-no5indel",
+        #expand("results/plink/gt-count/{s}-aut-bisnps-no5indel", s=sample_list),
 
-        #"results/admixture/test_k/aut-snps-0.05-pruned.cv5.error"
-        #"results/admixture/aut-snps-0.05-pruned-pca.10.Q"
-        
+        #old before committee meeting
         #expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
         #"results/inbreeding/het/combined-het-percents.tsv",
         
