@@ -71,7 +71,7 @@ rule get_best_k:
 # -l specifies a comma-separated list of populations/species in the order you want them to be plotted
 rule plot_admixture:
     input:
-        pfx="results/admixture/CV_5/aut-bisnps-no5indel-"
+        pfx="results/admixture/CV_5/aut-bisnps-no5indel-",
         list="config/admixture-info.tsv"
     output:
         "results/admixture/rplot/aut-bisnps-no5indel"
