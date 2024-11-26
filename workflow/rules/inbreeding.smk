@@ -115,8 +115,7 @@ rule get_het_from_gt_count_MAC1:
     input:
         gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-MAC1.gcount",
     output:
-        txt="results/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.txt",
-        dir="results/inbreeding/het/from-plink-gt-counts/MAC1/",
+        "results/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.txt",
     log:
         "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.log",
     benchmark:
@@ -129,7 +128,7 @@ rule get_het_from_gt_count_MAC1:
              if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
              print "Total variants:", count; 
              print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
-         }}' {input.gcount} > {output.txt} 2> {log}
+         }}' {input.gcount} > {output} 2> {log}
         """
 
 ## this rule takes the outputs from above and combines them into a tsv
@@ -154,8 +153,7 @@ rule get_het_from_gt_count_MAC3:
     input:
         gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-MAC3.gcount",
     output:
-        txt="results/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.txt",
-        dir="results/inbreeding/het/from-plink-gt-counts/MAC3/",
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.txt",
     log:
         "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.log",
     benchmark:
@@ -168,7 +166,7 @@ rule get_het_from_gt_count_MAC3:
              if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
              print "Total variants:", count; 
              print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
-         }}' {input.gcount} > {output.txt} 2> {log}
+         }}' {input.gcount} > {output} 2> {log}
         """
 
 ## this rule takes the outputs from above and combines them into a tsv
@@ -193,8 +191,7 @@ rule get_het_from_gt_count_MAC5:
     input:
         gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-MAC5.gcount",
     output:
-        txt="results/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.txt",
-        dir="results/inbreeding/het/from-plink-gt-counts/MAC5/",
+        "results/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.txt",
     log:
         "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.log",
     benchmark:
@@ -207,7 +204,7 @@ rule get_het_from_gt_count_MAC5:
              if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
              print "Total variants:", count; 
              print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
-         }}' {input.gcount} > {output.txt} 2> {log}
+         }}' {input.gcount} > {output} 2> {log}
         """
 
 ## this rule takes the outputs from above and combines them into a tsv
