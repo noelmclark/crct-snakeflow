@@ -71,7 +71,7 @@ rule combine_het_perc:
 
 ##################################
 
-
+### for no MAC filtered
 ## another way to get het from plink gt counts using awk
 rule get_het_from_gt_count:
     input:
@@ -108,6 +108,119 @@ rule combine_hets_from_gt_count:
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
+####
+
+## for MAC>1 filtered
+rule get_het_from_gt_count_MAC1:
+    input:
+        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-MAC1.gcount",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC1/{sample}-aut-bisnps-no5indel-MAC1.bmk",
+    shell:
+        """
+        awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
+        NR>1 && $10 == 0 {{sum+=$6; count++}} 
+         END {{
+             if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+             print "Total variants:", count; 
+             print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
+         }}' {input.gcount} > {output} 2> {log}
+        """
+
+## this rule takes the outputs from above and combines them into a tsv
+rule combine_hets_from_gt_count_MAC1:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/MAC1/",
+    output:
+        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.bmk",
+    shell:
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
+
+####
+
+## for MAC > 3
+rule get_het_from_gt_count_MAC3:
+    input:
+        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-MAC3.gcount",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/{sample}-aut-bisnps-no5indel-MAC3.bmk",
+    shell:
+        """
+        awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
+        NR>1 && $10 == 0 {{sum+=$6; count++}} 
+         END {{
+             if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+             print "Total variants:", count; 
+             print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
+         }}' {input.gcount} > {output} 2> {log}
+        """
+
+## this rule takes the outputs from above and combines them into a tsv
+rule combine_hets_from_gt_count_MAC3:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/MAC3/",
+    output:
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.bmk",
+    shell:
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
+
+####
+
+## for MAC > 5
+rule get_het_from_gt_count_MAC5:
+    input:
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-MAC5.gcount",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC5/{sample}-aut-bisnps-no5indel-MAC5.bmk",
+    shell:
+        """
+        awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
+        NR>1 && $10 == 0 {{sum+=$6; count++}} 
+         END {{
+             if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+             print "Total variants:", count; 
+             print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
+         }}' {input.gcount} > {output} 2> {log}
+        """
+
+## this rule takes the outputs from above and combines them into a tsv
+rule combine_hets_from_gt_count_MAC5:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/MAC5/",
+    output:
+        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.bmk",
+    shell:
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 
 

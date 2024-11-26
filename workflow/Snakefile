@@ -11,16 +11,31 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
-        "results/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca",
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
-        expand("results/plink/gt-count/MAC5/{s}-aut-bisnps-no5indel-MAC5", s=sample_list)
+        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-MAC1.tsv",
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.tsv",
+        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-MAC5.tsv",
+        "results/tree/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-tree",
+        "results/tree/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-tree",
+        "results/tree/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-tree"
+
+
+        #mac>5 filter
+        #"results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
+        #"results/plink/pca/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-pca",
+        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5",
+        #expand("results/plink/gt-count/MAC5/{s}-aut-bisnps-no5indel-MAC5", s=sample_list)
 
         #mac>3 filter
         #"results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
         #"results/plink/pca/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-pca",
         #"results/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3",
         #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-MAC3", s=sample_list)
+
+        #mac>1 filter
+        #"results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1",
+        #"results/plink/pca/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-pca",
+        #"results/plink/phylip/MAC1/aut-bisnps-no5indel-nooutlier-MAC1",
+        #expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-MAC1", s=sample_list)
         
         #new - no MAC filters
         #expand("results/admixture/CV_5/aut-bisnps-no5indel-{k}.out", k=kclusters),
