@@ -26,7 +26,7 @@ rule find_model_iqtree:
 # is kind enough to spit out a .varsite.phy file in this case that can be used to rerun  
 rule make_iqtree_MAC1:
     input:
-        "results/plink/phylip/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.phy",
+        "results/tree/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-tree.varsites.phy",
     output:
         prefix="results/tree/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-tree",
     conda:
@@ -45,7 +45,7 @@ rule make_iqtree_MAC1:
 
 rule make_iqtree_MAC3:
     input:
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.phy",
+        "results/tree/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-tree.varsites.phy",
     output:
         prefix="results/tree/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-tree",
     conda:
@@ -64,7 +64,7 @@ rule make_iqtree_MAC3:
 
 rule make_iqtree_MAC5:
     input:
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.phy",
+        "results/tree/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-tree.varsites.phy",
     output:
         prefix="results/tree/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-tree",
     conda:
