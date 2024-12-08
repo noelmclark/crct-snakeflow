@@ -135,7 +135,7 @@ rule test_k_mac1:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k_mac1:
@@ -197,7 +197,7 @@ rule test_k_mac3:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k_mac3:
@@ -259,7 +259,7 @@ rule test_k_mac5:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
 rule get_best_k_mac5:
