@@ -94,28 +94,6 @@ rule plot_admixture:
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
 rule fix_admixture_chroms_mac1:
     input:
-        "results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.bim",
-    output:
-        flag="results/plink/bed/fix-chrom-flag-MAC1.txt",
-    params:
-        pfx="results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3"
-    log:
-        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC1.log"
-    benchmark:
-        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC1.bmk"
-    shell:
-        """
-        ( mv {input} {input}.tmp && 
-        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
-        rm {input}.tmp && 
-        echo "admixture chroms fixed" > {output.flag} 
-        ) 2> {log} 
-        """
-
-### MAC1 ###
-# ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
-rule fix_admixture_chroms_mac1:
-    input:
         "results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.bim",
     output:
         flag="results/plink/bed/fix-chrom-flag-MAC1.txt",
