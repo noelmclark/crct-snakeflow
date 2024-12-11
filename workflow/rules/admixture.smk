@@ -262,16 +262,17 @@ rule test_k_mac5:
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
+#" awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 rule get_best_k_mac5:
     input:
-        expand("results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{k}", k=kclusters)
+        expand("results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{k}.out", k=kclusters)
     output:
-        "results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error"
+        "results/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error"
     log:
-        "results/logs/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.log"
+        "results/logs/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.log"
     benchmark:
-        "results/benchmarks/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.bmk"
+        "results/benchmarks/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " grep-h CV {input} > output 2> {log} "
 
 ###############
