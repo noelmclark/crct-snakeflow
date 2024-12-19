@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error"
+        #"results/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error"
         #expand("results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{k}.out", k=kclusters),
         #expand("results/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-{k}.out", k=kclusters),
         #expand("results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{k}.out", k=kclusters),
