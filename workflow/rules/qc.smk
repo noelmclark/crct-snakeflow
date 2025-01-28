@@ -119,14 +119,14 @@ rule concat_missingness:
 
 rule bcftools_stats_autbisnpno5indel:
     input:
-        bcf="results/bcf/aut-bisnp-no5indel.bcf",
-        csi="results/bcf/aut-bisnp-no5indel.bcf.csi"
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        csi="results/bcf/aut-bisnps-no5indel.bcf.csi"
     output:
-        "results/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.txt",
+        "results/qc/bcftools_stats/{sample}-stats-aut-bisnps-no5indel.txt",
     log:
-        "results/logs/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.log",
+        "results/logs/qc/bcftools_stats/{sample}-stats-aut-bisnps-no5indel.log",
     benchmark:
-        "results/benchmarks/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.bmk",
+        "results/benchmarks/qc/bcftools_stats/{sample}-stats-aut-bisnps-no5indel.bmk",
     conda:
         "../envs/sambcftools.yaml"
     shell:
