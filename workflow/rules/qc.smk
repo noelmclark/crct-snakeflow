@@ -128,7 +128,7 @@ rule bcftools_stats_autbisnpno5indel:
     benchmark:
         "results/benchmarks/qc/bcftools_stats/{sample}-stats-aut-bisnps-no5indel.bmk",
     conda:
-        "../envs/sambcftools.yaml"
+        "../envs/bcftools.yaml"
     shell:
         " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
         " bcftools stats > {output} 2> {log} "
@@ -144,7 +144,7 @@ rule bcftools_stats_allcallablesites:
     benchmark:
         "results/benchmarks/qc/bcftools_stats/{sample}-stats-all-callable-sites.bmk",
     conda:
-        "../envs/sambcftools.yaml"
+        "../envs/bcftools.yaml"
     shell:
         " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
         " bcftools stats > {output} 2> {log} "

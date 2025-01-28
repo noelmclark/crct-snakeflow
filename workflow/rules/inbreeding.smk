@@ -48,7 +48,7 @@ rule combine_het_perc:
         "results/benchmarks/inbreeding/het/raw-het/combined-het-percents.tsv"
     shell:
         """
-        echo -e "Sample\tPercHet" > {output}
+        echo -e "Sample\tRawHet" > {output}
         for file in {input.results}; do
             sample=$(basename $file -het-perc.txt)
             value=$(cat $file)
