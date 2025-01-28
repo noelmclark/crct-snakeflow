@@ -1,34 +1,21 @@
-## this rule counts the total variable sites needed before counting hets in next rule
-rule bcftools_stats:
-    input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
-    output:
-        "results/inbreeding/het/{sample}-stats.txt",
-    conda:
-        "../envs/bcftools.yaml",
-    log:
-        "results/logs/inbreeding/het/{sample}-stats.log",
-    benchmark:
-        "results/benchmarks/inbreeding/het/{sample}-stats.bmk"
-    shell:
-        " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
-        " bcftools stats > {output} 2> {log} "
+######################################
+### raw heterozygosity with all callable sites
+######################################
 
-## This rule counts the heterozygous sites (0/1) in an individual vcf
+## This rule counts the heterozygous sites (0/1) in an individual bcf
 rule count_hets_nmiss:
     input:
-        bcf="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf",
-        csi="results/bcf/autosomal-biallelic-snps-maf-0.05.bcf.csi",
+        bcf="results/bcf/all_callable_sites/all_callable_sites.bcf",
+        csi="results/bcf/all_callable_sites/all_callable_sites.bcf.csi",
     output:
-        het="results/inbreeding/het/{sample}-het-count.txt",
-        nmiss="results/inbreeding/het/{sample}-nmiss-count.txt",
+        het="results/inbreeding/het/raw-het/{sample}/{sample}-het-count.txt",
+        nmiss="results/inbreeding/het/raw-het/{sample}/{sample}-nmiss-count.txt",
     conda:
         "../envs/bcftools.yaml",
     log:
-        "results/logs/inbreeding/het/{sample}-het-nmiss-count.log",
+        "results/logs/inbreeding/het/raw-het/{sample}/{sample}-het-nmiss-count.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/{sample}-het-nmiss-count.bmk"
+        "results/benchmarks/inbreeding/het/raw-het/{sample}/{sample}-het-nmiss-count.bmk"
     shell:
         " ( bcftools view -H -s {wildcards.sample} {input.bcf} | grep \"0/1:\" | wc -l > {output.het} && "
         " bcftools view -H -s {wildcards.sample} {input.bcf} | grep -v \"./.:\" | wc -l > {output.nmiss} ) "
@@ -36,14 +23,14 @@ rule count_hets_nmiss:
 
 rule calc_percent_het:
     input:
-        het="results/inbreeding/het/{sample}-het-count.txt",
-        nmiss="results/inbreeding/het/{sample}-nmiss-count.txt",
+        het="results/inbreeding/het/raw-het/{sample}/{sample}-het-count.txt",
+        nmiss="results/inbreeding/het/raw-het/{sample}/{sample}-nmiss-count.txt",
     output:
-        "results/inbreeding/het/{sample}-het-perc.txt",
+        "results/inbreeding/het/raw-het/{sample}-het-perc.txt",
     log:
-        "results/logs/inbreeding/het/{sample}-het-perc.log",
+        "results/logs/inbreeding/het/raw-het/{sample}-het-perc.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/{sample}-het-perc.bmk"
+        "results/benchmarks/inbreeding/het/raw-het/{sample}-het-perc.bmk"
     shell:
         " awk 'NR==FNR{{het=$0; next}} {{print het / $0}}' {input.het} {input.nmiss} "
         " > {output} 2> {log} "
@@ -52,13 +39,13 @@ rule calc_percent_het:
 # thank you to chat gpt for this code
 rule combine_het_perc:
     input:
-        results=expand("results/inbreeding/het/{s}-het-perc.txt", s=sample_list),
+        results=expand("results/inbreeding/het/raw-het/{s}-het-perc.txt", s=sample_list),
     output:
-        "results/inbreeding/het/combined-het-percents.tsv",
+        "results/inbreeding/het/raw-het/combined-het-percents.tsv",
     log:
-        "results/logs/inbreeding/het/combined-het-percents.tsv"
+        "results/logs/inbreeding/het/raw-het/combined-het-percents.tsv"
     benchmark:
-        "results/benchmarks/inbreeding/het/combined-het-percents.tsv"
+        "results/benchmarks/inbreeding/het/raw-het/combined-het-percents.tsv"
     shell:
         """
         echo -e "Sample\tPercHet" > {output}
@@ -70,8 +57,10 @@ rule combine_het_perc:
         """
 
 ##################################
+### aut bisnp no5indel
+##################################
 
-### for no MAC filtered
+### for no MAC filtered aut-bisnp-no5indel
 ## another way to get het from plink gt counts using awk
 rule get_het_from_gt_count:
     input:
@@ -108,7 +97,7 @@ rule combine_hets_from_gt_count:
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
-####
+######################################
 
 ## for MAC>1 filtered
 rule get_het_from_gt_count_MAC1:
@@ -146,7 +135,7 @@ rule combine_hets_from_gt_count_MAC1:
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
-####
+######################################
 
 ## for MAC > 3
 rule get_het_from_gt_count_MAC3:
@@ -184,7 +173,7 @@ rule combine_hets_from_gt_count_MAC3:
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
-####
+######################################
 
 ## for MAC > 5
 rule get_het_from_gt_count_MAC5:

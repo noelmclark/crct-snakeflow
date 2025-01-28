@@ -66,6 +66,8 @@ rule concat_counts:
         " for i in {input}; do "
         " (echo $i && cat $i); done > {output} 2> {log}"
 
+############
+
 rule samtools_stats:
     input:
         "results/angsd_bams/overlap_clipped/{sample}.bam"
@@ -81,6 +83,7 @@ rule samtools_stats:
         "samtools stats {input} > {output} 2> {log} "
 
 
+############
 ## Rule to calculate % missingness of individual BAM files using a custom bash script and bedtools
 rule calc_missingness:
     input:
@@ -110,9 +113,44 @@ rule concat_missingness:
     shell:
         " for i in {input}; do "
         " (echo $i && cat $i); done > {output} 2> {log}"
+############
+
+## get bcftools stats
+
+rule bcftools_stats_autbisnpno5indel:
+    input:
+        bcf="results/bcf/aut-bisnp-no5indel.bcf",
+        csi="results/bcf/aut-bisnp-no5indel.bcf.csi"
+    output:
+        "results/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.txt",
+    log:
+        "results/logs/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.log",
+    benchmark:
+        "results/benchmarks/qc/bcftools_stats/{sample}-stats-aut-bisnp-no5indel.bmk",
+    conda:
+        "../envs/sambcftools.yaml"
+    shell:
+        " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
+        " bcftools stats > {output} 2> {log} "
+
+rule bcftools_stats_allcallablesites:
+    input:
+        bcf="results/bcf/all_callable_sites/all_callable_sites.bcf",
+        csi="results/bcf/all_callable_sites/all_callable_sites.bcf.csi"
+    output:
+        "results/qc/bcftools_stats/{sample}-stats-all-callable-sites.txt",
+    log:
+        "results/logs/qc/bcftools_stats/{sample}-stats-all-callable-sites.log",
+    benchmark:
+        "results/benchmarks/qc/bcftools_stats/{sample}-stats-all-callable-sites.bmk",
+    conda:
+        "../envs/sambcftools.yaml"
+    shell:
+        " bcftools view -Ou -s {wildcards.sample} {input.bcf} | "
+        " bcftools stats > {output} 2> {log} "
 
 
-
+###########################################################################################
 ## next 2 copied from Eric
 # here is a rule to use bcftools stats to summarize what is found in the
 # final BCF files.  Basically, we want to run bcftools stats with the option
