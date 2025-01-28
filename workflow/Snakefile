@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/qc/bcftools_stats/{s}-stats-aut-bisnp-no5indel.txt", s=sample_list),
+        expand("results/qc/bcftools_stats/{s}-stats-aut-bisnps-no5indel.txt", s=sample_list),
         expand("results/qc/bcftools_stats/{s}-stats-all-callable-sites.txt", s=sample_list),
         "results/inbreeding/het/raw-het/combined-het-percents.tsv",
         
