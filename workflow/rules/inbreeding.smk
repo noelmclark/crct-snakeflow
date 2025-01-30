@@ -2,7 +2,8 @@
 ### raw heterozygosity with all callable sites
 ######################################
 
-## This rule counts the heterozygous sites (0/1) in an individual bcf
+### These 3 rules count the heterozygous sites (0/1) in an individual bcf
+## the first one counts the number of hets and non-missing sites
 rule count_hets_nmiss:
     input:
         bcf="results/bcf/all_callable_sites/all_callable_sites.bcf",
