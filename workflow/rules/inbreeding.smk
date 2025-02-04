@@ -70,7 +70,7 @@ rule calc_and_combine_het:
         "results/benchmarks/inbreeding/het/raw-het/combined-het-stats.bmk",
     shell:
         """
-        echo -e "Sample\tHet_Count\tN_Miss\tHet_Percent" > {output}
+        echo -e "sample\thet_Count\tnon_miss\thet_percent" > {output}
         for sample in {sample_list}; do
             het_file="results/inbreeding/het/raw-het/$sample/$sample-het-count.txt"
             nmiss_file="results/inbreeding/het/raw-het/$sample/$sample-nmiss-count.txt"
