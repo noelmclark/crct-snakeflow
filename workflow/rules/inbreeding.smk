@@ -76,15 +76,16 @@ rule calc_and_combine_het:
             nmiss_file="results/inbreeding/het/raw-het/$sample/$sample-nmiss-count.txt"
 
             if [[ -f "$het_file" && -f "$nmiss_file" ]]; then
-                het=$(cat $het_file)
-                nmiss=$(cat $nmiss_file)
-                het_percent=$(awk -v h="$het" -v n="$nmiss" 'BEGIN {print h / n}')
+                het=$(cat "$het_file")
+                nmiss=$(cat "$nmiss_file")
+                het_percent=$(awk -v h="$het" -v n="$nmiss" 'BEGIN {{print h / n}}')
                 echo -e "$sample\t$het\t$nmiss\t$het_percent" >> {output}
             else
                 echo "Missing file for sample $sample" >> {log}
             fi
         done
         """
+
 
 
 
