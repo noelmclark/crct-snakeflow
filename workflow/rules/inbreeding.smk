@@ -57,6 +57,36 @@ rule combine_het_perc:
         done
         """
 
+## This rule was written by chatgpt to combine the two rules above and add columns for het and non_missing values
+rule calc_and_combine_het:
+    input:
+        het=expand("results/inbreeding/het/raw-het/{s}/{s}-het-count.txt", s=sample_list),
+        nmiss=expand("results/inbreeding/het/raw-het/{s}/{s}-nmiss-count.txt", s=sample_list),
+    output:
+        "results/inbreeding/het/raw-het/combined-het-stats.tsv",
+    log:
+        "results/logs/inbreeding/het/raw-het/combined-het-stats.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/raw-het/combined-het-stats.bmk",
+    shell:
+        """
+        echo -e "sample\thet_count\tnon_miss\thet_percent" > {output}
+        for sample in {wildcards.sample}; do
+            het_file="results/inbreeding/het/raw-het/$sample/$sample-het-count.txt"
+            nmiss_file="results/inbreeding/het/raw-het/$sample/$sample-nmiss-count.txt"
+
+            if [[ -f "$het_file" && -f "$nmiss_file" ]]; then
+                het=$(cat $het_file)
+                nmiss=$(cat $nmiss_file)
+                het_percent=$(awk -v h="$het" -v n="$nmiss" 'BEGIN {print h / n}')
+                echo -e "$sample\t$het\t$nmiss\t$het_percent" >> {output}
+            else
+                echo "Missing file for sample $sample" >> {log}
+            fi
+        done
+        """
+
+
 ##################################
 ### aut bisnp no5indel
 ##################################
