@@ -60,8 +60,8 @@ rule combine_het_perc:
 ## This rule was written by chatgpt to combine the two rules above and add columns for het and non_missing values
 rule calc_and_combine_het:
     input:
-        het=expand("results/inbreeding/het/raw-het/{s}/{s}-het-count.txt", s=sample_list),
-        nmiss=expand("results/inbreeding/het/raw-het/{s}/{s}-nmiss-count.txt", s=sample_list),
+        het=[f"results/inbreeding/het/raw-het/{sample}/{sample}-het-count.txt" for sample in sample_list],
+        nmiss=[f"results/inbreeding/het/raw-het/{sample}/{sample}-nmiss-count.txt" for sample in sample_list],
     output:
         "results/inbreeding/het/raw-het/combined-het-stats.tsv",
     log:
@@ -70,8 +70,8 @@ rule calc_and_combine_het:
         "results/benchmarks/inbreeding/het/raw-het/combined-het-stats.bmk",
     shell:
         """
-        echo -e "sample\thet_count\tnon_miss\thet_percent" > {output}
-        for sample in {wildcards.sample}; do
+        echo -e "Sample\tHet_Count\tN_Miss\tHet_Percent" > {output}
+        for sample in {sample_list}; do
             het_file="results/inbreeding/het/raw-het/$sample/$sample-het-count.txt"
             nmiss_file="results/inbreeding/het/raw-het/$sample/$sample-nmiss-count.txt"
 
@@ -85,6 +85,7 @@ rule calc_and_combine_het:
             fi
         done
         """
+
 
 
 ##################################
