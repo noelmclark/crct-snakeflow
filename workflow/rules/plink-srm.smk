@@ -24,6 +24,5 @@ rule make_srm_pgen:
         " --remove-if population == coastal "
         " --remove-if population == westslope "
         " --remove-if population == lahontan "
-        " --remove-if population == lahontan "
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
