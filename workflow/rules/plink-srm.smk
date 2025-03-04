@@ -7,7 +7,7 @@ rule make_srm_pgen:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        popfile="config/plink-popfile.tsv",
+        srmfile="config/plink-srm-samples.tsv",
     output:
         pgen="results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel",
     conda:
@@ -22,8 +22,6 @@ rule make_srm_pgen:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
-        " --pheno {input.popfile} "
-        " --remove-cat-pheno population, population, population "
-        " --remove-cat-names coastal, westslope, lahontan "
+        " --keep {input.srmfile} "
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
