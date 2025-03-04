@@ -23,7 +23,7 @@ rule make_srm_pgen:
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --pheno {input.popfile} "
-        " --remove-cat-pheno population "
+        " --remove-cat-pheno population, population, population "
         " --remove-cat-names coastal, westslope, lahontan "
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
