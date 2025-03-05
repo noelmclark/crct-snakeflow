@@ -48,4 +48,4 @@ rule srm_filter_missingness:
         " --keep {input.srmfile} "
         " --geno 0.1 "
         " --freq counts "
-        " --out {output.miss} 2> {log} "
+        " --out {output.acount} 2> {log} "
