@@ -42,7 +42,7 @@ rule srm_filter_missingness:
     benchmark:
         "results/benchmarks/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel.bmk",
     shell:
-        " plink2 --pgen {input.pgen} "
+        " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --keep {input.srmfile} "
