@@ -11,7 +11,10 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel"
+        "results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel"
+        #"results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel"
+        
+        
         #expand("results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{k}.out", k=kclusters),
         #"results/inbreeding/het/raw-het/combined-het-stats.tsv"
         #expand("results/qc/bcftools_stats/{s}-stats-aut-bisnps-no5indel.txt", s=sample_list),

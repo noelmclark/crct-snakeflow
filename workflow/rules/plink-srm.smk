@@ -25,3 +25,27 @@ rule make_srm_pgen:
         " --keep {input.srmfile} "
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
+
+rule srm_filter_missingness:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        srmfile="config/plink-srm-samples.tsv",
+    output:
+        acount="results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel",
+    conda:
+        "../envs/plink.yaml"
+    resources:
+        mem_mb=7480    
+    log:
+        "results/logs/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel.bmk",
+    shell:
+        " plink2 --pgen {input.pgen} "
+        " --set-missing-var-ids @:#[b37]\$r,\$a "
+        " --allow-extra-chr "
+        " --keep {input.srmfile} "
+        " --geno 0.1 "
+        " --freq counts "
+        " --out {output.miss} 2> {log} "
