@@ -11,7 +11,9 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel"
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1",
+        "results/plink/srm-subset/pca/MAC1/srm-aut-bisnps-no5indel-MAC1-pca"
+        #"results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel"
         #"results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel"
         
         
