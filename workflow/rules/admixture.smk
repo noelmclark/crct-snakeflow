@@ -276,3 +276,53 @@ rule get_best_k_mac5:
         " grep-h CV {input} > output 2> {log} "
 
 ###############
+
+#### SRM SUBSET MAC>1 #### 
+
+# ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
+rule fix_admixture_chroms:
+    input:
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bim",
+    output:
+        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+    params:
+        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1"
+    log:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.log"
+    benchmark:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+
+## runs through each of the selected k options -- super contrived, see notes above
+rule test_k:
+    input:
+        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bed",
+        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+    output:
+        empty="results/admixture/srm-subset/srm-aut-bisnps-no5indel-{srmkclusters}.out",
+    params:
+        dir="results/admixture/srm-subset/",
+        pfx="srm-aut-bisnps-no5indel-{srmkclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-{srmkclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/srm-subset/srm-aut-bisnps-no5indel-{srmkclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../{input.bed} {wildcards.srmkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
