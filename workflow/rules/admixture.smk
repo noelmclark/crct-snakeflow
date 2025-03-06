@@ -280,7 +280,7 @@ rule get_best_k_mac5:
 #### SRM SUBSET MAC>1 #### 
 
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
-rule fix_admixture_chroms:
+rule fix_srm_admixture_chroms:
     input:
         "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bim",
     output:
@@ -302,7 +302,7 @@ rule fix_admixture_chroms:
 
 
 ## runs through each of the selected k options -- super contrived, see notes above
-rule test_k:
+rule test_srm_k_mac1:
     input:
         bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bed",
         flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
