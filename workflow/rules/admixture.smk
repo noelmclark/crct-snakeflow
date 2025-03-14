@@ -372,7 +372,7 @@ rule test_1pop_abrams_k_mac1:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 ########
 
@@ -421,4 +421,4 @@ rule test_1pop_kelso_k_mac1:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
