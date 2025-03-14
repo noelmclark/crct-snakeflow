@@ -415,9 +415,9 @@ rule test_1pop_kelso_k_mac1:
     threads:
         4
     log:
-        "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.log"
+        "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{onepopkclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.bmk"
+        "results/benchmarks/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{onepopkclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
