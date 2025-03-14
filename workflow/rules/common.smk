@@ -429,4 +429,4 @@ def get_comma_sep_hpsmc_names(wildcards):
 
 kclusters = list(range(2, 26)) #specify wildcard for testing K clusters in admxiture
 srmkclusters = list(range(2,22))
-1popkclusters = list(range(2,11))
+onepopkclusters = list(range(2,11))

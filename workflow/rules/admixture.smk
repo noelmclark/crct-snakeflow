@@ -354,7 +354,7 @@ rule test_1pop_abrams_k_mac1:
         bed="results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1.bed",
         flag="results/plink/srm-subset/1pop-abrams/bed/abrams-MAC1-fix-chrom-flag.txt",
     output:
-        empty="results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.out",
+        empty="results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{onepopkclusters}.out",
     params:
         dir="results/admixture/srm-subset/1pop-abrams/",
         pfx="abrams-aut-bisnps-no5indel-{srmkclusters}.out",
@@ -366,13 +366,13 @@ rule test_1pop_abrams_k_mac1:
     threads:
         4
     log:
-        "results/logs/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.log"
+        "results/logs/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{onepopkclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.bmk"
+        "results/benchmarks/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{onepopkclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.1popkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 ########
 
@@ -403,10 +403,10 @@ rule test_1pop_kelso_k_mac1:
         bed="results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bed",
         flag="results/plink/srm-subset/1pop-kelso/bed/kelso-MAC1-fix-chrom-flag.txt",
     output:
-        empty="results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.out",
+        empty="results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{onepopkclusters}.out",
     params:
         dir="results/admixture/srm-subset/1pop-kelso/",
-        pfx="kelso-aut-bisnps-no5indel-{1popkclusters}.out",
+        pfx="kelso-aut-bisnps-no5indel-{onepopkclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -421,4 +421,4 @@ rule test_1pop_kelso_k_mac1:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../{input.bed} {wildcards.1popkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
