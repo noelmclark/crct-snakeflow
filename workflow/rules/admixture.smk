@@ -357,7 +357,7 @@ rule test_1pop_abrams_k_mac1:
         empty="results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{onepopkclusters}.out",
     params:
         dir="results/admixture/srm-subset/1pop-abrams/",
-        pfx="abrams-aut-bisnps-no5indel-{srmkclusters}.out",
+        pfx="abrams-aut-bisnps-no5indel-{onepopkclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
