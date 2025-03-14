@@ -329,5 +329,96 @@ rule test_srm_k_mac1:
 
 
 #### SRM 1-POP ABRAMS SUBSET MAC>1 #### 
+rule fix_1pop_abrams_admixture_chroms:
+    input:
+        "results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1.bim",
+    output:
+        flag="results/plink/srm-subset/1pop-abrams/bed/abrams-MAC1-fix-chrom-flag.txt",
+    params:
+        pfx="results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1"
+    log:
+        "results/logs/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-fix-chrom.log"
+    benchmark:
+        "results/logs/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-fix-chrom.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+rule test_1pop_abrams_k_mac1:
+    input:
+        bed="results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1.bed",
+        flag="results/plink/srm-subset/1pop-abrams/bed/abrams-MAC1-fix-chrom-flag.txt",
+    output:
+        empty="results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.out",
+    params:
+        dir="results/admixture/srm-subset/1pop-abrams/",
+        pfx="abrams-aut-bisnps-no5indel-{srmkclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popkclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../{input.bed} {wildcards.1popkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+########
 
 #### SRM 1-POP KELSO SUBSET MAC>1 #### 
+
+rule fix_1pop_kelso_admixture_chroms:
+    input:
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bim",
+    output:
+        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+    params:
+        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1"
+    log:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.log"
+    benchmark:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+rule test_1pop_kelso_k_mac1:
+    input:
+        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bed",
+        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+    output:
+        empty="results/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.out",
+    params:
+        dir="results/admixture/srm-subset/",
+        pfx="srm-aut-bisnps-no5indel-{1popkclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../{input.bed} {wildcards.1popkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
