@@ -380,15 +380,15 @@ rule test_1pop_abrams_k_mac1:
 
 rule fix_1pop_kelso_admixture_chroms:
     input:
-        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bim",
+        "results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bim",
     output:
-        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+        flag="results/plink/srm-subset/1pop-kelso/bed/srm-MAC1-fix-chrom-flag.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1"
+        pfx="results/plink/srm-subset/bed/1pop-kelso/MAC1/srm-aut-bisnps-no5indel-MAC1"
     log:
-        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.log"
+        "results/logs/admixture/srm-subset/1pop-kelso/srm-aut-bisnps-no5indel-fix-chrom.log"
     benchmark:
-        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-fix-chrom.bmk"
+        "results/logs/admixture/srm-subset/1pop-kelso/srm-aut-bisnps-no5indel-fix-chrom.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -400,13 +400,13 @@ rule fix_1pop_kelso_admixture_chroms:
 
 rule test_1pop_kelso_k_mac1:
     input:
-        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1.bed",
-        flag="results/plink/srm-subset/bed/srm-MAC1-fix-chrom-flag.txt",
+        bed="results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bed",
+        flag="results/plink/srm-subset/1pop-kelso/bed/kelso-MAC1-fix-chrom-flag.txt",
     output:
-        empty="results/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.out",
+        empty="results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.out",
     params:
-        dir="results/admixture/srm-subset/",
-        pfx="srm-aut-bisnps-no5indel-{1popkclusters}.out",
+        dir="results/admixture/srm-subset/1pop-kelso/",
+        pfx="kelso-aut-bisnps-no5indel-{1popkclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -415,9 +415,9 @@ rule test_1pop_kelso_k_mac1:
     threads:
         4
     log:
-        "results/logs/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.log"
+        "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popkclusters}.bmk"
+        "results/benchmarks/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popkclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "

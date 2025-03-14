@@ -11,8 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popk}.out", 1popk=1popkclusters),
-        expand("results/admixture/srm-subset/srm-aut-bisnps-no5indel-{1popk}.out", 1popk=1popkclusters),
+        expand("results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{1popk}.out", 1popk=1popkclusters),
+        expand("results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{1popk}.out", 1popk=1popkclusters),
         #"results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1",
         #"results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1"
         #"results/plink/srm-subset/1pop-abrams/allele-count/abrams-aut-bisnps-no5indel",
