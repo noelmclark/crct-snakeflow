@@ -11,7 +11,10 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/admixture/srm-subset/srm-aut-bisnps-no5indel-{srmk}.out", srmk=srmkclusters),
+        "results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1",
+        "results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1"
+        
+        #expand("results/admixture/srm-subset/srm-aut-bisnps-no5indel-{srmk}.out", srmk=srmkclusters),
         #"results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-MAC1",
         #"results/plink/srm-subset/pca/MAC1/srm-aut-bisnps-no5indel-MAC1-pca"
         #"results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel"
