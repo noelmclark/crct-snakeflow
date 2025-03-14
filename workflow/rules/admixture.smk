@@ -382,13 +382,13 @@ rule fix_1pop_kelso_admixture_chroms:
     input:
         "results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bim",
     output:
-        flag="results/plink/srm-subset/1pop-kelso/bed/srm-MAC1-fix-chrom-flag.txt",
+        flag="results/plink/srm-subset/1pop-kelso/bed/kelso-MAC1-fix-chrom-flag.txt",
     params:
-        pfx="results/plink/srm-subset/bed/1pop-kelso/MAC1/srm-aut-bisnps-no5indel-MAC1"
+        pfx="results/plink/srm-subset/bed/1pop-kelso/MAC1/kelso-aut-bisnps-no5indel-MAC1"
     log:
-        "results/logs/admixture/srm-subset/1pop-kelso/srm-aut-bisnps-no5indel-fix-chrom.log"
+        "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-fix-chrom.log"
     benchmark:
-        "results/logs/admixture/srm-subset/1pop-kelso/srm-aut-bisnps-no5indel-fix-chrom.bmk"
+        "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-fix-chrom.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
