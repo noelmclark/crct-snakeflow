@@ -136,7 +136,7 @@ rule make_1pop_abrams_pgen:
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
 
-rule 1pop_abrams_allele_counts:
+rule make_1pop_abrams_allele_counts:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
@@ -160,7 +160,7 @@ rule 1pop_abrams_allele_counts:
         " --freq counts "
         " --out {output.acount} 2> {log} "
 
-rule 1pop_abrams_plink_bed:
+rule make_1pop_abrams_plink_bed:
     input:
         acount="results/plink/srm-subset/1pop-abrams/allele-count/abrams-aut-bisnps-no5indel.acount",
         popfile="config/plink-popfile.tsv",
@@ -214,7 +214,7 @@ rule make_1pop_kelso_pgen:
         " --make-pgen "
         " --out {output.pgen} 2> {log} "
 
-rule 1pop_kelso_allele_counts:
+rule make_1pop_kelso_allele_counts:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
@@ -237,10 +237,8 @@ rule 1pop_kelso_allele_counts:
         " --geno 0.1 "
         " --freq counts "
         " --out {output.acount} 2> {log} "
-
-## This rules generates a .bed, .bim, and .fam file (input needed for running ADMIXTURE) 
-# that includes only sites that pass our 10% missingness filter 
-rule 1pop_kelso_plink_bed:
+ 
+rule make_1pop_kelso_plink_bed:
     input:
         acount="results/plink/srm-subset/1pop-kelso/allele-count/kelso-aut-bisnps-no5indel.acount",
         popfile="config/plink-popfile.tsv",

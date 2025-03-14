@@ -275,7 +275,7 @@ rule get_best_k_mac5:
     shell:
         " grep-h CV {input} > output 2> {log} "
 
-###############
+#############################################################################################
 
 #### SRM SUBSET MAC>1 #### 
 
@@ -326,3 +326,8 @@ rule test_srm_k_mac1:
         " ( > {output.empty} && "
         " cd {params.dir} && "
         " admixture --cv ../../../{input.bed} {wildcards.srmkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+
+#### SRM 1-POP ABRAMS SUBSET MAC>1 #### 
+
+#### SRM 1-POP KELSO SUBSET MAC>1 #### 
