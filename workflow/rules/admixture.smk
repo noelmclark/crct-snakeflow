@@ -382,9 +382,9 @@ rule fix_1pop_kelso_admixture_chroms:
     input:
         "results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bim",
     output:
-        flag="results/plink/srm-subset/1pop-kelso/bed/kelso-MAC1-fix-chrom-flag.txt",
+        flag="results/plink/srm-subset/1pop-kelso/kelso-MAC1-fix-chrom-flag.txt",
     params:
-        pfx="results/plink/srm-subset/bed/1pop-kelso/MAC1/kelso-aut-bisnps-no5indel-MAC1"
+        pfx="results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1"
     log:
         "results/logs/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-fix-chrom.log"
     benchmark:
@@ -401,7 +401,7 @@ rule fix_1pop_kelso_admixture_chroms:
 rule test_1pop_kelso_k_mac1:
     input:
         bed="results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1.bed",
-        flag="results/plink/srm-subset/1pop-kelso/bed/kelso-MAC1-fix-chrom-flag.txt",
+        flag="results/plink/srm-subset/1pop-kelso/kelso-MAC1-fix-chrom-flag.txt",
     output:
         empty="results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{onepopkclusters}.out",
     params:
