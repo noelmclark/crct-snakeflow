@@ -1,9 +1,5 @@
 #simple awk script written by chatgpt to process the output files from hdplot.smk
 
-genofile=$1
-depthfile=$2
-outfile=$3
-
 BEGIN {
   OFS = "\t";
 }
