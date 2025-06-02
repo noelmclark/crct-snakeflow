@@ -44,8 +44,6 @@ rule compute_hdplot_stats:
         depths="results/hdplot/all-samples/all-allele-depths.tsv"
     output:
         table="results/hdplot/all-samples/all-hdplot-output.tsv"
-    conda:
-        "../envs/bcftools.yaml"
     log:
         "results/logs/hdplot/process-hdplot/all-aut-bisnps-no5indel.log",
     benchmark:
