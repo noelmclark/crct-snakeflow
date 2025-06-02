@@ -11,8 +11,10 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
-        expand("results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
+        "results/hdplot/all-samples/all-hdplot-output.tsv",
+        
+        #expand("results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
+        #expand("results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
         #"results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1",
         #"results/plink/srm-subset/1pop-kelso/bed/MAC1/kelso-aut-bisnps-no5indel-MAC1"
         #"results/plink/srm-subset/1pop-abrams/allele-count/abrams-aut-bisnps-no5indel",
@@ -166,6 +168,7 @@ include: "rules/plink-srm.smk"
 include: "rules/inbreeding.smk"
 include: "rules/tree.smk"
 include: "rules/admixture.smk"
+include: "rules/hdplot.smk"
 #include: "rules/archive.smk"
 #include: "rules/annotation.smk"
 #include: "rules/downsample.smk"
