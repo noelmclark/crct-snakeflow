@@ -49,9 +49,6 @@ rule compute_hdplot_stats:
     benchmark:
         "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
     script:
-        " awk -f workflow/scripts/hdplot/process_hdplot.awk {input.genotypes} {input.depths} > {output.table}.tmp 2> {log} | "
-        " echo -e \"CHROM\tPOS\tID\tdepth_a\tdepth_b\tratio\tnum_hets\tnum_samples\tnum_called\tH_all\tH\tstd\tD\" > {output.table}.tmp | "
-        " cat {output.table}.tmp >> {output.table} | "
-        " rm {output.table}.tmp "  
+        " awk -f workflow/scripts/hdplot/process_hdplot.awk {input.genotypes} {input.depths} > {output.table} 2> {log} "
 
 ###############################################################################################
