@@ -49,6 +49,6 @@ rule compute_hdplot_stats:
     benchmark:
         "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
     script:
-        " workflow/scripts/hdplot/process_hdplot.awk 2> {log} "
+        " awk -f workflow/scripts/hdplot/process_hdplot.awk {input.genotypes} {input.depths} > {output.table} 2> {log} "
 
 ###############################################################################################
