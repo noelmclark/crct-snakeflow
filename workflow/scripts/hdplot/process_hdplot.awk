@@ -1,5 +1,10 @@
-#simple awk script written by chatgpt to process the output files from hdplot.smk
+#!/bin/bash
 
+genofile=$1
+depthfile=$2
+outfile=$3
+
+awk '
 BEGIN {
   OFS = "\t";
 }
@@ -39,3 +44,9 @@ FNR==NR {
 
   print chrom[FNR], pos[FNR], id[FNR], a_sum, b_sum, ratio, hets, num_samples, called, H_all, H, std, z;
 }
+' "$genofile" "$depthfile" > "$outfile.tmp"
+
+# Add header
+echo -e "CHROM\tPOS\tID\tdepth_a\tdepth_b\tratio\tnum_hets\tnum_samples\tnum_called\tH_all\tH\tstd\tD" > "$outfile"
+cat "$outfile.tmp" >> "$outfile"
+rm "$outfile.tmp"
