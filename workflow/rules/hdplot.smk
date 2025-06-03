@@ -40,10 +40,10 @@ rule extract_all_allele_depths:
 
 rule compute_hdplot_stats:
     input:
-        genotypes="results/hdplot/all-samples/all-genotypes.tsv",
+        geno="results/hdplot/all-samples/all-genotypes.tsv",
         depths="results/hdplot/all-samples/all-allele-depths.tsv"
     output:
-        table="results/hdplot/all-samples/all-hdplot-output.tsv"
+        "results/hdplot/all-samples/all-hdplot-output.tsv"
     resources:
         mem_mb=9400,
     log:
@@ -51,9 +51,6 @@ rule compute_hdplot_stats:
     benchmark:
         "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
     script:
-        """
-        paste {input.genotypes} {input.depths} |
-        awk -f workflow/scripts/hdplot/process_hdplot.awk > {output.table} 2> {log} 
-        """
+        " paste {input.geno} {input.depths} | awk -f workflow/scripts/hdplot/process_hdplot.awk > {output} 2> {log} "
 
 ###############################################################################################
