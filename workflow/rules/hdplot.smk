@@ -50,7 +50,7 @@ rule compute_hdplot_stats:
         "results/logs/hdplot/process-hdplot/all-aut-bisnps-no5indel.log",
     benchmark:
         "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
-    script:
-        " paste {input.geno} {input.depths} | awk -f workflow/scripts/hdplot/process_hdplot.awk > {output} 2> {log} "
+    shell:
+        " awk -f workflow/scripts/hdplot/process_hdplot.awk {input.geno} {input.depths} > {output} 2> {log} "
 
 ###############################################################################################
