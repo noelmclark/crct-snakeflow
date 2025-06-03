@@ -5,7 +5,8 @@ BEGIN {
   print "CHROM", "POS", "ID", "depth_a", "depth_b", "ratio", "num_hets", "num_samples", "num_called", "H_all", "H", "std", "D"
 }
 
-FNR==NR {
+# Read the genotype file (first file)
+FNR == NR {
   for (i = 4; i <= NF; i++) {
     gt[FNR, i] = $i
   }
@@ -15,6 +16,7 @@ FNR==NR {
   next
 }
 
+# Process the depth file (second file)
 {
   n = split($0, ad, "\t")
   num_samples = n
@@ -28,7 +30,7 @@ FNR==NR {
     a = ab[1] + 0
     b = ab[2] + 0
 
-    g = gt[FNR, i+3]
+    g = gt[FNR, i + 3]
     if (g == "0/1" || g == "1/0") {
       hets++
       a_sum += a
@@ -43,9 +45,9 @@ FNR==NR {
   total_reads = a_sum + b_sum
   ratio = (total_reads > 0) ? a_sum / total_reads : "NA"
   std = (total_reads > 0) ? sqrt(total_reads * 0.25) : "NA"
-  z = (std > 0) ? -(total_reads / 2 - a_sum) / std : "NA"
+  D = (std > 0) ? -(total_reads / 2 - a_sum) / std : "NA"
   H_all = hets / num_samples
   H = (called > 0) ? hets / called : "NA"
 
-  print chrom[FNR], pos[FNR], id[FNR], a_sum, b_sum, ratio, hets, num_samples, called, H_all, H, std, z
+  print chrom[FNR], pos[FNR], id[FNR], a_sum, b_sum, ratio, hets, num_samples, called, H_all, H, std, D
 }
