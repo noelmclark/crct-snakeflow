@@ -46,7 +46,7 @@ rule compute_hdplot_stats:
         "results/hdplot/all-samples/all-hdplot-output.tsv"
     resources:
         mem_mb=400000,
-        nodes=150,
+        partition=amem,
     log:
         "results/logs/hdplot/process-hdplot/all-aut-bisnps-no5indel.log",
     benchmark:
