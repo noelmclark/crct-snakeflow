@@ -35,7 +35,7 @@ rule extract_all_allele_depths:
         "results/benchmarks/hdplot/extract-allele-depths/all-aut-bisnps-no5indel.bmk",
     shell:
         """
-        bcftools query -f '[%AD\\t]\\n' {input.bcf} > {output.tsv} 2> {log}
+        bcftools query -f '[%AD\\t]\\n' {input.bcf} | sed 's/\\t$//' > {output.tsv} 2> {log}
         """
 
 rule compute_parallel_hdplot_stats:
