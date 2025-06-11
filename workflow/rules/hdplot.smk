@@ -38,20 +38,17 @@ rule extract_all_allele_depths:
         bcftools query -f '[%AD\\t]\\n' {input.bcf} > {output.tsv} 2> {log}
         """
 
-rule compute_hdplot_stats:
+rule compute_parallel_hdplot_stats:
     input:
         geno="results/hdplot/all-samples/all-genotypes.tsv",
         depths="results/hdplot/all-samples/all-allele-depths.tsv"
     output:
         "results/hdplot/all-samples/all-hdplot-output.tsv"
-    resources:
-        mem_mb=400000,
-        qos="mem",
     log:
         "results/logs/hdplot/process-hdplot/all-aut-bisnps-no5indel.log",
     benchmark:
         "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
     shell:
-        " awk -f workflow/scripts/hdplot/process_hdplot.awk {input.geno} {input.depths} > {output} 2> {log} "
+        " awk -f workflow/scripts/hdplot/hdplot_parallel.awk {input.geno} {input.depths} > {output} 2> {log} "
 
 ###############################################################################################
