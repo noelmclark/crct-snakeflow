@@ -2,22 +2,20 @@
 
 BEGIN {
   OFS = "\t"
-  file_index = 0
-  current_line = 0
+  qc_file = "qc_skipped_rows.tsv"
   print "CHROM", "POS", "ID", "depth_a", "depth_b", "ratio", "num_hets", "num_samples", "num_called", "H_all", "H", "std", "D"
+  print "CHROM", "POS", "ID", "REASON" > qc_file
 }
 
 FNR == NR {
   # Reading genotype file (first file)
-  file_index = 1
   g_lines[FNR] = $0
   next
 }
 
 {
-  # Reading depth file (second file)
   current_line++
-
+  
   if (!(current_line in g_lines)) {
     print "ERROR: Genotype file has fewer lines than depth file!" > "/dev/stderr"
     exit 1
@@ -28,8 +26,8 @@ FNR == NR {
   split($0, d_fields, "\t")
 
   chrom = g_fields[1]
-  pos = g_fields[2]
-  id = g_fields[3]
+  pos   = g_fields[2]
+  id    = g_fields[3]
 
   hets = 0
   called = 0
@@ -41,7 +39,8 @@ FNR == NR {
   expected_samples = n_gt - 3
   if (n_dp != expected_samples) {
     print "ERROR: Sample count mismatch at line " current_line ": " \
-          expected_samples " genotypes vs " n_dp " depth values" > "/dev/stderr"
+          expected_samples " genotypes versus " n_dp " depth values" > "/dev/stderr"
+    print chrom, pos, id, "Sample count mismatch" >> qc_file
     exit 1
   }
 
@@ -63,13 +62,31 @@ FNR == NR {
   }
 
   total_reads = a_sum + b_sum
-  ratio = (total_reads > 0) ? a_sum / total_reads : "NA"
-  std = (total_reads > 0) ? sqrt(total_reads * 0.25) : "NA"
-  D = (std > 0) ? -(total_reads / 2 - a_sum) / std : "NA"
-  H_all = hets / expected_samples
+  num_samples = expected_samples
+
+  if (total_reads > 0) {
+    ratio = a_sum / total_reads
+    std = sqrt(total_reads * 0.25)
+
+    if (std > 0) {
+      D = -(total_reads / 2 - a_sum) / std
+    } else {
+      D = "NA"
+      print "WARNING: std=0 at line " current_line " (" chrom ":" pos ") — cannot compute D" > "/dev/stderr"
+      print chrom, pos, id, "std=0" >> qc_file
+    }
+  } else {
+    ratio = "NA"
+    std = "NA"
+    D = "NA"
+    print "WARNING: total_reads=0 at line " current_line " (" chrom ":" pos ") — skipping calculations" > "/dev/stderr"
+    print chrom, pos, id, "total_reads=0" >> qc_file
+  }
+
+  H_all = hets / num_samples
   H = (called > 0) ? hets / called : "NA"
 
-  print chrom, pos, id, a_sum, b_sum, ratio, hets, expected_samples, called, H_all, H, std, D
+  print chrom, pos, id, a_sum, b_sum, ratio, hets, num_samples, called, H_all, H, std, D
 }
 
 END {
