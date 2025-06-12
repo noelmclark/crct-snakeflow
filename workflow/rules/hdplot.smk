@@ -78,7 +78,7 @@ rule filter_hdplot_srm_bcf:
         bcftools index {output.bcf} 2> {log}
         """
 
-rule extract_all_genotypes:
+rule extract_srm_genotypes:
     input:
         bcf="results/bcf/hdplot-srm-aut-bisnp-no5indel.bcf",
         tbi="results/bcf/hdplot-srm-aut-bisnp-no5indel.bcf.csi",
@@ -95,7 +95,7 @@ rule extract_all_genotypes:
         bcftools query -f '%CHROM\\t%POS\\t%ID[\\t%GT]\\n' {input.bcf} > {output.tsv} 2> {log}
         """
 
-rule extract_all_allele_depths:
+rule extract_srm_allele_depths:
     input:
         bcf="results/bcf/hdplot-srm-aut-bisnp-no5indel.bcf",
         tbi="results/bcf/hdplot-srm-aut-bisnp-no5indel.bcf.csi",
@@ -112,7 +112,7 @@ rule extract_all_allele_depths:
         bcftools query -f '[%AD\\t]\\n' {input.bcf} | sed 's/\\t$//' > {output.tsv} 2> {log}
         """
 
-rule compute_parallel_hdplot_stats:
+rule compute_srm_parallel_hdplot_stats:
     input:
         geno="results/hdplot/srm-samples/srm-genotypes.tsv",
         depths="results/hdplot/srm-samples/srm-allele-depths.tsv"
