@@ -54,3 +54,56 @@ rule compute_parallel_hdplot_stats:
         " awk -f workflow/scripts/hdplot/hdplot_parallel.awk {input.geno} {input.depths} > {output} 2> {log} "
 
 ###############################################################################################
+
+# the bottom set runs on the bcf filtered to only yellowstone group alleles -- needs editing
+
+rule extract_all_genotypes:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+    output:
+        tsv="results/hdplot/all-samples/all-genotypes.tsv"
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/hdplot/extract-genotypes/all-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/hdplot/extract-genotypes/all-aut-bisnps-no5indel.bmk",
+    shell:
+        """
+        bcftools query -f '%CHROM\\t%POS\\t%ID[\\t%GT]\\n' {input.bcf} > {output.tsv} 2> {log}
+        """
+
+rule extract_all_allele_depths:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+    output:
+        tsv="results/hdplot/all-samples/all-allele-depths.tsv"
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/hdplot/extract-allele-depths/all-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/hdplot/extract-allele-depths/all-aut-bisnps-no5indel.bmk",
+    shell:
+        """
+        bcftools query -f '[%AD\\t]\\n' {input.bcf} | sed 's/\\t$//' > {output.tsv} 2> {log}
+        """
+
+rule compute_parallel_hdplot_stats:
+    input:
+        geno="results/hdplot/all-samples/all-genotypes.tsv",
+        depths="results/hdplot/all-samples/all-allele-depths.tsv"
+    output:
+        "results/hdplot/all-samples/all-hdplot-output.tsv"
+    resources:
+        mem_mb=90000,
+    log:
+        "results/logs/hdplot/process-hdplot/all-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/hdplot/process-hdplot/all-aut-bisnps-no5indel.bmk",
+    shell:
+        " awk -f workflow/scripts/hdplot/hdplot_parallel.awk {input.geno} {input.depths} > {output} 2> {log} "
+
+###############################################################################################
