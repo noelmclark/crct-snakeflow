@@ -11,9 +11,10 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/hdplot/all-samples/all-hdplot-output.tsv",
-        "results/hdplot/srm-samples/srm-hdplot-output.tsv",
-        
+        "results/rCNV/detect_deviants_out.tsv",
+        #"results/hdplot/all-samples/all-hdplot-output.tsv",
+        #"results/hdplot/srm-samples/srm-hdplot-output.tsv",
+
         #expand("results/admixture/srm-subset/1pop-abrams/abrams-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
         #expand("results/admixture/srm-subset/1pop-kelso/kelso-aut-bisnps-no5indel-{popk}.out", popk=onepopkclusters),
         #"results/plink/srm-subset/1pop-abrams/bed/MAC1/abrams-aut-bisnps-no5indel-MAC1",
