@@ -7,7 +7,7 @@ library(rCNV)
 
 #load the paths from the snakemake rule
 vcf_file <- snakemake@input$vcf
-outfile <- snakemake@output$out_list
+outfile <- snakemake@output$tsv
 
 vcf<-readVCF(vcf_file)
 
