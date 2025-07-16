@@ -21,7 +21,8 @@ rule rCNV_get_vcf:
 rule rCNV_detect_deviants:
     input:
         vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    envmodules: "R/4.4.0"
+    envmodules: 
+        "R/4.4.0"
     output:
         tsv="results/rCNV/detect_deviants_out.tsv"
     log:
