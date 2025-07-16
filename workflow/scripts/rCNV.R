@@ -2,7 +2,7 @@
 #log <- file(snakemake@log[[1]], open="wt")
 #sink(log, type = "output")
 #sink(log, type = "message")
-if (!require("rCNV")) install.packages("rCNV")
+if (!require("rCNV")) install.packages("rCNV", repos = "http://cran.us.r-project.org")
 
 library(rCNV)
 
