@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/rCNV/detect_deviants_out.tsv",
+        "results/rCNV/test_out.tsv",
         #"results/hdplot/all-samples/all-hdplot-output.tsv",
         #"results/hdplot/srm-samples/srm-hdplot-output.tsv",
 
