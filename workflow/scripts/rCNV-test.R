@@ -3,7 +3,12 @@
 #sink(log, type = "output")
 #sink(log, type = "message")
 
-install.packages(c("data.table", "stringr", "colorspace", "pbapply", "parallel", "scales"), repos = "http://cran.us.r-project.org")
+library(data.table)
+library(stringr)
+library(colorspace)
+library(pbapply)
+library(parallel)
+library(scales)
 
 ## define the functions from the rCNV source code first
 

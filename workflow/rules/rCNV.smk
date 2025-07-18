@@ -35,8 +35,6 @@ rule rCNV_detect_deviants:
 rule rCNV_test:
     input:
         vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    conda:
-        "../envs/rCNV.yaml",
     envmodules: 
         "R/4.2.2"
     output:
