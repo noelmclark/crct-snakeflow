@@ -31,3 +31,17 @@ rule rCNV_detect_deviants:
     	"results/logs/rCNV/detect_deviants.log"
     script:
     	"../scripts/rCNV.R"
+
+rule rCNV_test:
+    input:
+        vcf="results/bcf/aut-bisnps-no5indel.vcf",
+    conda:
+        "../envs/rCNV.yaml",
+    envmodules: 
+        "R/4.2.2"
+    output:
+        tsv="results/rCNV/test_out.tsv"
+    log:
+    	"results/logs/rCNV/test.log"
+    script:
+    	"../scripts/rCNV-test.R"
