@@ -3,7 +3,7 @@
 #sink(log, type = "output")
 #sink(log, type = "message")
 
-if (!require(c("data.table", "stringr", "colorspace", "pbapply", "parallel", "scales"))) install.packages(c("data.table", "stringr", "colorspace", "pbapply", "parallel", "scales"))
+install.packages(c("data.table", "stringr", "colorspace", "pbapply", "parallel", "scales"))
 
 ## define the functions from the rCNV source code first
 
