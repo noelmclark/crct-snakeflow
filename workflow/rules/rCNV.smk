@@ -39,6 +39,8 @@ rule rCNV_test:
         "R/4.2.2"
     output:
         tsv="results/rCNV/test_out.tsv"
+    resources:
+        mem_mb=90000,
     log:
     	"results/logs/rCNV/test.log"
     script:
