@@ -11,9 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/rCNV/test_out.tsv",
-        #expand("results/pca/scat_regions/{scat}.scat_regions.tsv", scat=unique_scats),
-        #expand("results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scat}.vcf", scat=unique_scats),
+        expand("results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scat}.vcf", scat=unique_scats),
+        #"results/rCNV/test_out.tsv",
         #"results/hdplot/all-samples/all-hdplot-output.tsv",
         #"results/hdplot/srm-samples/srm-hdplot-output.tsv",
 
