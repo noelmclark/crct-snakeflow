@@ -27,7 +27,7 @@ rule rCNV_detect_deviants:
         "R/4.2.2"
     output:
         tsv="results/rCNV/detect-out.tsv"
--deviants-   log:
+    log:
     	"results/logs/rCNV/detect_deviants.log"
     script:
     	"../scripts/rCNV.R"
