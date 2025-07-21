@@ -567,7 +567,171 @@ makeTransparent = function(..., alpha=0.5) {
   return(newColor)
 }
 
+allele.info.WGS <- function (ad, gt, fis = NULL, vcf = NULL, parallel = FALSE, numCores = NULL, ...)
+{
+  ll <- list(...)
+  # <---per sample total depth
+  message("step 1/5: calculating depth values")
+  if (parallel) {
+    if (is.null(numCores)) {
+      numCores <- detectCores() - 1
+      cl <- makeCluster(numCores)
+    }
+    tot <- parApply(cl = cl, ad[, -(1:4)], 2, FUN = function(x) {
+      unlist(lapply(x, FUN = function(x) {
+        sum(as.numeric(unlist(strsplit(x, split = ","))))
+      }))
+    })
+  }
+  else {
+    tot <- apply(ad[, -(1:4)], 2, FUN = function(x) {
+      unlist(lapply(x, FUN = function(x) {
+        sum(as.numeric(unlist(strsplit(x, split = ","))))
+      }))
+    })
+  }
+  tot <- apply(tot, 2, as.numeric)
+  tot <- as.data.frame(tot)
 
+  # <--- global inbreeding coefficient
+  if (is.null(fis)) {
+    if (is.null(vcf)) {
+      stop("No fis (global inbreeding coefficient) or vcf provided \n\n           Either calculate fis using h.zygosity() function or provide a vcf")
+    }
+    else {
+      fis <- h.zygosity(vcf)
+      fis <- mean(fis$Fis)
+    }
+  }
+
+  # <--- statistics for depth simulation, works only for WGS
+  if (parallel) {
+    colstat <- nb_stats(tot,cl=cl)
+  }
+  else{
+    colstat <- nb_stats(tot,cl=NULL)
+  }
+
+  # <--- likelihood for observing the allele-specific depth under N = 2 and N = 4
+  message("step 2/5: calculating allele specific depth-likelihood")
+  if (parallel) {
+    gene_prob <- t(parApply(ad[, -(1:4)], 1, FUN = cal_geno_lld2,
+                            inb = fis, nb_stat = colstat, cl = cl))
+  }
+  else {
+    gene_prob <- t(apply(ad[, -(1:4)], 1, FUN = cal_geno_lld2,
+                         inb = fis, nb_stat = colstat))
+  }
+
+  # <--- likelihood for observing the total depth under N = 2 and N = 4
+  message("step 3/5: calculating total depth-specific likelihood")
+  if (parallel) {
+    depth_prob <- parApply(tot, 2, FUN = cal_depth_lld_indi2,
+                           nb_stat = colstat, cl = cl)
+  }
+  else {
+    depth_prob <- apply(tot, 2, FUN = cal_depth_lld_indi2,
+                        nb_stat = colstat)
+  }
+
+  # <--- likelihood ratio: N=4 against N=2 (allele-specific depth + total depth)
+  lhr <- 2 * (gene_prob + depth_prob)
+  lhr[lhr < 0] <- 0
+  lhr <- rowSums(lhr)
+
+  # <--- permutation test
+  message("step 4/5: performing permutation accross SNPs and samples")
+  # likelihood ratio for each SNP each individual
+  lld.ratio.geno <- na.omit(gene_prob[gt[, -(1:4)] == "0/1"])
+  lld.ratio.geno[lld.ratio.geno < 0] <- 0
+  lld.ratio.dep <- depth_prob
+  lld.ratio.dep[lld.ratio.dep < 0] <- 0
+  # the 0.95 significant threshold considering both allelic ratio and depth by permutation,
+  # significant level can be adjusted
+  nhet <- rowSums(gt[, -(1:4)] == "0/1")
+  # 0.95 threshold
+  lld.ratio.dep.0.95 <- quantile(replicate(10000, sum(sample(lld.ratio.dep,
+                                                             ncol(tot)))), 0.95)
+  if (parallel) {
+    lld.ratio.geno.0.95 <- unlist(parLapply(cl = cl, unique(nhet),
+                                            sample_and_quantile, samples = sample(lld.ratio.geno,
+                                                                                  1e+05), nrep = 10000, quan = 0.95))
+  }
+  else {
+    lld.ratio.geno.0.95 <- unlist(lapply(unique(nhet), sample_and_quantile,
+                                         samples = sample(lld.ratio.geno, 1e+05), nrep = 10000,
+                                         quan = 0.95))
+  }
+  thre0.95 <- 2 * (lld.ratio.dep.0.95 + lld.ratio.geno.0.95)
+  names(thre0.95) <- unique(nhet)
+  # 0.99 threshold
+  lld.ratio.dep.0.99 <- quantile(replicate(10000, sum(sample(lld.ratio.dep,
+                                                             ncol(tot)))), 0.99)
+  if (parallel) {
+    lld.ratio.geno.0.99 <- unlist(parLapply(cl = cl, unique(nhet),
+                                            sample_and_quantile, samples = sample(lld.ratio.geno,
+                                                                                  1e+05), nrep = 10000, quan = 0.99))
+  }
+  else {
+    lld.ratio.geno.0.99 <- unlist(lapply(unique(nhet), sample_and_quantile,
+                                         samples = sample(lld.ratio.geno, 1e+05), nrep = 10000,
+                                         quan = 0.99))
+  }
+  thre0.99 <- 2 * (lld.ratio.dep.0.99 + lld.ratio.geno.0.99)
+  names(thre0.99) <- unique(nhet)
+  if (parallel) {
+    stopCluster(cl)
+  }
+
+  # <--- create output info table
+  message("step 5/5: finishing....")
+  info <- data.frame(ad[, 1:4], mdep = rowMeans(tot), Nhet = nhet,
+                     lhr = lhr, perm.95 = thre0.95[as.character(nhet)], perm.99 = thre0.99[as.character(nhet)])
+  info$dup.stat <- info$lhr > info$perm.95
+  info$dup.stat <- ifelse(info$dup.stat, "duplicated", "non-duplicated")
+  return(info)
+}
+
+##### internal functions of likelihood ratio calculations ######
+nb_stats <- function(tot.tab,cl = NULL){
+  ##### correlation between mean depth and sd, calculate parameter for nb distribution
+  if (is.null(cl)){
+    colstat <- apply(tot.tab, 2, FUN = function(x){
+      mean <- mean(x[x> quantile(x,0.05) & x < quantile(x,0.95)])
+      sd <- sd(x[x> quantile(x,0.05) & x < quantile(x,0.95)])
+      size <- MASS::fitdistr(x, "Negative Binomial")$estimate["size"]
+      return(data.frame(mean,sd,size))
+    })
+  }else {
+    colstat <- parApply(tot.tab, 2, FUN = function(x){
+      mean <- mean(x[x> quantile(x,0.05) & x < quantile(x,0.95)])
+      sd <- sd(x[x> quantile(x,0.05) & x < quantile(x,0.95)])
+      size <- MASS::fitdistr(x, "Negative Binomial")$estimate["size"]
+      return(data.frame(mean,sd,size))
+    },cl=cl)
+  }
+
+  par(mfrow =c(4,5))
+  colstat <- do.call(rbind,colstat)
+  plot(colstat$mean,colstat$sd,xlab = "mean",ylab = "sd") ## check correlation
+
+
+  fit <- lm(sd~mean,data = colstat)
+  colstat$mean2 <- 2*colstat$mean              ## expected mean and depth for N=4
+  colstat$sd2 <- predict(fit,newdata = data.frame(mean = colstat$mean2))
+  colstat$size2 <- colstat$mean2^2/(colstat$sd2^2-colstat$mean2)       ## expected mean and depth for N=4
+
+  ############# check if nb distribution fit well, output first 20, can be disabled
+  for (i in 1:19) {
+    hist(tot.tab[,i], breaks = max(tot.tab[,i]), freq = FALSE, col = "gray", main = "Negative Binomial Fit",
+         xlab = "Counts", xlim = c(0, 200))
+    suppressWarnings(lines(0:200, dnbinom(0:200, size = colstat$size[i], mu = colstat$mean[i]),
+                           col = "red", lwd = 2))
+    suppressWarnings(lines(0:200, dnbinom(0:200, size = colstat$size2[i], mu = colstat$mean2[i]),
+                           col = "black", lwd = 2))
+  }
+  return(colstat)
+}
 
 
 
@@ -582,6 +746,7 @@ makeTransparent = function(..., alpha=0.5) {
 #load the paths from the snakemake rule
 vcf_file <- snakemake@input$vcf
 outfile <- snakemake@output$tsv
+outwgsfile <- snakemake@output$wgs
 
 vcf<-readVCF(vcf_file)
 
@@ -589,9 +754,13 @@ fis<-mean(h.zygosity(vcf)$Fis)
 gt<-hetTgen(vcf,"GT")
 ad<-hetTgen(vcf,"AD")
 ad[ad==""] <- "0,0"
-out<-allele.info(X=ad, x.norm=gt, Fis=fis)
+adnor<-cpm.normal(ad, method = "MedR")
+out<-allele.info(X = ad, x.norm = adnor, Fis = fis)
+out.wgs<-allele.info.WGS(ad, gt, fis = fis)
+
 # X is the corrected non-normalized allele depth table and x.norm is the normalized allele depth table
 # out is a data frame with duplication status of each snp, and other stats.
 
 #write the output to the file path
 write_tsv(out, file = outfile)
+write_tsv(out.wgs, file = outwgsfile)

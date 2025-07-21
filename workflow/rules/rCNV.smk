@@ -77,8 +77,9 @@ rule rCNV_test_run_by_scatters:
         "R/4.2.2"
     output:
         tsv="results/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.tsv",
+        wgs="results/rCNV-by-scat/wgs/test-{hpsmcchroms}-wgs-deviants-out.tsv"
     resources:
-        mem_mb=9000,
+        mem_mb=12000,
     log:
     	"results/logs/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.log",
     benchmark:
