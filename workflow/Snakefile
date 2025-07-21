@@ -11,7 +11,7 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scat}.vcf", scat=unique_scats),
+        expand("results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{chrom}.vcf", chrom=unique_chromosomes),
         #"results/rCNV/test_out.tsv",
         #"results/hdplot/all-samples/all-hdplot-output.tsv",
         #"results/hdplot/srm-samples/srm-hdplot-output.tsv",
@@ -157,6 +157,9 @@ rule all:
 
 ##### Modules #####
 
+include: "rules/mapping.smk"
+include: "rules/calling.smk"
+include: "rules/hardfilter.smk"
 include: "rules/ref.smk"
 include: "rules/angsd-ready-bams.smk"
 include: "rules/psmc.smk"
@@ -170,9 +173,6 @@ include: "rules/tree.smk"
 include: "rules/admixture.smk"
 include: "rules/hdplot.smk"
 include: "rules/rCNV.smk"
-#include: "rules/mapping.smk"
-#include: "rules/calling.smk"
-#include: "rules/hardfilter.smk"
 #include: "rules/archive.smk"
 #include: "rules/annotation.smk"
 #include: "rules/downsample.smk"

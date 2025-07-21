@@ -49,38 +49,37 @@ rule rCNV_test:
 
 ##################################################################3
 
-## going to try running rCNV on the BCF split by the scatter invtervals file from my pcsangsd.smk rule file
+## going to try running rCNV on the BCF split by chromosome which I used in the hpsmc-chroms config file 
 ## based on Eric's post-bcf workflow https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
-## first rule splits the given BCF into 12K bp scatters
+## first rule splits the given BCF into autosomal chroms
 ## second rule runs rCNV on each of these mini vcf files
 
 rule rCNV_get_scatters:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
     output:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
+        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.vcf",
     log:
-        "results/logs/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.log",
+        "results/logs/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.bmk",
+        "results/benchmarks/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.bmk",
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " bcftools view -Ov -R {input.regions} {input.bcf} > {output.vcf} 2> {log} "
+        " bcftools view -Ov -r {wildcards.hpsmcchroms} {input.bcf} > {output.vcf} 2> {log} "
 
 
 rule rCNV_test_run_by_scatters:
     input:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
+        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.vcf",
     envmodules: 
         "R/4.2.2"
     output:
-        tsv="results/rCNV-by-scat/test-{scatter}-deviants-out.tsv",
+        tsv="results/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.tsv",
     log:
-    	"results/logs/rCNV-by-scat/test-{scatter}-deviants-out.log",
+    	"results/logs/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/test-{scatter}-deviants-out.bmk",
+        "results/benchmarks/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.bmk",
     script:
     	"../scripts/rCNV-test.R"
