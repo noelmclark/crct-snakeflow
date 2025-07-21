@@ -13,7 +13,7 @@ library(scales)
 ## define the functions from the rCNV source code first
 
 readVCF <- function(vcf.file.path,verbose=FALSE){
-  tt <- fread(vcf.file.path,sep="\t",skip="#CHROM",verbose=verbose)
+  tt <- fread(vcf.file.path,sep="\t",skip="#CHROM",verbose=verbose,stringsAsFactors=FALSE)
   return(list(vcf=tt))
 }
 
