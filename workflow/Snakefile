@@ -158,7 +158,6 @@ rule all:
 ##### Modules #####
 
 include: "rules/ref.smk"
-include: "rules/mapping.smk"
 include: "rules/angsd-ready-bams.smk"
 include: "rules/calling.smk"
 include: "rules/hardfilter.smk"
@@ -173,6 +172,7 @@ include: "rules/tree.smk"
 include: "rules/admixture.smk"
 include: "rules/hdplot.smk"
 include: "rules/rCNV.smk"
+#include: "rules/mapping.smk"
 #include: "rules/archive.smk"
 #include: "rules/annotation.smk"
 #include: "rules/downsample.smk"
