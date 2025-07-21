@@ -58,29 +58,29 @@ rule rCNV_get_scatters:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        regions="results/pca/scat_regions/{unique_scats}.scat_regions.tsv",
+        regions="results/pca/scat_regions/{scatter}.scat_regions.tsv",
     output:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{unique_scats}.vcf"
+        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf"
     log:
-        "results/logs/rCNV-by-scat/vcf/aut-bisnp-no5indel-{unique_scats}.log"
+        "results/logs/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.log"
     benchmark:
-        "results/benchmarks/rCNV-by-scat/vcf/aut-bisnp-no5indel-{unique_scats}.bmk"
+        "results/benchmarks/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.bmk"
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " bcftools view -Ou -R {input.regions} {input.bcf} > {output.vcf} 2> {log}  "
+        " bcftools view -Ov -R {input.regions} {input.bcf} > {output.vcf} 2> {log}  "
 
 
 rule rCNV_test_run_by_scatters:
     input:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{unique_scats}.vcf"
+        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf"
     envmodules: 
         "R/4.2.2"
     output:
-        tsv="results/rCNV-by-scat/test-{unique_scats}-deviants-out.tsv"
+        tsv="results/rCNV-by-scat/test-{scatter}-deviants-out.tsv"
     log:
-    	"results/logs/rCNV-by-scat/test-{unique_scats}-deviants-out.log"
+    	"results/logs/rCNV-by-scat/test-{scatter}-deviants-out.log"
     benchmark:
-        "results/benchmarks/rCNV-by-scat/test-{unique_scats}-deviants-out.bmk"
+        "results/benchmarks/rCNV-by-scat/test-{scatter}-deviants-out.bmk"
     script:
     	"../scripts/rCNV-test.R"
