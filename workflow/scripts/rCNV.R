@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+library("rCNV")
+
 # Define the directory containing VCF files
 input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
 output_dir <- "./results/rCNV-by-scat/"  # Change this if you want a different output path
