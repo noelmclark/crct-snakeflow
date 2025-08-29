@@ -4,7 +4,7 @@ library("rCNV")
 
 # Define the directory containing VCF files
 input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
-output_dir <- "./results/rCNV-by-scat/"  # Change this if you want a different output path
+output_dir <- "./results/rCNV-by-scat/out"  # Change this if you want a different output path
 
 # Create output directory if it doesn't exist
 if (!dir.exists(output_dir)) {
