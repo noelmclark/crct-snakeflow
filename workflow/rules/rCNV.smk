@@ -87,19 +87,19 @@ rule rCNV_get_scatters:
         " bcftools view -Ov -R {input.regions} {input.bcf} > {output.vcf} 2> {log} "
 
 
-rule rCNV_test_run_by_scatters:
-    input:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.vcf",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        tsv="results/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.tsv",
-        wgs="results/rCNV-by-scat/wgs/test-{hpsmcchroms}-wgs-deviants-out.tsv"
-    resources:
-        mem_mb=12000,
-    log:
-    	"results/logs/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.log",
-    benchmark:
-        "results/benchmarks/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.bmk",
-    script:
-    	"../scripts/rCNV-test.R"
+#rule rCNV_test_run_by_scatters:
+#    input:
+#        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.vcf",
+#    envmodules: 
+#        "R/4.2.2"
+#    output:
+#        tsv="results/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.tsv",
+#        wgs="results/rCNV-by-scat/wgs/test-{hpsmcchroms}-wgs-deviants-out.tsv"
+#    resources:
+#        mem_mb=12000,
+#    log:
+#    	"results/logs/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.log",
+#    benchmark:
+#        "results/benchmarks/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.bmk",
+#    script:
+#    	"../scripts/rCNV-test.R"
