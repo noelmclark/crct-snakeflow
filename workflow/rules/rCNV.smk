@@ -1,54 +1,3 @@
-# This uses rCNV described here: https://piyalkarum.github.io/rCNV/articles/rCNV.html
-# Needs to have R installed and on the path.
-
-rule rCNV_get_vcf:
-    input:
-        bcf="results/bcf/aut-bisnps-no5indel.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-    output:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    conda:
-        "../envs/bcftools.yaml"
-    log:
-        "results/logs/rCNV/get-vcf/all-aut-bisnps-no5indel.log",
-    benchmark:
-        "results/benchmarks/rCNV/get-vcf/all-aut-bisnps-no5indel.bmk",
-    shell:
-        """
-        bcftools view -Ov {input.bcf} > {output.vcf} 2> {log}
-        """
-
-rule rCNV_detect_deviants:
-    input:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    conda:
-        "../envs/rCNV.yaml",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        tsv="results/rCNV/detect-out.tsv"
-    log:
-    	"results/logs/rCNV/detect_deviants.log"
-    script:
-    	"../scripts/rCNV.R"
-
-rule rCNV_test:
-    input:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        tsv="results/rCNV/test_out.tsv"
-    resources:
-        mem_mb=90000,
-    log:
-    	"results/logs/rCNV/test.log"
-    script:
-    	"../scripts/rCNV-test.R"
-
-
-##################################################################3
-
 ## going to try running rCNV on the BCF split by scatters (scatter_idx) which is
 ## based on Eric's post-bcf workflow https://github.com/eriqande/mega-post-bcf-exploratory-snakeflows
 ## first rule creates the regions files in the format that bcftools needs to split up the BCF 
@@ -103,3 +52,59 @@ rule rCNV_get_scatters:
 #        "results/benchmarks/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.bmk",
 #    script:
 #    	"../scripts/rCNV-test.R"
+
+
+#####################################################################################
+### older version that I don't use
+#####################################################################################
+
+# This uses rCNV described here: https://piyalkarum.github.io/rCNV/articles/rCNV.html
+# Needs to have R installed and on the path.
+
+rule rCNV_get_vcf:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+    output:
+        vcf="results/bcf/aut-bisnps-no5indel.vcf",
+    conda:
+        "../envs/bcftools.yaml"
+    log:
+        "results/logs/rCNV/get-vcf/all-aut-bisnps-no5indel.log",
+    benchmark:
+        "results/benchmarks/rCNV/get-vcf/all-aut-bisnps-no5indel.bmk",
+    shell:
+        """
+        bcftools view -Ov {input.bcf} > {output.vcf} 2> {log}
+        """
+
+rule rCNV_detect_deviants:
+    input:
+        vcf="results/bcf/aut-bisnps-no5indel.vcf",
+    conda:
+        "../envs/rCNV.yaml",
+    envmodules: 
+        "R/4.2.2"
+    output:
+        tsv="results/rCNV/detect-out.tsv"
+    log:
+    	"results/logs/rCNV/detect_deviants.log"
+    script:
+    	"../scripts/rCNV.R"
+
+rule rCNV_test:
+    input:
+        vcf="results/bcf/aut-bisnps-no5indel.vcf",
+    envmodules: 
+        "R/4.2.2"
+    output:
+        tsv="results/rCNV/test_out.tsv"
+    resources:
+        mem_mb=90000,
+    log:
+    	"results/logs/rCNV/test.log"
+    script:
+    	"../scripts/rCNV-test.R"
+
+
+##################################################################
