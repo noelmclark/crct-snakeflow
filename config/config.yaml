@@ -16,7 +16,7 @@ psmc_info: "config/psmc-info.tsv"
 
 # the following must be a list, even if it is just one element
 maf_cutoffs: [0.05]
-binsize: [1200000] #desired max length for each scatter in the scatter_intervals_file
+binsize: [1200000, 600000] #desired max length for each scatter in the scatter_intervals_file
 
 #if you want to downsample from your bams,
 #uncomment and specify the downsample depth
