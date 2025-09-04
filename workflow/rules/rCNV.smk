@@ -6,7 +6,7 @@
 
 rule make_rCNV_scat_regions:
     input:
-        scat_path="results/scatter_config/scatters_1200000.tsv"
+        scat_path="results/scatter_config/scatters_600000.tsv"
     params:
         scat="{scatter}"
     output:
