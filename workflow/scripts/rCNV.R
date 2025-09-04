@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 
+.libPaths("/projects/nomclark@colostate.edu/software/anaconda/envs/rCNV/lib/R/library") #set library path to the conda env where I installed R and rCNV
 library("rCNV")
+library("readr")
 
 # Define the directory containing VCF files
 input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
@@ -37,6 +39,11 @@ for (vcf_file in vcf_files) {
 
   # Save output
   write_tsv(out, file = outfile)
+
+  # Remove intermediate files from global environment before restarting
+  rm(vcf, fis, gt, ad, adnor, out)
+  
+  cat("Finished processing and removed from environment:", vcf_file, "\n")
 }
 
 cat("All VCF files processed.\n")
