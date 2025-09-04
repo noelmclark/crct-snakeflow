@@ -5,7 +5,7 @@ genome_path: "resources/genome/OmykA.fasta"
 sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
-scatter_intervals_file: "results/scatter_config/scatters_1200000.tsv" #originally scatters_1200000.tsv until rCNV
+scatter_intervals_file: "results/scatter_config/scatters_100000.tsv" #originally scatters_1200000.tsv until rCNV
 replace_RG: "config/replace-RG.tsv"
 psmc_info: "config/psmc-info.tsv"
 
