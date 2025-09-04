@@ -5,7 +5,7 @@ genome_path: "resources/genome/OmykA.fasta"
 sample_info: "config/sample-info.tsv"
 chromosomes: "config/chromosomes.tsv"
 scaffold_groups: "config/scaffold_groups.tsv"
-scatter_intervals_file: "results/scatter_config/scatters_600000.tsv" #originally scatters_1200000.tsv until rCNV
+scatter_intervals_file: "results/scatter_config/scatters_100000.tsv" #originally scatters_1200000.tsv until rCNV
 replace_RG: "config/replace-RG.tsv"
 psmc_info: "config/psmc-info.tsv"
 
@@ -16,7 +16,7 @@ psmc_info: "config/psmc-info.tsv"
 
 # the following must be a list, even if it is just one element
 maf_cutoffs: [0.05]
-binsize: [1200000, 600000] #desired max length for each scatter in the scatter_intervals_file
+binsize: [1200000, 100000] #desired max length for each scatter in the scatter_intervals_file
 
 #if you want to downsample from your bams,
 #uncomment and specify the downsample depth
