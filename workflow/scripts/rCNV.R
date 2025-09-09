@@ -16,8 +16,12 @@ if (!dir.exists(output_dir)) {
 # List all .vcf files in the directory
 vcf_files <- list.files(input_dir, pattern = "\\.vcf$", full.names = TRUE)
 
+# If there are any files already, this will start from where you left off
+completed <- list.files(output_dir, pattern = "\\.tsv$", full.names = TRUE)
+leftover <- vcf_files[(length(completed)+1):length(vcf_files)]
+
 # Process each VCF file
-for (vcf_file in vcf_files) {
+for (vcf_file in vcf_files) { #replace vcf_files with leftover if there are files already
   cat("Processing:", vcf_file, "\n")
   
   # Construct output file name
