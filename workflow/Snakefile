@@ -13,8 +13,6 @@ rule all:
     input:
         expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
         expand("results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scat}.vcf", scat=unique_scats),
-        expand("results/rCNV-by-scat/dvs/aut-bisnp-no5indel-{scat}_dvs.tsv", scat=unique_scats),
-        expand("results/rCNV-by-scat/cnv/aut-bisnp-no5indel-{scat}_cnv.tsv", scat=unique_scats),
         #"results/rCNV/test_out.tsv",
         #"results/hdplot/all-samples/all-hdplot-output.tsv",
         #"results/hdplot/srm-samples/srm-hdplot-output.tsv",

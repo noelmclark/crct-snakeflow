@@ -4,27 +4,57 @@
 library("rCNV")
 library("readr")
 
-#load the paths from the snakemake rule
-vcf_file <- snakemake@input$vcf
-ainfo_file <- snakemake@input$ainfo
-dvs_file <- snakemake@output$dvs
-cnv_file <- snakemake@output$cnv
+# Define the directory containing VCF files
+input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
+output_dir <- "./results/rCNV-by-scat/out"  # Change this if you want a different output path
+dvs_dir <- "./results/rCNV-by-scat/dvs" 
+cnv_dir <- "./results/rCNV-by-scat/cnv" 
 
-# Load VCF
-vcf <- readVCF(vcf_file)
+# Create output directory if it doesn't exist
+if (!dir.exists(dvs_dir)) {
+  dir.create(dvs_dir)
+}
+if (!dir.exists(cnv_dir)) {
+  dir.create(cnv_dir)
+}
 
-# Calculate Fis
-fis <- mean(h.zygosity(vcf)$Fis)
+# List all .vcf files in the directory
+vcf_files <- list.files(input_dir, pattern = "\\.vcf$", full.names = TRUE)
+ainfo_files <- list.files(output_dir, pattern = "\\.tsv$", full.names = TRUE)
 
-# Load allele info tsv
-AINFO <- read_tsv(ainfo_file)
+# Process each VCF file to generate allele info table
+for (vcf_file in vcf_files) { #replace vcf_files with leftover if there are files already
+  cat("Processing:", vcf_file, "\n")
+  
+  # Construct output file name
+  base_name <- tools::file_path_sans_ext(basename(vcf_file))
+  dvsfile <- file.path(dvs_dir, paste0(base_name, "_dvs.tsv"))
+  cnvfile <- file.path(cnv_dir, paste0(base_name, "_cnv.tsv"))
+  
+  # Load VCF
+  vcf <- readVCF(vcf_file)
 
-# Get deviant table
-dvs <- dupGet(AINFO, test = c("z.05","chi.05"), Fis = fis)
+  # Calculate Fis
+  fis <- mean(h.zygosity(vcf)$Fis)
+  
+  # Load allele info
+  allele_file <- file.path(output_dir, paste0(base_name, "_allele_info.tsv"))
+  AINFO <- read_tsv(allele_file)
 
-# Get CNV table using kmeans clustering method
-CV <- cnv(AINFO, test=c("z.05","chi.05"), filter = "kmeans")
+  # Get deviant table
+  dvs <- dupGet(AINFO, test = c("z.05","chi.05"), Fis = fis)
+  
+  # Get CNV table using kmeans clustering method
+  CV <- cnv(AINFO, test=c("z.05","chi.05"), filter = "kmeans")
+  
+  # Save output
+  write_tsv(dvs, file = dvsfile)
+  write_tsv(CV, file = cnvfile)
 
-# Save output
-write_tsv(dvs, file = dvs_file)
-write_tsv(CV, file = cnv_file)
+  # Remove intermediate files from global environment before restarting
+  rm(vcf, fis, AINFO, dvs, CV)
+  
+  cat("Finished processing and removed from environment:", vcf_file, "\n")
+}
+
+cat("All VCF files processed.\n")

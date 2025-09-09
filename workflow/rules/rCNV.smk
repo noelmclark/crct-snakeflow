@@ -40,18 +40,18 @@ rule rCNV_get_scatters:
 ## the rCNV.R script on each of the rCNV scatter VCFs from the previous rule ##
 ## to generate the allele info file needed for the next rule ##
 
-rule rCNV_dvs_cnv:
-    input:
-        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
-        ainfo="results/rCNV-by-scat/out/aut-bisnp-no5indel-{scatter}_allele_info.tsv",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        dvs="results/rCNV-by-scat/dvs/aut-bisnp-no5indel-{scatter}_dvs.tsv",
-        cnv="results/rCNV-by-scat/cnv/aut-bisnp-no5indel-{scatter}_cnv.tsv",
-    log:
-    	"results/logs/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.log",
-    benchmark:
-        "results/benchmarks/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.bmk",
-    script:
-    	"../scripts/rCNV/rCNV-dvs-cnv.R"
+#rule rCNV_dvs_cnv:
+#    input:
+#        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
+#        ainfo="results/rCNV-by-scat/out/aut-bisnp-no5indel-{scatter}_allele_info.tsv",
+#    envmodules: 
+#        "R/4.2.2"
+#    output:
+#        dvs="results/rCNV-by-scat/dvs/aut-bisnp-no5indel-{scatter}_dvs.tsv",
+#        cnv="results/rCNV-by-scat/cnv/aut-bisnp-no5indel-{scatter}_cnv.tsv",
+#    log:
+#    	"results/logs/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.log",
+#    benchmark:
+#        "results/benchmarks/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.bmk",
+#    script:
+#    	"../scripts/rCNV/rCNV-dvs-cnv.R"
