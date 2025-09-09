@@ -20,7 +20,7 @@ vcf_files <- list.files(input_dir, pattern = "\\.vcf$", full.names = TRUE)
 completed <- list.files(output_dir, pattern = "\\.tsv$", full.names = TRUE)
 leftover <- vcf_files[(length(completed)+1):length(vcf_files)]
 
-# Process each VCF file
+# Process each VCF file to generate allele info table
 for (vcf_file in vcf_files) { #replace vcf_files with leftover if there are files already
   cat("Processing:", vcf_file, "\n")
   
