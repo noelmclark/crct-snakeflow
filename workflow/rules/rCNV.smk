@@ -36,75 +36,22 @@ rule rCNV_get_scatters:
         " bcftools view -Ov -R {input.regions} {input.bcf} > {output.vcf} 2> {log} "
 
 
-#rule rCNV_test_run_by_scatters:
-#    input:
-#        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{hpsmcchroms}.vcf",
-#    envmodules: 
-#        "R/4.2.2"
-#    output:
-#        tsv="results/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.tsv",
-#        wgs="results/rCNV-by-scat/wgs/test-{hpsmcchroms}-wgs-deviants-out.tsv"
-#    resources:
-#        mem_mb=12000,
-#    log:
-#    	"results/logs/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.log",
-#    benchmark:
-#        "results/benchmarks/rCNV-by-scat/test-{hpsmcchroms}-deviants-out.bmk",
-#    script:
-#    	"../scripts/rCNV-test.R"
+## HERE is where I go into an interactive remote R session on Alpine to run ##
+## the rCNV.R script on each of the rCNV scatter VCFs from the previous rule ##
+## to generate the allele info file needed for the next rule ##
 
-
-#####################################################################################
-### older version that I don't use
-#####################################################################################
-
-# This uses rCNV described here: https://piyalkarum.github.io/rCNV/articles/rCNV.html
-# Needs to have R installed and on the path.
-
-rule rCNV_get_vcf:
+rule rCNV_dvs_cnv:
     input:
-        bcf="results/bcf/aut-bisnps-no5indel.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
+        ainfo="results/rCNV-by-scat/out/aut-bisnp-no5indel-{scatter}_allele_info.tsv",
+    envmodules: 
+        "R/4.2.2"
     output:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    conda:
-        "../envs/bcftools.yaml"
+        dvs="results/rCNV-by-scat/dvs/aut-bisnp-no5indel-{scatter}_dvs.tsv",
+        cnv="results/rCNV-by-scat/cnv/aut-bisnp-no5indel-{scatter}_cnv.tsv",
     log:
-        "results/logs/rCNV/get-vcf/all-aut-bisnps-no5indel.log",
+    	"results/logs/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.log",
     benchmark:
-        "results/benchmarks/rCNV/get-vcf/all-aut-bisnps-no5indel.bmk",
-    shell:
-        """
-        bcftools view -Ov {input.bcf} > {output.vcf} 2> {log}
-        """
-
-rule rCNV_detect_deviants:
-    input:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    conda:
-        "../envs/rCNV.yaml",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        tsv="results/rCNV/detect-out.tsv"
-    log:
-    	"results/logs/rCNV/detect_deviants.log"
+        "results/benchmarks/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.bmk",
     script:
-    	"../scripts/rCNV.R"
-
-rule rCNV_test:
-    input:
-        vcf="results/bcf/aut-bisnps-no5indel.vcf",
-    envmodules: 
-        "R/4.2.2"
-    output:
-        tsv="results/rCNV/test_out.tsv"
-    resources:
-        mem_mb=90000,
-    log:
-    	"results/logs/rCNV/test.log"
-    script:
-    	"../scripts/rCNV-test.R"
-
-
-##################################################################
+    	"../scripts/rCNV/rCNV-dvs-cnv.R"
