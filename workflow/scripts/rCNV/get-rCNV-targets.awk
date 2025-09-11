@@ -8,13 +8,13 @@ BEGIN {
 
 # check that the first row has columns in the correct order
 NR == 1 {
-	if($1 != "chrom") {
+	if($1 != "CHROM") {
 		kill = 1;
-		print "First column of file not named chrom" > "/dev/stderr"
+		print "First column of file not named CHROM" > "/dev/stderr"
 	}
-    if($2 != "pos") {
+    if($2 != "POS") {
 		kill = 1;
-		print "Second column of file not named pos" > "/dev/stderr"
+		print "Second column of file not named POS" > "/dev/stderr"
 	}
 	if(kill > 0) {
 		exit(1);
