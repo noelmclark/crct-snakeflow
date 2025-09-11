@@ -3,6 +3,7 @@
 .libPaths("/projects/nomclark@colostate.edu/software/anaconda/envs/rCNV/lib/R/library") #set library path to the conda env where I installed R and rCNV
 library("rCNV")
 library("readr")
+library("tidyverse")
 
 # Define the directory containing VCF files
 input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
@@ -58,6 +59,90 @@ for (vcf_file in vcf_files) { #replace vcf_files with leftover if there are file
 }
 
 cat("All VCF files processed.\n")
+
+##############################################
+
+# get some dup stats
+
+dvs_files <- list.files(dvs_dir, pattern = "\\.tsv$", full.names = TRUE)
+cnv_files <- list.files(cnv_dir, pattern = "\\.tsv$", full.names = TRUE)
+
+stats_dir <- "./results/rCNV-by-scat/stats" 
+if (!dir.exists(stats_dir)) {
+  dir.create(stats_dir)
+}
+
+## for dvs
+base_names <- tools::file_path_sans_ext(basename(dvs_files))
+names <- str_extract(base_names, pattern = "scat_\\d\\d\\d\\d") # would only work for scatter names with 4 digits
+
+# initialize the stats dataframe
+dvs <- read_tsv(dvs_files[1])
+stats <- dvs %>% 
+  group_by(dup.stat) %>% 
+  summarize(n=n()) %>% 
+  mutate(scatter = as.character(names[1]))
+
+for (i in 2:length(dvs_files)) { 
+  cat("Adding:", dvs_files[i], "\n")
+  
+  # load new dvs
+  dvs2 <- read_tsv(dvs_files[i])
+  
+  # extract those stats with appropriate name
+  stats2 <- dvs2 %>% 
+    group_by(dup.stat) %>% 
+    summarize(n=n()) %>% 
+    mutate(scatter = as.character(names[i]))
+  
+  # add to stats dataframe
+  stats <- rbind(stats, stats2)
+  
+  # remove temps
+  rm(dvs2, stats2)
+  
+  cat("Finished adding:", dvs_files[i], "\n")
+}
+
+write_tsv(stats, file = "./results/rCNV-by-scat/stats/aut-bisnp-no5indel-dvs-stats.tsv")
+
+## for cnv
+base_names <- tools::file_path_sans_ext(basename(cnv_files))
+names <- str_extract(base_names, pattern = "scat_\\d\\d\\d\\d") # would only work for scatter names with 4 digits
+
+# initialize the stats dataframe
+cnv <- read_tsv(cnv_files[1])
+stats <- cnv %>% 
+  group_by(dup.stat) %>% 
+  summarize(n=n()) %>% 
+  mutate(scatter = as.character(names[1]))
+
+for (i in 2:length(cnv_files)) { 
+  cat("Adding:", cnv_files[i], "\n")
+  
+  # load new dvs
+  cnv2 <- read_tsv(cnv_files[i])
+  
+  # extract those stats with appropriate name
+  stats2 <- cnv2 %>% 
+    group_by(dup.stat) %>% 
+    summarize(n=n()) %>% 
+    mutate(scatter = as.character(names[i]))
+  
+  # add to stats dataframe
+  stats <- rbind(stats, stats2)
+  
+  # remove temps
+  rm(cnv2, stats2)
+  
+  cat("Finished adding:", cnv_files[i], "\n")
+}
+
+write_tsv(stats, file = "./results/rCNV-by-scat/stats/aut-bisnp-no5indel-cnv-stats.tsv")
+
+## plot these dup stats
+dvs_stats <- read_tsv("./results/rCNV-by-scat/stats/aut-bisnp-no5indel-dvs-stats.tsv")
+cnv_stats <- read_tsv("./results/rCNV-by-scat/stats/aut-bisnp-no5indel-cnv-stats.tsv")
 
 ##############################################
 
