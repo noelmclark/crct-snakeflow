@@ -89,7 +89,7 @@ rule rCNV_filter_bcf_by_dvs:
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}:
+        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}; "
         " bcftools index {output.bcf}) 2> {log} "
 
 rule rCNV_filter_bcf_by_cnv:
@@ -107,5 +107,5 @@ rule rCNV_filter_bcf_by_cnv:
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}:
+        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}; "
         " bcftools index {output.bcf}) 2> {log} "
