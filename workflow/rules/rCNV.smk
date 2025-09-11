@@ -38,20 +38,20 @@ rule rCNV_get_scatters:
 
 ## HERE is where I go into an interactive remote R session on Alpine to run ##
 ## the rCNV.R script on each of the rCNV scatter VCFs from the previous rule ##
-## to generate the allele info file needed for the next rule ##
+## to generate the allele info file needed for the next script ##
+## then I use the rCNV-dvs-cnv.R file to ID deviants/cnvs and clean them ##
 
-#rule rCNV_dvs_cnv:
-#    input:
-#        vcf="results/rCNV-by-scat/vcf/aut-bisnp-no5indel-{scatter}.vcf",
-#        ainfo="results/rCNV-by-scat/out/aut-bisnp-no5indel-{scatter}_allele_info.tsv",
-#    envmodules: 
-#        "R/4.2.2"
-#    output:
-#        dvs="results/rCNV-by-scat/dvs/aut-bisnp-no5indel-{scatter}_dvs.tsv",
-#        cnv="results/rCNV-by-scat/cnv/aut-bisnp-no5indel-{scatter}_cnv.tsv",
-#    log:
-#    	"results/logs/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.log",
-#    benchmark:
-#        "results/benchmarks/rCNV-by-scat/dvs-cnv/dvs-cnv-{scatter}.bmk",
-#    script:
-#    	"../scripts/rCNV/rCNV-dvs-cnv.R"
+rule rCNV_dvs_cnv_targets:
+    input:
+        dvs="results/rCNV-by-scat/dvs-clean-merged/aut-bisnp-no5indel_dvs_clean_merged.tsv",
+        cnv="results/rCNV-by-scat/cnv-clean-merged/aut-bisnp-no5indel_cnv_clean_merged.tsv",
+    output:
+        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
+    log:
+    	"results/logs/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-targets.log",
+    benchmark:
+        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-targets.bmk",
+    shell:
+    	" (awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.cnv} > {output.cnv} && "
+        " awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.dvs} > {output.dvs} ) 2> {log} "
