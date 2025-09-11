@@ -4,6 +4,7 @@
 library("rCNV")
 library("readr")
 library("tidyverse")
+library("patchwork")
 
 # Define the directory containing VCF files
 input_dir <- "./results/rCNV-by-scat/vcf"           # Change this to your actual VCF folder path
@@ -143,6 +144,18 @@ write_tsv(stats, file = "./results/rCNV-by-scat/stats/aut-bisnp-no5indel-cnv-sta
 ## plot these dup stats
 dvs_stats <- read_tsv("./results/rCNV-by-scat/stats/aut-bisnp-no5indel-dvs-stats.tsv")
 cnv_stats <- read_tsv("./results/rCNV-by-scat/stats/aut-bisnp-no5indel-cnv-stats.tsv")
+
+p1 <- ggplot(dvs_stats, aes(x=scatter, y=n, fill=dup.stat)) +
+  geom_col() +
+  theme(axis.text.x = element_blank())
+
+p2 <- ggplot(cnv_stats, aes(x=scatter, y=n, fill=dup.stat)) +
+  geom_col() +
+  theme(axis.text.x = element_blank())
+
+(p1 / p2)
+
+#ggsave(filename = "./results/rCNV-by-scat/stats/dvs-cnv-stats.jpg")
 
 ##############################################
 
