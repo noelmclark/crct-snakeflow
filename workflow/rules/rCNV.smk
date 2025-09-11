@@ -73,3 +73,35 @@ rule rCNV_index_targets:
     shell:
         "((bgzip -c {input.dvs} > {output.dvs} && tabix -s1 -b2 -e2 {output.dvs} ); "
         "(bgzip -c {input.cnv} > {output.cnv} && tabix -s1 -b2 -e2 {output.cnv} )) 2> {log} "
+
+rule rCNV_filter_bcf_by_dvs:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
+    output:
+        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf",
+    log:
+        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs.log",
+    benchmark:
+        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs.bmk",
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf} 2> {log} "
+
+rule rCNV_filter_bcf_by_cnv:
+    input:
+        bcf="results/bcf/aut-bisnps-no5indel.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
+        targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
+    output:
+        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv.bcf",
+    log:
+        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv.log",
+    benchmark:
+        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv.bmk",
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        " bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf} 2> {log} "

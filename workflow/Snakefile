@@ -17,6 +17,8 @@ rule all:
         "results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
         "results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
         "results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
+        "results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf",
+        "results/bcf/aut-bisnps-no5indel-rcnv-by-cnv.bcf",
         #"results/rCNV/test_out.tsv",
         #"results/hdplot/all-samples/all-hdplot-output.tsv",
         #"results/hdplot/srm-samples/srm-hdplot-output.tsv",
