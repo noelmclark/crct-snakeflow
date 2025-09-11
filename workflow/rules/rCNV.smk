@@ -81,7 +81,7 @@ rule rCNV_filter_bcf_by_dvs:
         targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
     output:
         bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.csi",
+        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf.csi",
     log:
         "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs.log",
     benchmark:
