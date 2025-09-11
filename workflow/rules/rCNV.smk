@@ -55,3 +55,23 @@ rule rCNV_dvs_cnv_targets:
     shell:
         "((awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.cnv} > {output.cnv}); "
         "(awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.dvs} > {output.dvs})) 2> {log} "
+
+
+rule rCNV_index_targets:
+    input:
+        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
+    output:
+        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
+        dvs.idx="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz.tbi",
+        cnv.idx="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz.tbi",
+    conda:
+        "../envs/sambcftools.yaml",
+    log:
+        "results/logs/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-index-targets.log",
+    benchmark:
+        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-index-targets.bmk",
+    shell:
+        "((bgzip -c {input.dvs} > {output.dvs} && tabix -s1 -b2 -e2 {output.dvs} > {output.dvs.idx}); "
+        "(bgzip -c {input.cnv} > {output.cnv} && tabix -s1 -b2 -e2 {output.cnv} > {output.cnv.idx})) 2> {log} "
