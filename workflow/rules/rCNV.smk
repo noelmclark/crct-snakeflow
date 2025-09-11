@@ -53,5 +53,5 @@ rule rCNV_dvs_cnv_targets:
     benchmark:
         "results/benchmarks/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-targets.bmk",
     shell:
-    	" (awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.cnv} > {output.cnv} && "
-        " awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.dvs} > {output.dvs} ) 2> {log} "
+    	" (awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.cnv} > {output.cnv} ) 2> {log}; "
+        " (awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.dvs} > {output.dvs} ) 2>> {log} "
