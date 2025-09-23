@@ -11,16 +11,14 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
-        "results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
-        #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
-        #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",
-        #"results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-pca",
-        #"results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-pca",
-        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
-        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",
-        #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3", s=sample_list),
-        #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3", s=sample_list),
+        "results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
+        "results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",
+        "results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-pca",
+        "results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-pca",
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3", s=sample_list),
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3", s=sample_list),
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC3/{s}-aut-bisnps-no5indel-MAC3.txt", s=sample_list),
         #"results/tree/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-tree",
         #"results/inbreeding/het/MAC3/aut-bisnps-no5indel-MAC3.tsv",
@@ -28,6 +26,8 @@ rule all:
         #rCNV-plink outputs
         #"results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs",
         #"results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-cnv",
+        #"results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
+        #"results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
        
         #rCNV outputs
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
