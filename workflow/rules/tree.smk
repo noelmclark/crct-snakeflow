@@ -101,3 +101,43 @@ rule make_iqtree_MAC5:
 #    shell:
 #        " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC -nt AUTO "
 #        " --prefix {output.prefix} 2> {log} "
+
+
+### FOR rCNV outputs ###
+rule make_iqtree_rcnv_dvs_MAC3:
+    input:
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.phylip",
+    output:
+        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
+    conda:
+        "../envs/iqtree2.yaml"
+    log:
+        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree.log",
+    benchmark:
+        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree.bmk",
+    resources:
+        mem_mb=192000,
+        cpus=4,
+        time="23:59:59"
+    shell:
+        " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC -nt AUTO "
+        " --prefix {output.prefix} 2> {log} "
+
+rule make_iqtree_rcnv_cnv_MAC3:
+    input:
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.phylip",
+    output:
+        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
+    conda:
+        "../envs/iqtree2.yaml"
+    log:
+        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree.log",
+    benchmark:
+        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree.bmk",
+    resources:
+        mem_mb=192000,
+        cpus=4,
+        time="23:59:59"
+    shell:
+        " iqtree2 -s {input} -st DNA -bb 1000 -m GTR+I+G+ASC -nt AUTO "
+        " --prefix {output.prefix} 2> {log} "

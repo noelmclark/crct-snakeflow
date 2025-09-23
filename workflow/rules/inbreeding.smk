@@ -245,7 +245,84 @@ rule combine_hets_from_gt_count_MAC5:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 
+######################################
+## for rCNV outputs ##
+######################################
 
+## for dvs
+rule get_het_from_gt_count_MAC3_rcnv_dvs:
+    input:
+        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.gcount",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.bmk",
+    shell:
+        """
+        awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
+        NR>1 && $10 == 0 {{sum+=$6; count++}} 
+         END {{
+             if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+             print "Total variants:", count; 
+             print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
+         }}' {input.gcount} > {output} 2> {log}
+        """
+
+## this rule takes the outputs from above and combines them into a tsv
+rule combine_hets_from_gt_count_MAC3_rcnv_dvs:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/",
+    output:
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.bmk",
+    shell:
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
+
+
+## for cnv
+rule get_het_from_gt_count_MAC3_rcnv_cnv:
+    input:
+        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.gcount",
+    output:
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.txt",
+    log:
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.bmk",
+    shell:
+        """
+        awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
+        NR>1 && $10 == 0 {{sum+=$6; count++}} 
+         END {{
+             if (count > 0) print "Sum of HET_REF_ALT_CTS:", sum; 
+             print "Total variants:", count; 
+             print "Average HET_REF_ALT_CTS:", (count ? sum/count : 0)
+         }}' {input.gcount} > {output} 2> {log}
+        """
+
+## this rule takes the outputs from above and combines them into a tsv
+rule combine_hets_from_gt_count_MAC3_rcnv_cnv:
+    input:
+        dir="results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/",
+    output:
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv",
+    conda:
+        "../envs/hpsmc-split.yaml" #bc it already has python in it
+    log:
+        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.log",
+    benchmark:
+        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.bmk",
+    shell:
+        " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
+
+######################################
 
 
 
