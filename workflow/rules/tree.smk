@@ -106,7 +106,7 @@ rule make_iqtree_MAC5:
 ### FOR rCNV outputs ###
 rule make_iqtree_rcnv_dvs_MAC3:
     input:
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.phylip",
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.phy",
     output:
         prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
     conda:
@@ -125,7 +125,7 @@ rule make_iqtree_rcnv_dvs_MAC3:
 
 rule make_iqtree_rcnv_cnv_MAC3:
     input:
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.phylip",
+        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.phy",
     output:
         prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
     conda:
