@@ -11,14 +11,14 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1", s=sample_list),
-        expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1", s=sample_list),
-        #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
-        #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
-        #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca",
-        #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-pca",
-        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
-        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
+        "results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
+        "results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
+        "results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca",
+        "results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-pca",
+        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
+        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
+        #expand("results/plink/gt-count/MAC5/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5", s=sample_list),
+        #expand("results/plink/gt-count/MAC5/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5", s=sample_list),
         #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
         #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
         
@@ -34,6 +34,8 @@ rule all:
         #"results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca",
         #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
         #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        #expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1", s=sample_list),
+        #expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1", s=sample_list),
         ## mac > 3
         #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
         #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",

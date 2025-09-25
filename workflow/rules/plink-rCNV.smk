@@ -67,15 +67,15 @@ rule make_plink_bed_rcnv_dvs:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
     output:
-        bed="results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
+        bed="results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=7480
     log:
-        "results/logs/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.log",
+        "results/logs/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.bmk",
+        "results/benchmarks/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -83,7 +83,7 @@ rule make_plink_bed_rcnv_dvs:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
@@ -99,15 +99,15 @@ rule make_plink_pca_rcnv_dvs:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
     output:
-        pca="results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca",
+        pca="results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca.log",
+        "results/logs/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca.bmk",
+        "results/benchmarks/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -115,7 +115,7 @@ rule make_plink_pca_rcnv_dvs:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --pca "
         " --out {output.pca} 2> {log} "
 
@@ -131,15 +131,15 @@ rule make_phylip_rcnv_dvs:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
     output:
-        phylip="results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
+        phylip="results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.log",
+        "results/logs/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.bmk",
+        "results/benchmarks/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -147,7 +147,7 @@ rule make_phylip_rcnv_dvs:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
@@ -163,22 +163,22 @@ rule make_gt_count_rcnv_dvs:
         tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf.csi",
         acount="results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs.acount",
     output:
-        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1",
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.log",
+        "results/logs/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.bmk",
+        "results/benchmarks/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indv {wildcards.sample} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
@@ -251,15 +251,15 @@ rule make_plink_bed_rcnv_cnv:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
     output:
-        bed="results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        bed="results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=7480
     log:
-        "results/logs/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.log",
+        "results/logs/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.bmk",
+        "results/benchmarks/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -267,7 +267,7 @@ rule make_plink_bed_rcnv_cnv:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --pheno {input.popfile} "
         " --make-bed "
         " --out {output.bed} 2> {log} "
@@ -283,15 +283,15 @@ rule make_plink_pca_rcnv_cnv:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
     output:
-        pca="results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca",
+        pca="results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-pca",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca.log",
+        "results/logs/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-pca.log",
     benchmark:
-        "results/benchmarks/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca.bmk",
+        "results/benchmarks/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-pca.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -299,7 +299,7 @@ rule make_plink_pca_rcnv_cnv:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --pca "
         " --out {output.pca} 2> {log} "
 
@@ -315,15 +315,15 @@ rule make_phylip_rcnv_cnv:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
     output:
-        phylip="results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        phylip="results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.log",
+        "results/logs/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.bmk",
+        "results/benchmarks/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -331,7 +331,7 @@ rule make_phylip_rcnv_cnv:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
@@ -347,22 +347,22 @@ rule make_gt_count_rcnv_cnv:
         tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv.bcf.csi",
         acount="results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-cnv.acount",
     output:
-        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1",
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.log",
+        "results/logs/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.log",
     benchmark:
-        "results/benchmarks/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.bmk",
+        "results/benchmarks/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indv {wildcards.sample} "
         " --read-freq {input.acount} "
-        " --mac 2 "
+        " --mac 6 "
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
