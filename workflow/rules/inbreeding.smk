@@ -397,7 +397,7 @@ rule combine_hets_from_gt_count_MAC1_rcnv_cnv:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 ### mac 3
-rule get_het_from_gt_count_MAC1_rcnv_cnv:
+rule get_het_from_gt_count_MAC3_rcnv_cnv:
     input:
         gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.gcount",
     output:
