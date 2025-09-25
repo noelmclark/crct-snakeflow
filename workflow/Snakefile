@@ -11,14 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv",
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv",
-        "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
-        "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
-        "results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca",
-        "results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca",
-        "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
-        "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3", s=sample_list),
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3", s=sample_list),
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5",
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5",
         #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-pca",
@@ -33,6 +27,14 @@ rule all:
         #"results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-cnv",
         #"results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs",
         #"results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv",
+        ## mac >1
+        #"results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
+        #"results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        #"results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca",
+        #"results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-pca",
+        #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
+        #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
+        ## mac > 3
         #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3",
         #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3",
         #"results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-pca",
@@ -43,6 +45,10 @@ rule all:
         #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3", s=sample_list),
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.txt", s=sample_list),
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.txt", s=sample_list),
+        #"results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv",
+        #"results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
        
         #rCNV outputs
         #expand("results/scatter_config/scatters_{bs}.tsv", bs=binsize), #generate scatters file from scatter_intervals_file
