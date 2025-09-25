@@ -11,8 +11,8 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv"
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv"
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv",
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv",
         "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1",
         "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1",
         "results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-pca",
