@@ -11,12 +11,19 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:   
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree",
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree",
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{kclusters}.out"
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{kclusters}.out"
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{kclusters}.out"
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{kclusters}.out"
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{kclusters}.out"
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{kclusters}.out"
+
+        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
+        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
+        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree",
+        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
         
         #rCNV-plink outputs
         #"results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs",
