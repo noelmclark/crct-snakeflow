@@ -422,3 +422,195 @@ rule test_1pop_kelso_k_mac1:
         " ( > {output.empty} && "
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.onepopkclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+
+#######################
+## ADMIXTURE by rCNV ##
+#######################
+
+### MAC1 ###
+# ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
+rule fix_admixture_chroms_rcnv_mac1:
+    input:
+        "results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.bim",
+    output:
+        flag="results/plink/bed/fix-chrom-flag-MAC1.txt",
+    params:
+        pfx="results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1"
+    log:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC1.log"
+    benchmark:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC1.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+rule test_k_mac1:
+    input:
+        bed="results/plink/bed/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.bed",
+        flag="results/plink/bed/fix-chrom-flag-MAC1.txt",
+    output:
+        empty="results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{kclusters}.out",
+    params:
+        dir="results/admixture/CV_5/MAC1/",
+        pfx="aut-bisnps-no5indel-nooutlier-MAC1-{kclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{kclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{kclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+# grep-h CV log*.out to view cv values
+rule get_best_k_mac1:
+    input:
+        expand("results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{k}", k=kclusters)
+    output:
+        "results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error"
+    log:
+        "results/logs/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+
+###############
+
+### MAC3 ###
+# ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
+rule fix_admixture_chroms_mac3:
+    input:
+        "results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.bim",
+    output:
+        flag="results/plink/bed/fix-chrom-flag-MAC3.txt",
+    params:
+        pfx="results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3"
+    log:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC3.log"
+    benchmark:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC3.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+rule test_k_mac3:
+    input:
+        bed="results/plink/bed/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.bed",
+        flag="results/plink/bed/fix-chrom-flag-MAC3.txt",
+    output:
+        empty="results/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-{kclusters}.out",
+    params:
+        dir="results/admixture/CV_5/MAC3/",
+        pfx="aut-bisnps-no5indel-nooutlier-MAC3-{kclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-{kclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-{kclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+# grep-h CV log*.out to view cv values
+rule get_best_k_mac3:
+    input:
+        expand("results/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3-{k}", k=kclusters)
+    output:
+        "results/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.cv5.error"
+    log:
+        "results/logs/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/MAC3/aut-bisnps-no5indel-nooutlier-MAC3.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+
+###############
+
+### MAC5 ###
+# ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
+rule fix_admixture_chroms_mac5:
+    input:
+        "results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.bim",
+    output:
+        flag="results/plink/bed/fix-chrom-flag-MAC5.txt",
+    params:
+        pfx="results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5"
+    log:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC5.log"
+    benchmark:
+        "results/logs/admixture/aut-bisnps-no5indel-nooutlier-fix-chrom-MAC5.bmk"
+    shell:
+        """
+        ( mv {input} {input}.tmp && 
+        awk '{{$1="0";print $0}}' {input}.tmp > {params.pfx}.bim && 
+        rm {input}.tmp && 
+        echo "admixture chroms fixed" > {output.flag} 
+        ) 2> {log} 
+        """
+
+rule test_k_mac5:
+    input:
+        bed="results/plink/bed/MAC5/aut-bisnps-no5indel-nooutlier-MAC5.bed",
+        flag="results/plink/bed/fix-chrom-flag-MAC5.txt",
+    output:
+        empty="results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{kclusters}.out",
+    params:
+        dir="results/admixture/CV_5/MAC5/",
+        pfx="aut-bisnps-no5indel-nooutlier-MAC5-{kclusters}.out",
+    conda:
+        "../envs/admixture.yaml"
+    resources:
+        mem_mb=112200,
+        time="23:59:59"
+    threads:
+        4
+    log:
+        "results/logs/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{kclusters}.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{kclusters}.bmk"
+    shell:
+        " ( > {output.empty} && "
+        " cd {params.dir} && "
+        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+# grep-h CV log*.out to view cv values
+#" awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+rule get_best_k_mac5:
+    input:
+        expand("results/admixture/CV_5/MAC5/aut-bisnps-no5indel-nooutlier-MAC5-{k}.out", k=kclusters)
+    output:
+        "results/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error"
+    log:
+        "results/logs/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/CV_5/aut-bisnps-no5indel-nooutlier-MAC5.cv5.error.bmk"
+    shell:
+        " grep-h CV {input} > output 2> {log} "
+
+#############################################################################################
