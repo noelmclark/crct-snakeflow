@@ -521,17 +521,17 @@ rule test_k_mac1_rcnv_cnv:
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 # grep-h CV log*.out to view cv values
-#rule get_best_k_mac1:
-#    input:
-#        expand("results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1-{k}", k=kclusters)
-#    output:
-#        "results/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error"
-#    log:
-#        "results/logs/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error.log"
-#    benchmark:
-#        "results/benchmarks/admixture/CV_5/MAC1/aut-bisnps-no5indel-nooutlier-MAC1.cv5.error.bmk"
-#    shell:
-#        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+rule get_best_k_mac1_rcnv_cnv:
+    input:
+        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
 ###############
 
