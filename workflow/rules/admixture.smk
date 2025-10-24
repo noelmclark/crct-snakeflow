@@ -485,7 +485,7 @@ rule get_best_k_mac1_rcnv_dvs:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 rule fix_admixture_chroms_rcnv_cnv_mac1:
     input:
@@ -543,7 +543,7 @@ rule get_best_k_mac1_rcnv_cnv:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 ###############
 
@@ -604,7 +604,7 @@ rule get_best_k_mac3_rcnv_dvs:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 rule fix_admixture_chroms_rcnv_cnv_mac3:
     input:
@@ -661,7 +661,7 @@ rule get_best_k_mac3_rcnv_cnv:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 ###############
 
@@ -722,7 +722,7 @@ rule get_best_k_mac5_rcnv_dvs:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 rule fix_admixture_chroms_rcnv_cnv_mac5:
     input:
@@ -779,6 +779,6 @@ rule get_best_k_mac5_rcnv_cnv:
     benchmark:
         "results/benchmarks/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error.bmk"
     shell:
-        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+        " awk '/CV/ {{print $3,$4}}' {input} > {output} 2> {log} "
 
 #############################################################################################
