@@ -477,7 +477,7 @@ rule test_k_mac1_rcnv_dvs:
 
 rule get_best_k_mac1_rcnv_dvs:
     input:
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error"
     log:
@@ -535,7 +535,7 @@ rule test_k_mac1_rcnv_cnv:
 # grep-h CV log*.out to view cv values
 rule get_best_k_mac1_rcnv_cnv:
     input:
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error"
     log:
@@ -596,7 +596,7 @@ rule test_k_mac3_rcnv_dvs:
 
 rule get_best_k_mac3_rcnv_dvs:
     input:
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error"
     log:
@@ -653,7 +653,7 @@ rule test_k_mac3_rcnv_cnv:
 
 rule get_best_k_mac3_rcnv_cnv:
     input:
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error"
     log:
@@ -714,7 +714,7 @@ rule test_k_mac5_rcnv_dvs:
 
 rule get_best_k_mac5_rcnv_dvs:
     input:
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error"
     log:
@@ -771,7 +771,7 @@ rule test_k_mac5_rcnv_cnv:
 
 rule get_best_k_mac5_rcnv_cnv:
     input:
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}", k=kclusters)
+        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}.out", k=kclusters)
     output:
         "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error"
     log:
