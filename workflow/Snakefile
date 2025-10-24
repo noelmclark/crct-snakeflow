@@ -10,7 +10,14 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 
 rule all:
-    input:   
+    input: 
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error",
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error",
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error",
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error",
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error",
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error",
+
         expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}.out", k=kclusters),
         expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}.out", k=kclusters),
         expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}.out", k=kclusters),

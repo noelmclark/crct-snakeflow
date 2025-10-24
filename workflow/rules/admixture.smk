@@ -475,6 +475,18 @@ rule test_k_mac1_rcnv_dvs:
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
+rule get_best_k_mac1_rcnv_dvs:
+    input:
+        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+
 rule fix_admixture_chroms_rcnv_cnv_mac1:
     input:
         "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.bim",
@@ -582,6 +594,18 @@ rule test_k_mac3_rcnv_dvs:
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
+rule get_best_k_mac3_rcnv_dvs:
+    input:
+        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+
 rule fix_admixture_chroms_rcnv_cnv_mac3:
     input:
         "results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.bim",
@@ -626,6 +650,18 @@ rule test_k_mac3_rcnv_cnv:
         " ( > {output.empty} && "
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+rule get_best_k_mac3_rcnv_cnv:
+    input:
+        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
 ###############
 
@@ -676,6 +712,18 @@ rule test_k_mac5_rcnv_dvs:
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
+rule get_best_k_mac5_rcnv_dvs:
+    input:
+        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
+
 rule fix_admixture_chroms_rcnv_cnv_mac5:
     input:
         "results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.bim",
@@ -720,5 +768,17 @@ rule test_k_mac5_rcnv_cnv:
         " ( > {output.empty} && "
         " cd {params.dir} && "
         " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+
+rule get_best_k_mac5_rcnv_cnv:
+    input:
+        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}", k=kclusters)
+    output:
+        "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error"
+    log:
+        "results/logs/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error.log"
+    benchmark:
+        "results/benchmarks/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error.bmk"
+    shell:
+        " awk '/CV/ {print $3,$4}' {input} > {output} 2> {log} "
 
 #############################################################################################
