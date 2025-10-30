@@ -13,12 +13,17 @@ rule all:
     input:
         "results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",
         "results/bcf/aut-bisnps-no5indel-rcnv-by-dvs-2.0.bcf",
+<<<<<<< HEAD
+        "results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-cnv",
+        "results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs",
+=======
         "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1",
         "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1",
         "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3",
         "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3",
         "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
         "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
+>>>>>>> 727331a7a85f4324a8e9963d42167b08d33ca8ab
 
 
 
@@ -29,12 +34,20 @@ rule all:
         "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error",
         "results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error",
 
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}.out", k=kclusters),
+        ## rCNV 1.0 main outputs
+        #"results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1.cv5.error",
+        #"results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1.cv5.error",
+        #"results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3.cv5.error",
+        #"results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3.cv5.error",
+        #"results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5.cv5.error",
+        #"results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5.cv5.error",
+
+        #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}.out", k=kclusters),
 
         #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
         #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
