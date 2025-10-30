@@ -43,15 +43,17 @@ rule rCNV_get_scatters:
 
 rule rCNV_dvs_cnv_targets:
     input:
-        dvs="results/rCNV-by-scat/dvs-clean-merged/aut-bisnp-no5indel_dvs_clean_merged.tsv",
-        cnv="results/rCNV-by-scat/cnv-clean-merged/aut-bisnp-no5indel_cnv_clean_merged.tsv",
+        dvs="results/rCNV-by-scat/dvs-clean-merged-2.0/aut-bisnp-no5indel_dvs_merged.tsv",
+        cnv="results/rCNV-by-scat/cnv-clean-merged-2.0/aut-bisnp-no5indel_cnv_merged.tsv",
+        #dvs="results/rCNV-by-scat/dvs-clean-merged/aut-bisnp-no5indel_dvs_clean_merged.tsv",
+        #cnv="results/rCNV-by-scat/cnv-clean-merged/aut-bisnp-no5indel_cnv_clean_merged.tsv",
     output:
-        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv",
-        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
+        dvs="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_dvs_targets-2.0.tsv",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_cnv_targets-2.0.tsv",
     log:
-        "results/logs/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-targets.log",
+        "results/logs/rCNV-by-scat/dvs-cnv-targets-2.0/dvs-cnv-targets-2.0.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-targets.bmk",
+        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets-2.0/dvs-cnv-targets-2.0.bmk",
     shell:
         "((awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.cnv} | sort -k1,1 -k2,2n > {output.cnv}); "
         "(awk -f workflow/scripts/rCNV/get-rCNV-targets.awk {input.dvs} | sort -k1,1 -k2,2n > {output.dvs})) 2> {log} "
@@ -59,17 +61,21 @@ rule rCNV_dvs_cnv_targets:
 
 rule rCNV_index_targets:
     input:
-        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv",
-        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
+        dvs="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_dvs_targets-2.0.tsv",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_cnv_targets-2.0.tsv",
+        #dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv",
+        #cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv",
     output:
-        dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
-        cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
+        dvs="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_dvs_targets-2.0.tsv.gz",
+        cnv="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_cnv_targets-2.0.tsv.gz",
+        #dvs="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
+        #cnv="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
     conda:
         "../envs/sambcftools.yaml",
     log:
-        "results/logs/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-index-targets.log",
+        "results/logs/rCNV-by-scat/dvs-cnv-targets-2.0/dvs-cnv-index-targets-2.0.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets/dvs-cnv-index-targets.bmk",
+        "results/benchmarks/rCNV-by-scat/dvs-cnv-targets-2.0/dvs-cnv-index-targets-2.0.bmk",
     shell:
         "((bgzip -c {input.dvs} > {output.dvs} && tabix -s1 -b2 -e2 {output.dvs} ); "
         "(bgzip -c {input.cnv} > {output.cnv} && tabix -s1 -b2 -e2 {output.cnv} )) 2> {log} "
@@ -78,34 +84,36 @@ rule rCNV_filter_bcf_by_dvs:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz",
+        targets="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_dvs_targets-2.0.tsv.gz",
+        #targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_dvs_targets.tsv.gz", #old version 
     output:
-        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs.bcf.csi",
+        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs-2.0.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs-2.0.bcf.csi",
     log:
-        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs.log",
+        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs-2.0.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs.bmk",
+        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-dvs-2.0.bmk",
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}; "
+        " (bcftools filter -Ob -T ^{input.targets} {input.bcf} > {output.bcf}; " # the up carrot is a small change that removes any SNP matching the targets file
         " bcftools index {output.bcf}) 2> {log} "
 
 rule rCNV_filter_bcf_by_cnv:
     input:
         bcf="results/bcf/aut-bisnps-no5indel.bcf",
         tbi="results/bcf/aut-bisnps-no5indel.bcf.csi",
-        targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
+        targets="results/rCNV-by-scat/dvs-cnv-targets-2.0/aut-bisnp-no5indel_cnv_targets-2.0.tsv.gz",
+        #targets="results/rCNV-by-scat/dvs-cnv-targets/aut-bisnp-no5indel_cnv_targets.tsv.gz",
     output:
-        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv.bcf",
-        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv.bcf.csi"
+        bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",
+        tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf.csi"
     log:
-        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv.log",
+        "results/logs/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv-2.0.log",
     benchmark:
-        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv.bmk",
+        "results/benchmarks/rCNV-by-scat/bcf/aut-bisnp-no5indel-rcnv-by-cnv-2.0.bmk",
     conda:
         "../envs/bcftools.yaml"
     shell:
-        " (bcftools filter -Ob -T {input.targets} {input.bcf} > {output.bcf}; "
+        " (bcftools filter -Ob -T ^{input.targets} {input.bcf} > {output.bcf}; "
         " bcftools index {output.bcf}) 2> {log} "
