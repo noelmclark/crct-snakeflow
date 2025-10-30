@@ -331,7 +331,7 @@ rule make_phylip_rcnv_cnv:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 62 "
+        " --mac 2 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
