@@ -28,12 +28,12 @@ rule all:
         expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-{k}.out", k=kclusters),
         expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-{k}.out", k=kclusters),
 
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree",
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree",
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
+        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
+        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
+        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree",
+        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
+        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
         
         #rCNV-plink outputs
         #"results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs",
