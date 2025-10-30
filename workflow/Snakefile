@@ -13,10 +13,10 @@ rule all:
     input:
         "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1",
         "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1",
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3",
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3",
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
+        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3",
+        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3",
+        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
+        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
         
         ## rCNV 2.0 outputs
         #"results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",

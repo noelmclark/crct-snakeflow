@@ -131,15 +131,15 @@ rule make_phylip_rcnv_dvs:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-dvs-2.0",
     output:
-        phylip="results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
+        phylip="results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.log",
+        "results/logs/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.log",
     benchmark:
-        "results/benchmarks/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.bmk",
+        "results/benchmarks/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -147,7 +147,7 @@ rule make_phylip_rcnv_dvs:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 6 "
+        " --mac 2 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
@@ -315,15 +315,15 @@ rule make_phylip_rcnv_cnv:
     params:
         pfile="results/plink/missingness/aut-bisnps-no5indel-rcnv-by-cnv-2.0",
     output:
-        phylip="results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
+        phylip="results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.log",
+        "results/logs/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.log",
     benchmark:
-        "results/benchmarks/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.bmk",
+        "results/benchmarks/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.bmk",
     shell:
         " plink2 --pfile {params.pfile} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
@@ -331,7 +331,7 @@ rule make_phylip_rcnv_cnv:
         " --geno 0.1 "
         " --remove {input.outlier} "
         " --read-freq {input.acount} "
-        " --mac 6 "
+        " --mac 62 "
         " --snps-only "
         " --export phylip used-sites "
         " --out {output.phylip} 2> {log} "
