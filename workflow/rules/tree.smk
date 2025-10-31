@@ -107,15 +107,15 @@ rule make_iqtree_MAC5:
 #### mac 1
 rule make_iqtree_rcnv_dvs_MAC1:
     input:
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree.varsites.phy",
+        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree.phy",
     output:
-        prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree",
+        prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree.log",
+        "results/logs/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC1-tree.bmk",
+        "results/benchmarks/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
@@ -126,15 +126,15 @@ rule make_iqtree_rcnv_dvs_MAC1:
 
 rule make_iqtree_rcnv_cnv_MAC1:
     input:
-        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree.varsites.phy",
+        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree.phy",
     output:
-        prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree",
+        prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree.log",
+        "results/logs/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC1-tree.bmk",
+        "results/benchmarks/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
@@ -146,15 +146,15 @@ rule make_iqtree_rcnv_cnv_MAC1:
 #### mac 3
 rule make_iqtree_rcnv_dvs_MAC3:
     input:
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree.varsites.phy",
+        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree.phy",
     output:
-        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree",
+        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree.log",
+        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC3-tree.bmk",
+        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
@@ -165,15 +165,15 @@ rule make_iqtree_rcnv_dvs_MAC3:
 
 rule make_iqtree_rcnv_cnv_MAC3:
     input:
-        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree.varsites.phy",
+        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree.phy",
     output:
-        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree",
+        prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree.log",
+        "results/logs/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC3-tree.bmk",
+        "results/benchmarks/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
@@ -185,15 +185,15 @@ rule make_iqtree_rcnv_cnv_MAC3:
 #### mac 5
 rule make_iqtree_rcnv_dvs_MAC5:
     input:
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree.varsites.phy",
+        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree.phy",
     output:
-        prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree",
+        prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree.log",
+        "results/logs/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-nooutlier-MAC5-tree.bmk",
+        "results/benchmarks/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
@@ -204,15 +204,15 @@ rule make_iqtree_rcnv_dvs_MAC5:
 
 rule make_iqtree_rcnv_cnv_MAC5:
     input:
-        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree.varsites.phy",
+        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree.phy",
     output:
-        prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree",
+        prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree",
     conda:
         "../envs/iqtree2.yaml"
     log:
-        "results/logs/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree.log",
+        "results/logs/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree.log",
     benchmark:
-        "results/benchmarks/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-nooutlier-MAC5-tree.bmk",
+        "results/benchmarks/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree.bmk",
     resources:
         mem_mb=192000,
         cpus=4,
