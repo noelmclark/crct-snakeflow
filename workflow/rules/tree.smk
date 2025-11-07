@@ -107,8 +107,8 @@ rule make_iqtree_MAC5:
 #### mac 1
 rule make_iqtree_rcnv_dvs_MAC1:
     input:
-        "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.phy",
-        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree.phy",
+        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree.varsites.phy"
+        #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.phy",
     output:
         prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-tree",
     conda:
@@ -127,8 +127,8 @@ rule make_iqtree_rcnv_dvs_MAC1:
 
 rule make_iqtree_rcnv_cnv_MAC1:
     input:
-        "results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.phy",
-        #"results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree.phy",
+        "results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree.varsites.phy",
+        #"results/plink/phylip/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.phy",
     output:
         prefix="results/tree/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-tree",
     conda:
@@ -148,8 +148,8 @@ rule make_iqtree_rcnv_cnv_MAC1:
 #### mac 3
 rule make_iqtree_rcnv_dvs_MAC3:
     input:
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3.phy",
-        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree.phy",
+        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree.varsites.phy",
+        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3.phy",
     output:
         prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-tree",
     conda:
@@ -168,8 +168,8 @@ rule make_iqtree_rcnv_dvs_MAC3:
 
 rule make_iqtree_rcnv_cnv_MAC3:
     input:
-        "results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3.phy",
-        #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree.phy",
+        "results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree.varsites.phy",
+        #"results/plink/phylip/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3.phy",
     output:
         prefix="results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree",
     conda:
@@ -189,8 +189,8 @@ rule make_iqtree_rcnv_cnv_MAC3:
 #### mac 5
 rule make_iqtree_rcnv_dvs_MAC5:
     input:
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.phy",
-        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree.phy",
+        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree.varsites.phy",
+        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.phy",
     output:
         prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree",
     conda:
@@ -209,8 +209,8 @@ rule make_iqtree_rcnv_dvs_MAC5:
 
 rule make_iqtree_rcnv_cnv_MAC5:
     input:
-        "results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.phy",
-        #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree.phy",
+        "results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree.varsites.phy",
+        #"results/plink/phylip/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.phy",
     output:
         prefix="results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree",
     conda:
