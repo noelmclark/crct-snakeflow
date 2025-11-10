@@ -90,7 +90,7 @@ rule make_plink_bed_rcnv_dvs:
 
 
 
-## This rules generates a PCA from our filtered BCF
+## This rules generates a PCA from our filtered BCF for a given MAC threshold 
 # the --geno 0.01 applies a 10% missingness threshold filter  
 rule make_plink_pca_rcnv_dvs:
     input:
