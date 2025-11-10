@@ -11,20 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1",
-        "results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1",
-        "results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-pca",
-        "results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-pca",
-        expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1", s=sample_list),
-        expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1", s=sample_list),
-        
-        #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3",
-        #"results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3",
-        #"results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-pca",
-        #"results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-pca",
-        #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3", s=sample_list),
-        #expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3", s=sample_list),
-        
+        "results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3",
+        "results/plink/bed/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3",
+        "results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-pca",
+        "results/plink/pca/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-pca",
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3", s=sample_list),
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3", s=sample_list),
 
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{s}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.txt", s=sample_list),
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.txt", s=sample_list),
@@ -38,7 +30,6 @@ rule all:
         #expand("results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{s}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.txt", s=sample_list),
         #"results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-MAC5.tsv",
         #"results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-MAC5.tsv",
-        
         
         ## rCNV 2.0 outputs
         #"results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",
@@ -59,6 +50,13 @@ rule all:
         #"results/tree/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-tree",
         #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-tree",
         #"results/tree/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-tree",
+
+        #"results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1",
+        #"results/plink/bed/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1",
+        #"results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-pca",
+        #"results/plink/pca/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-pca",
+        #expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1", s=sample_list),
+        #expand("results/plink/gt-count/MAC1/{s}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1", s=sample_list),
 
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
