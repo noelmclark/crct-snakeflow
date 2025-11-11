@@ -246,19 +246,19 @@ rule combine_hets_from_gt_count_MAC5:
 
 
 ######################################
-## for rCNV outputs ##
+## for rCNV 2.0 outputs ##
 ######################################
 
 ## for dvs
 rule get_het_from_gt_count_MAC1_rcnv_dvs:
     input:
-        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.gcount",
+        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC1.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -275,26 +275,26 @@ rule combine_hets_from_gt_count_MAC1_rcnv_dvs:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/dvs/",
     output:
-        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-MAC1.tsv",
+        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-MAC1.log",
+        "results/logs/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-MAC1.bmk",
+        "results/benchmarks/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 ### mac 3
 rule get_het_from_gt_count_MAC3_rcnv_dvs:
     input:
-        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.gcount",
+        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC3.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -311,26 +311,26 @@ rule combine_hets_from_gt_count_MAC3_rcnv_dvs:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/dvs/",
     output:
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.tsv",
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.log",
+        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-MAC3.bmk",
+        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 ### mac 5
 rule get_het_from_gt_count_MAC5_rcnv_dvs:
     input:
-        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.gcount",
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-MAC5.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -347,13 +347,13 @@ rule combine_hets_from_gt_count_MAC5_rcnv_dvs:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/dvs/",
     output:
-        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-MAC5.tsv",
+        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-MAC5.log",
+        "results/logs/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-MAC5.bmk",
+        "results/benchmarks/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
@@ -363,13 +363,13 @@ rule combine_hets_from_gt_count_MAC5_rcnv_dvs:
 ### mac 1
 rule get_het_from_gt_count_MAC1_rcnv_cnv:
     input:
-        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.gcount",
+        gcount="results/plink/gt-count/MAC1/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC1.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -386,26 +386,26 @@ rule combine_hets_from_gt_count_MAC1_rcnv_cnv:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC1/rCNV/cnv/",
     output:
-        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-MAC1.tsv",
+        "results/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-MAC1.log",
+        "results/logs/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-MAC1.bmk",
+        "results/benchmarks/inbreeding/het/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 ### mac 3
 rule get_het_from_gt_count_MAC3_rcnv_cnv:
     input:
-        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.gcount",
+        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC3.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -422,26 +422,26 @@ rule combine_hets_from_gt_count_MAC3_rcnv_cnv:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC3/rCNV/cnv/",
     output:
-        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.tsv",
+        "results/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.log",
+        "results/logs/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-MAC3.bmk",
+        "results/benchmarks/inbreeding/het/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
 ## mac 5
 rule get_het_from_gt_count_MAC5_rcnv_cnv:
     input:
-        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.gcount",
+        gcount="results/plink/gt-count/MAC5/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.gcount",
     output:
-        "results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.txt",
+        "results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.txt",
     log:
-        "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.log",
+        "results/logs/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-MAC5.bmk",
+        "results/benchmarks/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.bmk",
     shell:
         """
         awk 'BEGIN {{FS="\\t"; OFS="\\t"; sum=0; count=0}} 
@@ -458,13 +458,13 @@ rule combine_hets_from_gt_count_MAC5_rcnv_cnv:
     input:
         dir="results/inbreeding/het/from-plink-gt-counts/MAC5/rCNV/cnv/",
     output:
-        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-MAC5.tsv",
+        "results/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.tsv",
     conda:
         "../envs/hpsmc-split.yaml" #bc it already has python in it
     log:
-        "results/logs/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-MAC5.log",
+        "results/logs/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.log",
     benchmark:
-        "results/benchmarks/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-MAC5.bmk",
+        "results/benchmarks/inbreeding/het/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.bmk",
     shell:
         " python workflow/scripts/plink/het_from_gt_counts.py {input.dir} {output} "
 
