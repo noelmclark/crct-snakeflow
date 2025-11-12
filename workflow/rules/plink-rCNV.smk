@@ -156,29 +156,28 @@ rule make_phylip_rcnv_dvs:
 ## this rule breaks the original bcf input file into individuals using --indv
 # and produces a genotype count report that I can extract #het/#calls from
 # we don't filter on missingess here because we're doing it by individual 
-# eventually we will filter on individual level MACs
+# we also dpn't filter on MACs for that reason too
 rule make_gt_count_rcnv_dvs:
     input:
         bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs-2.0.bcf",
         tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-dvs-2.0.bcf.csi",
         acount="results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-dvs-2.0.acount",
     output:
-        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3",
+        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.log",
+        "results/logs/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0.log",
     benchmark:
-        "results/benchmarks/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.bmk",
+        "results/benchmarks/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-dvs-2.0.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indv {wildcards.sample} "
         " --read-freq {input.acount} "
-        " --mac 4 "
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
@@ -339,30 +338,28 @@ rule make_phylip_rcnv_cnv:
 
 ## this rule breaks the original bcf input file into individuals using --indv
 # and produces a genotype count report that I can extract #het/#calls from
-# we don't filter on missingess here because we're doing it by individual 
-# eventually we will filter on individual level MACs
+# we don't filter on missingess or MAC here because we're doing it by individual 
 rule make_gt_count_rcnv_cnv:
     input:
         bcf="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",
         tbi="results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf.csi",
         acount="results/plink/allele-count/aut-bisnps-no5indel-rcnv-by-cnv-2.0.acount",
     output:
-        gcount="results/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3",
+        gcount="results/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0",
     conda:
         "../envs/plink.yaml"
     resources:
         mem_mb=11220
     log:
-        "results/logs/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.log",
+        "results/logs/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0.log",
     benchmark:
-        "results/benchmarks/plink/gt-count/MAC3/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.bmk",
+        "results/benchmarks/plink/gt-count/{sample}-aut-bisnps-no5indel-rcnv-by-cnv-2.0.bmk",
     shell:
         " plink2 --bcf {input.bcf} "
         " --set-missing-var-ids @:#[b37]\$r,\$a "
         " --allow-extra-chr "
         " --indv {wildcards.sample} "
         " --read-freq {input.acount} "
-        " --mac 4 "
         " --geno-counts "
         " --out {output.gcount} 2> {log} "
 
