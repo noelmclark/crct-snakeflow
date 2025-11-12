@@ -11,12 +11,15 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{k}.out", k=kclusters),
-        expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{k}.out", k=kclusters),
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3", s=sample_list),
+        expand("results/plink/gt-count/MAC3/{s}-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3", s=sample_list),
+        
+        #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC3/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{k}.out", k=kclusters),
+        #expand("results/admixture/rCNV/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{k}.out", k=kclusters),
         
         ## rCNV 2.0 outputs
         #"results/bcf/aut-bisnps-no5indel-rcnv-by-cnv-2.0.bcf",
