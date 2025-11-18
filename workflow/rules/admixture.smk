@@ -793,15 +793,15 @@ rule get_best_k_mac5_rcnv_cnv:
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
 rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac1:
     input:
-        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.bim",
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC1.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1"
+        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC1.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC1.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC1.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC1.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -813,13 +813,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac1:
 
 rule test_k_mac1_srm_subset_rcnv_dvs:
     input:
-        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1.bed",
+        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC1.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC1/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -828,9 +828,9 @@ rule test_k_mac1_srm_subset_rcnv_dvs:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
@@ -838,15 +838,15 @@ rule test_k_mac1_srm_subset_rcnv_dvs:
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac1:
     input:
-        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.bim",
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC1.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1"
+        pfx="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC1.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC1.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC1.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC1.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -858,13 +858,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac1:
 
 rule test_k_mac1_srm_subset_rcnv_cnv:
     input:
-        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1.bed",
+        bed="results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC1.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC1/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -873,9 +873,9 @@ rule test_k_mac1_srm_subset_rcnv_cnv:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
@@ -887,15 +887,15 @@ rule test_k_mac1_srm_subset_rcnv_cnv:
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
 rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac3:
     input:
-        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3.bim",
+        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC3.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3"
+        pfx="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC3.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC3.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC3.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC3.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -907,13 +907,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac3:
 
 rule test_k_mac3_srm_subset_rcnv_dvs:
     input:
-        bed="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3.bed",
+        bed="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC3.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC3/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -922,9 +922,9 @@ rule test_k_mac3_srm_subset_rcnv_dvs:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC3-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
@@ -932,15 +932,15 @@ rule test_k_mac3_srm_subset_rcnv_dvs:
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac3:
     input:
-        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3.bim",
+        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC3.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3"
+        pfx="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC3.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC3.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC3.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC3.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -952,13 +952,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac3:
 
 rule test_k_mac3_srm_subset_rcnv_cnv:
     input:
-        bed="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3.bed",
+        bed="results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC3.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC3/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -967,9 +967,9 @@ rule test_k_mac3_srm_subset_rcnv_cnv:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC3-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
@@ -981,15 +981,15 @@ rule test_k_mac3_srm_subset_rcnv_cnv:
 # ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
 rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac5:
     input:
-        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.bim",
+        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC5.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5"
+        pfx="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC5.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC5.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-fix-chrom-MAC5.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-fix-chrom-MAC5.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -1001,13 +1001,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_dvs_mac5:
 
 rule test_k_mac5_srm_subset_rcnv_dvs:
     input:
-        bed="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5.bed",
+        bed="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-dvs-MAC5.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC5/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -1016,9 +1016,9 @@ rule test_k_mac5_srm_subset_rcnv_dvs:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
@@ -1026,15 +1026,15 @@ rule test_k_mac5_srm_subset_rcnv_dvs:
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac5:
     input:
-        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.bim",
+        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.bim",
     output:
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC5.txt",
     params:
-        pfx="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5"
+        pfx="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5"
     log:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC5.log"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC5.log"
     benchmark:
-        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-fix-chrom-MAC5.bmk"
+        "results/logs/admixture/rCNV/srm-subset/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-fix-chrom-MAC5.bmk"
     shell:
         """
         ( mv {input} {input}.tmp && 
@@ -1046,13 +1046,13 @@ rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac5:
 
 rule test_k_mac5_srm_subset_rcnv_cnv:
     input:
-        bed="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5.bed",
+        bed="results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5.bed",
         flag="results/plink/srm-subset/bed/fix-chrom-flag-srm-rcnv-by-cnv-MAC5.txt",
     output:
-        empty="results/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{kclusters}.out",
+        empty="results/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5-{kclusters}.out",
     params:
         dir="results/admixture/rCNV/srm-subset/MAC5/",
-        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{kclusters}.out",
+        pfx="srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5-{kclusters}.out",
     conda:
         "../envs/admixture.yaml"
     resources:
@@ -1061,9 +1061,9 @@ rule test_k_mac5_srm_subset_rcnv_cnv:
     threads:
         4
     log:
-        "results/logs/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{kclusters}.log"
+        "results/logs/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5-{kclusters}.log"
     benchmark:
-        "results/benchmarks/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-{kclusters}.bmk"
+        "results/benchmarks/admixture/rCNV/srm-subset/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5-{kclusters}.bmk"
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
