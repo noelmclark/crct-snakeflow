@@ -448,7 +448,7 @@ rule srm_rcnv_dvs_plink_bed_MAC1:
         " --make-bed "
         " --out {output.bed} 2> {log} "
 
-rule srm_rcnv_cnv_plink_bed_MAC3:
+rule srm_rcnv_dvs_plink_bed_MAC3:
     input:
         acount="results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0.acount",
         popfile="config/plink-popfile.tsv",
@@ -476,7 +476,7 @@ rule srm_rcnv_cnv_plink_bed_MAC3:
         " --make-bed "
         " --out {output.bed} 2> {log} "
 
-rule srm_rcnv_cnv_plink_bed_MAC5:
+rule srm_rcnv_dvs_plink_bed_MAC5:
     input:
         acount="results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0.acount",
         popfile="config/plink-popfile.tsv",
