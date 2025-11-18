@@ -11,10 +11,12 @@ localrules: all, echo_RG_fixed, genome_faidx, genome_dict, make_scaff_group_inte
 
 rule all:
     input:
-        "results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0",
-        "results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0",
-        "results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0",
-        "results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0",
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC1",
+        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC3",
+        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0-MAC5",
+        "results/plink/srm-subset/bed/MAC1/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC1",
+        "results/plink/srm-subset/bed/MAC3/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC3",
+        "results/plink/srm-subset/bed/MAC5/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0-MAC5",
 
         #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
         #expand("results/admixture/rCNV/MAC1/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC1-{k}.out", k=kclusters),
@@ -65,7 +67,12 @@ rule all:
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5",
         #"results/plink/bed/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5",
         #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-dvs-2.0-nooutlier-MAC5-pca",
-        #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-pca",      
+        #"results/plink/pca/MAC5/aut-bisnps-no5indel-rcnv-by-cnv-2.0-nooutlier-MAC5-pca",
+
+        #"results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0",
+        #"results/plink/srm-subset/make-pgen/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0",
+        #"results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-dvs-2.0",
+        #"results/plink/srm-subset/allele-count/srm-aut-bisnps-no5indel-rcnv-by-cnv-2.0",      
         
 
 
