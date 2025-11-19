@@ -834,7 +834,7 @@ rule test_k_mac1_srm_subset_rcnv_dvs:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac1:
     input:
@@ -879,7 +879,7 @@ rule test_k_mac1_srm_subset_rcnv_cnv:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 ###############
 
@@ -928,7 +928,7 @@ rule test_k_mac3_srm_subset_rcnv_dvs:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac3:
     input:
@@ -973,7 +973,7 @@ rule test_k_mac3_srm_subset_rcnv_cnv:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 ###############
 
@@ -1022,7 +1022,7 @@ rule test_k_mac5_srm_subset_rcnv_dvs:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 rule fix_admixture_chroms_srm_subset_rcnv_cnv_mac5:
     input:
@@ -1067,6 +1067,6 @@ rule test_k_mac5_srm_subset_rcnv_cnv:
     shell:
         " ( > {output.empty} && "
         " cd {params.dir} && "
-        " admixture --cv ../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
+        " admixture --cv ../../../../../{input.bed} {wildcards.kclusters} -j{threads}> {params.pfx} ) 2> {log} " 
 
 #############################################################################################
